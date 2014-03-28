@@ -1,11 +1,2 @@
-/.classpath
-/.project
-target/
-/bin
-.DS_Store
-/.idea/
-*.iml
-.metadata/
-.settings/
-*.log
-/*/*.log
+/target
+/ExampleLog.log
