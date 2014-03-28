@@ -1,0 +1,204 @@
+
+
+/* First created by JCasGen Fri Mar 21 14:22:46 CDT 2014 */
+package gov.va.vinci.leo.types;
+
+import org.apache.uima.jcas.JCas; 
+import org.apache.uima.jcas.JCasRegistry;
+import org.apache.uima.jcas.cas.TOP_Type;
+
+import org.apache.uima.jcas.tcas.Annotation;
+import org.apache.uima.jcas.cas.StringArray;
+
+
+/** CSI Annotation
+ * Updated by JCasGen Fri Mar 21 14:22:46 CDT 2014
+ * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/8/leoTypeDescription_69298067-c664-443d-8742-efeb9a65fff31026889561703071086.xml
+ * @generated */
+public class CSI extends Annotation {
+  /** @generated
+   * @ordered 
+   */
+  @SuppressWarnings ("hiding")
+  public final static int typeIndexID = JCasRegistry.register(CSI.class);
+  /** @generated
+   * @ordered 
+   */
+  @SuppressWarnings ("hiding")
+  public final static int type = typeIndexID;
+  /** @generated  */
+  @Override
+  public              int getTypeIndexID() {return typeIndexID;}
+ 
+  /** Never called.  Disable default constructor
+   * @generated */
+  protected CSI() {/* intentionally empty block */}
+    
+  /** Internal - constructor used by generator 
+   * @generated */
+  public CSI(int addr, TOP_Type type) {
+    super(addr, type);
+    readObject();
+  }
+  
+  /** @generated */
+  public CSI(JCas jcas) {
+    super(jcas);
+    readObject();   
+  } 
+
+  /** @generated */  
+  public CSI(JCas jcas, int begin, int end) {
+    super(jcas);
+    setBegin(begin);
+    setEnd(end);
+    readObject();
+  }   
+
+  /** <!-- begin-user-doc -->
+    * Write your own initialization here
+    * <!-- end-user-doc -->
+  @generated modifiable */
+  private void readObject() {/*default - does nothing empty block */}
+     
+ 
+    
+  //*--------------*
+  //* Feature: ID
+
+  /** getter for ID - gets ID
+   * @generated */
+  public String getID() {
+    if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_ID == null)
+      jcasType.jcas.throwFeatMissing("ID", "gov.va.vinci.leo.types.CSI");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((CSI_Type)jcasType).casFeatCode_ID);}
+    
+  /** setter for ID - sets ID 
+   * @generated */
+  public void setID(String v) {
+    if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_ID == null)
+      jcasType.jcas.throwFeatMissing("ID", "gov.va.vinci.leo.types.CSI");
+    jcasType.ll_cas.ll_setStringValue(addr, ((CSI_Type)jcasType).casFeatCode_ID, v);}    
+   
+    
+  //*--------------*
+  //* Feature: Locator
+
+  /** getter for Locator - gets Locator for document.
+   * @generated */
+  public String getLocator() {
+    if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_Locator == null)
+      jcasType.jcas.throwFeatMissing("Locator", "gov.va.vinci.leo.types.CSI");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((CSI_Type)jcasType).casFeatCode_Locator);}
+    
+  /** setter for Locator - sets Locator for document. 
+   * @generated */
+  public void setLocator(String v) {
+    if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_Locator == null)
+      jcasType.jcas.throwFeatMissing("Locator", "gov.va.vinci.leo.types.CSI");
+    jcasType.ll_cas.ll_setStringValue(addr, ((CSI_Type)jcasType).casFeatCode_Locator, v);}    
+   
+    
+  //*--------------*
+  //* Feature: RowData
+
+  /** getter for RowData - gets Row data for document (if any)
+   * @generated */
+  public StringArray getRowData() {
+    if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_RowData == null)
+      jcasType.jcas.throwFeatMissing("RowData", "gov.va.vinci.leo.types.CSI");
+    return (StringArray)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_RowData)));}
+    
+  /** setter for RowData - sets Row data for document (if any) 
+   * @generated */
+  public void setRowData(StringArray v) {
+    if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_RowData == null)
+      jcasType.jcas.throwFeatMissing("RowData", "gov.va.vinci.leo.types.CSI");
+    jcasType.ll_cas.ll_setRefValue(addr, ((CSI_Type)jcasType).casFeatCode_RowData, jcasType.ll_cas.ll_getFSRef(v));}    
+    
+  /** indexed getter for RowData - gets an indexed value - Row data for document (if any)
+   * @generated */
+  public String getRowData(int i) {
+    if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_RowData == null)
+      jcasType.jcas.throwFeatMissing("RowData", "gov.va.vinci.leo.types.CSI");
+    jcasType.jcas.checkArrayBounds(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_RowData), i);
+    return jcasType.ll_cas.ll_getStringArrayValue(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_RowData), i);}
+
+  /** indexed setter for RowData - sets an indexed value - Row data for document (if any)
+   * @generated */
+  public void setRowData(int i, String v) { 
+    if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_RowData == null)
+      jcasType.jcas.throwFeatMissing("RowData", "gov.va.vinci.leo.types.CSI");
+    jcasType.jcas.checkArrayBounds(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_RowData), i);
+    jcasType.ll_cas.ll_setStringArrayValue(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_RowData), i, v);}
+   
+    
+  //*--------------*
+  //* Feature: PropertiesKeys
+
+  /** getter for PropertiesKeys - gets Property keys
+   * @generated */
+  public StringArray getPropertiesKeys() {
+    if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_PropertiesKeys == null)
+      jcasType.jcas.throwFeatMissing("PropertiesKeys", "gov.va.vinci.leo.types.CSI");
+    return (StringArray)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesKeys)));}
+    
+  /** setter for PropertiesKeys - sets Property keys 
+   * @generated */
+  public void setPropertiesKeys(StringArray v) {
+    if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_PropertiesKeys == null)
+      jcasType.jcas.throwFeatMissing("PropertiesKeys", "gov.va.vinci.leo.types.CSI");
+    jcasType.ll_cas.ll_setRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesKeys, jcasType.ll_cas.ll_getFSRef(v));}    
+    
+  /** indexed getter for PropertiesKeys - gets an indexed value - Property keys
+   * @generated */
+  public String getPropertiesKeys(int i) {
+    if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_PropertiesKeys == null)
+      jcasType.jcas.throwFeatMissing("PropertiesKeys", "gov.va.vinci.leo.types.CSI");
+    jcasType.jcas.checkArrayBounds(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesKeys), i);
+    return jcasType.ll_cas.ll_getStringArrayValue(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesKeys), i);}
+
+  /** indexed setter for PropertiesKeys - sets an indexed value - Property keys
+   * @generated */
+  public void setPropertiesKeys(int i, String v) { 
+    if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_PropertiesKeys == null)
+      jcasType.jcas.throwFeatMissing("PropertiesKeys", "gov.va.vinci.leo.types.CSI");
+    jcasType.jcas.checkArrayBounds(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesKeys), i);
+    jcasType.ll_cas.ll_setStringArrayValue(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesKeys), i, v);}
+   
+    
+  //*--------------*
+  //* Feature: PropertiesValues
+
+  /** getter for PropertiesValues - gets Property Values
+   * @generated */
+  public StringArray getPropertiesValues() {
+    if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_PropertiesValues == null)
+      jcasType.jcas.throwFeatMissing("PropertiesValues", "gov.va.vinci.leo.types.CSI");
+    return (StringArray)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesValues)));}
+    
+  /** setter for PropertiesValues - sets Property Values 
+   * @generated */
+  public void setPropertiesValues(StringArray v) {
+    if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_PropertiesValues == null)
+      jcasType.jcas.throwFeatMissing("PropertiesValues", "gov.va.vinci.leo.types.CSI");
+    jcasType.ll_cas.ll_setRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesValues, jcasType.ll_cas.ll_getFSRef(v));}    
+    
+  /** indexed getter for PropertiesValues - gets an indexed value - Property Values
+   * @generated */
+  public String getPropertiesValues(int i) {
+    if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_PropertiesValues == null)
+      jcasType.jcas.throwFeatMissing("PropertiesValues", "gov.va.vinci.leo.types.CSI");
+    jcasType.jcas.checkArrayBounds(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesValues), i);
+    return jcasType.ll_cas.ll_getStringArrayValue(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesValues), i);}
+
+  /** indexed setter for PropertiesValues - sets an indexed value - Property Values
+   * @generated */
+  public void setPropertiesValues(int i, String v) { 
+    if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_PropertiesValues == null)
+      jcasType.jcas.throwFeatMissing("PropertiesValues", "gov.va.vinci.leo.types.CSI");
+    jcasType.jcas.checkArrayBounds(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesValues), i);
+    jcasType.ll_cas.ll_setStringArrayValue(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesValues), i, v);}
+  }
+
+    

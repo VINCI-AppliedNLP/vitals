@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Parent Pom to Inherit From -->
+	<parent>
+		<groupId>gov.va.vinci</groupId>
+		<artifactId>java-parentpom</artifactId>
+		<version>1.0.2</version>
+	</parent>
+
+	<!-- Project Metadata -->
+	<groupId>gov.va.vinci</groupId>
+	<artifactId>echo</artifactId>
+	<version>1.0</version>
+	<packaging>jar</packaging>
+
+	<name>Echo concept exctractor</name>
+	<url>http://maven.apache.org</url>
+	<organization>
+		<name>University of Utah / VA</name>
+	</organization>
+
+	<!-- Dependencies -->
+	<dependencies>
+		<!-- Leo Dependencies -->
+		<dependency>
+			<groupId>gov.va.vinci</groupId>
+			<artifactId>leo</artifactId>
+			<version>2014.01.8</version>
+		</dependency>
+		<dependency>
+			<groupId>gov.va.vinci</groupId>
+			<artifactId>annotationPattern</artifactId>
+			<version>2013.10.0</version>
+		</dependency>
+		<dependency>
+			<groupId>gov.va.vinci</groupId>
+			<artifactId>regexAnnotator</artifactId>
+			<version>2014.01.2</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.26</version>
+		</dependency>
+		<dependency>
+			<groupId>gov.va.vinci</groupId>
+			<artifactId>windowAnnotator</artifactId>
+			<version>2013.10.0</version>
+		</dependency>
+		<dependency>
+			<groupId>gov.va.vinci</groupId>
+			<artifactId>context</artifactId>
+			<version>2013.10.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>2.0.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>sqljdbc4</artifactId>
+			<version>4.0</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>gov.va.vinci</groupId>
+			<artifactId>lookup-annotator</artifactId>
+			<version>2013.10.0</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/desc/</directory>
+			</resource>
+			<resource>
+				<directory>src/main/resources/</directory>
+			</resource>
+			<resource>
+				<directory>src/main/config/</directory>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

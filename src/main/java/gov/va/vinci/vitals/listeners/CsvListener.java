@@ -1,0 +1,117 @@
+package gov.va.vinci.vitals.listeners;
+
+import gov.va.vinci.leo.listener.BaseCSVListener;
+import gov.va.vinci.leo.tools.Common;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+
+import org.apache.log4j.Logger;
+import org.apache.uima.cas.CAS;
+
+/**
+ * @author OVP
+ */
+public class CsvListener extends BaseCSVListener {
+	public static Logger log = Logger.getLogger(Common.getRuntimeClass().toString());
+	protected HashMap<String, Integer> fields = new HashMap<String, Integer>();
+	protected ArrayList<String> headers = new ArrayList<String>();
+
+	/**
+	 * Creating a new listener using the String path to the new file 
+	 * and the ArrayList with field names
+	 * @param fileName
+	 * @param fieldList
+	 * @return
+	 * @throws FileNotFoundException
+	 */
+	public static CsvListener createNewListener(String fileName,
+	    ArrayList<ArrayList<String>> fieldList) throws FileNotFoundException {
+		return new CsvListener(new File(fileName), fieldList);
+
+	}
+
+	/**
+	 * 
+	 * @param pw
+	 * @throws FileNotFoundException
+	 */
+	public CsvListener(File pw) throws FileNotFoundException {
+		super(pw);
+		log.info("CSV output to: " + pw.getAbsolutePath());
+	}
+
+	/**
+	 * 
+	 * @param file
+	 * @param fieldList
+	 * @throws FileNotFoundException
+	 */
+	public CsvListener(File file, ArrayList<ArrayList<String>> fieldList) throws FileNotFoundException {
+		super(file);
+		this.setHeaders(fieldList);
+	}
+
+	@Override
+	/**
+	 *  The current project outputs values for the context annotator
+	 */
+	protected List<String[]> getRows(CAS cas) {
+		// Common fields from the incoming row data
+		HashMap<String, String> commonFields = new HashMap<String, String>();
+
+		if (docInfo.getRowData() == null) {
+			commonFields.put("DocID", ((docInfo.getID()).split("_"))[0]);
+		} else {
+			for (Entry<String, Integer> header : fields.entrySet()) {
+				if (header.getValue() >= 0)
+					commonFields.put(header.getKey(),
+					    docInfo.getRowData(header.getValue()));
+			}
+		}
+
+		// Specific fields - possible multiple rows
+		ArrayList<String[]> rows = new ArrayList<String[]>();
+
+		ArrayList<HashMap<String, String>> rowsMap = ListenerLogic.getRows(cas);
+
+		for (HashMap<String, String> rowMap : rowsMap) {
+			//Add common fields
+			rowMap.putAll(commonFields);
+			// populate an ordered list of values for each column
+			ArrayList<String> rowList = new ArrayList<String>();
+			for (String column : headers) {
+				if (rowMap.containsKey(column)) {
+					rowList.add(rowMap.get(column));
+				} else {
+					rowList.add("");
+				}
+			}
+			rows.add(rowList.toArray(new String[rowList.size()]));
+		}
+
+		return rows;
+	}
+
+	/**
+	 * 
+	 * @param fieldList
+	 */
+	protected void setHeaders(ArrayList<ArrayList<String>> fieldList) {
+		fields = new HashMap<String, Integer>();
+		for (ArrayList<String> entry : fieldList) {
+			headers.add(entry.get(0));
+			fields.put(entry.get(0), Integer.parseInt(entry.get(1)));
+		}
+	}
+
+	@Override
+	protected String[] getHeaders() {
+		return headers.toArray(new String[headers.size()]);
+	}
+
+}// EliteCsvListener class

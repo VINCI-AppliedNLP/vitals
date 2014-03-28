@@ -1,0 +1,11 @@
+(\(\s*)?<gov.va.vinci.vitals.types.NumericValue/>\s*(\-|to)\s*<gov.va.vinci.vitals.types.NumericValue/>(\s*\))?
+\( *(\-|to) *<gov.va.vinci.vitals.types.NumericValue/> *\)
+\( *(\-|to) *<gov.va.vinci.vitals.types.NumericValue/> *<gov.va.vinci.vitals.types.Units/> *\)
+(\( *)?<gov.va.vinci.vitals.types.NumericValue/>\s*(\-|to)\s*<gov.va.vinci.vitals.types.NumericValue/>\s*<gov.va.vinci.vitals.types.Units/>(\s*\))?
+(\(\s*)?<gov.va.vinci.vitals.types.NumericValue/>\s*<gov.va.vinci.vitals.types.Units/>\s*(\-|to)\s*<gov.va.vinci.vitals.types.NumericValue/>\s*<gov.va.vinci.vitals.types.Units/>(\s*\))?
+between\s<gov.va.vinci.vitals.types.NumericValue/>\sand\s<gov.va.vinci.vitals.types.NumericValue/>
+between\s<gov.va.vinci.vitals.types.NumericValue/>\sand\s<gov.va.vinci.vitals.types.NumericValue/>\s*<gov.va.vinci.vitals.types.Units/>
+between\s<gov.va.vinci.vitals.types.NumericValue/>\s*<gov.va.vinci.vitals.types.Units/>\sand\s<gov.va.vinci.vitals.types.NumericValue/>\s*<gov.va.vinci.vitals.types.Units/>
+\(<gov.va.vinci.vitals.types.NumericValue/> *<gov.va.vinci.vitals.types.Units/>\)
+normal <gov.va.vinci.vitals.types.NumericValue/> *\- *<gov.va.vinci.vitals.types.NumericValue/>
+normal <gov.va.vinci.vitals.types.NumericValue/> *\r\n
