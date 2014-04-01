@@ -65,7 +65,7 @@ public class CsvListener extends BaseCSVListener {
 		HashMap<String, String> commonFields = new HashMap<String, String>();
 
 		if (docInfo.getRowData() == null) {
-			commonFields.put("DocID", ((docInfo.getID()).split("_"))[0]);
+			commonFields.put("TIUDocumentSID", ((docInfo.getID()).split("_"))[0]);
 		} else {
 			for (Entry<String, Integer> header : fields.entrySet()) {
 				if (header.getValue() >= 0)
@@ -93,7 +93,7 @@ public class CsvListener extends BaseCSVListener {
 			}
 			rows.add(rowList.toArray(new String[rowList.size()]));
 		}
-
+		
 		return rows;
 	}
 

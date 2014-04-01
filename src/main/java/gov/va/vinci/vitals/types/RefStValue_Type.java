@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Fri Mar 21 14:22:47 CDT 2014 */
+/* First created by JCasGen Mon Mar 31 19:30:42 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -12,7 +12,7 @@ import org.apache.uima.cas.Type;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Fri Mar 21 14:22:47 CDT 2014
+ * Updated by JCasGen Mon Mar 31 19:30:42 CDT 2014
  * @generated */
 public class RefStValue_Type extends Annotation_Type {
   /** @generated */

@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Fri Mar 21 14:22:47 CDT 2014 */
+/* First created by JCasGen Mon Mar 31 19:30:42 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Fri Mar 21 14:22:47 CDT 2014
- * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/8/leoTypeDescription_69298067-c664-443d-8742-efeb9a65fff31026889561703071086.xml
+ * Updated by JCasGen Mon Mar 31 19:30:42 CDT 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/2/leoTypeDescription_d87e2f92-16c1-4343-a6f5-b3ba255fe459678722988791812076.xml
  * @generated */
 public class Relation extends Annotation {
   /** @generated
@@ -81,6 +81,24 @@ public class Relation extends Annotation {
    
     
   //*--------------*
+  //* Feature: Concept
+
+  /** getter for Concept - gets 
+   * @generated */
+  public String getConcept() {
+    if (Relation_Type.featOkTst && ((Relation_Type)jcasType).casFeat_Concept == null)
+      jcasType.jcas.throwFeatMissing("Concept", "gov.va.vinci.vitals.types.Relation");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Relation_Type)jcasType).casFeatCode_Concept);}
+    
+  /** setter for Concept - sets  
+   * @generated */
+  public void setConcept(String v) {
+    if (Relation_Type.featOkTst && ((Relation_Type)jcasType).casFeat_Concept == null)
+      jcasType.jcas.throwFeatMissing("Concept", "gov.va.vinci.vitals.types.Relation");
+    jcasType.ll_cas.ll_setStringValue(addr, ((Relation_Type)jcasType).casFeatCode_Concept, v);}    
+   
+    
+  //*--------------*
   //* Feature: Value
 
   /** getter for Value - gets 
@@ -135,24 +153,6 @@ public class Relation extends Annotation {
    
     
   //*--------------*
-  //* Feature: Concept
-
-  /** getter for Concept - gets 
-   * @generated */
-  public String getConcept() {
-    if (Relation_Type.featOkTst && ((Relation_Type)jcasType).casFeat_Concept == null)
-      jcasType.jcas.throwFeatMissing("Concept", "gov.va.vinci.vitals.types.Relation");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Relation_Type)jcasType).casFeatCode_Concept);}
-    
-  /** setter for Concept - sets  
-   * @generated */
-  public void setConcept(String v) {
-    if (Relation_Type.featOkTst && ((Relation_Type)jcasType).casFeat_Concept == null)
-      jcasType.jcas.throwFeatMissing("Concept", "gov.va.vinci.vitals.types.Relation");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Relation_Type)jcasType).casFeatCode_Concept, v);}    
-   
-    
-  //*--------------*
   //* Feature: Assessment
 
   /** getter for Assessment - gets 
@@ -186,24 +186,6 @@ public class Relation extends Annotation {
     if (Relation_Type.featOkTst && ((Relation_Type)jcasType).casFeat_Unit == null)
       jcasType.jcas.throwFeatMissing("Unit", "gov.va.vinci.vitals.types.Relation");
     jcasType.ll_cas.ll_setStringValue(addr, ((Relation_Type)jcasType).casFeatCode_Unit, v);}    
-   
-    
-  //*--------------*
-  //* Feature: Range
-
-  /** getter for Range - gets 
-   * @generated */
-  public String getRange() {
-    if (Relation_Type.featOkTst && ((Relation_Type)jcasType).casFeat_Range == null)
-      jcasType.jcas.throwFeatMissing("Range", "gov.va.vinci.vitals.types.Relation");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Relation_Type)jcasType).casFeatCode_Range);}
-    
-  /** setter for Range - sets  
-   * @generated */
-  public void setRange(String v) {
-    if (Relation_Type.featOkTst && ((Relation_Type)jcasType).casFeat_Range == null)
-      jcasType.jcas.throwFeatMissing("Range", "gov.va.vinci.vitals.types.Relation");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Relation_Type)jcasType).casFeatCode_Range, v);}    
   }
 
     

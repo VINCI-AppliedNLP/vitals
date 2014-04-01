@@ -30,6 +30,9 @@ public class AnnotationFilter extends LeoBaseAnnotator {
 			AnnotationLibrarian.removeCoveredAnnotations(aJCas, Units.class.getCanonicalName(),
 			    NumericValue.class.getCanonicalName());
 
+			AnnotationLibrarian.removeCoveredAnnotations(aJCas, RelationPattern.class.getCanonicalName());
+			AnnotationLibrarian.removeCoveredAnnotations(aJCas, Relation.class.getCanonicalName());
+
 		}
 	@Override
   public LeoTypeSystemDescription getLeoTypeSystemDescription() {

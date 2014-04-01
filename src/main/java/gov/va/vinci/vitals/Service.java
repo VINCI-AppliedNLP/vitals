@@ -73,6 +73,7 @@ public class Service {
 		}
 
 		//Deploy the Service
+		if(environment.equals("")) service.deploy(createBPPipeline ((Boolean) config.get("generateTypes")));
 		service.deploy(createPipeline((Boolean) config.get("generateTypes")));
 		System.out.println("\r\n\r\nAggregate descriptor path: \r\n" + service.getAggregateDescriptorFile());
 
@@ -81,6 +82,37 @@ public class Service {
 		System.exit(0);
 
 	}
+
+	protected LeoAEDescriptor createBPPipeline(Boolean generateTypes) throws Exception {
+		LeoAEDescriptor aggregate = new LeoAEDescriptor();
+		LeoTypeSystemDescription types = createTypeSystem(generateTypes);
+		aggregate
+		    /*************************************************************************/
+		    /***************         Start of initial regexes   **********************/
+		    /*************************************************************************/
+
+		    ////////  Term boundaries     
+		    /*  Find other possible concepts  */
+		    .addDelegate(createRegexAnnotator("TermAnnotator",
+		        RESOURCE_PATH + "term.regex",
+		        gov.va.vinci.vitals.types.Term.class.getCanonicalName(), types))
+
+		    ////////////  Values and assessment     
+		    /*  Find qualitative values such as normal, mild, or severe */
+		    .addDelegate(createRegexAnnotator("QValueAnnotator",
+		        RESOURCE_PATH + "qValues.regex",
+		        gov.va.vinci.vitals.types.QValue.class.getCanonicalName(), types))
+		    /* Find numerical values such as 1, 1.1, 0.1, or .1 */
+		    .addDelegate(createRegexAnnotator("NumericValueAnnotator",
+		        RESOURCE_PATH + "numericValues.regex",
+		        gov.va.vinci.vitals.types.NumericValue.class.getCanonicalName(), types))
+		        ;
+		return aggregate;
+	}
+
+
+
+
 
 	protected LeoAEDescriptor createPipeline(Boolean generateTypes) throws Exception {
 		LeoAEDescriptor aggregate = new LeoAEDescriptor();
@@ -128,12 +160,11 @@ public class Service {
 		    /**** Servicing annotations, filtering, and combining ***************************************/
 		    /*  Annotation filter removes some types if they overlap with other types:
 		     *    Removing overlapping numeric and assessment values and term annotations*/
-		    .addDelegate(new LeoAEDescriptor()
-		        .setName("AnnotationFilter1Annotator")
-		        .setImplementationName(AnnotationFilter.class.getCanonicalName())
-		        .addParameterSetting("debug", false, false, "Boolean", false)
-		         .addParameterSetting("step", true, false, "String",    "AnnotationFilter.FilterType.BASIC_TYPES.name()")
-		        .addTypeSystemDescription(types))
+		    .addDelegate(
+		        new LeoAEDescriptor()
+		            .setName("AnnotationFilter1Annotator")
+		            .setImplementationName(AnnotationFilter.class.getCanonicalName())
+		            .addTypeSystemDescription(types))
 
 		    /* Patterns to combine numeric values into ranges */
 		    .addDelegate(new LeoAEDescriptor()
@@ -146,8 +177,7 @@ public class Service {
 		            "String", RESOURCE_PATH + "range.pattern")
 		        .addTypeSystemDescription(types))
 
-		   
-		    /********************                 Defining patterns *************************************/
+		    /********************  Defining patterns *************************************/
 
 		    /**************/
 		    /*  Annotating <Term> <NumericValue> patterns     */
@@ -159,12 +189,26 @@ public class Service {
 		        .addParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), true, false,
 		            "String", RelationPattern.class.getCanonicalName())
 		        .addTypeSystemDescription(types))
+		        .addDelegate(
+		        new LeoAEDescriptor()
+		            .setName("AnnotationFilter2Annotator")
+		            .setImplementationName(AnnotationFilter.class.getCanonicalName())
+		            .addTypeSystemDescription(types))
 		    /*  Annotation filter removes some types if they overlap with other types*/
 		    /* Create final annotations*/
 		    .addDelegate(new LeoAEDescriptor()
 		        .setName("RelationAnnotator")
 		        .setImplementationName(RelationAnnotator.class.getCanonicalName())
+		        .addParameterSetting(RelationAnnotator.Param.OUTPUT_TYPE.getName(), true, false,
+		            "String", Relation.class.getCanonicalName())
 		        .addTypeSystemDescription(types))
+		        		    /*  Annotation filter removes some types if they overlap with other types:
+		     *    Removing overlapping numeric and assessment values and term annotations*/
+		    .addDelegate(
+		        new LeoAEDescriptor()
+		            .setName("AnnotationFilter2Annotator")
+		            .setImplementationName(AnnotationFilter.class.getCanonicalName())
+		            .addTypeSystemDescription(types))
 		/**/
 		;
 		/*    */
@@ -176,17 +220,6 @@ public class Service {
 
 		LeoTypeSystemDescription ftsd = new LeoTypeSystemDescription();
 		// Relation Type description
-		TypeDescription relationFtsd;
-		String relationParent = "gov.va.vinci.vitals.types.Relation";
-		relationFtsd = new TypeDescription_impl(relationParent, "", "uima.tcas.Annotation");
-		relationFtsd.addFeature("Term", "", "uima.cas.String"); // Extracted normalized string
-		relationFtsd.addFeature("Value", "", "uima.cas.String"); // Numeric  value
-		relationFtsd.addFeature("Value2", "", "uima.cas.String"); // Numeric  value
-		relationFtsd.addFeature("ValueString", "", "uima.cas.String"); // Numeric  value
-		relationFtsd.addFeature("Concept", "", "uima.cas.String"); // String identifier of the mapped concept
-		relationFtsd.addFeature("Assessment", "", "uima.cas.String"); // Assessment value
-		relationFtsd.addFeature("Unit", "", "uima.cas.String"); // Measurement units
-		relationFtsd.addFeature("Range", "", "uima.cas.String"); // Normal range - not needed.
 
 		// Pattern Type description
 		TypeDescription regexFtsd;
@@ -224,8 +257,7 @@ public class Service {
 		    .addType("gov.va.vinci.vitals.types.Units", "", regexParent)
 		    .addType("gov.va.vinci.vitals.types.Range", "", patternParent)
 		    .addType("gov.va.vinci.vitals.types.RelationPattern", "", patternParent)
-		    .addType(relationFtsd)
-		    .addType("gov.va.vinci.vitals.types.ValidationRelation", "", relationParent);
+		    .addTypeSystemDescription(RelationAnnotator.getLeoTypeSystemDescription(""));
 		if (generateTypes) {
 			ftsd.jCasGen("src/main/java", "target/classes");
 		}

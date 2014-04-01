@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Fri Mar 21 14:22:46 CDT 2014 */
+/* First created by JCasGen Mon Mar 31 19:30:41 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -10,8 +10,8 @@ import org.apache.uima.jcas.cas.TOP_Type;
 
 
 /** 
- * Updated by JCasGen Fri Mar 21 14:22:46 CDT 2014
- * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/8/leoTypeDescription_69298067-c664-443d-8742-efeb9a65fff31026889561703071086.xml
+ * Updated by JCasGen Mon Mar 31 19:30:41 CDT 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/2/leoTypeDescription_d87e2f92-16c1-4343-a6f5-b3ba255fe459678722988791812076.xml
  * @generated */
 public class ExcludeValue extends Regex {
   /** @generated

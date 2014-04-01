@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Fri Mar 21 14:22:47 CDT 2014 */
+/* First created by JCasGen Mon Mar 31 19:30:42 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Fri Mar 21 14:22:47 CDT 2014
+ * Updated by JCasGen Mon Mar 31 19:30:42 CDT 2014
  * @generated */
 public class Relation_Type extends Annotation_Type {
   /** @generated */
@@ -59,6 +59,24 @@ public class Relation_Type extends Annotation_Type {
         if (featOkTst && casFeat_Term == null)
       jcas.throwFeatMissing("Term", "gov.va.vinci.vitals.types.Relation");
     ll_cas.ll_setStringValue(addr, casFeatCode_Term, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_Concept;
+  /** @generated */
+  final int     casFeatCode_Concept;
+  /** @generated */ 
+  public String getConcept(int addr) {
+        if (featOkTst && casFeat_Concept == null)
+      jcas.throwFeatMissing("Concept", "gov.va.vinci.vitals.types.Relation");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_Concept);
+  }
+  /** @generated */    
+  public void setConcept(int addr, String v) {
+        if (featOkTst && casFeat_Concept == null)
+      jcas.throwFeatMissing("Concept", "gov.va.vinci.vitals.types.Relation");
+    ll_cas.ll_setStringValue(addr, casFeatCode_Concept, v);}
     
   
  
@@ -117,24 +135,6 @@ public class Relation_Type extends Annotation_Type {
   
  
   /** @generated */
-  final Feature casFeat_Concept;
-  /** @generated */
-  final int     casFeatCode_Concept;
-  /** @generated */ 
-  public String getConcept(int addr) {
-        if (featOkTst && casFeat_Concept == null)
-      jcas.throwFeatMissing("Concept", "gov.va.vinci.vitals.types.Relation");
-    return ll_cas.ll_getStringValue(addr, casFeatCode_Concept);
-  }
-  /** @generated */    
-  public void setConcept(int addr, String v) {
-        if (featOkTst && casFeat_Concept == null)
-      jcas.throwFeatMissing("Concept", "gov.va.vinci.vitals.types.Relation");
-    ll_cas.ll_setStringValue(addr, casFeatCode_Concept, v);}
-    
-  
- 
-  /** @generated */
   final Feature casFeat_Assessment;
   /** @generated */
   final int     casFeatCode_Assessment;
@@ -169,24 +169,6 @@ public class Relation_Type extends Annotation_Type {
     ll_cas.ll_setStringValue(addr, casFeatCode_Unit, v);}
     
   
- 
-  /** @generated */
-  final Feature casFeat_Range;
-  /** @generated */
-  final int     casFeatCode_Range;
-  /** @generated */ 
-  public String getRange(int addr) {
-        if (featOkTst && casFeat_Range == null)
-      jcas.throwFeatMissing("Range", "gov.va.vinci.vitals.types.Relation");
-    return ll_cas.ll_getStringValue(addr, casFeatCode_Range);
-  }
-  /** @generated */    
-  public void setRange(int addr, String v) {
-        if (featOkTst && casFeat_Range == null)
-      jcas.throwFeatMissing("Range", "gov.va.vinci.vitals.types.Relation");
-    ll_cas.ll_setStringValue(addr, casFeatCode_Range, v);}
-    
-  
 
 
 
@@ -201,6 +183,10 @@ public class Relation_Type extends Annotation_Type {
     casFeatCode_Term  = (null == casFeat_Term) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_Term).getCode();
 
  
+    casFeat_Concept = jcas.getRequiredFeatureDE(casType, "Concept", "uima.cas.String", featOkTst);
+    casFeatCode_Concept  = (null == casFeat_Concept) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_Concept).getCode();
+
+ 
     casFeat_Value = jcas.getRequiredFeatureDE(casType, "Value", "uima.cas.String", featOkTst);
     casFeatCode_Value  = (null == casFeat_Value) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_Value).getCode();
 
@@ -213,20 +199,12 @@ public class Relation_Type extends Annotation_Type {
     casFeatCode_ValueString  = (null == casFeat_ValueString) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_ValueString).getCode();
 
  
-    casFeat_Concept = jcas.getRequiredFeatureDE(casType, "Concept", "uima.cas.String", featOkTst);
-    casFeatCode_Concept  = (null == casFeat_Concept) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_Concept).getCode();
-
- 
     casFeat_Assessment = jcas.getRequiredFeatureDE(casType, "Assessment", "uima.cas.String", featOkTst);
     casFeatCode_Assessment  = (null == casFeat_Assessment) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_Assessment).getCode();
 
  
     casFeat_Unit = jcas.getRequiredFeatureDE(casType, "Unit", "uima.cas.String", featOkTst);
     casFeatCode_Unit  = (null == casFeat_Unit) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_Unit).getCode();
-
- 
-    casFeat_Range = jcas.getRequiredFeatureDE(casType, "Range", "uima.cas.String", featOkTst);
-    casFeatCode_Range  = (null == casFeat_Range) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_Range).getCode();
 
   }
 }

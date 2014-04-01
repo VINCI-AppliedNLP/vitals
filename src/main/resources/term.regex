@@ -1,3 +1,3 @@
-##1##!|\btemp\w*\b|fever
-##2##!|\bbp\b|blood\s*pressure
-##3##!|\bpulse\b|heart\s*rate
+1!|(\btemp\w*\b|fever|\bt\b|\btm\b|\btmax\b|\btcurrent\b)
+2!|(\bbp\b|blood\s*pressure|\bb\/p\b)
+3!|(\bpulse\b(\srate)?|heart\s*rate|\bp\b|\bhr\b)

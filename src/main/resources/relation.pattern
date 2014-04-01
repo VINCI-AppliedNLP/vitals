@@ -8,27 +8,21 @@
 \r\n( |_)*<gov.va.vinci.vitals.types.NumericValue/>( |_)*<gov.va.vinci.vitals.types.Units/> +<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/> *<gov.va.vinci.vitals.types.Range/>
 \r\n *<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>, *<gov.va.vinci.vitals.types.QValue/> *\r\n
 
-#pulmonary htn , left ventricle is normal in size
-<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>
-
 # LV Diastolic Diameter PLA 5.7 cm
-<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/> *<!target><gov.va.vinci.vitals.types.Method/><!target/> *<gov.va.vinci.vitals.types.NumericValue/> *<gov.va.vinci.vitals.types.Units/>
 
 # Left ventricular systolic function is normal
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>( *(\r\n)? *)<gov.va.vinci.vitals.types.MiddleStuff/>( *(\r\n)? *)<gov.va.vinci.vitals.types.QValue/>
 #  LEFT ATRIUM     (2.0-4.0cm): 3.6
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/> *<gov.va.vinci.vitals.types.Range/>((\.\.)+(\.)?|:) *<gov.va.vinci.vitals.types.NumericValue/>
 
+<gov.va.vinci.vitals.types.NumericValue/> *\( *<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/> *\)
 #
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>( *(\r\n)? *)<gov.va.vinci.vitals.types.MiddleStuff/>( *(\r\n)? *)<gov.va.vinci.vitals.types.QValue/>( *(\r\n)? *)<gov.va.vinci.vitals.types.MiddleStuff/>( *(\r\n)? *)<gov.va.vinci.vitals.types.NumericValue/>( *(\r\n)? *)<gov.va.vinci.vitals.types.Units/>
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>( *(\r\n)? *)<gov.va.vinci.vitals.types.MiddleStuff/>(\*| |_)*<gov.va.vinci.vitals.types.Range/>
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>( *(\r\n)? *)<gov.va.vinci.vitals.types.MiddleStuff/>( *(\r\n)? *)<gov.va.vinci.vitals.types.NumericValue/>
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>( *(\r\n)? *)<gov.va.vinci.vitals.types.MiddleStuff/>( *(\r\n)? *)<gov.va.vinci.vitals.types.NumericValue/>(\*| ||_)*<gov.va.vinci.vitals.types.Units/>
-<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>( *(\r\n)? *)<gov.va.vinci.vitals.types.MiddleStuff/>( *(\r\n)? *)<gov.va.vinci.vitals.types.NumericValue/>( *(\r\n)? *)<gov.va.vinci.vitals.types.MiddleStuff/>( *(\r\n)? *)<!target><gov.va.vinci.vitals.types.Method/><!target/>
-<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>( *(\r\n)? *)<gov.va.vinci.vitals.types.MiddleStuff/>( *(\r\n)? *)<gov.va.vinci.vitals.types.NumericValue/>( *(\r\n)? *)<gov.va.vinci.vitals.types.Units/>( *(\r\n)? *)<gov.va.vinci.vitals.types.MiddleStuff/>( *(\r\n)? *)<!target><gov.va.vinci.vitals.types.Method/><!target/>
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>( *(\r\n)? *)<gov.va.vinci.vitals.types.NumericValue/>(\*| |_)*<gov.va.vinci.vitals.types.Units/>
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/> *<gov.va.vinci.vitals.types.Range/>
-<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>( |\t|\||\*)*<gov.va.vinci.vitals.types.QValue/>
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>( |\t|\||\*|=|-|_)*<gov.va.vinci.vitals.types.MiddleStuff/>( |\t|\||\*|=|-|_)*<gov.va.vinci.vitals.types.NumericValue/>
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>( |\t|\||\*|=|-|_)*<gov.va.vinci.vitals.types.MiddleStuff/>( *(\r\n)? *)<gov.va.vinci.vitals.types.NumericValue/>(\*| )*<gov.va.vinci.vitals.types.Units/>
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>( |\t|\||\*|=|-|_)*<gov.va.vinci.vitals.types.MiddleStuff/>( *(\r\n)? *)<gov.va.vinci.vitals.types.NumericValue/>(\*| )*<gov.va.vinci.vitals.types.Units/>( *(\r\n)? *)<gov.va.vinci.vitals.types.Range/>
@@ -53,4 +47,3 @@ there\s(was|is)( *(\r\n)? *)<gov.va.vinci.vitals.types.QValue/>( *(\r\n)? *)<!an
 <gov.va.vinci.vitals.types.QValue/>( *(\r\n)? *)<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/> *<gov.va.vinci.vitals.types.QValue/>
 <gov.va.vinci.vitals.types.QValue/>( *(\r\n)? *)<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>( *(\r\n)? *)<gov.va.vinci.vitals.types.MiddleStuff/> *<gov.va.vinci.vitals.types.QValue/>
 <gov.va.vinci.vitals.types.QValue/>( *(\r\n)? *)<gov.va.vinci.vitals.types.MiddleStuff/>( *(\r\n)? *)<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>
-# lvef is preserved at 65%

@@ -49,7 +49,7 @@ def readerOptions = [
 			dbServer : projectServer,
 			dbName   : projectDbsName,
 			//query:"SELECT TIUDocument, ReportText  FROM [ORD_Iwashyna_201108021D].[nlp].[NLP_Corpus] where RowNo > {min} and RowNo <= {max};"
-			query: "SELECT  a.[TIUDocumentSID] ,[ReportText]   FROM [ORD_Iwashyna_201108021D].[Src].[TIUDocument_8925] as b   , [ORD_Iwashyna_201108021D].[nlp].[NLP_VitalsCorpus_v2] as a  where a.tiudocumentsid = b.TIUDocumentSID"
+			query: "SELECT top 100 a.[TIUDocumentSID] ,[ReportText]   FROM [ORD_Iwashyna_201108021D].[Src].[TIUDocument_8925] as b   , [ORD_Iwashyna_201108021D].[nlp].[NLP_VitalsCorpus_v2] as a  where a.tiudocumentsid = b.TIUDocumentSID"
 			,
 			batchSize:10000,
 			startId:  1,
@@ -80,12 +80,21 @@ def listenerOptions=[
 	csv : [
 		// Absolute or relative path for a new comma-delimited file. If the file exists, it will be overwritten.
 		// if the path does not exist, it will be created.
-		//outPath : mainOutPath + "{suffix}\\outputTable.csv",
-		outPath : mainOutPath + "outputTable.csv",
+		outPath : mainOutPath + "{suffix}\\outputTable.csv",
+		//outPath : mainOutPath + "outputTable.csv",
 		fieldList : [
 			["TIUDocumentSID", "0", "bigint"],
 			["Term", "-1", "varchar(1000)"],
-			//["Snippets", "-1", "varchar(1000)"],
+			["Concept", "-1", "varchar(1000)"],
+			["Value", "-1", "varchar(1000)"],
+			["Value2", "-1", "varchar(1000)"],
+			["ValueString", "-1", "varchar(1000)"],
+			["Assessment", "-1", "varchar(1000)"],
+			["Unit", "-1", "varchar(1000)"],
+			[
+				"Snippets",
+				"-1",
+				"varchar(5000)"]
 			//["SpanStart", "-1", "int"],
 			//["SpanEnd", "-1", "int"],
 			//["InstanceID", "-1", "int"]
@@ -96,7 +105,7 @@ def listenerOptions=[
 		 *   If xmi files exist, they will be overwritten.
 		 *   If the path does not exist, it will be created.  */
 		outPath : mainOutPath + "{suffix}\\xmi\\" ,
-		outPath : mainOutPath + "test\\xmi\\" ,
+		//outPath : mainOutPath + "test\\xmi\\" ,
 		outputAnnotationType:"",
 		openViewerAfterProcessing: false ] ,
 	database : [
@@ -116,8 +125,7 @@ def listenerOptions=[
 				["Snippets", "-1", "varchar(1000)"],
 				["SpanStart", "-1", "int"],
 				["SpanEnd", "-1", "int"],
-				["InstanceID", "-1", "int"]
-				]
+				["InstanceID", "-1", "int"]]
 		],
 		// Siman output is for Chex
 		siman : [
@@ -127,7 +135,7 @@ def listenerOptions=[
 			simanOverwrite : true
 		]
 	],
-// AuCompare -- not setup yet
+	// AuCompare -- not setup yet
 	compare : [
 		typeMap = "{\"gov.va.vinci.example.types.RefStOrganism\":\"gov.va.vinci.example.types.Logic\", " +
 		"\"gov.va.vinci.example.types.RefStPositive\":\"gov.va.vinci.example.types.Logic\"," +
@@ -316,7 +324,11 @@ environments {
 		SimpleAnnotationListener sal = createSimpleAnnotationListener.call(
 				(listenerOptions."simple"."outPath").replaceAll("\\{suffix\\}", timeStamp), types)
 
-		listeners = [sal, xmiListener]
+		
+		String csvFile = (listenerOptions."csv"."outPath").replaceAll("\\{suffix\\}", timeStamp)
+		CsvListener csvListener = createCsvListener.call(csvFile, listenerOptions."csv"."fieldList" )
+
+		listeners = [xmiListener, csvListener]
 	}
 
 	// TODO -- INFO:  localdb - read from MySQL database, write to csv and xmi
@@ -359,20 +371,15 @@ environments {
 
 		// listener options
 		def timeStamp =  getTimeStamp.call()
-		//	String xmiDir = (listenerOptions."xmi"."outPath").replaceAll("\\{suffix\\}", timeStamp)
-		//	String outTypeName = listenerOptions."xmi"."outputAnnotationType"
-		//boolean openViewer = listenerOptions."xmi"."openViewerAfterProcessing"
-		//XmiUABListener xmiListener = createXmlListener.call(xmiDir, outTypeName, openViewer)
+		String xmiDir = (listenerOptions."xmi"."outPath").replaceAll("\\{suffix\\}", timeStamp)
+		String outTypeName = listenerOptions."xmi"."outputAnnotationType"
+		boolean openViewer = listenerOptions."xmi"."openViewerAfterProcessing"
+		XmiUABListener xmiListener = createXmlListener.call(xmiDir, outTypeName, openViewer)
 
 		String csvFile = (listenerOptions."csv"."outPath").replaceAll("\\{suffix\\}", timeStamp)
+		CsvListener csvListener = createCsvListener.call(csvFile, listenerOptions."csv"."fieldList" )
 
-		CsvListener csvListener = createCsvListener.call(csvFile, listenerOptions."csv"."fieldList"  )
-
-		//def types = (listenerOptions."simple"."outTypes")
-		//SimpleAnnotationListener sal1 = createSimpleAnnotationListener.call((listenerOptions."simple"."outPath").replaceAll("\\{suffix\\}", timeStamp), types)
-
-
-		listeners = [csvListener]//, sal1, xmiListener]
+		listeners = [csvListener , xmiListener]
 	}
 
 
@@ -419,7 +426,7 @@ environments {
 		String inServer = readerOptions."database"."vinci"."dbServer"
 		CollectionReader collectionReader = createVinciBatchReader.call(inServer, dbsName, query,
 				indexID, indexText, start, end, batch)
-		
+
 		// listeners
 		def timeStamp =  getTimeStamp.call()
 		String outServer = listenerOptions."database"."vinci"."dbServer"
@@ -428,8 +435,8 @@ environments {
 		String outTblName = "["+listenerOptions."database"."vinci"."dbSchema" + "]."+ "[" +tableName + "]"
 
 		DbsListener dbsListener = createDbsListener.call(outServer, outDbsName, outTblName,
-			listenerOptions."database"."vinci"."batchSize", 
-			listenerOptions."database"."vinci"."fieldList" )
+				listenerOptions."database"."vinci"."batchSize",
+				listenerOptions."database"."vinci"."fieldList" )
 		listeners = [dbsListener]
 	}
 
@@ -472,9 +479,9 @@ environments {
 		String outTblName = "["+listenerOptions."database"."vinci"."dbSchema" + "]."+ "[" +tableName + "]"
 
 		DbsListener dbsListener = createDbsListener.call(outServer, outDbsName, outTblName,
-			listenerOptions."database"."vinci"."batchSize", 
-			listenerOptions."database"."vinci"."fieldList" )
-		
+				listenerOptions."database"."vinci"."batchSize",
+				listenerOptions."database"."vinci"."fieldList" )
+
 		listeners = [dbsListener]
 	}
 

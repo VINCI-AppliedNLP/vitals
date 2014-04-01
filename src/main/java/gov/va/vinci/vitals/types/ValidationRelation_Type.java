@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Fri Mar 21 14:22:47 CDT 2014 */
+/* First created by JCasGen Fri Mar 28 16:57:58 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -11,7 +11,7 @@ import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.cas.Type;
 
 /** 
- * Updated by JCasGen Fri Mar 21 14:22:47 CDT 2014
+ * Updated by JCasGen Fri Mar 28 16:57:58 CDT 2014
  * @generated */
 public class ValidationRelation_Type extends Relation_Type {
   /** @generated */
