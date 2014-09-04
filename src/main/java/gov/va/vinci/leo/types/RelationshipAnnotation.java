@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Mon Mar 31 19:30:41 CDT 2014 */
+/* First created by JCasGen Thu Sep 04 16:25:34 CDT 2014 */
 package gov.va.vinci.leo.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -12,8 +12,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** RelationshipAnnotation Annotation
- * Updated by JCasGen Mon Mar 31 19:30:41 CDT 2014
- * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/2/leoTypeDescription_d87e2f92-16c1-4343-a6f5-b3ba255fe459678722988791812076.xml
+ * Updated by JCasGen Thu Sep 04 16:25:34 CDT 2014
+ * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_d041bc56-47e2-4ef3-9cb8-a9df965f16c63306118127274868107.xml
  * @generated */
 public class RelationshipAnnotation extends Annotation {
   /** @generated
@@ -26,7 +26,9 @@ public class RelationshipAnnotation extends Annotation {
    */
   @SuppressWarnings ("hiding")
   public final static int type = typeIndexID;
-  /** @generated  */
+  /** @generated
+   * @return index of the type  
+   */
   @Override
   public              int getTypeIndexID() {return typeIndexID;}
  
@@ -35,19 +37,28 @@ public class RelationshipAnnotation extends Annotation {
   protected RelationshipAnnotation() {/* intentionally empty block */}
     
   /** Internal - constructor used by generator 
-   * @generated */
+   * @generated
+   * @param addr low level Feature Structure reference
+   * @param type the type of this Feature Structure 
+   */
   public RelationshipAnnotation(int addr, TOP_Type type) {
     super(addr, type);
     readObject();
   }
   
-  /** @generated */
+  /** @generated
+   * @param jcas JCas to which this Feature Structure belongs 
+   */
   public RelationshipAnnotation(JCas jcas) {
     super(jcas);
     readObject();   
   } 
 
-  /** @generated */  
+  /** @generated
+   * @param jcas JCas to which this Feature Structure belongs
+   * @param begin offset to the begin spot in the SofA
+   * @param end offset to the end spot in the SofA 
+  */  
   public RelationshipAnnotation(JCas jcas, int begin, int end) {
     super(jcas);
     setBegin(begin);
@@ -55,10 +66,13 @@ public class RelationshipAnnotation extends Annotation {
     readObject();
   }   
 
-  /** <!-- begin-user-doc -->
-    * Write your own initialization here
-    * <!-- end-user-doc -->
-  @generated modifiable */
+  /** 
+   * <!-- begin-user-doc -->
+   * Write your own initialization here
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable 
+   */
   private void readObject() {/*default - does nothing empty block */}
      
  
@@ -67,14 +81,18 @@ public class RelationshipAnnotation extends Annotation {
   //* Feature: Source
 
   /** getter for Source - gets Source
-   * @generated */
+   * @generated
+   * @return value of the feature 
+   */
   public Annotation getSource() {
     if (RelationshipAnnotation_Type.featOkTst && ((RelationshipAnnotation_Type)jcasType).casFeat_Source == null)
       jcasType.jcas.throwFeatMissing("Source", "gov.va.vinci.leo.types.RelationshipAnnotation");
     return (Annotation)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((RelationshipAnnotation_Type)jcasType).casFeatCode_Source)));}
     
   /** setter for Source - sets Source 
-   * @generated */
+   * @generated
+   * @param v value to set into the feature 
+   */
   public void setSource(Annotation v) {
     if (RelationshipAnnotation_Type.featOkTst && ((RelationshipAnnotation_Type)jcasType).casFeat_Source == null)
       jcasType.jcas.throwFeatMissing("Source", "gov.va.vinci.leo.types.RelationshipAnnotation");
@@ -85,21 +103,28 @@ public class RelationshipAnnotation extends Annotation {
   //* Feature: Target
 
   /** getter for Target - gets Target
-   * @generated */
+   * @generated
+   * @return value of the feature 
+   */
   public FSArray getTarget() {
     if (RelationshipAnnotation_Type.featOkTst && ((RelationshipAnnotation_Type)jcasType).casFeat_Target == null)
       jcasType.jcas.throwFeatMissing("Target", "gov.va.vinci.leo.types.RelationshipAnnotation");
     return (FSArray)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((RelationshipAnnotation_Type)jcasType).casFeatCode_Target)));}
     
   /** setter for Target - sets Target 
-   * @generated */
+   * @generated
+   * @param v value to set into the feature 
+   */
   public void setTarget(FSArray v) {
     if (RelationshipAnnotation_Type.featOkTst && ((RelationshipAnnotation_Type)jcasType).casFeat_Target == null)
       jcasType.jcas.throwFeatMissing("Target", "gov.va.vinci.leo.types.RelationshipAnnotation");
     jcasType.ll_cas.ll_setRefValue(addr, ((RelationshipAnnotation_Type)jcasType).casFeatCode_Target, jcasType.ll_cas.ll_getFSRef(v));}    
     
   /** indexed getter for Target - gets an indexed value - Target
-   * @generated */
+   * @generated
+   * @param i index in the array to get
+   * @return value of the element at index i 
+   */
   public Annotation getTarget(int i) {
     if (RelationshipAnnotation_Type.featOkTst && ((RelationshipAnnotation_Type)jcasType).casFeat_Target == null)
       jcasType.jcas.throwFeatMissing("Target", "gov.va.vinci.leo.types.RelationshipAnnotation");
@@ -107,7 +132,10 @@ public class RelationshipAnnotation extends Annotation {
     return (Annotation)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefArrayValue(jcasType.ll_cas.ll_getRefValue(addr, ((RelationshipAnnotation_Type)jcasType).casFeatCode_Target), i)));}
 
   /** indexed setter for Target - sets an indexed value - Target
-   * @generated */
+   * @generated
+   * @param i index in the array to set
+   * @param v value to set into the array 
+   */
   public void setTarget(int i, Annotation v) { 
     if (RelationshipAnnotation_Type.featOkTst && ((RelationshipAnnotation_Type)jcasType).casFeat_Target == null)
       jcasType.jcas.throwFeatMissing("Target", "gov.va.vinci.leo.types.RelationshipAnnotation");

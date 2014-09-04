@@ -16,10 +16,10 @@ serviceQueueName = "VitalsForSepsis";
  *   vinciDbToCsv   =>  Reader: database on VINCI, Listeners: csv, xmi
  *   vinciDbToDb    =>  Reader: database on VINCI, Listeners: database on VINCI
  *   vinciDbToSiman =>  Reader: database on VINCI, Listeners: siman database on VINCI
+ *   "kttrToCsv"
  */
 clientEnvironment = "vinciDbToCsv";
-startClient = true;
-
+startClient = false;
 
 /**************************************************************/
 /**  Do not change code below                                 */
@@ -35,5 +35,21 @@ else {
 
 
 casPoolSize = 4;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

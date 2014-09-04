@@ -1,7 +1,9 @@
 package gov.va.vinci.vitals.listeners;
 
-import gov.va.vinci.leo.listener.BaseCSVListener;
-import gov.va.vinci.leo.tools.Common;
+
+
+import gov.va.vinci.leo.listener.BaseCsvListener;
+import gov.va.vinci.leo.tools.LeoUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,8 +18,8 @@ import org.apache.uima.cas.CAS;
 /**
  * @author OVP
  */
-public class CsvListener extends BaseCSVListener {
-	public static Logger log = Logger.getLogger(Common.getRuntimeClass().toString());
+public class CsvListener extends BaseCsvListener {
+	public static Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
 	protected HashMap<String, Integer> fields = new HashMap<String, Integer>();
 	protected ArrayList<String> headers = new ArrayList<String>();
 

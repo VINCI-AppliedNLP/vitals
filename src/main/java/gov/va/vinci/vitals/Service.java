@@ -1,12 +1,19 @@
 package gov.va.vinci.vitals;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Collection;
+import java.util.Map.Entry;
+import gov.va.vinci.knowtator.model.KnowtatorToUimaTypeMap;
 
+import gov.va.vinci.leo.annotationpattern.ae.AnnotationPatternAnnotator;
 import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
-import gov.va.vinci.leo.tools.Common;
+import gov.va.vinci.leo.regex.ae.RegexAnnotator;
+import gov.va.vinci.leo.tools.LeoUtils;
 import gov.va.vinci.leo.types.TypeLibrarian;
-import gov.va.vinci.marian.regex.ae.RegexAnnotator;
+import gov.va.vinci.vitals.ae.AnnotationFilter;
 import groovy.util.ConfigObject;
 
 import org.apache.commons.lang3.time.StopWatch;
@@ -14,275 +21,290 @@ import org.apache.log4j.Logger;
 import org.apache.uima.resource.metadata.TypeDescription;
 import org.apache.uima.resource.metadata.impl.TypeDescription_impl;
 
-import gov.va.vinci.marian.annotationpattern.ae.AnnotationPatternAnnotator;
-import gov.va.vinci.vitals.ae.*;
-import gov.va.vinci.vitals.types.*;
-import gov.va.vinci.vitals.types.RelationPattern;
-
 /**
  * 
  * @author OVP
  * 
- * Elite pipeline includes:
- * -- RegEx to search for Term
- * -- WindowAnnotator to detect window boundaries
- * -- Context to determine the Term context within the Window
- * -- AnnotationPatternAnnotator to detect additional context information
- *
  */
 public class Service {
-	public static String SIMPLE_PIPELINE = "simple";
-	public static String SIMPLE_UPDATE_TYPES = "updateTypes";
-	protected static String RESOURCE_PATH = "src/main/resources/";
 
-	public boolean START_CLIENT = false;
-	public static final Logger log = Logger.getLogger(Common.getRuntimeClass().toString());
+	public static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
 
-	public static void main(String[] args) {
-		String environment = SIMPLE_UPDATE_TYPES;
-		if (args.length > 0) {
-			environment = args[0];
+	public static class GeneralSettings {
+		static String ENVIRONMENT = "simple";
+		static int CAS_POOL_SIZE = 8;
+		static boolean START_CLIENT = false;
+		static boolean GENERATE_TYPES = true;
+		static String SERVICE_NAME = "DefaultServiceName";
+		static String BROKER_URL = "tcp://localhost:61616";
+	}
+
+	public static class KnowtatorVariables {
+		public static HashMap<String, ArrayList<String>> uimaTypeFeatureMap = new HashMap<String, ArrayList<String>>();
+
+	}
+
+	public static class PipelineVariables {
+		static String RESOURCE_PATH = "src/main/resources/";
+		static String PatternType = "gov.va.vinci.vitals.types.Pattern";
+		static String RegexType = "gov.va.vinci.vitals.types.RegularExpression";
+		static String LogicType = "gov.va.vinci.vitals.types.Logic";
+		static HashMap<String, String> regexResourceToType = new HashMap<String, String>();
+
+		static {
+			regexResourceToType.put("gov.va.vinci.vitals.types.Indicator", "indicator.regex");
+			regexResourceToType.put("gov.va.vinci.vitals.types.Numeric", "numericValues.regex");
+			regexResourceToType.put("gov.va.vinci.vitals.types.Unit", "units.regex");
+			regexResourceToType.put("gov.va.vinci.vitals.types.NumericExclude", "numericValuesExclude.regex");
+			regexResourceToType.put("gov.va.vinci.vitals.types.Term", "terms.regex");
+			regexResourceToType.put("gov.va.vinci.vitals.types.TermExcludeRegex", "termsExclude.regex");
 		}
+
+		static HashMap<String, String> apaResourceToType = new HashMap<String, String>();
+		static {
+			apaResourceToType.put("gov.va.vinci.vitals.types.NumericExclude", "numericValuesExclude.pattern");
+			apaResourceToType.put("gov.va.vinci.vitals.types.TermExclude", "termsExclude.pattern");
+			apaResourceToType.put("gov.va.vinci.vitals.types.Relation", "relation.pattern");
+		}
+
+		static HashMap<String, String[]> filterTypes = new HashMap<String, String[]>();
+		static {
+			filterTypes.put("gov.va.vinci.vitals.types.NumericExclude",
+			    new String[] { "gov.va.vinci.vitals.types.Numeric" });
+			filterTypes.put("gov.va.vinci.vitals.types.TermExclude",
+			    new String[] { "gov.va.vinci.vitals.types.Term" });
+			filterTypes.put("gov.va.vinci.vitals.types.Numeric",
+			    new String[] { "gov.va.vinci.vitals.types.Numeric" });
+			filterTypes.put("gov.va.vinci.vitals.types.Term",
+			    new String[] { "gov.va.vinci.vitals.types.Term" });
+		}
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		if (args != null)
+			if (args.length > 0)
+				GeneralSettings.ENVIRONMENT = args[0];
 		try {
-			new Service().run(environment);
+			new Service().run();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void run(String environment) throws Exception {
+	/**
+	 * run method loads 
+	 * 
+	 * @param environment
+	 * @throws Exception
+	 */
+	public void run() throws Exception {
 		StopWatch sw = new StopWatch();
 		sw.start();
-		log.info(" Starting " + this.getClass().getCanonicalName() + " at " + new Date(sw.getStartTime()));
+		log.info("Starting the server   " + this.getClass().getCanonicalName() + " at "
+		    + new Date(sw.getStartTime()));
+		ConfigObject config = Utils.loadConfigFile(GeneralSettings.ENVIRONMENT,
+		    "KnowtatorConfig.groovy",
+		    "CommonConfig.groovy",
+		    "ServerConfig.groovy");
 
-		ConfigObject config = Utils.loadConfigFile(environment,
-		    "ServerConfig.groovy",
-		    "CommonConfig.groovy");
-
+		loadProperties(config);
 		// Create Service object
 		gov.va.vinci.leo.Service service = new gov.va.vinci.leo.Service();
-		service.setInputQueueName((String) config.get("serviceQueueName"));
-		service.setBrokerURL((String) config.get("brokerUrl"));
-		service.setCasPoolSize((Integer) config.get("casPoolSize"));
+		service.setInputQueueName(GeneralSettings.SERVICE_NAME);
+		service.setServiceName(GeneralSettings.SERVICE_NAME);
+		service.setBrokerURL(GeneralSettings.BROKER_URL);
+		service.setCasPoolSize(GeneralSettings.CAS_POOL_SIZE);
 
-		if ((Boolean) config.get("registerWithJam")) {
-			service.setJamServerBaseUrl((String) config.get("jamURL"));
-			service.setJamQueryIntervalInSeconds((Integer) config.get("jamInterval"));
-			service.setJamResetStatisticsAfterQuery((Boolean) config.get("jamResetAfterQuery"));
-			log.info("\n\n Service is registered with JAM.  \n\n");
+		//INFO: Deploy the Service
+
+		LeoTypeSystemDescription types = createTypeSystem();
+		service.deploy(createPipeline(types));
+		log.info("Aggregate descriptor: " + service.getAggregateDescriptorFile());
+		// Starting Client
+		if (GeneralSettings.START_CLIENT) {
+			String[] args = { (String) config.get("clientEnvironment") };
+			log.info("Starting client" + args);
+			Client.main(args);
 		}
+		sw.stop();
+		log.info("\nAggregate descriptor file is located at: \n" + service.getAggregateDescriptorFile());
 
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void loadProperties(ConfigObject config) {
+		GeneralSettings.SERVICE_NAME = (String) config.get("serviceQueueName");
+		GeneralSettings.BROKER_URL = (String) config.get("brokerUrl");
+		GeneralSettings.CAS_POOL_SIZE = (Integer) config.get("casPoolSize");
+		GeneralSettings.START_CLIENT = (Boolean) config.get("startClient");
+
+		@SuppressWarnings("unchecked")
+		HashMap<String, String> typeList = (HashMap<String, String>) config.get("knowtatorToUimaTypeMap");
+		HashMap<String, HashMap<String, String>> featureList = new HashMap<String, HashMap<String, String>>();
+
+		try {
+			if (config.get("knowtatorToUimaFeatureMap") instanceof HashMap) {
+				if (((HashMap) config.get("knowtatorToUimaFeatureMap")).size() > 0) {
+					featureList.putAll((HashMap<String, HashMap<String, String>>) config
+					    .get("knowtatorToUimaFeatureMap"));
+
+				} else {
+					log.warn("No features were added to the types!");
+				}
+			} else {
+				log.warn("No features were added to the types!");
+			}
+
+		} catch (Exception e) {
+			log.warn("No features were added to the types!");
+		}
 		//Deploy the Service
-		if(environment.equals("")) service.deploy(createBPPipeline ((Boolean) config.get("generateTypes")));
-		service.deploy(createPipeline((Boolean) config.get("generateTypes")));
-		System.out.println("\r\n\r\nAggregate descriptor path: \r\n" + service.getAggregateDescriptorFile());
-
-		System.out.println("Service running, press enter in this console to stop.");
-		System.in.read();
-		System.exit(0);
+		loadTypeMap(typeList, featureList);
 
 	}
 
-	protected LeoAEDescriptor createBPPipeline(Boolean generateTypes) throws Exception {
-		LeoAEDescriptor aggregate = new LeoAEDescriptor();
-		LeoTypeSystemDescription types = createTypeSystem(generateTypes);
-		aggregate
-		    /*************************************************************************/
-		    /***************         Start of initial regexes   **********************/
-		    /*************************************************************************/
-
-		    ////////  Term boundaries     
-		    /*  Find other possible concepts  */
-		    .addDelegate(createRegexAnnotator("TermAnnotator",
-		        RESOURCE_PATH + "term.regex",
-		        gov.va.vinci.vitals.types.Term.class.getCanonicalName(), types))
-
-		    ////////////  Values and assessment     
-		    /*  Find qualitative values such as normal, mild, or severe */
-		    .addDelegate(createRegexAnnotator("QValueAnnotator",
-		        RESOURCE_PATH + "qValues.regex",
-		        gov.va.vinci.vitals.types.QValue.class.getCanonicalName(), types))
-		    /* Find numerical values such as 1, 1.1, 0.1, or .1 */
-		    .addDelegate(createRegexAnnotator("NumericValueAnnotator",
-		        RESOURCE_PATH + "numericValues.regex",
-		        gov.va.vinci.vitals.types.NumericValue.class.getCanonicalName(), types))
-		        ;
-		return aggregate;
-	}
-
-
-
-
-
-	protected LeoAEDescriptor createPipeline(Boolean generateTypes) throws Exception {
-		LeoAEDescriptor aggregate = new LeoAEDescriptor();
-		LeoTypeSystemDescription types = createTypeSystem(generateTypes);
-		aggregate
-		    /*************************************************************************/
-		    /***************         Start of initial regexes   **********************/
-		    /*************************************************************************/
-
-		    ////////  Term boundaries     
-		    /*  Find other possible concepts  */
-		    .addDelegate(createRegexAnnotator("TermAnnotator",
-		        RESOURCE_PATH + "term.regex",
-		        gov.va.vinci.vitals.types.Term.class.getCanonicalName(), types))
-
-		    ////////////  Values and assessment     
-		    /*  Find qualitative values such as normal, mild, or severe */
-		    .addDelegate(createRegexAnnotator("QValueAnnotator",
-		        RESOURCE_PATH + "qValues.regex",
-		        gov.va.vinci.vitals.types.QValue.class.getCanonicalName(), types))
-		    /* Find numerical values such as 1, 1.1, 0.1, or .1 */
-		    .addDelegate(createRegexAnnotator("NumericValueAnnotator",
-		        RESOURCE_PATH + "numericValues.regex",
-		        gov.va.vinci.vitals.types.NumericValue.class.getCanonicalName(), types))
-		    /* Find units of measure such as cm, mm, mmHz */
-		    .addDelegate(createRegexAnnotator("UnitsAnnotator",
-		        RESOURCE_PATH + "units.regex",
-		        gov.va.vinci.vitals.types.Units.class.getCanonicalName(), types))
-
-		    ///// Support annotations    
-		    /*  Find some middle stuff that usually goes between concept and values */
-		    .addDelegate(createRegexAnnotator("MiddleAnnotator",
-		        RESOURCE_PATH + "middleStuff.regex",
-		        gov.va.vinci.vitals.types.MiddleStuff.class.getCanonicalName(), types))
-		    /* Create header annotations that would mark a possible header for the concepts that follow */
-
-		    .addDelegate(createRegexAnnotator("ExcludeValueAnnotator",
-		        RESOURCE_PATH + "valueExclude.regex",
-		        gov.va.vinci.vitals.types.ExcludeValue.class.getCanonicalName(), types))
-
-		    /********************************************************************************************/
-		    /****    End of initial regexes      ***/
-		    /********************************************************************************************/
-
-		    /**** Servicing annotations, filtering, and combining ***************************************/
-		    /*  Annotation filter removes some types if they overlap with other types:
-		     *    Removing overlapping numeric and assessment values and term annotations*/
-		    .addDelegate(
-		        new LeoAEDescriptor()
-		            .setName("AnnotationFilter1Annotator")
-		            .setImplementationName(AnnotationFilter.class.getCanonicalName())
-		            .addTypeSystemDescription(types))
-
-		    /* Patterns to combine numeric values into ranges */
-		    .addDelegate(new LeoAEDescriptor()
-		        .setName("RangeAnnotator")
-		        .setImplementationName(AnnotationPatternAnnotator.class.getCanonicalName())
-		        .addParameterSetting("inputType", false, true, "String",
-		            new String[] { NumericValue.class.getCanonicalName() })
-		        .addParameterSetting("outputType", false, false, "String", Range.class.getCanonicalName())
-		        .addParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(), true, false,
-		            "String", RESOURCE_PATH + "range.pattern")
-		        .addTypeSystemDescription(types))
-
-		    /********************  Defining patterns *************************************/
-
-		    /**************/
-		    /*  Annotating <Term> <NumericValue> patterns     */
-		    .addDelegate(new LeoAEDescriptor()
-		        .setName("RelationPatternAnnotator")
-		        .setImplementationName(AnnotationPatternAnnotator.class.getCanonicalName())
-		        .addParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(), true, false,
-		            "String", RESOURCE_PATH + "relation.pattern")
-		        .addParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), true, false,
-		            "String", RelationPattern.class.getCanonicalName())
-		        .addTypeSystemDescription(types))
-		        .addDelegate(
-		        new LeoAEDescriptor()
-		            .setName("AnnotationFilter2Annotator")
-		            .setImplementationName(AnnotationFilter.class.getCanonicalName())
-		            .addTypeSystemDescription(types))
-		    /*  Annotation filter removes some types if they overlap with other types*/
-		    /* Create final annotations*/
-		    .addDelegate(new LeoAEDescriptor()
-		        .setName("RelationAnnotator")
-		        .setImplementationName(RelationAnnotator.class.getCanonicalName())
-		        .addParameterSetting(RelationAnnotator.Param.OUTPUT_TYPE.getName(), true, false,
-		            "String", Relation.class.getCanonicalName())
-		        .addTypeSystemDescription(types))
-		        		    /*  Annotation filter removes some types if they overlap with other types:
-		     *    Removing overlapping numeric and assessment values and term annotations*/
-		    .addDelegate(
-		        new LeoAEDescriptor()
-		            .setName("AnnotationFilter2Annotator")
-		            .setImplementationName(AnnotationFilter.class.getCanonicalName())
-		            .addTypeSystemDescription(types))
-		/**/
-		;
-		/*    */
-		aggregate.setIsAsync(false);
-		return aggregate;
-	}
-
-	protected LeoTypeSystemDescription createTypeSystem(boolean generateTypes) throws Exception {
-
-		LeoTypeSystemDescription ftsd = new LeoTypeSystemDescription();
-		// Relation Type description
-
-		// Pattern Type description
-		TypeDescription regexFtsd;
-		String regexParent = "gov.va.vinci.vitals.types.Regex";
-		regexFtsd = new TypeDescription_impl(regexParent, "", "uima.tcas.Annotation");
-		regexFtsd.addFeature("Pattern", "", "uima.cas.String");
-		regexFtsd.addFeature("Groups", "", "uima.cas.StringArray");
-
-		// Pattern Type description
-		TypeDescription patternFtsd;
-		String patternParent = "gov.va.vinci.vitals.types.AnnotationPattern";
-		patternFtsd = new TypeDescription_impl(patternParent, "", "uima.tcas.Annotation");
-		patternFtsd.addFeature("anchor", "", "uima.tcas.Annotation");
-		patternFtsd.addFeature("anchorPattern", "", "uima.cas.String");
-		patternFtsd.addFeature("target", "", "uima.tcas.Annotation");
-		patternFtsd.addFeature("targetPattern", "", "uima.cas.String");
-		patternFtsd.addFeature("pattern", "", "uima.cas.String");
-
-		// ///// Total type definition
-		ftsd.addType(TypeLibrarian.getCSITypeSystemDescription())
-		    .addType(TypeLibrarian.getRelationshipAnnotationTypeSystemDescription())
-		    .addType(TypeLibrarian.getValidationAnnotationTypeSystemDescription())
-		    .addType("gov.va.vinci.vitals.types.RefStAssessment", "", "uima.tcas.Annotation") //Assessment
-		    .addType("gov.va.vinci.vitals.types.RefStValue", "", "uima.tcas.Annotation") // Value
-		    .addType("gov.va.vinci.vitals.types.RefStLV_Term", "", "uima.tcas.Annotation") //LV_Systolic_Function
-		    .addType("gov.va.vinci.vitals.types.RefStOthers", "", "uima.tcas.Annotation") // Other ref st annotations
-		    .addType(regexFtsd)
-		    .addType(patternFtsd)
-		    .addType("gov.va.vinci.vitals.types.ExcludeValue", "", regexParent)
-		    .addType("gov.va.vinci.vitals.types.MiddleStuff", "", regexParent)
-		    .addType("gov.va.vinci.vitals.types.ExcludeConcept", "", regexParent)
-		    .addType("gov.va.vinci.vitals.types.Term", "", regexParent)
-		    .addType("gov.va.vinci.vitals.types.QValue", "", regexParent)
-		    .addType("gov.va.vinci.vitals.types.NumericValue", "", regexParent)
-		    .addType("gov.va.vinci.vitals.types.Units", "", regexParent)
-		    .addType("gov.va.vinci.vitals.types.Range", "", patternParent)
-		    .addType("gov.va.vinci.vitals.types.RelationPattern", "", patternParent)
-		    .addTypeSystemDescription(RelationAnnotator.getLeoTypeSystemDescription(""));
-		if (generateTypes) {
-			ftsd.jCasGen("src/main/java", "target/classes");
+	/**
+	* 
+	* @param typeList  -- HashMap<String, String> typeList -- HashMap <Knowtator_Annotation , UIMA_Annotation>
+	* @param featureList -- HashMap<String, HashMap<String, String>> featureList -- HashMap<Knowtator_Annotation, HashMap<Knowtator_attribute, UIMA_feature>> featureList
+	* @return
+	*/
+	private void loadTypeMap(HashMap<String, String> typeList,
+	    HashMap<String, HashMap<String, String>> featureList) {
+		if (typeList != null && featureList != null) {
+			// For all knowtator annotations, need to create UIMA annotation
+			for (String kttrType : typeList.keySet()) {
+				String uimaType = typeList.get(kttrType);
+				ArrayList<String> uimaFeatures = new ArrayList<String>();
+				// If a knowtator Annotation has an attribute, create a String feature in the UIMA annotation type
+				if (featureList.containsKey(kttrType)) {
+					for (String kttrFeature : featureList.get(kttrType).keySet()) {
+						uimaFeatures.add(featureList.get(kttrType).get(kttrFeature));
+					}
+				}
+				KnowtatorVariables.uimaTypeFeatureMap.put(uimaType, uimaFeatures);
+			}
 		}
-		return ftsd;
 	}
 
-	/** @param name
-	 * @param resourcePath
-	 * @param outputType
-	 * @param types
+	/**
+	 * createPipeline defines all the parts of the pipeline
+	 * @param types 
+	 * 
+	 * @param generateTypes
 	 * @return
-	 * @throws Exception */
-	public LeoAEDescriptor createRegexAnnotator(String name,
-	    String resourcePath, String outputType, LeoTypeSystemDescription types) throws Exception {
-		return new LeoAEDescriptor()
-		    .setName(name)
-		    .setImplementationName(RegexAnnotator.class.getCanonicalName())
-		    .addParameterSetting("resource", true, false, "String", resourcePath)
-		    .addParameterSetting("outputType", true, false, "String", outputType)
-		    .addParameterSetting("matchedPatternFeatureName", true, false, "String", "Pattern")
-		    .addParameterSetting("groupFeatureName", true, false, "String", "Groups")
-		    .addParameterSetting("case_sensitive", false, false, "Boolean", false)
-		    .addParameterSetting("word_boundary", false, false, "Boolean", false)
-		    .addParameterSetting("debug", false, false, "Boolean", false)
-		    .addTypeSystemDescription(types);
+	 * @throws Exception
+	 */
+	protected LeoAEDescriptor createPipeline(LeoTypeSystemDescription types) throws Exception {
+		LeoAEDescriptor aggregate = new LeoAEDescriptor();
 
+		int i = 0;
+		for (Entry<String, String> a : PipelineVariables.regexResourceToType.entrySet()) {
+			i++;
+			aggregate
+			    /*  Concept recognition using Regular Expression annotator -- term.regex */
+			    .addDelegate(new RegexAnnotator()
+			        .getLeoAEDescriptor()
+			        .setName("RegexAnnotator" + i)
+			        .setParameterSetting(RegexAnnotator.Param.INPUT_TYPE.getName(), null)
+			        .setParameterSetting(RegexAnnotator.Param.OUTPUT_TYPE.getName(), a.getKey())
+			        .setParameterSetting(RegexAnnotator.Param.MATCHED_PATTERN_FEATURE_NAME.getName(), "Pattern")
+			        .setParameterSetting(RegexAnnotator.Param.RESOURCE.getName(),
+			            PipelineVariables.RESOURCE_PATH + a.getValue())
+			        .setParameterSetting(RegexAnnotator.Param.CASE_SENSITIVE.getName(), false)
+			        .setParameterSetting(RegexAnnotator.Param.WORD_BOUNDARY.getName(), false)
+			        .addTypeSystemDescription(types));
+		}
+		i = 0;
+		for (Entry<String, String> a : PipelineVariables.apaResourceToType.entrySet()) {
+			i++;
+			/*  Pattern detection AnnotationPatternAnnotation -- context.pattern   */
+			aggregate.addDelegate(new AnnotationPatternAnnotator()
+			    .getLeoAEDescriptor()
+			    .setName("PatternAnnotator" + i)
+			    .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
+			        PipelineVariables.RESOURCE_PATH + a.getValue())
+			    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(),
+			        a.getKey())
+			    .addTypeSystemDescription(types));
+		}
+		/*  Filter unneeded annotations*/
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] {
+		        "gov.va.vinci.vitals.types.NumericExclude", "gov.va.vinci.vitals.types.TermExclude" 
+		        , "gov.va.vinci.vitals.types.TermExcludeRegex"})
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_DELETE.getName(), new String[] {
+		        "gov.va.vinci.vitals.types.Numeric", "gov.va.vinci.vitals.types.Term" })
+		    .addTypeSystemDescription(types));
+
+		aggregate.setNumberOfInstances(GeneralSettings.CAS_POOL_SIZE);
+		return aggregate;
+	}
+
+	/**
+	 * 
+	 * @param generateTypes
+	 * @return
+	 * @throws Exception
+	 */
+	protected LeoTypeSystemDescription createTypeSystem()
+	    throws Exception {
+		LeoTypeSystemDescription types = new LeoTypeSystemDescription();
+
+		// Adding all knowtator annotations to the type list
+		for (String type : KnowtatorVariables.uimaTypeFeatureMap.keySet()) {
+			TypeDescription newType;
+			newType = new TypeDescription_impl(type, "", "uima.tcas.Annotation");
+			for (String feature : KnowtatorVariables.uimaTypeFeatureMap.get(type)) {
+				newType.addFeature(feature, "", "uima.cas.String");
+			}
+			types.addType(newType);
+		}
+		types.addType(TypeLibrarian.getRelationshipAnnotationTypeSystemDescription());
+		types.addType("gov.va.vinci.knowtator.types.RelationshipAnnotation", "",
+		    "gov.va.vinci.leo.types.RelationshipAnnotation");
+
+		// FIXME:  types.addTypeSystemDescription(new RegexAnnotator().getLeoTypeSystemDescription());
+		TypeDescription newType;
+
+		//Regex default type
+		newType = new TypeDescription_impl(PipelineVariables.RegexType, "", "uima.tcas.Annotation");
+		newType.addFeature("Pattern", "", "uima.cas.String");
+		types.addType(newType);
+
+		for (Entry<String, String> a : PipelineVariables.regexResourceToType.entrySet()) {
+			types.addType(a.getKey(), "", PipelineVariables.RegexType);
+		}
+
+		// APA default type	
+		newType = new TypeDescription_impl(PipelineVariables.PatternType, "", "uima.tcas.Annotation");
+		newType.addFeature("pattern", "", "uima.cas.String");
+		newType.addFeature("anchor", "", "uima.tcas.Annotation");
+		newType.addFeature("target", "", "uima.tcas.Annotation");
+		newType.addFeature("anchorPattern", "", "uima.cas.String");
+		newType.addFeature("targetPattern", "", "uima.cas.String");
+		types.addType(newType);
+
+		for (Entry<String, String> a : PipelineVariables.apaResourceToType.entrySet()) {
+			types.addType(a.getKey(), "", PipelineVariables.PatternType);
+		}
+
+		/**/
+
+		newType = new TypeDescription_impl(PipelineVariables.LogicType, "", "uima.tcas.Annotation");
+		newType.addFeature("VitalType", "", "uima.cas.String");
+		newType.addFeature("VitalTerm", "", "uima.tcas.Annotation");
+		newType.addFeature("VitalValue", "", "uima.tcas.Annotation");
+		newType.addFeature("ValueString", "", "uima.cas.String");
+		newType.addFeature("Unit", "", "uima.cas.String");
+		types.addType(newType);
+		/**/
+		if (GeneralSettings.GENERATE_TYPES) {
+			types.jCasGen("src/main/java/", "target/classes");
+		}
+		return types;
 	}
 }

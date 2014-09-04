@@ -13,7 +13,7 @@ import org.apache.uima.cas.Type;
 /** 
  * Updated by JCasGen Thu Sep 04 16:25:34 CDT 2014
  * @generated */
-public class Term_Type extends RegularExpression_Type {
+public class TermExclude_Type extends Pattern_Type {
   /** @generated 
    * @return the generator for this type
    */
@@ -23,25 +23,25 @@ public class Term_Type extends RegularExpression_Type {
   private final FSGenerator fsGenerator = 
     new FSGenerator() {
       public FeatureStructure createFS(int addr, CASImpl cas) {
-  			 if (Term_Type.this.useExistingInstance) {
+  			 if (TermExclude_Type.this.useExistingInstance) {
   			   // Return eq fs instance if already created
-  		     FeatureStructure fs = Term_Type.this.jcas.getJfsFromCaddr(addr);
+  		     FeatureStructure fs = TermExclude_Type.this.jcas.getJfsFromCaddr(addr);
   		     if (null == fs) {
-  		       fs = new Term(addr, Term_Type.this);
-  			   Term_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  		       fs = new TermExclude(addr, TermExclude_Type.this);
+  			   TermExclude_Type.this.jcas.putJfsFromCaddr(addr, fs);
   			   return fs;
   		     }
   		     return fs;
-        } else return new Term(addr, Term_Type.this);
+        } else return new TermExclude(addr, TermExclude_Type.this);
   	  }
     };
   /** @generated */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = Term.typeIndexID;
+  public final static int typeIndexID = TermExclude.typeIndexID;
   /** @generated 
      @modifiable */
   @SuppressWarnings ("hiding")
-  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.vitals.types.Term");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.vitals.types.TermExclude");
 
 
 
@@ -50,7 +50,7 @@ public class Term_Type extends RegularExpression_Type {
 	 * @param jcas JCas
 	 * @param casType Type 
 	 */
-  public Term_Type(JCas jcas, Type casType) {
+  public TermExclude_Type(JCas jcas, Type casType) {
     super(jcas, casType);
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 

@@ -1,6 +1,6 @@
 
 /* First created by JCasGen Thu Sep 04 16:25:34 CDT 2014 */
-package gov.va.vinci.vitals.types;
+package gov.va.vinci.kttr.types;
 
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
@@ -9,11 +9,12 @@ import org.apache.uima.cas.impl.FSGenerator;
 import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.cas.Type;
+import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
  * Updated by JCasGen Thu Sep 04 16:25:34 CDT 2014
  * @generated */
-public class Term_Type extends RegularExpression_Type {
+public class Indicator_Type extends Annotation_Type {
   /** @generated 
    * @return the generator for this type
    */
@@ -23,25 +24,25 @@ public class Term_Type extends RegularExpression_Type {
   private final FSGenerator fsGenerator = 
     new FSGenerator() {
       public FeatureStructure createFS(int addr, CASImpl cas) {
-  			 if (Term_Type.this.useExistingInstance) {
+  			 if (Indicator_Type.this.useExistingInstance) {
   			   // Return eq fs instance if already created
-  		     FeatureStructure fs = Term_Type.this.jcas.getJfsFromCaddr(addr);
+  		     FeatureStructure fs = Indicator_Type.this.jcas.getJfsFromCaddr(addr);
   		     if (null == fs) {
-  		       fs = new Term(addr, Term_Type.this);
-  			   Term_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  		       fs = new Indicator(addr, Indicator_Type.this);
+  			   Indicator_Type.this.jcas.putJfsFromCaddr(addr, fs);
   			   return fs;
   		     }
   		     return fs;
-        } else return new Term(addr, Term_Type.this);
+        } else return new Indicator(addr, Indicator_Type.this);
   	  }
     };
   /** @generated */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = Term.typeIndexID;
+  public final static int typeIndexID = Indicator.typeIndexID;
   /** @generated 
      @modifiable */
   @SuppressWarnings ("hiding")
-  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.vitals.types.Term");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.kttr.types.Indicator");
 
 
 
@@ -50,7 +51,7 @@ public class Term_Type extends RegularExpression_Type {
 	 * @param jcas JCas
 	 * @param casType Type 
 	 */
-  public Term_Type(JCas jcas, Type casType) {
+  public Indicator_Type(JCas jcas, Type casType) {
     super(jcas, casType);
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 

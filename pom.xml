@@ -12,11 +12,11 @@
 
 	<!-- Project Metadata -->
 	<groupId>gov.va.vinci</groupId>
-	<artifactId>echo</artifactId>
+	<artifactId>vitals</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
 
-	<name>Echo concept exctractor</name>
+	<name>Vitals exctractor</name>
 	<url>http://maven.apache.org</url>
 	<organization>
 		<name>University of Utah / VA</name>
@@ -26,35 +26,48 @@
 	<dependencies>
 		<!-- Leo Dependencies -->
 		<dependency>
-			<groupId>gov.va.vinci</groupId>
-			<artifactId>leo</artifactId>
-			<version>2014.01.8</version>
+			<groupId>gov.va.vinci.leo</groupId>
+			<artifactId>leo-core</artifactId>
+			<version>2014.08.0</version>
+		</dependency>
+		<dependency>
+			<groupId>gov.va.vinci.leo</groupId>
+			<artifactId>leo-service</artifactId>
+			<version>2014.08.0</version>
+		</dependency>
+		<dependency>
+			<groupId>gov.va.vinci.leo</groupId>
+			<artifactId>leo-client</artifactId>
+			<version>2014.08.0</version>
 		</dependency>
 		<dependency>
 			<groupId>gov.va.vinci</groupId>
-			<artifactId>annotationPattern</artifactId>
-			<version>2013.10.0</version>
+			<artifactId>leo-knowtator</artifactId>
+			<version>2014.08.0</version>
 		</dependency>
 		<dependency>
 			<groupId>gov.va.vinci</groupId>
-			<artifactId>regexAnnotator</artifactId>
-			<version>2014.01.2</version>
+			<artifactId>leo-annotation-pattern</artifactId>
+			<version>2014.08.0</version>
 		</dependency>
+		<dependency>
+			<groupId>gov.va.vinci</groupId>
+			<artifactId>leo-regex</artifactId>
+			<version>2014.08.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>gov.va.vinci</groupId>
+			<artifactId>leo-annotation-librarian</artifactId>
+			<version>2014.08.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.26</version>
 		</dependency>
-		<dependency>
-			<groupId>gov.va.vinci</groupId>
-			<artifactId>windowAnnotator</artifactId>
-			<version>2013.10.0</version>
-		</dependency>
-		<dependency>
-			<groupId>gov.va.vinci</groupId>
-			<artifactId>context</artifactId>
-			<version>2013.10.0</version>
-		</dependency>
+
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
@@ -66,12 +79,6 @@
 			<version>4.0</version>
 		</dependency>
 
-
-		<dependency>
-			<groupId>gov.va.vinci</groupId>
-			<artifactId>lookup-annotator</artifactId>
-			<version>2013.10.0</version>
-		</dependency>
 	</dependencies>
 	<build>
 		<resources>

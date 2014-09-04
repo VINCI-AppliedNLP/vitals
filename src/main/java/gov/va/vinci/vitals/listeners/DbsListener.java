@@ -1,7 +1,8 @@
 package gov.va.vinci.vitals.listeners;
 
-import gov.va.vinci.leo.client.DatabaseConnectionInformation;
-import gov.va.vinci.leo.tools.Common;
+import gov.va.vinci.leo.listener.BaseDatabaseListener;
+import gov.va.vinci.leo.model.DatabaseConnectionInformation;
+import gov.va.vinci.leo.tools.LeoUtils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,9 +15,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.uima.cas.CAS;
 
-public class DbsListener extends gov.va.vinci.leo.listener.BaseDatabaseListener {
+public class DbsListener extends BaseDatabaseListener {
 
-	private static final Logger log = Logger.getLogger(Common.getRuntimeClass().toString());
+	private static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
 	protected HashMap<String, Integer> fields = new HashMap<String, Integer>();
 	protected ArrayList<String> headers = new ArrayList<String>();
 	

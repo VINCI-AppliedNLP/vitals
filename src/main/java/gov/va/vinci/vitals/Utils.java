@@ -3,12 +3,14 @@ package gov.va.vinci.vitals;
 import groovy.util.ConfigObject;
 import groovy.util.ConfigSlurper;
 
-import com.gentlyweb.utils.IOUtils;
+//import com.gentlyweb.utils.IOUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.apache.commons.io.IOUtils;
 
 /**
  * Utility methods
@@ -35,9 +37,7 @@ public class Utils {
             in = cl.getResourceAsStream(filePath);
             System.out.println("Loading file:  " + new File(filePath).getAbsolutePath());
             
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            IOUtils.streamTo(in, out, 1024);
-            String resourceAsString = out.toString();
+            String resourceAsString = IOUtils.toString(in);
             config.merge(slurper.parse(resourceAsString));
             System.out.println("Loaded file:  " + new File(filePath).getAbsolutePath());
         }

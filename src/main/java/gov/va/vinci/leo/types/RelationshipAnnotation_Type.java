@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Mon Mar 31 19:30:41 CDT 2014 */
+/* First created by JCasGen Thu Sep 04 16:25:34 CDT 2014 */
 package gov.va.vinci.leo.types;
 
 import org.apache.uima.jcas.JCas;
@@ -14,10 +14,12 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** RelationshipAnnotation Annotation
- * Updated by JCasGen Mon Mar 31 19:30:41 CDT 2014
+ * Updated by JCasGen Thu Sep 04 16:25:34 CDT 2014
  * @generated */
 public class RelationshipAnnotation_Type extends Annotation_Type {
-  /** @generated */
+  /** @generated 
+   * @return the generator for this type
+   */
   @Override
   protected FSGenerator getFSGenerator() {return fsGenerator;}
   /** @generated */
@@ -48,13 +50,19 @@ public class RelationshipAnnotation_Type extends Annotation_Type {
   final Feature casFeat_Source;
   /** @generated */
   final int     casFeatCode_Source;
-  /** @generated */ 
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
   public int getSource(int addr) {
         if (featOkTst && casFeat_Source == null)
       jcas.throwFeatMissing("Source", "gov.va.vinci.leo.types.RelationshipAnnotation");
     return ll_cas.ll_getRefValue(addr, casFeatCode_Source);
   }
-  /** @generated */    
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
   public void setSource(int addr, int v) {
         if (featOkTst && casFeat_Source == null)
       jcas.throwFeatMissing("Source", "gov.va.vinci.leo.types.RelationshipAnnotation");
@@ -66,19 +74,29 @@ public class RelationshipAnnotation_Type extends Annotation_Type {
   final Feature casFeat_Target;
   /** @generated */
   final int     casFeatCode_Target;
-  /** @generated */ 
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
   public int getTarget(int addr) {
         if (featOkTst && casFeat_Target == null)
       jcas.throwFeatMissing("Target", "gov.va.vinci.leo.types.RelationshipAnnotation");
     return ll_cas.ll_getRefValue(addr, casFeatCode_Target);
   }
-  /** @generated */    
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
   public void setTarget(int addr, int v) {
         if (featOkTst && casFeat_Target == null)
       jcas.throwFeatMissing("Target", "gov.va.vinci.leo.types.RelationshipAnnotation");
     ll_cas.ll_setRefValue(addr, casFeatCode_Target, v);}
     
-   /** @generated */
+   /** @generated
+   * @param addr low level Feature Structure reference
+   * @param i index of item in the array
+   * @return value at index i in the array 
+   */
   public int getTarget(int addr, int i) {
         if (featOkTst && casFeat_Target == null)
       jcas.throwFeatMissing("Target", "gov.va.vinci.leo.types.RelationshipAnnotation");
@@ -88,7 +106,11 @@ public class RelationshipAnnotation_Type extends Annotation_Type {
 	return ll_cas.ll_getRefArrayValue(ll_cas.ll_getRefValue(addr, casFeatCode_Target), i);
   }
    
-  /** @generated */ 
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param i index of item in the array
+   * @param v value to set
+   */ 
   public void setTarget(int addr, int i, int v) {
         if (featOkTst && casFeat_Target == null)
       jcas.throwFeatMissing("Target", "gov.va.vinci.leo.types.RelationshipAnnotation");
@@ -102,7 +124,10 @@ public class RelationshipAnnotation_Type extends Annotation_Type {
 
 
   /** initialize variables to correspond with Cas Type and Features
-	* @generated */
+	 * @generated
+	 * @param jcas JCas
+	 * @param casType Type 
+	 */
   public RelationshipAnnotation_Type(JCas jcas, Type casType) {
     super(jcas, casType);
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());

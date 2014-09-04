@@ -1,6 +1,6 @@
-(m|meters|mm|millimeters|cm|centimeters|g|gm|grams|mg|cc|ml|l|b|ms|msec|millisecond|s|sec|second|m|min|minute|h|hr|hour)((\/|\s+per\s+)(ms|msec|millisecond|s|sec|second|m|min|minute|h|hr|hour))?(2|(\s|-)?sq|(\s|-)?squared?|\p{Nd}|\pN|\^2)?\b
+\b(m|meters|mm|millimeters|cm|centimeters|g|gm|grams|mg|cc|ml|l|b|ms|msec|millisecond|s|sec|second|m|min|minute|h|hr|hour)\b((\/|\s+per\s+)(ms|msec|millisecond|s|sec|second|m|min|minute|h|hr|hour))?(2|(\s|-)?sq|(\s|-)?squared?|\p{Nd}|\pN|\^2)?\b
 (%|per ?cent)
-bpm
+\bbpm\b
 ratio\b
 mm\s?\[?hg\]?
 mm\/Hg

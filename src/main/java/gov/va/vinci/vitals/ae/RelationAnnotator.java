@@ -2,22 +2,20 @@ package gov.va.vinci.vitals.ae;
 
 import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.ae.LeoBaseAnnotator;
+import gov.va.vinci.leo.annotationpattern.AnnotationPattern;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.leo.descriptors.TypeDescriptionBuilder;
-import gov.va.vinci.leo.model.AnnotatorParam;
-import gov.va.vinci.leo.tools.Common;
-import gov.va.vinci.vitals.types.AnnotationPattern;
-import gov.va.vinci.vitals.types.NumericValue;
-import gov.va.vinci.vitals.types.QValue;
-import gov.va.vinci.vitals.types.Range;
-import gov.va.vinci.vitals.types.Relation;
-import gov.va.vinci.vitals.types.RelationPattern;
-import gov.va.vinci.vitals.types.Term;
-import gov.va.vinci.vitals.types.Units;
+import gov.va.vinci.leo.tools.LeoUtils;
+import gov.va.vinci.vitals.types.*;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Writer;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,51 +27,21 @@ import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
+import org.apache.uima.resource.metadata.ConfigurationParameter;
 import org.apache.uima.resource.metadata.TypeDescription;
 import org.apache.uima.resource.metadata.impl.TypeDescription_impl;
+import org.apache.uima.util.InvalidXMLException;
+import org.apache.uima.util.NameClassPair;
+import org.apache.uima.util.XMLParser;
+import org.apache.uima.util.XMLParser.ParsingOptions;
+import org.w3c.dom.Element;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
 
 public class RelationAnnotator extends LeoBaseAnnotator {
 	protected static HashMap<String, String> targetTerms = new HashMap<String, String>();
 
-	/**
-	* Enumeration of the parameters this annotator uses.
-	*/
-	public enum Param implements AnnotatorParam {
-		/**
-		 * The output type annotation to create.
-		 */
-		OUTPUT_TYPE("outputType", false, false, "String");
-
-		private String name;
-		private Boolean required = false;
-		private Boolean multiValue;
-		private String type;
-
-		private Param(String name, Boolean required, Boolean multiValue, String type) {
-			this.name = name;
-			this.required = required;
-			this.multiValue = multiValue;
-			this.type = type;
-		}
-
-		public Boolean getMultiValue() {
-			return multiValue;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public Boolean getRequired() {
-			return required;
-		}
-
-		public String getType() {
-			return type;
-		}
-	}
-
-	/**
+/**
 	 * Output annotation features
 	 * @author vhaslcpatteo
 	 */
@@ -96,11 +64,11 @@ public class RelationAnnotator extends LeoBaseAnnotator {
 		}
 	}
 
-	private static final Logger log = Logger.getLogger(Common.getRuntimeClass().toString());
+	private static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
 
 	private Pattern numericPatterns;
 
-	private void checkTemplate(JCas aJCas, AnnotationPattern relationship_pattern) {
+	private void checkTemplate(JCas aJCas, Annotation relationship_pattern) {
 		String termString = "";
 		String strValue = "";
 		String assessment = "";
@@ -108,6 +76,7 @@ public class RelationAnnotator extends LeoBaseAnnotator {
 		String range = "";
 		String term = "";
 		String concept = "";
+		/**
 		// if there is an anchor - it means it has a term
 		if (relationship_pattern.getAnchor() != null) {
 			// The pattern might overlap with multiple terms, 			
@@ -191,6 +160,7 @@ public class RelationAnnotator extends LeoBaseAnnotator {
 				}
 			}
 		}
+		/**/
 	}
 
 	private String getConcept(Term anchorAnnotation) {
@@ -218,7 +188,7 @@ public class RelationAnnotator extends LeoBaseAnnotator {
 	}
 
 	@Override
-	public void initialize(UimaContext aContext, AnnotatorParam[] params)
+	public void initialize(UimaContext aContext, ConfigurationParameter[] params)
 	    throws ResourceInitializationException {
 		super.initialize(aContext, params);
 		String regex = "(\\d+(\\.\\d+)?)|(\\.\\d+)";
@@ -271,10 +241,11 @@ public class RelationAnnotator extends LeoBaseAnnotator {
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		super.process(aJCas);
 		FSIterator<Annotation> patterns = this.getAnnotationListForType(aJCas,
-		    RelationPattern.class.getCanonicalName());
+		   ""// RelationPattern.class.getCanonicalName()
+		   );
 		while (patterns.hasNext()) {
 			try {
-				RelationPattern relationship_pattern = (RelationPattern) patterns.next();
+				Annotation relationship_pattern = (Annotation) patterns.next();
 				checkTemplate(aJCas, relationship_pattern);
 			} catch (Exception e) {
 				log.warn("Failed processing relationship patterns.");

@@ -1,24 +1,25 @@
 
 
 /* First created by JCasGen Thu Sep 04 16:25:34 CDT 2014 */
-package gov.va.vinci.vitals.types;
+package gov.va.vinci.kttr.types;
 
 import org.apache.uima.jcas.JCas; 
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 
+import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
  * Updated by JCasGen Thu Sep 04 16:25:34 CDT 2014
  * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_d041bc56-47e2-4ef3-9cb8-a9df965f16c63306118127274868107.xml
  * @generated */
-public class Relation extends Pattern {
+public class TValue extends Annotation {
   /** @generated
    * @ordered 
    */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = JCasRegistry.register(Relation.class);
+  public final static int typeIndexID = JCasRegistry.register(TValue.class);
   /** @generated
    * @ordered 
    */
@@ -32,14 +33,14 @@ public class Relation extends Pattern {
  
   /** Never called.  Disable default constructor
    * @generated */
-  protected Relation() {/* intentionally empty block */}
+  protected TValue() {/* intentionally empty block */}
     
   /** Internal - constructor used by generator 
    * @generated
    * @param addr low level Feature Structure reference
    * @param type the type of this Feature Structure 
    */
-  public Relation(int addr, TOP_Type type) {
+  public TValue(int addr, TOP_Type type) {
     super(addr, type);
     readObject();
   }
@@ -47,7 +48,7 @@ public class Relation extends Pattern {
   /** @generated
    * @param jcas JCas to which this Feature Structure belongs 
    */
-  public Relation(JCas jcas) {
+  public TValue(JCas jcas) {
     super(jcas);
     readObject();   
   } 
@@ -57,7 +58,7 @@ public class Relation extends Pattern {
    * @param begin offset to the begin spot in the SofA
    * @param end offset to the end spot in the SofA 
   */  
-  public Relation(JCas jcas, int begin, int end) {
+  public TValue(JCas jcas, int begin, int end) {
     super(jcas);
     setBegin(begin);
     setEnd(end);
