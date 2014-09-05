@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Fri Sep 05 10:40:56 CDT 2014 */
+/* First created by JCasGen Fri Sep 05 12:23:39 CDT 2014 */
 package gov.va.vinci.kttr.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Fri Sep 05 10:40:56 CDT 2014
- * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_c3587452-8185-4579-9d2d-39491c25dabb2527174642899996352.xml
+ * Updated by JCasGen Fri Sep 05 12:23:39 CDT 2014
+ * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_32fa76fa-3a8e-4472-b6b0-066bc71b130b8107071828843421604.xml
  * @generated */
 public class RefTerm extends Annotation {
   /** @generated

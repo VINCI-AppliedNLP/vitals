@@ -4,7 +4,7 @@
 /**************************************************************/
  /**  Change for each project or each run   */
  /**************************************************************/
-processingOnVinci = true;
+processingOnVinci = false;
 serviceQueueName = "VitalsForSepsis";
 /*
  * clientEnvironment encodes the data source (file vs database)

@@ -1,2 +1,3 @@
-<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*(:\s*)?<gov.va.vinci.vitals.types.Numeric/>
-<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*(:\s*)?<gov.va.vinci.vitals.types.Numeric/> *<gov.va.vinci.vitals.types.Unit/>
+<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-)\s*)?<!target><gov.va.vinci.vitals.types.Numeric/><!target/>
+<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-)\s*)?<!target><gov.va.vinci.vitals.types.Numeric/><!target/> *<gov.va.vinci.vitals.types.Unit/>
+<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-)\s*)?<gov.va.vinci.vitals.types.Numeric/> *<gov.va.vinci.vitals.types.Unit/>\s*\[ *<!target><gov.va.vinci.vitals.types.Numeric/><!target/> *<gov.va.vinci.vitals.types.Unit/> *\]
