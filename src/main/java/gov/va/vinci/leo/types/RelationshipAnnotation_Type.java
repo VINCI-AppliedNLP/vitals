@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Thu Sep 04 16:25:34 CDT 2014 */
+/* First created by JCasGen Fri Sep 05 10:40:56 CDT 2014 */
 package gov.va.vinci.leo.types;
 
 import org.apache.uima.jcas.JCas;
@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** RelationshipAnnotation Annotation
- * Updated by JCasGen Thu Sep 04 16:25:34 CDT 2014
+ * Updated by JCasGen Fri Sep 05 10:40:56 CDT 2014
  * @generated */
 public class RelationshipAnnotation_Type extends Annotation_Type {
   /** @generated 

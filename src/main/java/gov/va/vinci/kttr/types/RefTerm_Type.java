@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Thu Sep 04 18:40:06 CDT 2014 */
+/* First created by JCasGen Fri Sep 05 10:40:56 CDT 2014 */
 package gov.va.vinci.kttr.types;
 
 import org.apache.uima.jcas.JCas;
@@ -12,9 +12,9 @@ import org.apache.uima.cas.Type;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Thu Sep 04 18:40:06 CDT 2014
+ * Updated by JCasGen Fri Sep 05 10:40:56 CDT 2014
  * @generated */
-public class HRTerm_Type extends Annotation_Type {
+public class RefTerm_Type extends Annotation_Type {
   /** @generated 
    * @return the generator for this type
    */
@@ -24,25 +24,25 @@ public class HRTerm_Type extends Annotation_Type {
   private final FSGenerator fsGenerator = 
     new FSGenerator() {
       public FeatureStructure createFS(int addr, CASImpl cas) {
-  			 if (HRTerm_Type.this.useExistingInstance) {
+  			 if (RefTerm_Type.this.useExistingInstance) {
   			   // Return eq fs instance if already created
-  		     FeatureStructure fs = HRTerm_Type.this.jcas.getJfsFromCaddr(addr);
+  		     FeatureStructure fs = RefTerm_Type.this.jcas.getJfsFromCaddr(addr);
   		     if (null == fs) {
-  		       fs = new HRTerm(addr, HRTerm_Type.this);
-  			   HRTerm_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  		       fs = new RefTerm(addr, RefTerm_Type.this);
+  			   RefTerm_Type.this.jcas.putJfsFromCaddr(addr, fs);
   			   return fs;
   		     }
   		     return fs;
-        } else return new HRTerm(addr, HRTerm_Type.this);
+        } else return new RefTerm(addr, RefTerm_Type.this);
   	  }
     };
   /** @generated */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = HRTerm.typeIndexID;
+  public final static int typeIndexID = RefTerm.typeIndexID;
   /** @generated 
      @modifiable */
   @SuppressWarnings ("hiding")
-  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.kttr.types.HRTerm");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.kttr.types.RefTerm");
 
 
 
@@ -51,7 +51,7 @@ public class HRTerm_Type extends Annotation_Type {
 	 * @param jcas JCas
 	 * @param casType Type 
 	 */
-  public HRTerm_Type(JCas jcas, Type casType) {
+  public RefTerm_Type(JCas jcas, Type casType) {
     super(jcas, casType);
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 

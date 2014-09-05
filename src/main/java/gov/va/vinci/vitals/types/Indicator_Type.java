@@ -1,6 +1,6 @@
 
-/* First created by JCasGen Thu Sep 04 18:40:06 CDT 2014 */
-package gov.va.vinci.kttr.types;
+/* First created by JCasGen Fri Sep 05 10:40:56 CDT 2014 */
+package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
@@ -9,12 +9,11 @@ import org.apache.uima.cas.impl.FSGenerator;
 import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.cas.Type;
-import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Thu Sep 04 18:40:06 CDT 2014
+ * Updated by JCasGen Fri Sep 05 10:40:56 CDT 2014
  * @generated */
-public class HRTerm_Type extends Annotation_Type {
+public class Indicator_Type extends RegularExpression_Type {
   /** @generated 
    * @return the generator for this type
    */
@@ -24,25 +23,25 @@ public class HRTerm_Type extends Annotation_Type {
   private final FSGenerator fsGenerator = 
     new FSGenerator() {
       public FeatureStructure createFS(int addr, CASImpl cas) {
-  			 if (HRTerm_Type.this.useExistingInstance) {
+  			 if (Indicator_Type.this.useExistingInstance) {
   			   // Return eq fs instance if already created
-  		     FeatureStructure fs = HRTerm_Type.this.jcas.getJfsFromCaddr(addr);
+  		     FeatureStructure fs = Indicator_Type.this.jcas.getJfsFromCaddr(addr);
   		     if (null == fs) {
-  		       fs = new HRTerm(addr, HRTerm_Type.this);
-  			   HRTerm_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  		       fs = new Indicator(addr, Indicator_Type.this);
+  			   Indicator_Type.this.jcas.putJfsFromCaddr(addr, fs);
   			   return fs;
   		     }
   		     return fs;
-        } else return new HRTerm(addr, HRTerm_Type.this);
+        } else return new Indicator(addr, Indicator_Type.this);
   	  }
     };
   /** @generated */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = HRTerm.typeIndexID;
+  public final static int typeIndexID = Indicator.typeIndexID;
   /** @generated 
      @modifiable */
   @SuppressWarnings ("hiding")
-  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.kttr.types.HRTerm");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.vitals.types.Indicator");
 
 
 
@@ -51,7 +50,7 @@ public class HRTerm_Type extends Annotation_Type {
 	 * @param jcas JCas
 	 * @param casType Type 
 	 */
-  public HRTerm_Type(JCas jcas, Type casType) {
+  public Indicator_Type(JCas jcas, Type casType) {
     super(jcas, casType);
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 

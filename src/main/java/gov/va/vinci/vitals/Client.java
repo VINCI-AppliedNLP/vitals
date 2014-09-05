@@ -13,7 +13,7 @@ import gov.va.vinci.leo.listener.BaseListener;
 import gov.va.vinci.leo.listener.SimpleXmiListener;
 import gov.va.vinci.leo.tools.LeoUtils;
 import gov.va.vinci.leo.tools.TextFilter;
-import gov.va.vinci.vitals.listeners.CsvListener;
+import gov.va.vinci.vitals.listeners.*;
 import groovy.util.ConfigObject;
 
 import org.apache.commons.lang3.StringUtils;
@@ -227,11 +227,37 @@ public class Client {
 				if (type.equalsIgnoreCase(LISTENERS.compare.name())) {
 				}
 				if (type.equalsIgnoreCase(LISTENERS.aucompare.name())) {
+					AuSummaryListener listener = null;
+					HashMap<String,String> auMap = ((HashMap<String,String> ) config.get("auMap"));
+					if (auMap == null) {
+							log.error("Error getting the mapping string for the gold compare listener, NOT initializing!");
+						}
+					listener = new AuSummaryListener(auMap);
+					
+					listenerList.add(listener);
 				}
+				// INFO: SimpleCSV
 				if (type.equalsIgnoreCase(LISTENERS.simpleCsv.name())) {
+					ProjectSimpleCsvListener listener = null;
+					HashMap<String, ArrayList<String>> simpleListenerTypes = (HashMap<String, ArrayList<String>>) config
+					    .get("simpleCsvOutTypes");
+					String csvDirPath = ((String) config.get("csvOutPath")).replaceAll("\\{suffix\\}", timeStamp);
+					if (!(new File(csvDirPath).exists()))
+						new File(csvDirPath).mkdirs();
+					if (simpleListenerTypes != null) {
+						for (String outFileName : simpleListenerTypes.keySet()) {
+							String filePathString = csvDirPath + "\\" + outFileName;
+
+							String[] listenerOutTypes = new String[simpleListenerTypes.get(outFileName).size()];
+							listenerOutTypes = simpleListenerTypes.get(outFileName).toArray(listenerOutTypes);
+							listener = new ProjectSimpleCsvListener(new File(filePathString), true, listenerOutTypes);
+							listenerList.add(listener);
+						}
+					}
 				}
 			}
 		}
+
 		BaseListener[] listeners = new BaseListener[listenerList.size()];
 		listenerList.toArray(listeners);
 		for (BaseListener a : listeners) {

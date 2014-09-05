@@ -201,6 +201,7 @@ public class Service {
 	protected LeoAEDescriptor createPipeline(LeoTypeSystemDescription types) throws Exception {
 		LeoAEDescriptor aggregate = new LeoAEDescriptor();
 
+		//INFO: Create initial annotations
 		int i = 0;
 		for (Entry<String, String> a : PipelineVariables.regexResourceToType.entrySet()) {
 			i++;
@@ -218,10 +219,21 @@ public class Service {
 			        .setParameterSetting(RegexAnnotator.Param.WORD_BOUNDARY.getName(), false)
 			        .addTypeSystemDescription(types));
 		}
+		// INFO: Filter overannotated instances
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] {
+		        "gov.va.vinci.vitals.types.Numeric" })
+		    .addTypeSystemDescription(types));
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] {
+		        "gov.va.vinci.vitals.types.Term" })
+		    .addTypeSystemDescription(types));
+
+		// INFO:  Created annotators to find patterns.
 		i = 0;
 		for (Entry<String, String> a : PipelineVariables.apaResourceToType.entrySet()) {
 			i++;
-			/*  Pattern detection AnnotationPatternAnnotation -- context.pattern   */
+			//  Pattern detection AnnotationPatternAnnotation -- context.pattern   */
 			aggregate.addDelegate(new AnnotationPatternAnnotator()
 			    .getLeoAEDescriptor()
 			    .setName("PatternAnnotator" + i)
@@ -231,13 +243,22 @@ public class Service {
 			        a.getKey())
 			    .addTypeSystemDescription(types));
 		}
-		/*  Filter unneeded annotations*/
+		// INFO: Filter unneeded annotations*/
 		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
 		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] {
-		        "gov.va.vinci.vitals.types.NumericExclude", "gov.va.vinci.vitals.types.TermExclude" 
-		        , "gov.va.vinci.vitals.types.TermExcludeRegex"})
-		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_DELETE.getName(), new String[] {
-		        "gov.va.vinci.vitals.types.Numeric", "gov.va.vinci.vitals.types.Term" })
+		        "gov.va.vinci.vitals.types.Relation" })
+		    .setParameterSetting(AnnotationFilter.Param.REMOVE_OVERLAPPING.getName(), true)
+		    .addTypeSystemDescription(types));
+		aggregate.addDelegate(new AnnotationFilter()
+		    .getLeoAEDescriptor()
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] {
+		        "gov.va.vinci.vitals.types.NumericExclude", "gov.va.vinci.vitals.types.TermExclude"
+		        , "gov.va.vinci.vitals.types.TermExcludeRegex" })
+		    .setParameterSetting(
+		        AnnotationFilter.Param.TYPES_TO_DELETE.getName(),
+		        new String[] {
+		            "gov.va.vinci.vitals.types.Numeric", "gov.va.vinci.vitals.types.Term",
+		            "gov.va.vinci.vitals.types.Relation" })
 		    .addTypeSystemDescription(types));
 
 		aggregate.setNumberOfInstances(GeneralSettings.CAS_POOL_SIZE);

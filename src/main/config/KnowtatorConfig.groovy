@@ -2,14 +2,15 @@
 // Knowtator Variables
 
 knowtatorToUimaTypeMap = [
+	
 	// knowtatorAnnotation : UIMA annotation ,
-	"blood_pressure_term":"gov.va.vinci.kttr.types.BPTerm",
-	"blood_pressure_value":"gov.va.vinci.kttr.types.BPValue",
+	"blood_pressure_term":"gov.va.vinci.kttr.types.RefTerm",
+	"blood_pressure_value":"gov.va.vinci.kttr.types.RefValue",
 	"Indicator":"gov.va.vinci.kttr.types.Indicator",
-	"pulse_term":"gov.va.vinci.kttr.types.HRTerm",
-	"pulse_value":"gov.va.vinci.kttr.types.HRValue",
-	"temperature_term":"gov.va.vinci.kttr.types.TTerm",
-	"temperature_value":"gov.va.vinci.kttr.types.TValue"
+	"pulse_term":"gov.va.vinci.kttr.types.RefTerm",
+	"pulse_value":"gov.va.vinci.kttr.types.RefValue",
+	"temperature_term":"gov.va.vinci.kttr.types.RefTerm",
+	"temperature_value":"gov.va.vinci.kttr.types.RefValue"
 ]
 
 knowtatorCorpusPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\RefSt_20140522\\corpus\\"
@@ -23,7 +24,17 @@ knowtatorToUimaFeatureMap = [
 
 ]
 
-
+backupknowtatorToUimaTypeMap = [
+	
+	// knowtatorAnnotation : UIMA annotation ,
+	"blood_pressure_term":"gov.va.vinci.kttr.types.BPTerm",
+	"blood_pressure_value":"gov.va.vinci.kttr.types.BPValue",
+	"Indicator":"gov.va.vinci.kttr.types.Indicator",
+	"pulse_term":"gov.va.vinci.kttr.types.HRTerm",
+	"pulse_value":"gov.va.vinci.kttr.types.HRValue",
+	"temperature_term":"gov.va.vinci.kttr.types.TTerm",
+	"temperature_value":"gov.va.vinci.kttr.types.TValue"
+]
 
 
 

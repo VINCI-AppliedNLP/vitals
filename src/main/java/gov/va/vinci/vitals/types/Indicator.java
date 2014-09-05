@@ -1,25 +1,24 @@
 
 
-/* First created by JCasGen Thu Sep 04 18:40:06 CDT 2014 */
-package gov.va.vinci.kttr.types;
+/* First created by JCasGen Fri Sep 05 10:40:56 CDT 2014 */
+package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Thu Sep 04 18:40:06 CDT 2014
- * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_81dce184-a719-48d5-a3f8-5715a7efaaaf5198476730549462921.xml
+ * Updated by JCasGen Fri Sep 05 10:40:56 CDT 2014
+ * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_c3587452-8185-4579-9d2d-39491c25dabb2527174642899996352.xml
  * @generated */
-public class TTerm extends Annotation {
+public class Indicator extends RegularExpression {
   /** @generated
    * @ordered 
    */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = JCasRegistry.register(TTerm.class);
+  public final static int typeIndexID = JCasRegistry.register(Indicator.class);
   /** @generated
    * @ordered 
    */
@@ -33,14 +32,14 @@ public class TTerm extends Annotation {
  
   /** Never called.  Disable default constructor
    * @generated */
-  protected TTerm() {/* intentionally empty block */}
+  protected Indicator() {/* intentionally empty block */}
     
   /** Internal - constructor used by generator 
    * @generated
    * @param addr low level Feature Structure reference
    * @param type the type of this Feature Structure 
    */
-  public TTerm(int addr, TOP_Type type) {
+  public Indicator(int addr, TOP_Type type) {
     super(addr, type);
     readObject();
   }
@@ -48,7 +47,7 @@ public class TTerm extends Annotation {
   /** @generated
    * @param jcas JCas to which this Feature Structure belongs 
    */
-  public TTerm(JCas jcas) {
+  public Indicator(JCas jcas) {
     super(jcas);
     readObject();   
   } 
@@ -58,7 +57,7 @@ public class TTerm extends Annotation {
    * @param begin offset to the begin spot in the SofA
    * @param end offset to the end spot in the SofA 
   */  
-  public TTerm(JCas jcas, int begin, int end) {
+  public Indicator(JCas jcas, int begin, int end) {
     super(jcas);
     setBegin(begin);
     setEnd(end);

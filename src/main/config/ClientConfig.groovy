@@ -3,8 +3,8 @@
 readerType = "knowtator"
 
 // Listener types is one or more of the following
-// simplecsv|simplexmi|csv|xmi|aucompare|compare
-listenerTypes = "xmi"
+// simpleCsv|simplexmi|csv|xmi|aucompare|compare
+listenerTypes = "xmi|simpleCsv|aucompare"
 
 ///////////////////////////////////////////////////////////////////////////////
 sqlDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
@@ -29,7 +29,10 @@ endId=   100
 
 // Simple CSV Listener
 csvOutPath = mainOutPath + "test\\"
-simpleCsvOutTypes=[ "gov.va.vinci.vitals.types.Logic": "outputLogic.csv"]
+simpleCsvOutTypes=[ "outputRelation.csv": ["gov.va.vinci.vitals.types.Relation"] ,
+	"refSt.csv" : [
+	"gov.va.vinci.kttr.types.RefValue"]
+	]
 
 // Knowtator listener
 knowtatorOutTypes = ["gov.va.vinci.example.types.Logic"]
@@ -67,12 +70,14 @@ csvFieldList = [
  *   If the path does not exist, it will be created.  */
 xmiOutPath = mainOutPath + "xmi\\"
 xmiOutputTypeList =  ["gov.va.vinci.vitals.types.Relation", 
-	"gov.va.vinci.kttr.types.BPTerm",
+	"gov.va.vinci.kttr.types.RefValue"]
+/**,
 	"gov.va.vinci.kttr.types.BPValue",
 	"gov.va.vinci.kttr.types.HRTerm",
 	"gov.va.vinci.kttr.types.HRValue",
 	"gov.va.vinci.kttr.types.TTerm",
 	"gov.va.vinci.kttr.types.TValue"]
+	*/
 openViewerAfterProcessing =  false
 // if the list is empty, all files will be outputted
 
@@ -97,9 +102,7 @@ simanOverwrite = true
 
 
 // AuCompare -- not setup yet
-comparetypeMap = "{\"gov.va.vinci.example.types.RefStOrganism\":\"gov.va.vinci.example.types.Logic\", " +
-		"\"gov.va.vinci.example.types.RefStPositive\":\"gov.va.vinci.example.types.Logic\"," +
-		" \"gov.va.vinci.example.types.RefStNegative\":\"gov.va.vinci.example.types.Logic\"}"
+auMap = ["gov.va.vinci.kttr.types.RefValue":"gov.va.vinci.vitals.types.Relation"]
 
 		// INFO: environments
 environments { 

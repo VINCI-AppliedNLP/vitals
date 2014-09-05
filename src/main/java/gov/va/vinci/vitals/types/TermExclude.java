@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Thu Sep 04 16:25:34 CDT 2014 */
+/* First created by JCasGen Fri Sep 05 10:40:57 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -10,8 +10,8 @@ import org.apache.uima.jcas.cas.TOP_Type;
 
 
 /** 
- * Updated by JCasGen Thu Sep 04 16:25:34 CDT 2014
- * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_d041bc56-47e2-4ef3-9cb8-a9df965f16c63306118127274868107.xml
+ * Updated by JCasGen Fri Sep 05 10:40:57 CDT 2014
+ * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_c3587452-8185-4579-9d2d-39491c25dabb2527174642899996352.xml
  * @generated */
 public class TermExclude extends Pattern {
   /** @generated
