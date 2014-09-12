@@ -4,7 +4,7 @@ readerType = "knowtator"
 
 // Listener types is one or more of the following
 // simpleCsv|simplexmi|csv|xmi|aucompare|compare
-listenerTypes = "xmi|simpleCsv|aucompare"
+listenerTypes = "aucompare|xmi"
 
 ///////////////////////////////////////////////////////////////////////////////
 sqlDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
@@ -29,27 +29,63 @@ endId=   100
 
 // Simple CSV Listener
 csvOutPath = mainOutPath + "test\\"
-simpleCsvOutTypes=[ "outputRelation.csv": ["gov.va.vinci.vitals.types.Relation"] ,
+simpleCsvOutTypes=[ "outputRelation.csv": [
+		"gov.va.vinci.vitals.types.Relation"]
+	,
 	"refSt.csv" : [
-	"gov.va.vinci.kttr.types.RefValue"]
-	]
+		"gov.va.vinci.kttr.types.RefValue"]
+]
 
 // Knowtator listener
-knowtatorOutTypes = ["gov.va.vinci.example.types.Logic"]
+knowtatorOutTypes = [
+	"gov.va.vinci.example.types.Logic"
+]
 
 // Project specific CSV listener
 // Absolute or relative path for a new comma-delimited file. If the file exists, it will be overwritten.
 // if the path does not exist, it will be created.
 csvFileName = mainOutPath + "outputTable.csv"
 csvFieldList = [
-	["TIUDocumentSID", "0", "bigint"],
-	["Term", "-1", "varchar(1000)"],
-	["Concept", "-1", "varchar(1000)"],
-	["Value", "-1", "varchar(1000)"],
-	["Value2", "-1", "varchar(1000)"],
-	["ValueString", "-1", "varchar(1000)"],
-	["Assessment", "-1", "varchar(1000)"],
-	["Unit", "-1", "varchar(1000)"],
+	[
+		"TIUDocumentSID",
+		"0",
+		"bigint"
+	],
+	[
+		"Term",
+		"-1",
+		"varchar(1000)"
+	],
+	[
+		"Concept",
+		"-1",
+		"varchar(1000)"
+	],
+	[
+		"Value",
+		"-1",
+		"varchar(1000)"
+	],
+	[
+		"Value2",
+		"-1",
+		"varchar(1000)"
+	],
+	[
+		"ValueString",
+		"-1",
+		"varchar(1000)"
+	],
+	[
+		"Assessment",
+		"-1",
+		"varchar(1000)"
+	],
+	[
+		"Unit",
+		"-1",
+		"varchar(1000)"
+	],
 	[
 		"Snippets",
 		"-1",
@@ -69,15 +105,10 @@ csvFieldList = [
  *   If xmi files exist, they will be overwritten.
  *   If the path does not exist, it will be created.  */
 xmiOutPath = mainOutPath + "xmi\\"
-xmiOutputTypeList =  ["gov.va.vinci.vitals.types.Relation", 
-	"gov.va.vinci.kttr.types.RefValue"]
-/**,
-	"gov.va.vinci.kttr.types.BPValue",
-	"gov.va.vinci.kttr.types.HRTerm",
-	"gov.va.vinci.kttr.types.HRValue",
-	"gov.va.vinci.kttr.types.TTerm",
-	"gov.va.vinci.kttr.types.TValue"]
-	*/
+xmiOutputTypeList =  [
+	"gov.va.vinci.vitals.types.Relation"
+]
+
 openViewerAfterProcessing =  false
 // if the list is empty, all files will be outputted
 
@@ -86,9 +117,21 @@ openViewerAfterProcessing =  false
 dbSchema = "dflt" // unless you create your own schema, "dflt" should be used
 outBatchSize= 1000
 dbFieldList : [
-	["TIUDocumentSID", "0", "bigint"],
-	["Term", "-1", "varchar(1000)"],
-	["Snippets", "-1", "varchar(1000)"],
+	[
+		"TIUDocumentSID",
+		"0",
+		"bigint"
+	],
+	[
+		"Term",
+		"-1",
+		"varchar(1000)"
+	],
+	[
+		"Snippets",
+		"-1",
+		"varchar(1000)"
+	],
 	["SpanStart", "-1", "int"],
 	["SpanEnd", "-1", "int"],
 	["InstanceID", "-1", "int"]
@@ -102,14 +145,15 @@ simanOverwrite = true
 
 
 // AuCompare -- not setup yet
-auMap = ["gov.va.vinci.kttr.types.RefValue":"gov.va.vinci.vitals.types.Relation"]
+auMap = ["gov.va.vinci.kttr.types.BPValue":"gov.va.vinci.vitals.types.Bp_value",
+	"gov.va.vinci.kttr.types.HRValue":"gov.va.vinci.vitals.types.Hr_value",
+	"gov.va.vinci.kttr.types.TValue":"gov.va.vinci.vitals.types.T_value"
+]
 
-		// INFO: environments
-environments { 
-	simple{
-		envType = "simple";
-	}
- }
+// INFO: environments
+environments {
+	simple{ envType = "simple"; }
+}
 
 
 /// INFO: End of config file

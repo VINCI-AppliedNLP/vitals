@@ -1,7 +1,7 @@
 vital signs
 \bvitals
 \bvs
-\bo
+\bo\b
 \bpe
 \bphysical exam
 \bphysical examination
@@ -28,7 +28,7 @@ vital signs
 \bblood pressure taken at this visit
 \bbp check
 \bcurrent vitals
-\bi/o
+\bi/o\b
 \blatest vitals
 \bnormal physical exam findings include
 \bo:

@@ -1,6 +1,5 @@
 package gov.va.vinci.vitals.listeners;
 
-import gov.va.vinci.kttr.types.BPValue;
 import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.listener.BaseListener;
 import gov.va.vinci.leo.tools.LeoUtils;

@@ -1,5 +1,9 @@
-\d+(\.\d+)?(\+)?
-(?<!\.)\.\d+
-\d+(\.\d+)? ?\/ ?\d+(\.\d+)?
-\b\d+ ?\+\/- ?\d+
-(>|<|around|approximately|~|greater than|less than|below|above|about|more than|> or equal to|< or equal to) ?\d+(\.\d+)?
+# 103.5  -- fever or Temp: 98 F
+\d{2,3}(\.\d+)?
+
+# 60/130  -- blood pressure
+\d{2,3} ?\/ ?\d{2,3}
+
+
+
+\b\d{2,3} ?\+\/- ?\d+

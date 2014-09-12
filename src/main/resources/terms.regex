@@ -1,44 +1,35 @@
-temperature|(\btemp\w*\b|fever|\bt\b|\btm\b|\btmax\b|\btcurrent\b)
-blood *pressure|(\bb(/|-|\.)?p(\.)?\b|blood\s*pressure)
-heart *rate|(\bpulse\b(\srate)?|heart\s*rate|\bp\b|\bhr\b)
-Diastolic
-Systolic
-\bP\b
-BP *Lying
-BP *Range
-BP *recheck
-BP *Standing
-BP *systolic
-BP *today
-lying *BP
-Manual *pressure
-NBP
-REPEAT *BP
-REST *BP
-SBP *DBP
-Sitting *Blood *Presure
-sitting *BP
-Standing *Blood *Presure
-Sys *Dias
-systolic *bp
-B/P
-sytolic
-Apical Pulse
-Heart Rate
-\bHR\b
-HR Before Tx
-Max pulse
-Mean pulse
-Min pulse
-\bPL\b
-PLUSE
-\bPR\b
-Pulse
-Pulse PRE
-pulse rate
-PULSE: B
-Pulses
-Radial Pulse
-RATE
-Sitting P
-respiratory rate
+Blood_Pressure|blood *pressure|(\bb(/|-|\.)?p(\.)?\b|blood\s*pressure)
+Blood_Pressure_Diastolic|diastolic
+Blood_Pressure_Systolic|bp *systolic|systolic|systolic *bp|sytolic
+Heart_Rate|heart *rate|(\bpulse\b(\srate)?|\bp\b|\bhr\b)|hr before tx|(max|mean|min)\s+pulse|p[uls]+e|\bhr\b|pulse rate
+Temperature|temp[erature]*|(\btemp\w*\b|fever|\bt\b|\btm\b|\btmax\b|\btcurrent\b)
+Respiratory_Rate|respiratory rate|respiration rate|\brr\b|respirations
+\bp\b
+\bpl\b
+\bpr\b
+apical pulse
+bp *lying
+bp *range
+bp *recheck
+bp *standing
+bp *today
+lying *bp
+manual *pressure
+nbp
+pulse pre
+
+pulse: b
+pulses
+radial pulse
+rate
+repeat *bp
+rest *bp
+sbp *dbp
+sitting *blood *presure
+sitting *bp
+sitting p
+standing *blood *presure
+sys *dias
+
+
+

@@ -1,3 +1,8 @@
-<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-)\s*)?<!target><gov.va.vinci.vitals.types.Numeric/><!target/>
-<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-)\s*)?<!target><gov.va.vinci.vitals.types.Numeric/><!target/> *<gov.va.vinci.vitals.types.Unit/>
-<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-)\s*)?<gov.va.vinci.vitals.types.Numeric/> *<gov.va.vinci.vitals.types.Unit/>\s*\[ *<!target><gov.va.vinci.vitals.types.Numeric/><!target/> *<gov.va.vinci.vitals.types.Unit/> *\]
+<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.)\s*)?<!target><gov.va.vinci.vitals.types.Numeric/><!target/>
+<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.)\s*)?<!target><gov.va.vinci.vitals.types.Numeric/><!target/> *<gov.va.vinci.vitals.types.Unit/>
+<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.)\s*)?<gov.va.vinci.vitals.types.Numeric/> *<gov.va.vinci.vitals.types.Unit/>\s*\[ *<!target><gov.va.vinci.vitals.types.Numeric/><!target/> *<gov.va.vinci.vitals.types.Unit/> *\]
+
+#T.  96.9 F [36.1 C] (11/08/2000 09:21)
+<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.)\s*)?<gov.va.vinci.vitals.types.Numeric/> *<gov.va.vinci.vitals.types.Unit/>\s*\[ *<!target><gov.va.vinci.vitals.types.Numeric/><!target/> *<gov.va.vinci.vitals.types.Unit/> *\] *\(<gov.va.vinci.vitals.types.Timestamp/> *\)
+
+

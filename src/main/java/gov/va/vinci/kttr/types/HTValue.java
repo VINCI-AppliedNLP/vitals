@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Fri Sep 05 12:23:39 CDT 2014 */
+/* First created by JCasGen Fri Sep 12 00:08:53 CDT 2014 */
 package gov.va.vinci.kttr.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -11,15 +11,15 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Fri Sep 05 12:23:39 CDT 2014
- * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_32fa76fa-3a8e-4472-b6b0-066bc71b130b8107071828843421604.xml
+ * Updated by JCasGen Fri Sep 12 00:08:53 CDT 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/4/leoTypeDescription_cbce738e-6877-40c1-ad1b-b684f8a784a34262461336000664113.xml
  * @generated */
-public class RefValue extends Annotation {
+public class HTValue extends Annotation {
   /** @generated
    * @ordered 
    */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = JCasRegistry.register(RefValue.class);
+  public final static int typeIndexID = JCasRegistry.register(HTValue.class);
   /** @generated
    * @ordered 
    */
@@ -33,14 +33,14 @@ public class RefValue extends Annotation {
  
   /** Never called.  Disable default constructor
    * @generated */
-  protected RefValue() {/* intentionally empty block */}
+  protected HTValue() {/* intentionally empty block */}
     
   /** Internal - constructor used by generator 
    * @generated
    * @param addr low level Feature Structure reference
    * @param type the type of this Feature Structure 
    */
-  public RefValue(int addr, TOP_Type type) {
+  public HTValue(int addr, TOP_Type type) {
     super(addr, type);
     readObject();
   }
@@ -48,7 +48,7 @@ public class RefValue extends Annotation {
   /** @generated
    * @param jcas JCas to which this Feature Structure belongs 
    */
-  public RefValue(JCas jcas) {
+  public HTValue(JCas jcas) {
     super(jcas);
     readObject();   
   } 
@@ -58,7 +58,7 @@ public class RefValue extends Annotation {
    * @param begin offset to the begin spot in the SofA
    * @param end offset to the end spot in the SofA 
   */  
-  public RefValue(JCas jcas, int begin, int end) {
+  public HTValue(JCas jcas, int begin, int end) {
     super(jcas);
     setBegin(begin);
     setEnd(end);

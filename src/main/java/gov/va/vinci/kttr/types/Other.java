@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Fri Sep 05 12:23:39 CDT 2014 */
+/* First created by JCasGen Fri Sep 12 00:48:23 CDT 2014 */
 package gov.va.vinci.kttr.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -11,15 +11,15 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Fri Sep 05 12:23:39 CDT 2014
- * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_32fa76fa-3a8e-4472-b6b0-066bc71b130b8107071828843421604.xml
+ * Updated by JCasGen Fri Sep 12 00:48:23 CDT 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/4/leoTypeDescription_c70f8f8e-c4af-4134-bf02-b7dfc96461256790756953687520233.xml
  * @generated */
-public class RefTerm extends Annotation {
+public class Other extends Annotation {
   /** @generated
    * @ordered 
    */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = JCasRegistry.register(RefTerm.class);
+  public final static int typeIndexID = JCasRegistry.register(Other.class);
   /** @generated
    * @ordered 
    */
@@ -33,14 +33,14 @@ public class RefTerm extends Annotation {
  
   /** Never called.  Disable default constructor
    * @generated */
-  protected RefTerm() {/* intentionally empty block */}
+  protected Other() {/* intentionally empty block */}
     
   /** Internal - constructor used by generator 
    * @generated
    * @param addr low level Feature Structure reference
    * @param type the type of this Feature Structure 
    */
-  public RefTerm(int addr, TOP_Type type) {
+  public Other(int addr, TOP_Type type) {
     super(addr, type);
     readObject();
   }
@@ -48,7 +48,7 @@ public class RefTerm extends Annotation {
   /** @generated
    * @param jcas JCas to which this Feature Structure belongs 
    */
-  public RefTerm(JCas jcas) {
+  public Other(JCas jcas) {
     super(jcas);
     readObject();   
   } 
@@ -58,7 +58,7 @@ public class RefTerm extends Annotation {
    * @param begin offset to the begin spot in the SofA
    * @param end offset to the end spot in the SofA 
   */  
-  public RefTerm(JCas jcas, int begin, int end) {
+  public Other(JCas jcas, int begin, int end) {
     super(jcas);
     setBegin(begin);
     setEnd(end);

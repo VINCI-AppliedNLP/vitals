@@ -1,25 +1,24 @@
 
 
 /* First created by JCasGen Fri Sep 12 00:48:23 CDT 2014 */
-package gov.va.vinci.kttr.types;
+package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
  * Updated by JCasGen Fri Sep 12 00:48:23 CDT 2014
  * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/4/leoTypeDescription_c70f8f8e-c4af-4134-bf02-b7dfc96461256790756953687520233.xml
  * @generated */
-public class BPTerm extends Annotation {
+public class Timestamp extends RegularExpression {
   /** @generated
    * @ordered 
    */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = JCasRegistry.register(BPTerm.class);
+  public final static int typeIndexID = JCasRegistry.register(Timestamp.class);
   /** @generated
    * @ordered 
    */
@@ -33,14 +32,14 @@ public class BPTerm extends Annotation {
  
   /** Never called.  Disable default constructor
    * @generated */
-  protected BPTerm() {/* intentionally empty block */}
+  protected Timestamp() {/* intentionally empty block */}
     
   /** Internal - constructor used by generator 
    * @generated
    * @param addr low level Feature Structure reference
    * @param type the type of this Feature Structure 
    */
-  public BPTerm(int addr, TOP_Type type) {
+  public Timestamp(int addr, TOP_Type type) {
     super(addr, type);
     readObject();
   }
@@ -48,7 +47,7 @@ public class BPTerm extends Annotation {
   /** @generated
    * @param jcas JCas to which this Feature Structure belongs 
    */
-  public BPTerm(JCas jcas) {
+  public Timestamp(JCas jcas) {
     super(jcas);
     readObject();   
   } 
@@ -58,7 +57,7 @@ public class BPTerm extends Annotation {
    * @param begin offset to the begin spot in the SofA
    * @param end offset to the end spot in the SofA 
   */  
-  public BPTerm(JCas jcas, int begin, int end) {
+  public Timestamp(JCas jcas, int begin, int end) {
     super(jcas);
     setBegin(begin);
     setEnd(end);

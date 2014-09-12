@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Thu Sep 04 18:40:06 CDT 2014 */
+/* First created by JCasGen Fri Sep 12 00:48:23 CDT 2014 */
 package gov.va.vinci.kttr.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Thu Sep 04 18:40:06 CDT 2014
- * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_81dce184-a719-48d5-a3f8-5715a7efaaaf5198476730549462921.xml
+ * Updated by JCasGen Fri Sep 12 00:48:23 CDT 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/4/leoTypeDescription_c70f8f8e-c4af-4134-bf02-b7dfc96461256790756953687520233.xml
  * @generated */
 public class TValue extends Annotation {
   /** @generated

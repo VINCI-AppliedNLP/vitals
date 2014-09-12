@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Fri Sep 05 12:23:39 CDT 2014 */
+/* First created by JCasGen Fri Sep 12 00:48:23 CDT 2014 */
 package gov.va.vinci.knowtator.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -10,8 +10,8 @@ import org.apache.uima.jcas.cas.TOP_Type;
 
 
 /** 
- * Updated by JCasGen Fri Sep 05 12:23:39 CDT 2014
- * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_32fa76fa-3a8e-4472-b6b0-066bc71b130b8107071828843421604.xml
+ * Updated by JCasGen Fri Sep 12 00:48:23 CDT 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/4/leoTypeDescription_c70f8f8e-c4af-4134-bf02-b7dfc96461256790756953687520233.xml
  * @generated */
 public class RelationshipAnnotation extends gov.va.vinci.leo.types.RelationshipAnnotation {
   /** @generated

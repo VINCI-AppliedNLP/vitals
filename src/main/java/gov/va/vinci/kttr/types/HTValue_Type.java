@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Fri Sep 12 00:48:23 CDT 2014 */
+/* First created by JCasGen Fri Sep 12 00:08:53 CDT 2014 */
 package gov.va.vinci.kttr.types;
 
 import org.apache.uima.jcas.JCas;
@@ -12,9 +12,9 @@ import org.apache.uima.cas.Type;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Fri Sep 12 00:48:23 CDT 2014
+ * Updated by JCasGen Fri Sep 12 00:08:53 CDT 2014
  * @generated */
-public class BPValue_Type extends Annotation_Type {
+public class HTValue_Type extends Annotation_Type {
   /** @generated 
    * @return the generator for this type
    */
@@ -24,25 +24,25 @@ public class BPValue_Type extends Annotation_Type {
   private final FSGenerator fsGenerator = 
     new FSGenerator() {
       public FeatureStructure createFS(int addr, CASImpl cas) {
-  			 if (BPValue_Type.this.useExistingInstance) {
+  			 if (HTValue_Type.this.useExistingInstance) {
   			   // Return eq fs instance if already created
-  		     FeatureStructure fs = BPValue_Type.this.jcas.getJfsFromCaddr(addr);
+  		     FeatureStructure fs = HTValue_Type.this.jcas.getJfsFromCaddr(addr);
   		     if (null == fs) {
-  		       fs = new BPValue(addr, BPValue_Type.this);
-  			   BPValue_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  		       fs = new HTValue(addr, HTValue_Type.this);
+  			   HTValue_Type.this.jcas.putJfsFromCaddr(addr, fs);
   			   return fs;
   		     }
   		     return fs;
-        } else return new BPValue(addr, BPValue_Type.this);
+        } else return new HTValue(addr, HTValue_Type.this);
   	  }
     };
   /** @generated */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = BPValue.typeIndexID;
+  public final static int typeIndexID = HTValue.typeIndexID;
   /** @generated 
      @modifiable */
   @SuppressWarnings ("hiding")
-  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.kttr.types.BPValue");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.kttr.types.HTValue");
 
 
 
@@ -51,7 +51,7 @@ public class BPValue_Type extends Annotation_Type {
 	 * @param jcas JCas
 	 * @param casType Type 
 	 */
-  public BPValue_Type(JCas jcas, Type casType) {
+  public HTValue_Type(JCas jcas, Type casType) {
     super(jcas, casType);
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 

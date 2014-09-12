@@ -14,12 +14,12 @@ import org.apache.uima.jcas.tcas.Annotation;
  * Updated by JCasGen Fri Sep 12 00:48:23 CDT 2014
  * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/4/leoTypeDescription_c70f8f8e-c4af-4134-bf02-b7dfc96461256790756953687520233.xml
  * @generated */
-public class RegularExpression extends Annotation {
+public class T_value extends Annotation {
   /** @generated
    * @ordered 
    */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = JCasRegistry.register(RegularExpression.class);
+  public final static int typeIndexID = JCasRegistry.register(T_value.class);
   /** @generated
    * @ordered 
    */
@@ -33,14 +33,14 @@ public class RegularExpression extends Annotation {
  
   /** Never called.  Disable default constructor
    * @generated */
-  protected RegularExpression() {/* intentionally empty block */}
+  protected T_value() {/* intentionally empty block */}
     
   /** Internal - constructor used by generator 
    * @generated
    * @param addr low level Feature Structure reference
    * @param type the type of this Feature Structure 
    */
-  public RegularExpression(int addr, TOP_Type type) {
+  public T_value(int addr, TOP_Type type) {
     super(addr, type);
     readObject();
   }
@@ -48,7 +48,7 @@ public class RegularExpression extends Annotation {
   /** @generated
    * @param jcas JCas to which this Feature Structure belongs 
    */
-  public RegularExpression(JCas jcas) {
+  public T_value(JCas jcas) {
     super(jcas);
     readObject();   
   } 
@@ -58,7 +58,7 @@ public class RegularExpression extends Annotation {
    * @param begin offset to the begin spot in the SofA
    * @param end offset to the end spot in the SofA 
   */  
-  public RegularExpression(JCas jcas, int begin, int end) {
+  public T_value(JCas jcas, int begin, int end) {
     super(jcas);
     setBegin(begin);
     setEnd(end);
@@ -77,25 +77,47 @@ public class RegularExpression extends Annotation {
  
     
   //*--------------*
-  //* Feature: Pattern
+  //* Feature: Value
 
-  /** getter for Pattern - gets 
+  /** getter for Value - gets 
    * @generated
    * @return value of the feature 
    */
-  public String getPattern() {
-    if (RegularExpression_Type.featOkTst && ((RegularExpression_Type)jcasType).casFeat_Pattern == null)
-      jcasType.jcas.throwFeatMissing("Pattern", "gov.va.vinci.vitals.types.RegularExpression");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((RegularExpression_Type)jcasType).casFeatCode_Pattern);}
+  public String getValue() {
+    if (T_value_Type.featOkTst && ((T_value_Type)jcasType).casFeat_Value == null)
+      jcasType.jcas.throwFeatMissing("Value", "gov.va.vinci.vitals.types.T_value");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((T_value_Type)jcasType).casFeatCode_Value);}
     
-  /** setter for Pattern - sets  
+  /** setter for Value - sets  
    * @generated
    * @param v value to set into the feature 
    */
-  public void setPattern(String v) {
-    if (RegularExpression_Type.featOkTst && ((RegularExpression_Type)jcasType).casFeat_Pattern == null)
-      jcasType.jcas.throwFeatMissing("Pattern", "gov.va.vinci.vitals.types.RegularExpression");
-    jcasType.ll_cas.ll_setStringValue(addr, ((RegularExpression_Type)jcasType).casFeatCode_Pattern, v);}    
+  public void setValue(String v) {
+    if (T_value_Type.featOkTst && ((T_value_Type)jcasType).casFeat_Value == null)
+      jcasType.jcas.throwFeatMissing("Value", "gov.va.vinci.vitals.types.T_value");
+    jcasType.ll_cas.ll_setStringValue(addr, ((T_value_Type)jcasType).casFeatCode_Value, v);}    
+   
+    
+  //*--------------*
+  //* Feature: Unit
+
+  /** getter for Unit - gets 
+   * @generated
+   * @return value of the feature 
+   */
+  public Annotation getUnit() {
+    if (T_value_Type.featOkTst && ((T_value_Type)jcasType).casFeat_Unit == null)
+      jcasType.jcas.throwFeatMissing("Unit", "gov.va.vinci.vitals.types.T_value");
+    return (Annotation)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((T_value_Type)jcasType).casFeatCode_Unit)));}
+    
+  /** setter for Unit - sets  
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setUnit(Annotation v) {
+    if (T_value_Type.featOkTst && ((T_value_Type)jcasType).casFeat_Unit == null)
+      jcasType.jcas.throwFeatMissing("Unit", "gov.va.vinci.vitals.types.T_value");
+    jcasType.ll_cas.ll_setRefValue(addr, ((T_value_Type)jcasType).casFeatCode_Unit, jcasType.ll_cas.ll_getFSRef(v));}    
   }
 
     

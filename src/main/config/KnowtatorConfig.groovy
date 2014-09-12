@@ -1,7 +1,7 @@
 // Knowtator variables are shared because the service has to create annotation types
 // Knowtator Variables
 
-knowtatorToUimaTypeMap = [
+backupknowtatorToUimaTypeMap = [
 	
 	// knowtatorAnnotation : UIMA annotation ,
 	"blood_pressure_term":"gov.va.vinci.kttr.types.RefTerm",
@@ -24,7 +24,7 @@ knowtatorToUimaFeatureMap = [
 
 ]
 
-backupknowtatorToUimaTypeMap = [
+knowtatorToUimaTypeMap = [
 	
 	// knowtatorAnnotation : UIMA annotation ,
 	"blood_pressure_term":"gov.va.vinci.kttr.types.BPTerm",
@@ -33,7 +33,8 @@ backupknowtatorToUimaTypeMap = [
 	"pulse_term":"gov.va.vinci.kttr.types.HRTerm",
 	"pulse_value":"gov.va.vinci.kttr.types.HRValue",
 	"temperature_term":"gov.va.vinci.kttr.types.TTerm",
-	"temperature_value":"gov.va.vinci.kttr.types.TValue"
+	"temperature_value":"gov.va.vinci.kttr.types.TValue",
+	"Document_reviewed":"gov.va.vinci.kttr.types.Other"
 ]
 
 
