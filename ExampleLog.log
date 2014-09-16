@@ -39686,3 +39686,596 @@ Received CAS Count: 4992
 161894 [main] INFO  gov.va.vinci.leo.Client  - All listeners have recieved all CAS they sent.
 161942 [main] INFO  class gov.va.vinci.vitals.Client  - Processing time: 0:02:41.890
 Processing ended at: Fri Sep 12 00:51:39 CDT 2014
+0    [main] INFO  class gov.va.vinci.vitals.Service  - Starting the server   gov.va.vinci.vitals.Service at Sun Sep 14 16:15:11 CDT 2014
+5807 [main] WARN  class gov.va.vinci.vitals.Service  - No features were added to the types!
+25699 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - AggregateDescriptor: /C:/Users/VHASLC~1/AppData/Local/Temp/4/leoAggregate752551523287233669.xml
+25699 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - C:\Users\VHASLC~1\AppData\Local\Temp\4\leoDeployment4059970504377029048.xml
+25762 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - UimaAsynchronousEngine.DD2SpringXsltFilePath=H:\Applications\apache-uima-as-2.6.0/bin/dd2spring.xsl
+25762 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - UimaAsynchronousEngine.SaxonClasspath=file:H:\Applications\apache-uima-as-2.6.0/saxon/saxon8.jar
+30248 [main] INFO  org.springframework.context.support.FileSystemXmlApplicationContext  - Refreshing org.springframework.context.support.FileSystemXmlApplicationContext@7ba9a15f: startup date [Sun Sep 14 16:15:42 CDT 2014]; root of context hierarchy
+30577 [main] INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader  - Loading XML bean definitions from URL [file:C:/Users/VHASLC~1/AppData/Local/Temp/4/UIMAdd2springOutput249255607053798459.xml]
+31546 [main] INFO  org.springframework.beans.factory.support.DefaultListableBeanFactory  - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@2950b7e7: defining beans [qBroker_tcp_c__ss_vhacdwuapp01_c_61616,qBroker_tcp_c__ss_vhacdwuapp01_c_61616-reply,resourceManager,casManager,placeholderSubstitution,inProcessCache,prefetchPolicy,prefetchPolicy-reply,errorConfig__TCnt_0_TWndw_0_Action_terminate,errorConfig__Action_terminate,top_level_input_queue_service_1,primitive_ctlr_VitalsForSepsis_1,pooling_VitalsForSepsis_1,primitive_metaMsgHandler_VitalsForSepsis_1,primitive_processRequestHandler_VitalsForSepsis_1,primitive_input_q_listenerID_VitalsForSepsis_1,primitive_input_msgLsnrCntnr_VitalsForSepsis_1,primitive_input_msgLsnrCntnr_VitalsForSepsis_1_getMeta,outChnl_VitalsForSepsis_1,err_hndlr_processCasEr_,err_hndlr_collectionProcessCompleteEr_,err_hdlr_chn_VitalsForSepsis_1]; root of factory hierarchy
+34267 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor  - Initializing ExecutorService  'pooling_VitalsForSepsis_1'
+34519 [Thread-1] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor  - Initializing ExecutorService  'pooling_VitalsForSepsis_1'
+36632 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - 'Deployed' the AS service and containers
+36632 [main] WARN  gov.va.vinci.leo.tools.LeoProperties  - JAM Server Base URL is null, NOT trying to register with JAM.
+36632 [main] INFO  class gov.va.vinci.vitals.Service  - Aggregate descriptor: /C:/Users/VHASLC~1/AppData/Local/Temp/4/leoAggregate752551523287233669.xml
+36633 [main] INFO  class gov.va.vinci.vitals.Service  - 
+Aggregate descriptor file is located at: 
+/C:/Users/VHASLC~1/AppData/Local/Temp/4/leoAggregate752551523287233669.xml
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Sun Sep 14 16:16:04 CDT 2014
+3736 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:03.765 seconds.
+4596 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+22154 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+22154 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+42307 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+42307 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+42307 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+93809 [main] ERROR gov.va.vinci.leo.Client  - Exception thrown during content processing:
+ResourceProcessException: 
+org.apache.uima.resource.ResourceProcessException
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:819)
+	at gov.va.vinci.leo.Client.run(Client.java:267)
+	at gov.va.vinci.leo.Client.run(Client.java:243)
+	at gov.va.vinci.vitals.Client.run(Client.java:267)
+	at gov.va.vinci.vitals.Client.main(Client.java:96)
+Caused by: org.apache.uima.collection.CollectionException
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:167)
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:812)
+	... 4 more
+Caused by: java.lang.NullPointerException
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.getFirstNodeValue(KnowtatorXml.java:359)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:146)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:93)
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:163)
+	... 5 more
+
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Sun Sep 14 16:24:26 CDT 2014
+3354 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:03.411 seconds.
+4432 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+20945 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+20945 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+41256 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+41256 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+41256 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+4353726 [main] ERROR gov.va.vinci.leo.Client  - Exception thrown during content processing:
+ResourceProcessException: 
+org.apache.uima.resource.ResourceProcessException
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:819)
+	at gov.va.vinci.leo.Client.run(Client.java:267)
+	at gov.va.vinci.leo.Client.run(Client.java:243)
+	at gov.va.vinci.vitals.Client.run(Client.java:267)
+	at gov.va.vinci.vitals.Client.main(Client.java:96)
+Caused by: org.apache.uima.collection.CollectionException
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:167)
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:812)
+	... 4 more
+Caused by: java.lang.NullPointerException
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.getFirstNodeValue(KnowtatorXml.java:359)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:146)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:93)
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:163)
+	... 5 more
+
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Sun Sep 14 17:58:27 CDT 2014
+3712 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:03.801 seconds.
+4776 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+21921 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+21921 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+40738 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+40739 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+40754 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Sun Sep 14 18:05:41 CDT 2014
+3910 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:03.954 seconds.
+4911 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+22101 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+22101 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+0    [main] INFO  class gov.va.vinci.vitals.Service  - Starting the server   gov.va.vinci.vitals.Service at Sun Sep 14 18:06:43 CDT 2014
+2535 [main] WARN  class gov.va.vinci.vitals.Service  - No features were added to the types!
+9145 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - AggregateDescriptor: /C:/Users/VHASLC~1/AppData/Local/Temp/4/leoAggregate441020729255543796.xml
+9145 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - C:\Users\VHASLC~1\AppData\Local\Temp\4\leoDeployment8460042316570987814.xml
+9146 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - UimaAsynchronousEngine.DD2SpringXsltFilePath=H:\Applications\apache-uima-as-2.6.0/bin/dd2spring.xsl
+9146 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - UimaAsynchronousEngine.SaxonClasspath=file:H:\Applications\apache-uima-as-2.6.0/saxon/saxon8.jar
+11289 [main] INFO  org.springframework.context.support.FileSystemXmlApplicationContext  - Refreshing org.springframework.context.support.FileSystemXmlApplicationContext@37264b74: startup date [Sun Sep 14 18:06:55 CDT 2014]; root of context hierarchy
+11493 [main] INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader  - Loading XML bean definitions from URL [file:C:/Users/VHASLC~1/AppData/Local/Temp/4/UIMAdd2springOutput7436533371418762299.xml]
+11993 [main] INFO  org.springframework.beans.factory.support.DefaultListableBeanFactory  - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@17f5b261: defining beans [qBroker_tcp_c__ss_vhacdwuapp01_c_61616,qBroker_tcp_c__ss_vhacdwuapp01_c_61616-reply,resourceManager,casManager,placeholderSubstitution,inProcessCache,prefetchPolicy,prefetchPolicy-reply,errorConfig__TCnt_0_TWndw_0_Action_terminate,errorConfig__Action_terminate,top_level_input_queue_service_1,primitive_ctlr_VitalsForSepsis_1,pooling_VitalsForSepsis_1,primitive_metaMsgHandler_VitalsForSepsis_1,primitive_processRequestHandler_VitalsForSepsis_1,primitive_input_q_listenerID_VitalsForSepsis_1,primitive_input_msgLsnrCntnr_VitalsForSepsis_1,primitive_input_msgLsnrCntnr_VitalsForSepsis_1_getMeta,outChnl_VitalsForSepsis_1,err_hndlr_processCasEr_,err_hndlr_collectionProcessCompleteEr_,err_hdlr_chn_VitalsForSepsis_1]; root of factory hierarchy
+13150 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor  - Initializing ExecutorService  'pooling_VitalsForSepsis_1'
+13371 [Thread-1] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor  - Initializing ExecutorService  'pooling_VitalsForSepsis_1'
+14605 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - 'Deployed' the AS service and containers
+14605 [main] WARN  gov.va.vinci.leo.tools.LeoProperties  - JAM Server Base URL is null, NOT trying to register with JAM.
+14606 [main] INFO  class gov.va.vinci.vitals.Service  - Aggregate descriptor: /C:/Users/VHASLC~1/AppData/Local/Temp/4/leoAggregate441020729255543796.xml
+14623 [main] INFO  class gov.va.vinci.vitals.Service  - 
+Aggregate descriptor file is located at: 
+/C:/Users/VHASLC~1/AppData/Local/Temp/4/leoAggregate441020729255543796.xml
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Sun Sep 14 18:07:32 CDT 2014
+3556 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:03.581 seconds.
+4448 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+5230 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+5230 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+7496 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+7496 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+7514 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+8453 [main] ERROR gov.va.vinci.leo.Client  - Exception thrown during content processing:
+ResourceProcessException: 
+org.apache.uima.resource.ResourceProcessException
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:819)
+	at gov.va.vinci.leo.Client.run(Client.java:267)
+	at gov.va.vinci.leo.Client.run(Client.java:243)
+	at gov.va.vinci.vitals.Client.run(Client.java:267)
+	at gov.va.vinci.vitals.Client.main(Client.java:96)
+Caused by: org.apache.uima.collection.CollectionException
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:167)
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:812)
+	... 4 more
+Caused by: java.lang.NullPointerException
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.getFirstNodeValue(KnowtatorXml.java:359)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:146)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:93)
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:163)
+	... 5 more
+
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Sun Sep 14 18:08:14 CDT 2014
+4069 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:04.104 seconds.
+5179 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+6211 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+6211 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+8842 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+8843 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+8859 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+137441 [main] ERROR gov.va.vinci.leo.Client  - Exception thrown during content processing:
+ResourceProcessException: 
+org.apache.uima.resource.ResourceProcessException
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:819)
+	at gov.va.vinci.leo.Client.run(Client.java:267)
+	at gov.va.vinci.leo.Client.run(Client.java:243)
+	at gov.va.vinci.vitals.Client.run(Client.java:267)
+	at gov.va.vinci.vitals.Client.main(Client.java:96)
+Caused by: org.apache.uima.collection.CollectionException
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:167)
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:812)
+	... 4 more
+Caused by: java.lang.NullPointerException
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.getFirstNodeValue(KnowtatorXml.java:359)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:146)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:93)
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:163)
+	... 5 more
+
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Sun Sep 14 18:10:41 CDT 2014
+4158 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:04.212 seconds.
+5190 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+6144 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+6144 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+8395 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+8411 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+8411 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+332485 [main] ERROR gov.va.vinci.leo.Client  - Exception thrown during content processing:
+ResourceProcessException: 
+org.apache.uima.resource.ResourceProcessException
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:819)
+	at gov.va.vinci.leo.Client.run(Client.java:267)
+	at gov.va.vinci.leo.Client.run(Client.java:243)
+	at gov.va.vinci.vitals.Client.run(Client.java:267)
+	at gov.va.vinci.vitals.Client.main(Client.java:96)
+Caused by: org.apache.uima.collection.CollectionException
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:167)
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:812)
+	... 4 more
+Caused by: java.lang.NullPointerException
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.getFirstNodeValue(KnowtatorXml.java:359)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:146)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:93)
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:163)
+	... 5 more
+
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Sun Sep 14 18:19:12 CDT 2014
+4065 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:04.124 seconds.
+5174 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+6159 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+6159 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+8818 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+8818 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+8818 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+145225 [main] ERROR gov.va.vinci.leo.Client  - Exception thrown during content processing:
+ResourceProcessException: 
+org.apache.uima.resource.ResourceProcessException
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:819)
+	at gov.va.vinci.leo.Client.run(Client.java:267)
+	at gov.va.vinci.leo.Client.run(Client.java:243)
+	at gov.va.vinci.vitals.Client.run(Client.java:267)
+	at gov.va.vinci.vitals.Client.main(Client.java:96)
+Caused by: org.apache.uima.collection.CollectionException
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:167)
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:812)
+	... 4 more
+Caused by: java.lang.NullPointerException
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.getFirstNodeValue(KnowtatorXml.java:359)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:146)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:93)
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:163)
+	... 5 more
+
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Sun Sep 14 18:21:55 CDT 2014
+3908 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:03.981 seconds.
+4705 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+5706 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+5706 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+8365 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+8365 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+8368 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+8397559 [main] ERROR gov.va.vinci.leo.Client  - Exception thrown during content processing:
+ResourceProcessException: 
+org.apache.uima.resource.ResourceProcessException
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:819)
+	at gov.va.vinci.leo.Client.run(Client.java:267)
+	at gov.va.vinci.leo.Client.run(Client.java:243)
+	at gov.va.vinci.vitals.Client.run(Client.java:267)
+	at gov.va.vinci.vitals.Client.main(Client.java:96)
+Caused by: org.apache.uima.collection.CollectionException
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:167)
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:812)
+	... 4 more
+Caused by: java.lang.NullPointerException
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.getFirstNodeValue(KnowtatorXml.java:359)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:146)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:93)
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:163)
+	... 5 more
+
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Sun Sep 14 20:42:03 CDT 2014
+4003 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:04.070 seconds.
+5065 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+6175 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+6175 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+8913 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+8913 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+8913 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+0    [main] INFO  class gov.va.vinci.vitals.Service  - Starting the server   gov.va.vinci.vitals.Service at Sun Sep 14 20:50:53 CDT 2014
+3878 [main] WARN  class gov.va.vinci.vitals.Service  - No features were added to the types!
+13988 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - AggregateDescriptor: /C:/Users/VHASLC~1/AppData/Local/Temp/4/leoAggregate5797098118155292776.xml
+13988 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - C:\Users\VHASLC~1\AppData\Local\Temp\4\leoDeployment3189809013202010208.xml
+14037 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - UimaAsynchronousEngine.DD2SpringXsltFilePath=H:\Applications\apache-uima-as-2.6.0/bin/dd2spring.xsl
+14037 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - UimaAsynchronousEngine.SaxonClasspath=file:H:\Applications\apache-uima-as-2.6.0/saxon/saxon8.jar
+17225 [main] INFO  org.springframework.context.support.FileSystemXmlApplicationContext  - Refreshing org.springframework.context.support.FileSystemXmlApplicationContext@6aef4fd0: startup date [Sun Sep 14 20:51:10 CDT 2014]; root of context hierarchy
+17538 [main] INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader  - Loading XML bean definitions from URL [file:C:/Users/VHASLC~1/AppData/Local/Temp/4/UIMAdd2springOutput5211441825462174453.xml]
+18179 [main] INFO  org.springframework.beans.factory.support.DefaultListableBeanFactory  - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@35d5551e: defining beans [qBroker_tcp_c__ss_vhacdwuapp01_c_61616,qBroker_tcp_c__ss_vhacdwuapp01_c_61616-reply,resourceManager,casManager,placeholderSubstitution,inProcessCache,prefetchPolicy,prefetchPolicy-reply,errorConfig__TCnt_0_TWndw_0_Action_terminate,errorConfig__Action_terminate,top_level_input_queue_service_1,primitive_ctlr_VitalsForSepsis_1,pooling_VitalsForSepsis_1,primitive_metaMsgHandler_VitalsForSepsis_1,primitive_processRequestHandler_VitalsForSepsis_1,primitive_input_q_listenerID_VitalsForSepsis_1,primitive_input_msgLsnrCntnr_VitalsForSepsis_1,primitive_input_msgLsnrCntnr_VitalsForSepsis_1_getMeta,outChnl_VitalsForSepsis_1,err_hndlr_processCasEr_,err_hndlr_collectionProcessCompleteEr_,err_hdlr_chn_VitalsForSepsis_1]; root of factory hierarchy
+19774 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor  - Initializing ExecutorService  'pooling_VitalsForSepsis_1'
+20064 [Thread-1] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor  - Initializing ExecutorService  'pooling_VitalsForSepsis_1'
+21583 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - 'Deployed' the AS service and containers
+21599 [main] WARN  gov.va.vinci.leo.tools.LeoProperties  - JAM Server Base URL is null, NOT trying to register with JAM.
+21599 [main] INFO  class gov.va.vinci.vitals.Service  - Aggregate descriptor: /C:/Users/VHASLC~1/AppData/Local/Temp/4/leoAggregate5797098118155292776.xml
+21599 [main] INFO  class gov.va.vinci.vitals.Service  - 
+Aggregate descriptor file is located at: 
+/C:/Users/VHASLC~1/AppData/Local/Temp/4/leoAggregate5797098118155292776.xml
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Sun Sep 14 20:52:18 CDT 2014
+3901 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:03.959 seconds.
+4918 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+23045 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+23045 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+42132 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+42132 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+42132 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+86873 [main] ERROR gov.va.vinci.leo.Client  - Exception thrown during content processing:
+ResourceProcessException: 
+org.apache.uima.resource.ResourceProcessException
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:819)
+	at gov.va.vinci.leo.Client.run(Client.java:267)
+	at gov.va.vinci.leo.Client.run(Client.java:243)
+	at gov.va.vinci.vitals.Client.run(Client.java:267)
+	at gov.va.vinci.vitals.Client.main(Client.java:96)
+Caused by: org.apache.uima.collection.CollectionException
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:167)
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:812)
+	... 4 more
+Caused by: java.lang.NullPointerException
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.getFirstNodeValue(KnowtatorXml.java:359)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:146)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:93)
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:163)
+	... 5 more
+
+86889 [ActiveMQ Session Task-2] ERROR org.apache.activemq.ActiveMQMessageConsumer  - ID:VHACDWDEV40-63160-1410745978721-1:1:3:1 Exception while processing message: ID:VHACDWDEV40-63135-1410745874414-3:1:1:1:2942
+java.util.concurrent.RejectedExecutionException: Task org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl$2@57505faf rejected from java.util.concurrent.ThreadPoolExecutor@5dba06f1[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2941]
+	at java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2001)
+	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:816)
+	at java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1337)
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.onMessage(BaseUIMAAsynchronousEngineCommon_impl.java:1976)
+	at org.apache.activemq.ActiveMQMessageConsumer.dispatch(ActiveMQMessageConsumer.java:1321)
+	at org.apache.activemq.ActiveMQSessionExecutor.dispatch(ActiveMQSessionExecutor.java:131)
+	at org.apache.activemq.ActiveMQSessionExecutor.iterate(ActiveMQSessionExecutor.java:202)
+	at org.apache.activemq.thread.PooledTaskRunner.runTask(PooledTaskRunner.java:129)
+	at org.apache.activemq.thread.PooledTaskRunner$1.run(PooledTaskRunner.java:47)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+	at java.lang.Thread.run(Thread.java:722)
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Mon Sep 15 00:19:22 CDT 2014
+3347 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:03.436 seconds.
+4238 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+20443 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+20443 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+37386 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+37386 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+37386 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+78102 [main] ERROR gov.va.vinci.leo.Client  - Exception thrown during content processing:
+ResourceProcessException: 
+org.apache.uima.resource.ResourceProcessException
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:819)
+	at gov.va.vinci.leo.Client.run(Client.java:267)
+	at gov.va.vinci.leo.Client.run(Client.java:243)
+	at gov.va.vinci.vitals.Client.run(Client.java:267)
+	at gov.va.vinci.vitals.Client.main(Client.java:96)
+Caused by: org.apache.uima.collection.CollectionException
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:167)
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:812)
+	... 4 more
+Caused by: java.lang.NullPointerException
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.getFirstNodeValue(KnowtatorXml.java:359)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:146)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:93)
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:163)
+	... 5 more
+
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Mon Sep 15 00:32:30 CDT 2014
+3095 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:03.123 seconds.
+3971 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+22631 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+22647 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+43965 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+43965 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+43965 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+82830 [main] ERROR gov.va.vinci.leo.Client  - Exception thrown during content processing:
+ResourceProcessException: 
+org.apache.uima.resource.ResourceProcessException
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:819)
+	at gov.va.vinci.leo.Client.run(Client.java:267)
+	at gov.va.vinci.leo.Client.run(Client.java:243)
+	at gov.va.vinci.vitals.Client.run(Client.java:267)
+	at gov.va.vinci.vitals.Client.main(Client.java:96)
+Caused by: org.apache.uima.collection.CollectionException
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:167)
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:812)
+	... 4 more
+Caused by: java.lang.NullPointerException
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.getFirstNodeValue(KnowtatorXml.java:359)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:146)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:93)
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:163)
+	... 5 more
+
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Mon Sep 15 00:53:18 CDT 2014
+4020 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:04.055 seconds.
+5036 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+21818 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+21818 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+41352 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+41352 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+41352 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+270951 [main] ERROR gov.va.vinci.leo.Client  - Exception thrown during content processing:
+ResourceProcessException: 
+org.apache.uima.resource.ResourceProcessException
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:819)
+	at gov.va.vinci.leo.Client.run(Client.java:267)
+	at gov.va.vinci.leo.Client.run(Client.java:243)
+	at gov.va.vinci.vitals.Client.run(Client.java:267)
+	at gov.va.vinci.vitals.Client.main(Client.java:96)
+Caused by: org.apache.uima.collection.CollectionException
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:167)
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:812)
+	... 4 more
+Caused by: java.lang.NullPointerException
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.getFirstNodeValue(KnowtatorXml.java:359)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:146)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:93)
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:163)
+	... 5 more
+
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Mon Sep 15 00:57:58 CDT 2014
+3612 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:03.643 seconds.
+4566 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+20345 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+20345 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+40109 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+40109 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+40109 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+139283 [main] ERROR gov.va.vinci.leo.Client  - Exception thrown during content processing:
+ResourceProcessException: 
+org.apache.uima.resource.ResourceProcessException
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:819)
+	at gov.va.vinci.leo.Client.run(Client.java:267)
+	at gov.va.vinci.leo.Client.run(Client.java:243)
+	at gov.va.vinci.vitals.Client.run(Client.java:267)
+	at gov.va.vinci.vitals.Client.main(Client.java:96)
+Caused by: org.apache.uima.collection.CollectionException
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:167)
+	at org.apache.uima.adapter.jms.client.BaseUIMAAsynchronousEngineCommon_impl.process(BaseUIMAAsynchronousEngineCommon_impl.java:812)
+	... 4 more
+Caused by: java.lang.NullPointerException
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.getFirstNodeValue(KnowtatorXml.java:359)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:146)
+	at gov.va.vinci.knowtator.tools.KnowtatorXml.parseXml(KnowtatorXml.java:93)
+	at gov.va.vinci.knowtator.cr.KnowtatorCollectionReader.getNext(KnowtatorCollectionReader.java:163)
+	... 5 more
+
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Mon Sep 15 01:00:31 CDT 2014
+4020 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:04.063 seconds.
+5099 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+23587 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+23587 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+42530 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+42530 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+42530 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Mon Sep 15 01:05:10 CDT 2014
+3253 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:03.303 seconds.
+4144 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+18087 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+18087 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+34202 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+34203 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+34219 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+151568 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - Collection Processing Stats: 
+Sent CAS Count: 4992
+Received CAS Count: 4992
+162743 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - Collection Processing Stats: 
+Sent CAS Count: 4992
+Received CAS Count: 4992
+162743 [main] INFO  gov.va.vinci.leo.Client  - All listeners have recieved all CAS they sent.
+162823 [main] INFO  class gov.va.vinci.vitals.Client  - Processing time: 0:02:42.687
+Processing ended at: Mon Sep 15 01:07:53 CDT 2014
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Mon Sep 15 17:15:11 CDT 2014
+5961 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:06.506 seconds.
+7759 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+30961 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+30961 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+51540 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+51540 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+51540 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+177946 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - Collection Processing Stats: 
+Sent CAS Count: 4992
+Received CAS Count: 4992
+177946 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - Collection Processing Stats: 
+Sent CAS Count: 4992
+Received CAS Count: 4992
+177947 [main] INFO  gov.va.vinci.leo.Client  - All listeners have recieved all CAS they sent.
+177993 [main] INFO  class gov.va.vinci.vitals.Client  - Processing time: 0:02:58.235
+Processing ended at: Mon Sep 15 17:18:10 CDT 2014
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Mon Sep 15 17:47:44 CDT 2014
+3946 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:03.997 seconds.
+4916 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+22729 [main] INFO  class gov.va.vinci.vitals.listeners.CsvListener  - CSV output to: P:\ORD_Iwashyna_201108021D\NLP\output\20140915_174748\outputTable.csv
+22729 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+22729 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+22729 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.CsvListener
+42843 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+42843 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+42843 [main] INFO  gov.va.vinci.vitals.listeners.CsvListener  - ===== Client Initialization Complete =====
+42843 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+158673 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - Collection Processing Stats: 
+Sent CAS Count: 4992
+Received CAS Count: 4992
+158673 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - Collection Processing Stats: 
+Sent CAS Count: 4992
+Received CAS Count: 4992
+158673 [main] INFO  gov.va.vinci.vitals.listeners.CsvListener  - Collection Processing Stats: 
+Sent CAS Count: 4992
+Received CAS Count: 4992
+158673 [main] INFO  gov.va.vinci.leo.Client  - All listeners have recieved all CAS they sent.
+158721 [main] INFO  class gov.va.vinci.vitals.Client  - Processing time: 0:02:37.920
+Processing ended at: Mon Sep 15 17:50:22 CDT 2014
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Mon Sep 15 18:01:47 CDT 2014
+4142 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:04.197 seconds.
+5346 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+28211 [main] INFO  class gov.va.vinci.vitals.listeners.CsvListener  - CSV output to: P:\ORD_Iwashyna_201108021D\NLP\output\20140915_180151\outputTable.csv
+28226 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+28226 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+28226 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.CsvListener
+51499 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+51499 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+51499 [main] INFO  gov.va.vinci.vitals.listeners.CsvListener  - ===== Client Initialization Complete =====
+51499 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+0    [main] INFO  class gov.va.vinci.vitals.Service  - Starting the server   gov.va.vinci.vitals.Service at Tue Sep 16 10:01:38 CDT 2014
+5331 [main] WARN  class gov.va.vinci.vitals.Service  - No features were added to the types!
+24036 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - AggregateDescriptor: /C:/Users/VHASLC~1/AppData/Local/Temp/4/leoAggregate4377208227440111363.xml
+24036 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - C:\Users\VHASLC~1\AppData\Local\Temp\4\leoDeployment4813046569582800995.xml
+24068 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - UimaAsynchronousEngine.DD2SpringXsltFilePath=H:\Applications\apache-uima-as-2.6.0/bin/dd2spring.xsl
+24068 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - UimaAsynchronousEngine.SaxonClasspath=file:H:\Applications\apache-uima-as-2.6.0/saxon/saxon8.jar
+27820 [main] INFO  org.springframework.context.support.FileSystemXmlApplicationContext  - Refreshing org.springframework.context.support.FileSystemXmlApplicationContext@38a3f968: startup date [Tue Sep 16 10:02:06 CDT 2014]; root of context hierarchy
+28212 [main] INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader  - Loading XML bean definitions from URL [file:C:/Users/VHASLC~1/AppData/Local/Temp/4/UIMAdd2springOutput7536272116690695949.xml]
+29102 [main] INFO  org.springframework.beans.factory.support.DefaultListableBeanFactory  - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@1bc31f72: defining beans [qBroker_tcp_c__ss_vhacdwuapp01_c_61616,qBroker_tcp_c__ss_vhacdwuapp01_c_61616-reply,resourceManager,casManager,placeholderSubstitution,inProcessCache,prefetchPolicy,prefetchPolicy-reply,errorConfig__TCnt_0_TWndw_0_Action_terminate,errorConfig__Action_terminate,top_level_input_queue_service_1,primitive_ctlr_VitalsForSepsis_1,pooling_VitalsForSepsis_1,primitive_metaMsgHandler_VitalsForSepsis_1,primitive_processRequestHandler_VitalsForSepsis_1,primitive_input_q_listenerID_VitalsForSepsis_1,primitive_input_msgLsnrCntnr_VitalsForSepsis_1,primitive_input_msgLsnrCntnr_VitalsForSepsis_1_getMeta,outChnl_VitalsForSepsis_1,err_hndlr_processCasEr_,err_hndlr_collectionProcessCompleteEr_,err_hdlr_chn_VitalsForSepsis_1]; root of factory hierarchy
+31527 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor  - Initializing ExecutorService  'pooling_VitalsForSepsis_1'
+31748 [Thread-1] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor  - Initializing ExecutorService  'pooling_VitalsForSepsis_1'
+34047 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - 'Deployed' the AS service and containers
+34047 [main] WARN  gov.va.vinci.leo.tools.LeoProperties  - JAM Server Base URL is null, NOT trying to register with JAM.
+34047 [main] INFO  class gov.va.vinci.vitals.Service  - Aggregate descriptor: /C:/Users/VHASLC~1/AppData/Local/Temp/4/leoAggregate4377208227440111363.xml
+34047 [main] INFO  class gov.va.vinci.vitals.Service  - 
+Aggregate descriptor file is located at: 
+/C:/Users/VHASLC~1/AppData/Local/Temp/4/leoAggregate4377208227440111363.xml
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Tue Sep 16 10:02:52 CDT 2014
+4161 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:04.207 seconds.
+5131 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+25126 [main] INFO  class gov.va.vinci.vitals.listeners.CsvListener  - CSV output to: P:\ORD_Iwashyna_201108021D\NLP\output\20140916_100256\outputTable.csv
+25126 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+25142 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+25142 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.CsvListener
+43789 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+43789 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+43790 [main] INFO  gov.va.vinci.vitals.listeners.CsvListener  - ===== Client Initialization Complete =====
+43805 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+195752 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - Collection Processing Stats: 
+Sent CAS Count: 4992
+Received CAS Count: 4992
+195752 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - Collection Processing Stats: 
+Sent CAS Count: 4992
+Received CAS Count: 4992
+195752 [main] INFO  gov.va.vinci.vitals.listeners.CsvListener  - Collection Processing Stats: 
+Sent CAS Count: 4992
+Received CAS Count: 4992
+195752 [main] INFO  gov.va.vinci.leo.Client  - All listeners have recieved all CAS they sent.
+195815 [main] INFO  class gov.va.vinci.vitals.Client  - Processing time: 0:03:14.699
+Processing ended at: Tue Sep 16 10:06:08 CDT 2014
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Tue Sep 16 10:40:53 CDT 2014
+3489 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:03.606 seconds.
+4349 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+20990 [main] INFO  class gov.va.vinci.vitals.listeners.CsvListener  - CSV output to: P:\ORD_Iwashyna_201108021D\NLP\output\20140916_104057\outputTable.csv
+20990 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+20990 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+20990 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.CsvListener
+39602 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+39602 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+39602 [main] INFO  gov.va.vinci.vitals.listeners.CsvListener  - ===== Client Initialization Complete =====
+39619 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Tue Sep 16 10:43:51 CDT 2014
+3911 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:03.974 seconds.
+4895 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+22071 [main] INFO  class gov.va.vinci.vitals.listeners.CsvListener  - CSV output to: P:\ORD_Iwashyna_201108021D\NLP\output\20140916_104355\outputTable.csv
+22071 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+22071 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+22071 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.CsvListener
+39484 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+39484 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+39484 [main] INFO  gov.va.vinci.vitals.listeners.CsvListener  - ===== Client Initialization Complete =====
+39484 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+0    [main] INFO  class gov.va.vinci.vitals.Service  - Starting the server   gov.va.vinci.vitals.Service at Tue Sep 16 10:45:07 CDT 2014
+5229 [main] WARN  class gov.va.vinci.vitals.Service  - No features were added to the types!
+16480 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - AggregateDescriptor: /C:/Users/VHASLC~1/AppData/Local/Temp/4/leoAggregate55606940153244983.xml
+16480 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - C:\Users\VHASLC~1\AppData\Local\Temp\4\leoDeployment4155480532668683423.xml
+16528 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - UimaAsynchronousEngine.DD2SpringXsltFilePath=H:\Applications\apache-uima-as-2.6.0/bin/dd2spring.xsl
+16528 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - UimaAsynchronousEngine.SaxonClasspath=file:H:\Applications\apache-uima-as-2.6.0/saxon/saxon8.jar
+20446 [main] INFO  org.springframework.context.support.FileSystemXmlApplicationContext  - Refreshing org.springframework.context.support.FileSystemXmlApplicationContext@6c4893ec: startup date [Tue Sep 16 10:45:27 CDT 2014]; root of context hierarchy
+20915 [main] INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader  - Loading XML bean definitions from URL [file:C:/Users/VHASLC~1/AppData/Local/Temp/4/UIMAdd2springOutput2345702080652425217.xml]
+22288 [main] INFO  org.springframework.beans.factory.support.DefaultListableBeanFactory  - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@460a2ad2: defining beans [qBroker_tcp_c__ss_vhacdwuapp01_c_61616,qBroker_tcp_c__ss_vhacdwuapp01_c_61616-reply,resourceManager,casManager,placeholderSubstitution,inProcessCache,prefetchPolicy,prefetchPolicy-reply,errorConfig__TCnt_0_TWndw_0_Action_terminate,errorConfig__Action_terminate,top_level_input_queue_service_1,primitive_ctlr_VitalsForSepsis_1,pooling_VitalsForSepsis_1,primitive_metaMsgHandler_VitalsForSepsis_1,primitive_processRequestHandler_VitalsForSepsis_1,primitive_input_q_listenerID_VitalsForSepsis_1,primitive_input_msgLsnrCntnr_VitalsForSepsis_1,primitive_input_msgLsnrCntnr_VitalsForSepsis_1_getMeta,outChnl_VitalsForSepsis_1,err_hndlr_processCasEr_,err_hndlr_collectionProcessCompleteEr_,err_hdlr_chn_VitalsForSepsis_1]; root of factory hierarchy
+24849 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor  - Initializing ExecutorService  'pooling_VitalsForSepsis_1'
+25100 [Thread-1] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor  - Initializing ExecutorService  'pooling_VitalsForSepsis_1'
+26946 [main] INFO  gov.va.vinci.leo.tools.LeoProperties  - 'Deployed' the AS service and containers
+26946 [main] WARN  gov.va.vinci.leo.tools.LeoProperties  - JAM Server Base URL is null, NOT trying to register with JAM.
+26946 [main] INFO  class gov.va.vinci.vitals.Service  - Aggregate descriptor: /C:/Users/VHASLC~1/AppData/Local/Temp/4/leoAggregate55606940153244983.xml
+26946 [main] INFO  class gov.va.vinci.vitals.Service  - 
+Aggregate descriptor file is located at: 
+/C:/Users/VHASLC~1/AppData/Local/Temp/4/leoAggregate55606940153244983.xml
+0    [main] INFO  class gov.va.vinci.vitals.Client  -  Starting gov.va.vinci.vitals.Client  at Tue Sep 16 10:46:10 CDT 2014
+3672 [main] INFO  class gov.va.vinci.vitals.Client  - Loading properties took 0:00:03.715 seconds.
+4623 [main] WARN  class gov.va.vinci.vitals.Client  - No features were added to the types!
+21144 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.vitals.listeners.AuSummaryListener
+21144 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleXmiListener
+21144 [main] INFO  class gov.va.vinci.vitals.Client  -  Listener gov.va.vinci.leo.listener.SimpleCsvListener
+38339 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - ===== Client Initialization Complete =====
+38339 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - ===== Client Initialization Complete =====
+38339 [main] INFO  gov.va.vinci.leo.listener.SimpleCsvListener  - ===== Client Initialization Complete =====
+38355 [main] INFO  gov.va.vinci.leo.Client  - SerializationStrategy: XMI
+172582 [main] INFO  gov.va.vinci.vitals.listeners.AuSummaryListener  - Collection Processing Stats: 
+Sent CAS Count: 4992
+Received CAS Count: 4992
+172597 [main] INFO  gov.va.vinci.leo.listener.SimpleXmiListener  - Collection Processing Stats: 
+Sent CAS Count: 4992
+Received CAS Count: 4992
+172597 [main] WARN  gov.va.vinci.leo.Client  - Have not recieved the number of CAS back that were sent for all listeners. Sleeping for 2 seconds. (1 / 10 tries)
+174595 [main] WARN  gov.va.vinci.leo.Client  - Have not recieved the number of CAS back that were sent for all listeners. Sleeping for 2 seconds. (2 / 10 tries)
+176592 [main] WARN  gov.va.vinci.leo.Client  - Have not recieved the number of CAS back that were sent for all listeners. Sleeping for 2 seconds. (3 / 10 tries)
+178605 [main] WARN  gov.va.vinci.leo.Client  - Have not recieved the number of CAS back that were sent for all listeners. Sleeping for 2 seconds. (4 / 10 tries)
+180602 [main] WARN  gov.va.vinci.leo.Client  - Have not recieved the number of CAS back that were sent for all listeners. Sleeping for 2 seconds. (5 / 10 tries)
+182599 [main] WARN  gov.va.vinci.leo.Client  - Have not recieved the number of CAS back that were sent for all listeners. Sleeping for 2 seconds. (6 / 10 tries)
+184597 [main] WARN  gov.va.vinci.leo.Client  - Have not recieved the number of CAS back that were sent for all listeners. Sleeping for 2 seconds. (7 / 10 tries)
+186594 [main] WARN  gov.va.vinci.leo.Client  - Have not recieved the number of CAS back that were sent for all listeners. Sleeping for 2 seconds. (8 / 10 tries)
+188591 [main] WARN  gov.va.vinci.leo.Client  - Have not recieved the number of CAS back that were sent for all listeners. Sleeping for 2 seconds. (9 / 10 tries)
+190589 [main] WARN  gov.va.vinci.leo.Client  - Have not recieved the number of CAS back that were sent for all listeners. Sleeping for 2 seconds. (10 / 10 tries)
+192649 [main] INFO  class gov.va.vinci.vitals.Client  - Processing time: 0:03:12.531
+Processing ended at: Tue Sep 16 10:49:23 CDT 2014

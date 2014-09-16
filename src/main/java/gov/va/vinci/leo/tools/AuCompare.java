@@ -18,12 +18,10 @@ import java.util.Map;
 import java.util.MissingResourceException;
 
 /**
- * Creates a mapping from a JSON formatted string defining a gold (Au) standard to tool generated output.  Tracks
- * aggregate stats for each mapped comparison.
- *
- * User: Thomas Ginter
- * Date: 11/19/13
- * Time: 10:36 AM
+ * Creates a mapping from a JSON formatted string defining a gold (Au) standard
+ * to tool generated output. Tracks aggregate stats for each mapped comparison.
+ * 
+ * User: Thomas Ginter Date: 11/19/13 Time: 10:36 AM
  */
 public class AuCompare {
 	/**
@@ -39,18 +37,23 @@ public class AuCompare {
 	/**
 	 * Logging object of output
 	 */
-	private static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
+	private static final Logger log = Logger.getLogger(LeoUtils
+			.getRuntimeClass().toString());
 
 	/**
-	 * Constructor to initialize the map of gold standard to tool generated annotation types.
-	 *
+	 * Constructor to initialize the map of gold standard to tool generated
+	 * annotation types.
+	 * 
 	 * @param auAnnotationMap
-	 *      JSON formatted string mapping each gold standard annotation type to a tool type.
-	 * @throws com.google.gson.JsonSyntaxException if the auAnnotationMap has an invalid JSON format
+	 *            JSON formatted string mapping each gold standard annotation
+	 *            type to a tool type.
+	 * @throws com.google.gson.JsonSyntaxException
+	 *             if the auAnnotationMap has an invalid JSON format
 	 */
 	public AuCompare(Map<String, String> auMap) {
 		if (auMap == null) {
-			throw new IllegalArgumentException("Gold Standard map cannot be blank!");
+			throw new IllegalArgumentException(
+					"Gold Standard map cannot be blank!");
 		}
 		for (Map.Entry<String, String> entry : auMap.entrySet()) {
 			String[] toolClasses = entry.getValue().split("\\|");
@@ -62,13 +65,17 @@ public class AuCompare {
 	}
 
 	/**
-	 * Perform an annotation comparison on the annotations found in this CAS using the mapping provided during
-	 * initialization.  If no known document ID annotation is found then one is assigned in the format of:
+	 * Perform an annotation comparison on the annotations found in this CAS
+	 * using the mapping provided during initialization. If no known document ID
+	 * annotation is found then one is assigned in the format of:
 	 * AuCompareDocumentID{RandomUUID}
-	 *
-	 * @param jCas CAS object whose annotations will be used in the comparison
-	 * @return list of String arrays representing the detailed comparison results
-	 * @throws org.apache.uima.cas.CASException if the CAS cannot be accessed or the types are not found
+	 * 
+	 * @param jCas
+	 *            CAS object whose annotations will be used in the comparison
+	 * @return list of String arrays representing the detailed comparison
+	 *         results
+	 * @throws org.apache.uima.cas.CASException
+	 *             if the CAS cannot be accessed or the types are not found
 	 */
 	public List<String[]> annotationComparison(JCas jCas) throws CASException {
 		if (jCas == null) {
@@ -88,14 +95,22 @@ public class AuCompare {
 	}
 
 	/**
-	 * Get the list of Au and Tool annotations in this CAS and add the appropriate stats.
-	 *
-	 * @param stats AuStats object that stores the name of the Au and Tool annotations and their stats
-	 * @param jCas  the CAS whose annotations will be used in the comparison
-	 * @param rows  list of String arrays representing the annotation comparison detailed results
-	 * @throws org.apache.uima.cas.CASException if an error occurs getting the Au or Tool types from the CAS
+	 * Get the list of Au and Tool annotations in this CAS and add the
+	 * appropriate stats.
+	 * 
+	 * @param stats
+	 *            AuStats object that stores the name of the Au and Tool
+	 *            annotations and their stats
+	 * @param jCas
+	 *            the CAS whose annotations will be used in the comparison
+	 * @param rows
+	 *            list of String arrays representing the annotation comparison
+	 *            detailed results
+	 * @throws org.apache.uima.cas.CASException
+	 *             if an error occurs getting the Au or Tool types from the CAS
 	 */
-	protected void annotationComparison(AuStats stats, JCas jCas, List<String[]> rows) throws CASException {
+	protected void annotationComparison(AuStats stats, JCas jCas,
+			List<String[]> rows) throws CASException {
 		if (jCas == null)
 			throw new RuntimeException("Missing required JCAS parameter!");
 		if (stats == null)
@@ -103,10 +118,10 @@ public class AuCompare {
 
 		Type auType = jCas.getRequiredType(stats.getAuAnnotation());
 		Type toolType = jCas.getRequiredType(stats.getToolAnnotation());
-		ArrayList<Annotation> auList = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jCas,
-		    auType);
-		ArrayList<Annotation> tList = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jCas,
-		    toolType);
+		ArrayList<Annotation> auList = (ArrayList<Annotation>) AnnotationLibrarian
+				.getAllAnnotationsOfType(jCas, auType);
+		ArrayList<Annotation> tList = (ArrayList<Annotation>) AnnotationLibrarian
+				.getAllAnnotationsOfType(jCas, toolType);
 		int toolIndex = 0, toolMatchIndex = 0;
 		boolean isMatch;
 		String[] statsClassList;
@@ -116,27 +131,39 @@ public class AuCompare {
 			statsClassList = null;
 			while (toolIndex < tList.size()) {
 				t = tList.get(toolIndex);
-				if (au.getBegin() >= t.getEnd()) { //Au is to the right of the current tool
+				if (au.getBegin() >= t.getEnd()) { // Au is to the right of the
+													// current tool
 					if (toolMatchIndex != toolIndex) {
-						//There is a set of tool matches so remove them
+						// There is a set of tool matches so remove them
 						for (int i = 0; i < toolMatchIndex; i++) {
 							tList.remove(0);
 						}
 						toolIndex = toolMatchIndex = 0;
 					} else {
-						//this tool has no match
+						// this tool has no match
 						statsClassList = stats.addToolOnly();
 						addRows(rows, statsClassList, stats, t);
 						String i = "";
 						for (String r : statsClassList) {
 							i = i + ";" + r;
 						}
-						System.out.println("False Positive: " + documentID + "[ " + i + "] " + tList.get(0).getCoveredText().replaceAll("\\s+", " "));
+
+						System.out.println("False Positive:(@151): "
+								+ documentID
+								+ "[ "
+								+ toolType
+								+ "] "
+								+ tList.get(0).getCoveredText()
+										.replaceAll("\\s+", " "));
 						tList.remove(0);
 					}
-				} else if (AnnotationLibrarian.overlaps(t, au)) { //Au overlaps the current tool
+				} else if (AnnotationLibrarian.overlaps(t, au)) { // Au overlaps
+																	// the
+																	// current
+																	// tool
 					isMatch = true;
-					if (AnnotationLibrarian.coversSameSpan(au, t)) { //Exact Match
+					if (AnnotationLibrarian.coversSameSpan(au, t)) { // Exact
+																		// Match
 						statsClassList = stats.addExactMatch();
 					} else {
 						statsClassList = stats.addOverlapMatch();
@@ -146,7 +173,9 @@ public class AuCompare {
 						toolMatchIndex++;
 					}
 					toolIndex++;
-				} else if (t.getBegin() >= au.getEnd()) { //Au is to the left of the current tool
+				} else if (t.getBegin() >= au.getEnd()) { // Au is to the left
+															// of the current
+															// tool
 					toolIndex = 0;
 					break;
 				}
@@ -158,48 +187,55 @@ public class AuCompare {
 			}
 		}
 		if (toolIndex > 0 && toolIndex == toolMatchIndex) {
-			//There is one last match in the tool list that needs to be removed
+			// There is one last match in the tool list that needs to be removed
 			tList.remove(0);
 		}
-		//If there are any tool annotations left then they have no match, add those results
+		// If there are any tool annotations left then they have no match, add
+		// those results
 		statsClassList = stats.addToolOnly(tList.size());
 		for (Annotation a : tList) {
-			String i = "";
-			for (String r : statsClassList) {
-				i = i + ";" + r;
-			}
-			System.out.println("False Positive: " + documentID + "[ " + i + "] " + tList.get(0).getCoveredText().replaceAll("\\s+", " "));
-			
+			System.out.println("False Positive:(@197): " + documentID + "[ "
+					+ toolType + " \t] "
+					+ a.getCoveredText().replaceAll("\\s+", " "));
 			addRows(rows, statsClassList, stats, a);
 		}
 	}
 
 	/**
-	 * Add the annotation information rows for each annotation and stats class listed.  The rows are in the format of:
-	 * documentID, begin, end, annotation type, coveredText, statClass.
-	 *
-	 * @param rows list of String arrays representing the annotation comparison detailed results
-	 * @param classList list of statsClasses returned by the AuStats object for this Annotation(s)
-	 * @param rowAnnotations one or more Annotations whose action resulted in the stats class list
+	 * Add the annotation information rows for each annotation and stats class
+	 * listed. The rows are in the format of: documentID, begin, end, annotation
+	 * type, coveredText, statClass.
+	 * 
+	 * @param rows
+	 *            list of String arrays representing the annotation comparison
+	 *            detailed results
+	 * @param classList
+	 *            list of statsClasses returned by the AuStats object for this
+	 *            Annotation(s)
+	 * @param rowAnnotations
+	 *            one or more Annotations whose action resulted in the stats
+	 *            class list
 	 */
-	protected void addRows(List<String[]> rows, String[] classList, AuStats auStats,
-	    Annotation... rowAnnotations) {
+	protected void addRows(List<String[]> rows, String[] classList,
+			AuStats auStats, Annotation... rowAnnotations) {
 		if (rows == null) {
-			throw new IllegalArgumentException("Missing required parameter rows!");
+			throw new IllegalArgumentException(
+					"Missing required parameter rows!");
 		}
 		if (rowAnnotations == null) {
 			throw new IllegalArgumentException(
-			    "Missing required parameter rowAnnotations, at least one Annotation must be provided!");
+					"Missing required parameter rowAnnotations, at least one Annotation must be provided!");
 		}
 		if (classList == null || classList.length == 0) {
-			throw new IllegalArgumentException("Missing required parameter classList!");
+			throw new IllegalArgumentException(
+					"Missing required parameter classList!");
 		}
 		if (rows == null) {
-			throw new MissingResourceException("Missing required rows list", ArrayList.class.getCanonicalName(),
-			    "rows");
+			throw new MissingResourceException("Missing required rows list",
+					ArrayList.class.getCanonicalName(), "rows");
 		}
-		String begin, end, type, coveredText = null, mapping = auStats.getAuAnnotation() + "->"
-		    + auStats.getToolAnnotation();
+		String begin, end, type, coveredText = null, mapping = auStats
+				.getAuAnnotation() + "->" + auStats.getToolAnnotation();
 		for (Annotation a : rowAnnotations) {
 			begin = "" + a.getBegin();
 			end = "" + a.getEnd();
@@ -208,12 +244,15 @@ public class AuCompare {
 				coveredText = a.getCoveredText();
 			} catch (StringIndexOutOfBoundsException e) {
 				coveredText = "";
-				log.error("Exception thrown getting the covered text, documentID: " + documentID
-				    + ", Annotation.begin: " + a.getBegin()
-				    + ", Annotation.end: " + a.getEnd(), e);
+				log.error(
+						"Exception thrown getting the covered text, documentID: "
+								+ documentID + ", Annotation.begin: "
+								+ a.getBegin() + ", Annotation.end: "
+								+ a.getEnd(), e);
 			}
 			for (String statClass : classList) {
-				rows.add(new String[] { documentID, mapping, begin, end, type, coveredText, statClass });
+				rows.add(new String[] { documentID, mapping, begin, end, type,
+						coveredText, statClass });
 			}
 		}
 	}
@@ -229,7 +268,7 @@ public class AuCompare {
 
 	/**
 	 * Return a list of the stat String objects for each AuStats object.
-	 *
+	 * 
 	 * @return list of stat Strings
 	 */
 	public List<String> outputStatStrings() {
@@ -241,8 +280,9 @@ public class AuCompare {
 	}
 
 	/**
-	 * Return a list of AuStats objects used for tracking stats in this comparison.
-	 *
+	 * Return a list of AuStats objects used for tracking stats in this
+	 * comparison.
+	 * 
 	 * @return list of AuStats objects
 	 */
 	public List<AuStats> getStatList() {

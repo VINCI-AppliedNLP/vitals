@@ -56,6 +56,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 						String vitalType = pattern.split("\\|")[0];
 						if (vitalType
 								.contains(vitalTypes.Blood_Pressure.name())) {
+
 							this.addOutputAnnotation(
 									Bp_value.class.getCanonicalName(), aJCas,
 									number.getBegin(), number.getEnd());
@@ -79,10 +80,15 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 				}
 			}
 		}
-		for(Annotation a: annsToRemove){
+		for (Annotation a : annsToRemove) {
 			a.removeFromIndexes(aJCas);
 		}
 
+	}
+
+	private boolean possibleBP(Annotation number) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	public LeoAEDescriptor getLeoAEDescriptor() throws Exception {

@@ -10,6 +10,7 @@ import gov.va.vinci.leo.cr.BatchDatabaseCollectionReader;
 import gov.va.vinci.leo.cr.FileCollectionReader;
 import gov.va.vinci.leo.cr.LeoCollectionReaderInterface;
 import gov.va.vinci.leo.listener.BaseListener;
+import gov.va.vinci.leo.listener.SimpleCsvListener;
 import gov.va.vinci.leo.listener.SimpleXmiListener;
 import gov.va.vinci.leo.tools.LeoUtils;
 import gov.va.vinci.leo.tools.TextFilter;
@@ -238,7 +239,7 @@ public class Client {
 				}
 				// INFO: SimpleCSV
 				if (type.equalsIgnoreCase(LISTENERS.simpleCsv.name())) {
-					ProjectSimpleCsvListener listener = null;
+					SimpleCsvListener listener = null;
 					HashMap<String, ArrayList<String>> simpleListenerTypes = (HashMap<String, ArrayList<String>>) config
 					    .get("simpleCsvOutTypes");
 					String csvDirPath = ((String) config.get("csvOutPath")).replaceAll("\\{suffix\\}", timeStamp);
@@ -250,7 +251,7 @@ public class Client {
 
 							String[] listenerOutTypes = new String[simpleListenerTypes.get(outFileName).size()];
 							listenerOutTypes = simpleListenerTypes.get(outFileName).toArray(listenerOutTypes);
-							listener = new ProjectSimpleCsvListener(new File(filePathString), true, listenerOutTypes);
+							listener = new SimpleCsvListener(new File(filePathString), true, listenerOutTypes);
 							listenerList.add(listener);
 						}
 					}

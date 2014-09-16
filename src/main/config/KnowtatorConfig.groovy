@@ -13,6 +13,7 @@ backupknowtatorToUimaTypeMap = [
 	"temperature_value":"gov.va.vinci.kttr.types.RefValue"
 ]
 
+//knowtatorCorpusPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\ProblematicRefSt\\corpus\\"
 knowtatorCorpusPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\RefSt_20140522\\corpus\\"
 //knowtatorCorpusPath="P:\\ORD_Iwashyna_201108021D\\NLP\\kttrTest\\corpus\\";
 knowtatorXmlPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\RefSt_20140522\\saved\\"
