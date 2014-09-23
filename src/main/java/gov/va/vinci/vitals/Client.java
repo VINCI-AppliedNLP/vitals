@@ -12,6 +12,7 @@ import gov.va.vinci.leo.cr.LeoCollectionReaderInterface;
 import gov.va.vinci.leo.listener.BaseListener;
 import gov.va.vinci.leo.listener.SimpleCsvListener;
 import gov.va.vinci.leo.listener.SimpleXmiListener;
+import gov.va.vinci.leo.model.DatabaseConnectionInformation;
 import gov.va.vinci.leo.tools.LeoUtils;
 import gov.va.vinci.leo.tools.TextFilter;
 import gov.va.vinci.vitals.listeners.*;
@@ -29,11 +30,13 @@ import gov.va.vinci.knowtator.model.KnowtatorToUimaTypeMap;
  * 
  * @author OVP
  * 
- * This client is general enough that it does not need to be changed for most new projects. Use as is.
- *
+ *         This client is general enough that it does not need to be changed for
+ *         most new projects. Use as is.
+ * 
  */
 public class Client {
-	public static Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
+	public static Logger log = Logger.getLogger(LeoUtils.getRuntimeClass()
+			.toString());
 
 	public static class GeneralSettings {
 		static String ENVIRONMENT = "simple";
@@ -42,22 +45,17 @@ public class Client {
 		static String BROKER_URL = "tcp://localhost:61616";
 	}
 
-	public enum READERS { // INFO: enum READERS 
+	public enum READERS { // INFO: enum READERS
 		knowtator, file, database
 	};
 
 	/**
-	 * The following listeners are possible:
-	 * SimpleCsvListener
-	 * SimpleXmiListener  
-	 * VitalsCsvListener - Sharing ListenerLogic
-	 * VitalsDbListener  - Sharing ListenerLogic
-	 * SimanChexListener
-	 * KnowtatorListener
-	 * CustomListener
+	 * The following listeners are possible: SimpleCsvListener SimpleXmiListener
+	 * VitalsCsvListener - Sharing ListenerLogic VitalsDbListener - Sharing
+	 * ListenerLogic SimanChexListener KnowtatorListener CustomListener
 	 */
 	public enum LISTENERS { // INFO: enum LISTENERS
-		simpleCsv, csv, xmi, compare, aucompare, knowtator;
+		simpleCsv, csv, xmi, compare, aucompare, knowtator, database;
 	}
 
 	public static class KnowtatorVariables {
@@ -105,22 +103,23 @@ public class Client {
 	public void run(String environment) throws Exception {
 		StopWatch sw = new StopWatch();
 		sw.start();
-		log.info(" Starting " + this.getClass().getCanonicalName() + "  at " + new Date(sw.getStartTime()));
+		log.info(" Starting " + this.getClass().getCanonicalName() + "  at "
+				+ new Date(sw.getStartTime()));
 		ConfigObject config = Utils.loadConfigFile(environment,
-		    "KnowtatorConfig.groovy",
-		    "CommonConfig.groovy",
-		    "ClientConfig.groovy");
+				"KnowtatorConfig.groovy", "CommonConfig.groovy",
+				"ClientConfig.groovy");
 		loadProperties(config);
 		log.info("Loading properties took " + sw.toString() + " seconds.");
-		String timeStamp = LeoUtils.getTimestampDateDotTime().replaceAll("[.]", "_");
-		//  INFO: Creating a general client
+		String timeStamp = LeoUtils.getTimestampDateDotTime().replaceAll("[.]",
+				"_");
+		// INFO: Creating a general client
 		gov.va.vinci.leo.Client myClient = new gov.va.vinci.leo.Client();
 		myClient.setInputQueueName(GeneralSettings.SERVICE_NAME);
 		myClient.setServiceName(GeneralSettings.SERVICE_NAME);
 		myClient.setBrokerURL(GeneralSettings.BROKER_URL);
 		myClient.setCasPoolSize(GeneralSettings.CAS_POOL_SIZE);
 
-		// INFO: Creating reader 
+		// INFO: Creating reader
 		String readerType = (String) config.get("readerType");
 		if (readerType.equalsIgnoreCase(READERS.knowtator.name())) {
 			ReaderVariables.useKnowtatorReader = true;
@@ -136,14 +135,12 @@ public class Client {
 			String kttrCorpus = (String) config.get("knowtatorCorpusPath");
 			String kttrSaved = (String) config.get("knowtatorXmlPath");
 			createKnowtatorToUimaMap(config);
-			reader = (CollectionReader) new KnowtatorCollectionReader(
-			    new File(kttrCorpus), new File(kttrSaved),
-			    KnowtatorVariables.knowtatorToUimaMap, true)
-			    .produceCollectionReader();
+			reader = (CollectionReader) new KnowtatorCollectionReader(new File(
+					kttrCorpus), new File(kttrSaved),
+					KnowtatorVariables.knowtatorToUimaMap, true)
+					.produceCollectionReader();
 
-		}
-		else if (ReaderVariables.useDatabaseReader)
-		{
+		} else if (ReaderVariables.useDatabaseReader) {
 			String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 			String server = "";
 			String dbsName = "";
@@ -155,20 +152,22 @@ public class Client {
 			int minRecordNumber = 0;
 			int maxRecordNumber = 0;
 			int batchSize = 0;
-			String url = "jdbc:sqlserver://" + server + ":1433;databasename=" + dbsName
-			    + ";integratedSecurity=true";
-			reader = new BatchDatabaseCollectionReader(driver, url, username, password, query,
-			    idColumn, noteColumn, minRecordNumber, maxRecordNumber, batchSize).produceCollectionReader();
+			String url = "jdbc:sqlserver://" + server + ":1433;databasename="
+					+ dbsName + ";integratedSecurity=true";
+			reader = new BatchDatabaseCollectionReader(driver, url, username,
+					password, query, idColumn, noteColumn, minRecordNumber,
+					maxRecordNumber, batchSize).produceCollectionReader();
 
 		} else if (ReaderVariables.useFileReader) {
 			File inputDirectory = null;
 			boolean recurse = false;
 			TextFilter[] filterList = null;
-			reader = new FileCollectionReader(inputDirectory, recurse, filterList).produceCollectionReader();
+			reader = new FileCollectionReader(inputDirectory, recurse,
+					filterList).produceCollectionReader();
 
 		} else if (ReaderVariables.useCustomReader) {
 			// TODO: Update this if ever needed
-		} /// End Reader selection
+		} // / End Reader selection
 
 		if (reader != null) {
 			myClient.setLeoCollectionReader((LeoCollectionReaderInterface) reader);
@@ -190,22 +189,46 @@ public class Client {
 			for (String type : listenerTypes) {
 				if (type.equalsIgnoreCase(LISTENERS.knowtator.name())) {
 				}
+				if (type.equalsIgnoreCase(LISTENERS.database.name())) {
+					String driver = (String) config.get("sqlDriver");
+					String url = (String) config.get("connectionURL");
+					String dbUser = "";
+					String dbPwd = "";
+					DatabaseConnectionInformation dbi = new DatabaseConnectionInformation(
+							driver, url, dbUser, dbPwd);
 
+					String dbsName = (String) config.get("projectDbsName");
+					String tableName = (String) config.get("outTableName");
+					int batchSize = (Integer) config.get("outBatchSize");
+
+					ArrayList<ArrayList<String>> fieldList = (ArrayList<ArrayList<String>>) config
+							.get("dbFieldList");
+
+					DbsListener listener = DbsListener.createNewListener(dbi,
+							dbsName, tableName, batchSize, fieldList);
+					listener.createTable(dbi, listener.createStatement, false,
+							tableName);
+					listenerList.add(listener);
+				}
 				// INFO: XMI Listener
 
 				if (type.equalsIgnoreCase(LISTENERS.xmi.name())) {
 					SimpleXmiListener listener = null;
 
-					String xmiPath = ((String) config.get("xmiOutPath")).replaceAll("\\{suffix\\}", timeStamp);
+					String xmiPath = ((String) config.get("xmiOutPath"))
+							.replaceAll("\\{suffix\\}", timeStamp);
 					File xmiPathFile = new File(xmiPath);
 					if (!xmiPathFile.exists())
 						xmiPathFile.mkdirs();
 
-					Boolean openViewer = (Boolean) config.get("openViewerAfterProcessing");
+					Boolean openViewer = (Boolean) config
+							.get("openViewerAfterProcessing");
 					listener = new SimpleXmiListener(xmiPathFile, openViewer);
 
-					ArrayList<String> annotationsOut = (ArrayList<String>) config.get("xmiOutputTypeList");
-					String[] annotationTypeFilter = new String[annotationsOut.size()];
+					ArrayList<String> annotationsOut = (ArrayList<String>) config
+							.get("xmiOutputTypeList");
+					String[] annotationTypeFilter = new String[annotationsOut
+							.size()];
 					annotationsOut.toArray(annotationTypeFilter);
 					if (annotationTypeFilter != null) {
 						if (annotationTypeFilter.length != 0) {
@@ -218,7 +241,8 @@ public class Client {
 				// INFO: Adding CSV listeners
 				if (type.equalsIgnoreCase(LISTENERS.csv.name())) {
 					CsvListener listener = null;
-					String csvPath = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp);
+					String csvPath = ((String) config.get("csvFileName"))
+							.replaceAll("\\{suffix\\}", timeStamp);
 					if (!(new File(csvPath).getParentFile().exists()))
 						new File(csvPath).getParentFile().mkdirs();
 					listener = new CsvListener(new File(csvPath));
@@ -229,29 +253,35 @@ public class Client {
 				}
 				if (type.equalsIgnoreCase(LISTENERS.aucompare.name())) {
 					AuSummaryListener listener = null;
-					HashMap<String,String> auMap = ((HashMap<String,String> ) config.get("auMap"));
+					HashMap<String, String> auMap = ((HashMap<String, String>) config
+							.get("auMap"));
 					if (auMap == null) {
-							log.error("Error getting the mapping string for the gold compare listener, NOT initializing!");
-						}
+						log.error("Error getting the mapping string for the gold compare listener, NOT initializing!");
+					}
 					listener = new AuSummaryListener(auMap);
-					
+
 					listenerList.add(listener);
 				}
 				// INFO: SimpleCSV
 				if (type.equalsIgnoreCase(LISTENERS.simpleCsv.name())) {
 					SimpleCsvListener listener = null;
 					HashMap<String, ArrayList<String>> simpleListenerTypes = (HashMap<String, ArrayList<String>>) config
-					    .get("simpleCsvOutTypes");
-					String csvDirPath = ((String) config.get("csvOutPath")).replaceAll("\\{suffix\\}", timeStamp);
+							.get("simpleCsvOutTypes");
+					String csvDirPath = ((String) config.get("csvOutPath"))
+							.replaceAll("\\{suffix\\}", timeStamp);
 					if (!(new File(csvDirPath).exists()))
 						new File(csvDirPath).mkdirs();
 					if (simpleListenerTypes != null) {
 						for (String outFileName : simpleListenerTypes.keySet()) {
-							String filePathString = csvDirPath + "\\" + outFileName;
+							String filePathString = csvDirPath + "\\"
+									+ outFileName;
 
-							String[] listenerOutTypes = new String[simpleListenerTypes.get(outFileName).size()];
-							listenerOutTypes = simpleListenerTypes.get(outFileName).toArray(listenerOutTypes);
-							listener = new SimpleCsvListener(new File(filePathString), true, listenerOutTypes);
+							String[] listenerOutTypes = new String[simpleListenerTypes
+									.get(outFileName).size()];
+							listenerOutTypes = simpleListenerTypes.get(
+									outFileName).toArray(listenerOutTypes);
+							listener = new SimpleCsvListener(new File(
+									filePathString), true, listenerOutTypes);
 							listenerList.add(listener);
 						}
 					}
@@ -264,12 +294,13 @@ public class Client {
 		for (BaseListener a : listeners) {
 			log.info(" Listener " + a.getClass().getCanonicalName());
 		}
-		//  Running the client
+		// Running the client
 		myClient.run(listeners);
 
 		// Client run is completed
-		log.info("Processing time: " + sw.toString() + "\n" +
-		    "Processing ended at: " + new Date(System.currentTimeMillis()));
+		log.info("Processing time: " + sw.toString() + "\n"
+				+ "Processing ended at: "
+				+ new Date(System.currentTimeMillis()));
 
 	}
 
@@ -281,20 +312,28 @@ public class Client {
 	}
 
 	/**
-	 * @param featureList -- HashMap<String, HashMap<String, String>> featureList -- HashMap<Knowtator_Annotation, HashMap<Knowtator_attribute, UIMA_feature>> featureList
+	 * @param featureList
+	 *            -- HashMap<String, HashMap<String, String>> featureList --
+	 *            HashMap<Knowtator_Annotation, HashMap<Knowtator_attribute,
+	 *            UIMA_feature>> featureList
 	 * @return
 	 */
 	private static HashMap<String, ArrayList<String>> getUimaTypeMap(
-	    HashMap<String, HashMap<String, String>> featureList) {
+			HashMap<String, HashMap<String, String>> featureList) {
 		HashMap<String, ArrayList<String>> typeFeatureMap = new HashMap<String, ArrayList<String>>();
-		// For each UIMA type, check if the corresponding Knowtator class has attributes.
-		for (String uimaType : KnowtatorVariables.knowtatorToUimaMap.getUimaTypes()) {
-			String kttrType = KnowtatorVariables.knowtatorToUimaMap.getKnowtatorType(uimaType);
+		// For each UIMA type, check if the corresponding Knowtator class has
+		// attributes.
+		for (String uimaType : KnowtatorVariables.knowtatorToUimaMap
+				.getUimaTypes()) {
+			String kttrType = KnowtatorVariables.knowtatorToUimaMap
+					.getKnowtatorType(uimaType);
 			ArrayList<String> uimaFeatures = new ArrayList<String>();
-			// If a knowtator class has an attribute, create a String feature in the UIMA annotation type
+			// If a knowtator class has an attribute, create a String feature in
+			// the UIMA annotation type
 			if (featureList.containsKey(kttrType)) {
 				for (String kttrFeature : featureList.get(kttrType).keySet()) {
-					uimaFeatures.add(featureList.get(kttrType).get(kttrFeature));
+					uimaFeatures
+							.add(featureList.get(kttrType).get(kttrFeature));
 				}
 			}
 			typeFeatureMap.put(uimaType, uimaFeatures);
@@ -305,14 +344,17 @@ public class Client {
 	@SuppressWarnings("unchecked")
 	private void createKnowtatorToUimaMap(ConfigObject config) {
 		try {
-			HashMap<String, String> typeList = (HashMap<String, String>) config.get("knowtatorToUimaTypeMap");
+			HashMap<String, String> typeList = (HashMap<String, String>) config
+					.get("knowtatorToUimaTypeMap");
 			HashMap<String, HashMap<String, String>> featureList = new HashMap<String, HashMap<String, String>>();
 
 			try {
 				if (config.get("knowtatorToUimaFeatureMap") instanceof HashMap) {
-					if (((HashMap) config.get("knowtatorToUimaFeatureMap")).size() > 0) {
-						featureList.putAll((HashMap<String, HashMap<String, String>>) config
-						    .get("knowtatorToUimaFeatureMap"));
+					if (((HashMap) config.get("knowtatorToUimaFeatureMap"))
+							.size() > 0) {
+						featureList
+								.putAll((HashMap<String, HashMap<String, String>>) config
+										.get("knowtatorToUimaFeatureMap"));
 
 					} else {
 						log.warn("No features were added to the types!");
@@ -325,16 +367,20 @@ public class Client {
 				log.warn("No features were added to the types!");
 			}
 			if (typeList != null) {
-				for (java.util.Map.Entry<String, String> types : typeList.entrySet()) {
+				for (java.util.Map.Entry<String, String> types : typeList
+						.entrySet()) {
 					String knowtatorType = types.getKey();
 					String uimaType = types.getValue();
-					KnowtatorVariables.knowtatorToUimaMap.addAnnotationTypeMap(knowtatorType, uimaType);
+					KnowtatorVariables.knowtatorToUimaMap.addAnnotationTypeMap(
+							knowtatorType, uimaType);
 					if (featureList.containsKey(knowtatorType)) {
-						for (Entry<String, String> featureEntry : featureList.get(knowtatorType).entrySet())
-						{
+						for (Entry<String, String> featureEntry : featureList
+								.get(knowtatorType).entrySet()) {
 							String knowtatorName = featureEntry.getKey();
 							String uimaName = featureEntry.getValue();
-							KnowtatorVariables.knowtatorToUimaMap.addFeatureTypeMap(knowtatorType, knowtatorName, uimaName);
+							KnowtatorVariables.knowtatorToUimaMap
+									.addFeatureTypeMap(knowtatorType,
+											knowtatorName, uimaName);
 						}
 					}
 				}

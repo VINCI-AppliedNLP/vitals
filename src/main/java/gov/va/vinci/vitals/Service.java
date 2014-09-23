@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 import gov.va.vinci.leo.annotationpattern.ae.AnnotationPatternAnnotator;
 import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
@@ -52,21 +53,20 @@ public class Service {
 		static HashMap<String, String> regexResourceToType = new HashMap<String, String>();
 
 		static {
-			regexResourceToType.put("gov.va.vinci.vitals.types.Indicator",
-					"indicator.regex");
-			regexResourceToType.put("gov.va.vinci.vitals.types.Numeric",
-					"numericValues.regex");
-			regexResourceToType.put("gov.va.vinci.vitals.types.Unit",
-					"units.regex");
-			regexResourceToType.put("gov.va.vinci.vitals.types.NumericExclude",
-					"numericValuesExclude.regex");
-			regexResourceToType.put("gov.va.vinci.vitals.types.Term",
-					"terms.regex");
-			regexResourceToType.put(
-					"gov.va.vinci.vitals.types.TermExcludeRegex",
-					"termsExclude.regex");
-			regexResourceToType.put("gov.va.vinci.vitals.types.Timestamp",
-					"date.regex");
+			regexResourceToType.put("indicator.regex",
+					"gov.va.vinci.vitals.types.Indicator");
+			regexResourceToType.put("numericValues.regex",
+					"gov.va.vinci.vitals.types.Numeric");
+			regexResourceToType.put("units.regex",
+					"gov.va.vinci.vitals.types.Unit");
+			regexResourceToType.put("numericValuesExclude.regex",
+					"gov.va.vinci.vitals.types.NumericExclude");
+			regexResourceToType.put("terms.regex",
+					"gov.va.vinci.vitals.types.Term");
+			regexResourceToType.put("termsExclude.regex",
+					"gov.va.vinci.vitals.types.TermExcludeRegex");
+			regexResourceToType.put("date.regex",
+					"gov.va.vinci.vitals.types.Timestamp");
 		}
 
 		static HashMap<String, String> apaResourceToType = new HashMap<String, String>();
@@ -238,34 +238,35 @@ public class Service {
 		for (Entry<String, String> a : PipelineVariables.regexResourceToType
 				.entrySet()) {
 			i++;
-			aggregate
-					/*
-					 * Concept recognition using Regular Expression annotator --
-					 * term.regex
-					 */
-					.addDelegate(new RegexAnnotator()
-							.getLeoAEDescriptor()
-							.setName("RegexAnnotator" + i)
-							.setParameterSetting(
-									RegexAnnotator.Param.INPUT_TYPE.getName(),
-									null)
-							.setParameterSetting(
-									RegexAnnotator.Param.OUTPUT_TYPE.getName(),
-									a.getKey())
-							.setParameterSetting(
-									RegexAnnotator.Param.MATCHED_PATTERN_FEATURE_NAME
-											.getName(), "Pattern")
-							.setParameterSetting(
-									RegexAnnotator.Param.RESOURCE.getName(),
-									PipelineVariables.RESOURCE_PATH
-											+ a.getValue())
-							.setParameterSetting(
-									RegexAnnotator.Param.CASE_SENSITIVE
-											.getName(), false)
-							.setParameterSetting(
-									RegexAnnotator.Param.WORD_BOUNDARY
-											.getName(), false)
-							.addTypeSystemDescription(types));
+			LeoAEDescriptor regexAnnotator = new LeoAEDescriptor()
+					.setName("RegexAnnotator_" + i)
+					.setImplementationName(
+							RegexAnnotator.class.getCanonicalName())
+					.addParameterSetting(
+							RegexAnnotator.Param.RESOURCE.getName(), true,
+							false, "String",
+							PipelineVariables.RESOURCE_PATH + a.getKey())
+					.addParameterSetting(
+							RegexAnnotator.Param.OUTPUT_TYPE.getName(), true,
+							false, "String", a.getValue())
+					.addParameterSetting(
+							RegexAnnotator.Param.MATCHED_PATTERN_FEATURE_NAME
+									.getName(),
+							true, false, "String", "pattern")
+					// .addParameterSetting(RegexAnnotator.Param.GROUP_FEATURE_NAME.getName(),
+					// true, false, "String", "groups")
+					.addParameterSetting(
+							RegexAnnotator.Param.CASE_SENSITIVE.getName(),
+							false, false, "Boolean", false)
+					.addParameterSetting(
+							RegexAnnotator.Param.WORD_BOUNDARY.getName(),
+							false, false, "Boolean", false)
+					.addParameterSetting(
+							RegexAnnotator.Param.PATTERN_FLAGS.getName(),
+							false, true, "Integer",
+							new Integer[] { Pattern.DOTALL });
+
+			aggregate.addDelegate(regexAnnotator);
 		}
 		// INFO: Filter overannotated instances
 		aggregate.addDelegate(new AnnotationFilter()
@@ -368,7 +369,7 @@ public class Service {
 
 		for (Entry<String, String> a : PipelineVariables.regexResourceToType
 				.entrySet()) {
-			types.addType(a.getKey(), "", PipelineVariables.RegexType);
+			types.addType(a.getValue(), "", PipelineVariables.RegexType);
 		}
 
 		// APA default type

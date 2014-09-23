@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Tue Sep 16 10:45:16 CDT 2014 */
+/* First created by JCasGen Mon Sep 22 23:11:26 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -10,8 +10,8 @@ import org.apache.uima.jcas.cas.TOP_Type;
 
 
 /** 
- * Updated by JCasGen Tue Sep 16 10:45:16 CDT 2014
- * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/4/leoTypeDescription_1c806204-3815-41f5-ae87-d817f3f570691369427500640071105.xml
+ * Updated by JCasGen Mon Sep 22 23:11:26 CDT 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/4/leoTypeDescription_e3440b51-a485-49b2-876c-ad489b86a2d82000585658972327005.xml
  * @generated */
 public class Term extends RegularExpression {
   /** @generated
