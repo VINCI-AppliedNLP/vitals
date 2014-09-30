@@ -30,10 +30,8 @@ import org.apache.uima.jcas.tcas.Annotation;
  * 
  */
 public class SimplePatternAnnotator extends LeoBaseAnnotator {
-	public static java.util.regex.Pattern mMeasurePattern = java.util.regex.Pattern.compile(
-	    "\\b\\d{2,3}/\\d{2,3}\\b" // optional range
-	    , java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
-
+	public static java.util.regex.Pattern bpPattern = java.util.regex.Pattern.compile( "\\b\\d{2,3}/\\d{2,3}\\b"  , java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
+	public static java.util.regex.Pattern singleNumber = java.util.regex.Pattern.compile( "\\b\\d{2,3}\\b", java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
 	public static enum vitalTypes {
 		Blood_Pressure, Heart_Rate, Temperature
 	};
@@ -118,10 +116,13 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 
 	private boolean isBloodPressure(String text) {
 
-		Matcher measureMatcher = mMeasurePattern.matcher(text);
+		Matcher measureMatcher = bpPattern.matcher(text);
 		if (measureMatcher.find()) {
 			String m = text.substring(measureMatcher.start(), measureMatcher.end());
-
+			Matcher digitMatcher = singleNumber.matcher(m);
+			if(digitMatcher.find()){
+				
+			}
 			return true;
 
 		}

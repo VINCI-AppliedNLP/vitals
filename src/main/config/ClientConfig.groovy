@@ -4,7 +4,7 @@ readerType = "knowtator"
 
 // Listener types is one or more of the following
 // simpleCsv|simplexmi|csv|xmi|aucompare|compare|database
-listenerTypes = "csv|xmi"
+listenerTypes = "aucompare|xmi"
 
 ///////////////////////////////////////////////////////////////////////////////
 sqlDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
@@ -66,7 +66,7 @@ csvFieldList = [
  *   If xmi files exist, they will be overwritten.
  *   If the path does not exist, it will be created.  */
 xmiOutPath = mainOutPath + "xmi\\"
-xmiOutputTypeList =  ["gov.va.vinci.vitals.types.Relation"]
+xmiOutputTypeList =  []
 
 openViewerAfterProcessing =  false
 // if the list is empty, all files will be outputted
@@ -113,8 +113,8 @@ environments {
 	}
 	compare{
 		readerType = "knowtator"
-		listenerTypes = "aucompare"
-		envType = "kttrToCsv";
+		listenerTypes = "aucompare|xmi"
+		envType = "compare";
 	}
 }
 

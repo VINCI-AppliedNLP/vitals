@@ -189,7 +189,7 @@ public class Client {
 			for (String type : listenerTypes) {
 				if (type.equalsIgnoreCase(LISTENERS.knowtator.name())) {
 				}
-				else if (type.equalsIgnoreCase(LISTENERS.database.name())) {
+				if (type.equalsIgnoreCase(LISTENERS.database.name())) {
 					String driver = (String) config.get("sqlDriver");
 					String url = (String) config.get("connectionURL");
 					String dbUser = "";
@@ -201,18 +201,15 @@ public class Client {
 					String tableName = (String) config.get("outTableName");
 					int batchSize = (Integer) config.get("outBatchSize");
 
-					ArrayList<ArrayList<String>> fieldList = (ArrayList<ArrayList<String>>) config
-					    .get("dbFieldList");
+					ArrayList<ArrayList<String>> fieldList = (ArrayList<ArrayList<String>>) config.get("dbFieldList");
 
-					DbsListener listener = DbsListener.createNewListener(dbi,
-					    dbsName, tableName, batchSize, fieldList);
-					listener.createTable(dbi, listener.createStatement, false,
-					    tableName);
+					DbsListener listener = DbsListener.createNewListener(dbi, dbsName, tableName, batchSize, fieldList);
+					listener.createTable(dbi, listener.createStatement, false, tableName);
 					listenerList.add(listener);
 				}
 				// INFO: XMI Listener
 
-				else if (type.equalsIgnoreCase(LISTENERS.xmi.name())) {
+				if (type.equalsIgnoreCase(LISTENERS.xmi.name())) {
 					SimpleXmiListener listener = null;
 
 					String xmiPath = ((String) config.get("xmiOutPath"))
@@ -221,14 +218,11 @@ public class Client {
 					if (!xmiPathFile.exists())
 						xmiPathFile.mkdirs();
 
-					Boolean openViewer = (Boolean) config
-					    .get("openViewerAfterProcessing");
+					Boolean openViewer = (Boolean) config.get("openViewerAfterProcessing");
 					listener = new SimpleXmiListener(xmiPathFile, openViewer);
 
-					ArrayList<String> annotationsOut = (ArrayList<String>) config
-					    .get("xmiOutputTypeList");
-					String[] annotationTypeFilter = new String[annotationsOut
-					    .size()];
+					ArrayList<String> annotationsOut = (ArrayList<String>) config.get("xmiOutputTypeList");
+					String[] annotationTypeFilter = new String[annotationsOut.size()];
 					annotationsOut.toArray(annotationTypeFilter);
 					if (annotationTypeFilter != null) {
 						if (annotationTypeFilter.length != 0) {
@@ -239,10 +233,9 @@ public class Client {
 				}
 
 				// INFO: Adding CSV listeners
-				else if (type.equalsIgnoreCase(LISTENERS.csv.name())) {
+				if (type.equalsIgnoreCase(LISTENERS.csv.name())) {
 					CsvListener listener = null;
-					String csvPath = ((String) config.get("csvFileName"))
-					    .replaceAll("\\{suffix\\}", timeStamp);
+					String csvPath = ((String) config.get("csvFileName"))				    .replaceAll("\\{suffix\\}", timeStamp);
 					ArrayList<ArrayList<String>> fieldList = (ArrayList<ArrayList<String>>) config.get("csvFieldList");
 					if (!(new File(csvPath).getParentFile().exists()))
 						new File(csvPath).getParentFile().mkdirs();
@@ -251,12 +244,12 @@ public class Client {
 					listenerList.add(listener);
 				}
 
-				else if (type.equalsIgnoreCase(LISTENERS.compare.name())) {
+				if (type.equalsIgnoreCase(LISTENERS.compare.name())) {
 				}
-				else if (type.equalsIgnoreCase(LISTENERS.aucompare.name())) {
+				// TODO: AuCompare
+				if (type.equalsIgnoreCase(LISTENERS.aucompare.name())) {
 					AuSummaryListener listener = null;
-					HashMap<String, String> auMap = ((HashMap<String, String>) config
-					    .get("auMap"));
+					HashMap<String, String> auMap = ((HashMap<String, String>) config.get("auMap"));
 					if (auMap == null) {
 						log.error("Error getting the mapping string for the gold compare listener, NOT initializing!");
 					}
@@ -265,25 +258,19 @@ public class Client {
 					listenerList.add(listener);
 				}
 				// INFO: SimpleCSV
-				else if (type.equalsIgnoreCase(LISTENERS.simpleCsv.name())) {
+				if (type.equalsIgnoreCase(LISTENERS.simpleCsv.name())) {
 					SimpleCsvListener listener = null;
-					HashMap<String, ArrayList<String>> simpleListenerTypes = (HashMap<String, ArrayList<String>>) config
-					    .get("simpleCsvOutTypes");
-					String csvDirPath = ((String) config.get("csvOutPath"))
-					    .replaceAll("\\{suffix\\}", timeStamp);
+					HashMap<String, ArrayList<String>> simpleListenerTypes = (HashMap<String, ArrayList<String>>) config.get("simpleCsvOutTypes");
+					String csvDirPath = ((String) config.get("csvOutPath")).replaceAll("\\{suffix\\}", timeStamp);
 					if (!(new File(csvDirPath).exists()))
 						new File(csvDirPath).mkdirs();
 					if (simpleListenerTypes != null) {
 						for (String outFileName : simpleListenerTypes.keySet()) {
-							String filePathString = csvDirPath + "\\"
-							    + outFileName;
+							String filePathString = csvDirPath + "\\" + outFileName;
 
-							String[] listenerOutTypes = new String[simpleListenerTypes
-							    .get(outFileName).size()];
-							listenerOutTypes = simpleListenerTypes.get(
-							    outFileName).toArray(listenerOutTypes);
-							listener = new SimpleCsvListener(new File(
-							    filePathString), true, listenerOutTypes);
+							String[] listenerOutTypes = new String[simpleListenerTypes.get(outFileName).size()];
+							listenerOutTypes = simpleListenerTypes.get(outFileName).toArray(listenerOutTypes);
+							listener = new SimpleCsvListener(new File(filePathString), true, listenerOutTypes);
 							listenerList.add(listener);
 						}
 					}

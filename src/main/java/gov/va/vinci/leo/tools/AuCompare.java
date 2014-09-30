@@ -118,10 +118,8 @@ public class AuCompare {
 
 		Type auType = jCas.getRequiredType(stats.getAuAnnotation());
 		Type toolType = jCas.getRequiredType(stats.getToolAnnotation());
-		ArrayList<Annotation> auList = (ArrayList<Annotation>) AnnotationLibrarian
-				.getAllAnnotationsOfType(jCas, auType);
-		ArrayList<Annotation> tList = (ArrayList<Annotation>) AnnotationLibrarian
-				.getAllAnnotationsOfType(jCas, toolType);
+		ArrayList<Annotation> auList = (ArrayList<Annotation>) AnnotationLibrarian			.getAllAnnotationsOfType(jCas, auType);
+		ArrayList<Annotation> tList = (ArrayList<Annotation>) AnnotationLibrarian				.getAllAnnotationsOfType(jCas, toolType);
 		int toolIndex = 0, toolMatchIndex = 0;
 		boolean isMatch;
 		String[] statsClassList;
@@ -157,13 +155,9 @@ public class AuCompare {
 										.replaceAll("\\s+", " "));
 						tList.remove(0);
 					}
-				} else if (AnnotationLibrarian.overlaps(t, au)) { // Au overlaps
-																	// the
-																	// current
-																	// tool
+				} else if (AnnotationLibrarian.overlaps(t, au)) { // Au overlaps the current tool
 					isMatch = true;
-					if (AnnotationLibrarian.coversSameSpan(au, t)) { // Exact
-																		// Match
+					if (AnnotationLibrarian.coversSameSpan(au, t)) { // Exact Match
 						statsClassList = stats.addExactMatch();
 					} else {
 						statsClassList = stats.addOverlapMatch();
@@ -173,9 +167,7 @@ public class AuCompare {
 						toolMatchIndex++;
 					}
 					toolIndex++;
-				} else if (t.getBegin() >= au.getEnd()) { // Au is to the left
-															// of the current
-															// tool
+				} else if (t.getBegin() >= au.getEnd()) { // Au is to the left of the current tool
 					toolIndex = 0;
 					break;
 				}
@@ -194,9 +186,7 @@ public class AuCompare {
 		// those results
 		statsClassList = stats.addToolOnly(tList.size());
 		for (Annotation a : tList) {
-			System.out.println("False Positive:(@197): " + documentID + "[ "
-					+ toolType + " \t] "
-					+ a.getCoveredText().replaceAll("\\s+", " "));
+			System.out.println("False Positive:(@197): " + documentID + "[ "			+ toolType + " \t] "				+ a.getCoveredText().replaceAll("\\s+", " "));
 			addRows(rows, statsClassList, stats, a);
 		}
 	}
