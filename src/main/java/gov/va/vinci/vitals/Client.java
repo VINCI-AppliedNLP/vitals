@@ -235,7 +235,7 @@ public class Client {
 				// INFO: Adding CSV listeners
 				if (type.equalsIgnoreCase(LISTENERS.csv.name())) {
 					CsvListener listener = null;
-					String csvPath = ((String) config.get("csvFileName"))				    .replaceAll("\\{suffix\\}", timeStamp);
+					String csvPath = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp);
 					ArrayList<ArrayList<String>> fieldList = (ArrayList<ArrayList<String>>) config.get("csvFieldList");
 					if (!(new File(csvPath).getParentFile().exists()))
 						new File(csvPath).getParentFile().mkdirs();
@@ -248,19 +248,27 @@ public class Client {
 				}
 				// TODO: AuCompare
 				if (type.equalsIgnoreCase(LISTENERS.aucompare.name())) {
-					AuSummaryListener listener = null;
+				
+					gov.va.vinci.leo.listener.AuSummaryListener listener = null;
 					HashMap<String, String> auMap = ((HashMap<String, String>) config.get("auMap"));
 					if (auMap == null) {
 						log.error("Error getting the mapping string for the gold compare listener, NOT initializing!");
 					}
-					listener = new AuSummaryListener(auMap);
+					listener = new gov.va.vinci.leo.listener.AuSummaryListener(auMap);
 
 					listenerList.add(listener);
+					String csvPath = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp);
+					
+					if (!(new File(csvPath).getParentFile().exists()))
+						new File(csvPath).getParentFile().mkdirs();
+					gov.va.vinci.leo.listener.AuCompareCSVListener listener2 = new gov.va.vinci.leo.listener.AuCompareCSVListener(		    auMap, new File(csvPath));
+					listenerList.add(listener2);
 				}
 				// INFO: SimpleCSV
 				if (type.equalsIgnoreCase(LISTENERS.simpleCsv.name())) {
 					SimpleCsvListener listener = null;
-					HashMap<String, ArrayList<String>> simpleListenerTypes = (HashMap<String, ArrayList<String>>) config.get("simpleCsvOutTypes");
+					HashMap<String, ArrayList<String>> simpleListenerTypes = (HashMap<String, ArrayList<String>>) config
+					    .get("simpleCsvOutTypes");
 					String csvDirPath = ((String) config.get("csvOutPath")).replaceAll("\\{suffix\\}", timeStamp);
 					if (!(new File(csvDirPath).exists()))
 						new File(csvDirPath).mkdirs();

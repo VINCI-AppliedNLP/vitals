@@ -182,6 +182,7 @@ public class AuStats {
     public String[] addToolOnly(int numToolOnly) {
         falsePositive      += numToolOnly;
         looseFalsePositive += numToolOnly;
+        
         return new String[] {FALSE_POSITIVE, LOOSE_FALSE_POSITIVE};
     }
 

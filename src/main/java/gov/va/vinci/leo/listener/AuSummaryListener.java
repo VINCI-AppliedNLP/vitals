@@ -1,9 +1,7 @@
-package gov.va.vinci.vitals.listeners;
+package gov.va.vinci.leo.listener;
 
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.stream.MalformedJsonException;
 
-import gov.va.vinci.leo.listener.BaseListener;
 import gov.va.vinci.leo.tools.AuCompare;
 import gov.va.vinci.leo.tools.AuStats;
 import gov.va.vinci.leo.tools.LeoUtils;
@@ -43,7 +41,7 @@ public class AuSummaryListener extends BaseListener {
      *      JSON formatted string mapping each gold standard annotation type to a tool type.
      * @throws com.google.gson.JsonSyntaxException if the auAnnotationMap has an invalid JSON format
      */
-    public AuSummaryListener(Map<String,String> auAnnotationMap)  {
+    public AuSummaryListener(Map<String,String> auAnnotationMap) throws JsonSyntaxException {
         compare = new AuCompare(auAnnotationMap);
     }
 
@@ -66,15 +64,14 @@ public class AuSummaryListener extends BaseListener {
             throw new RuntimeException("Error getting reference to JCas object!", e);
         }
     }
-
     @Override
     public void collectionProcessComplete(EntityProcessStatus aStatus) {
-	    // TODO Auto-generated method stub
+
 	    super.collectionProcessComplete(aStatus);
 	    outputStatsToConsole();
     }
 
-		/**
+    /**
      * Write the stat string for each AuStats object out to the console.
      */
     public void outputStatsToConsole() {

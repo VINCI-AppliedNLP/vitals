@@ -40,7 +40,7 @@ knowtatorOutTypes = ["gov.va.vinci.example.types.Logic"]
 // Project specific CSV listener
 // Absolute or relative path for a new comma-delimited file. If the file exists, it will be overwritten.
 // if the path does not exist, it will be created.
-csvFileName = mainOutPath + "outputTable.csv"
+csvFileName = mainOutPath + "outputTable_{suffix}.csv"
 csvFieldList = [
 	["VitalSignID", "-1", "int"],
 	["Sta3n", "4", "varchar(10)"],
