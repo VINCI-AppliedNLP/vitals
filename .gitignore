@@ -1,5 +1,5 @@
 /target
-/ExampleLog.log
+/*.log
 /.project
 /.settings
 /.classpath
