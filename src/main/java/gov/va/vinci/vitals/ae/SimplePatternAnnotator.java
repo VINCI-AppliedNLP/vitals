@@ -17,6 +17,7 @@ import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
+import org.apache.uima.pear.util.StringUtil;
 
 /**
  * This is a custom annotator that reviews Relation annotations, gets the anchor
@@ -30,8 +31,12 @@ import org.apache.uima.jcas.tcas.Annotation;
  * 
  */
 public class SimplePatternAnnotator extends LeoBaseAnnotator {
-	public static java.util.regex.Pattern bpPattern = java.util.regex.Pattern.compile( "\\b\\d{2,3}/\\d{2,3}\\b"  , java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
-	public static java.util.regex.Pattern singleNumber = java.util.regex.Pattern.compile( "\\b\\d{2,3}\\b", java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
+	public static java.util.regex.Pattern bpPattern = java.util.regex.Pattern
+	    .compile("\\b\\d{2,3}/\\d{2,3}\\b", java.util.regex.Pattern.MULTILINE
+	        | java.util.regex.Pattern.CASE_INSENSITIVE);
+	public static java.util.regex.Pattern singleNumber = java.util.regex.Pattern.compile("\\b\\d{2,3}\\b",
+	    java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
+
 	public static enum vitalTypes {
 		Blood_Pressure, Heart_Rate, Temperature
 	};
@@ -60,13 +65,16 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 						if (StringUtils.isNotBlank(pattern)) {
 							String vitalType = pattern.split("\\|")[0];
 							if (vitalType.contains(vitalTypes.Blood_Pressure.name())) {
-								this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas, number.getBegin(), number.getEnd());
+								this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas, number.getBegin(),
+								    number.getEnd());
 								annsToRemove.add(number);
 							} else if (vitalType.contains(vitalTypes.Heart_Rate.name())) {
-								this.addOutputAnnotation(Hr_value.class.getCanonicalName(), aJCas, number.getBegin(), number.getEnd());
+								this.addOutputAnnotation(Hr_value.class.getCanonicalName(), aJCas, number.getBegin(),
+								    number.getEnd());
 								annsToRemove.add(number);
 							} else if (vitalType.contains(vitalTypes.Temperature.name())) {
-								this.addOutputAnnotation(T_value.class.getCanonicalName(), aJCas, number.getBegin(), number.getEnd());
+								this.addOutputAnnotation(T_value.class.getCanonicalName(), aJCas, number.getBegin(),
+								    number.getEnd());
 								annsToRemove.add(number);
 							}
 						}
@@ -90,12 +98,14 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 				end = aJCas.getDocumentText().length();
 			}
 			try {
-				ArrayList<Annotation> numbers = (ArrayList<Annotation>) AnnotationLibrarian.getAllOverlappingAnnotationsOfType(indicator.getBegin(), end,
-				    aJCas, Numeric.type);
+				ArrayList<Annotation> numbers = (ArrayList<Annotation>) AnnotationLibrarian
+				    .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end,
+				        aJCas, Numeric.type);
 				if (numbers.size() > 0) {
 					for (Annotation number : numbers) {
 						if (isBloodPressure(number.getCoveredText())) {
-							this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas, number.getBegin(), number.getEnd());
+							this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas, number.getBegin(),
+							    number.getEnd());
 							annsToRemove.add(number);
 						}
 					}
@@ -120,10 +130,21 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 		if (measureMatcher.find()) {
 			String m = text.substring(measureMatcher.start(), measureMatcher.end());
 			Matcher digitMatcher = singleNumber.matcher(m);
-			if(digitMatcher.find()){
-				
+			if (digitMatcher.find()) {
+				String n = m.substring(digitMatcher.start(), digitMatcher.end());
+				try {
+					int num = Integer.parseInt(m);
+					if (num < 40)
+						return false;
+					if (num > 300)
+						return false;
+					return true;
+				} catch (Exception e) {
+					return false;
+				}
+			} else {
+				return false;
 			}
-			return true;
 
 		}
 		else

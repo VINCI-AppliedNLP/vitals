@@ -16,6 +16,7 @@ import gov.va.vinci.leo.model.DatabaseConnectionInformation;
 import gov.va.vinci.leo.tools.LeoUtils;
 import gov.va.vinci.leo.tools.TextFilter;
 import gov.va.vinci.vitals.listeners.*;
+import gov.va.vinci.vitals.types.*;
 import groovy.util.ConfigObject;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +26,7 @@ import org.apache.uima.collection.CollectionReader;
 
 import gov.va.vinci.knowtator.cr.KnowtatorCollectionReader;
 import gov.va.vinci.knowtator.model.KnowtatorToUimaTypeMap;
+import gov.va.vinci.kttr.types.*;
 
 /**
  * 
@@ -117,7 +119,7 @@ public class Client {
 		myClient.setInputQueueName(GeneralSettings.SERVICE_NAME);
 		myClient.setServiceName(GeneralSettings.SERVICE_NAME);
 		myClient.setBrokerURL(GeneralSettings.BROKER_URL);
-		myClient.setCasPoolSize(GeneralSettings.CAS_POOL_SIZE);
+		myClient.setCasPoolSize(1);
 
 		// INFO: Creating reader
 		String readerType = (String) config.get("readerType");
@@ -248,21 +250,36 @@ public class Client {
 				}
 				// TODO: AuCompare
 				if (type.equalsIgnoreCase(LISTENERS.aucompare.name())) {
-				
-					gov.va.vinci.leo.listener.AuSummaryListener listener = null;
-					HashMap<String, String> auMap = ((HashMap<String, String>) config.get("auMap"));
-					if (auMap == null) {
-						log.error("Error getting the mapping string for the gold compare listener, NOT initializing!");
-					}
-					listener = new gov.va.vinci.leo.listener.AuSummaryListener(auMap);
-
-					listenerList.add(listener);
-					String csvPath = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp);
+					SimpleCompareListener listener = null;
+					String csvPath = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp)
+					    + "_Compare.csv";
+					HashMap<String, String> comparePairs = new HashMap<String, String>();
+					comparePairs.put(BPValue.class.getCanonicalName(), Bp_value.class.getCanonicalName());
+					comparePairs.put(TValue.class.getCanonicalName(), 					    T_value.class.getCanonicalName());
+					comparePairs.put(HRValue.class.getCanonicalName(), Hr_value.class.getCanonicalName());
 					
 					if (!(new File(csvPath).getParentFile().exists()))
 						new File(csvPath).getParentFile().mkdirs();
-					gov.va.vinci.leo.listener.AuCompareCSVListener listener2 = new gov.va.vinci.leo.listener.AuCompareCSVListener(		    auMap, new File(csvPath));
-					listenerList.add(listener2);
+					listener = new SimpleCompareListener(comparePairs, new File(csvPath));
+					listenerList.add(listener);
+
+					
+					/**
+						gov.va.vinci.leo.listener.AuSummaryListener listener = null;
+						HashMap<String, String> auMap = ((HashMap<String, String>) config.get("auMap"));
+						if (auMap == null) {
+							log.error("Error getting the mapping string for the gold compare listener, NOT initializing!");
+						}
+						listener = new gov.va.vinci.leo.listener.AuSummaryListener(auMap);
+
+						listenerList.add(listener);
+						String csvPath = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp);
+						
+						if (!(new File(csvPath).getParentFile().exists()))
+							new File(csvPath).getParentFile().mkdirs();
+						gov.va.vinci.leo.listener.AuCompareCSVListener listener2 = new gov.va.vinci.leo.listener.AuCompareCSVListener(		    auMap, new File(csvPath));
+						listenerList.add(listener2);
+						*/
 				}
 				// INFO: SimpleCSV
 				if (type.equalsIgnoreCase(LISTENERS.simpleCsv.name())) {
