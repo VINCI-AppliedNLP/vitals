@@ -1,7 +1,9 @@
 package gov.va.vinci.vitals.ae;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
+import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.ae.LeoBaseAnnotator;
 import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
@@ -11,6 +13,7 @@ import gov.va.vinci.vitals.types.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
@@ -27,73 +30,108 @@ import org.apache.uima.jcas.tcas.Annotation;
  * 
  */
 public class SimplePatternAnnotator extends LeoBaseAnnotator {
+	public static java.util.regex.Pattern mMeasurePattern = java.util.regex.Pattern.compile(
+	    "\\b\\d{2,3}/\\d{2,3}\\b" // optional range
+	    , java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
+
 	public static enum vitalTypes {
 		Blood_Pressure, Heart_Rate, Temperature
 	};
 
 	private static final Logger log = Logger.getLogger(LeoUtils
-			.getRuntimeClass().toString());
+	    .getRuntimeClass().toString());
 
 	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		super.process(aJCas);
 		ArrayList<Annotation> annsToRemove = new ArrayList<Annotation>();
 
-		FSIterator<Annotation> iter = this.getAnnotationListForType(aJCas,
-				Relation.class.getCanonicalName());
-		while (iter.hasNext()) {
-			Relation currRelation = (Relation) iter.next();
-			if (currRelation.getTarget() != null) {
-				Annotation number = currRelation.getTarget();
-				Annotation term = null;
-				if (currRelation.getAnchor() != null) {
-					term = currRelation.getAnchor();
+		FSIterator<Annotation> iter = this.getAnnotationListForType(aJCas, Relation.class.getCanonicalName());
+		if (iter.hasNext()) {
+			while (iter.hasNext()) {
+				Relation currRelation = (Relation) iter.next();
+				if (currRelation.getTarget() != null) {
+					Annotation number = currRelation.getTarget();
+					Annotation term = null;
+					if (currRelation.getAnchor() != null) {
+						term = currRelation.getAnchor();
 
-				}
-				if (term != null) {
-					String pattern = ((Term) term).getPattern();
-					if (StringUtils.isNotBlank(pattern)) {
-						String vitalType = pattern.split("\\|")[0];
-						if (vitalType
-								.contains(vitalTypes.Blood_Pressure.name())) {
-
-							this.addOutputAnnotation(
-									Bp_value.class.getCanonicalName(), aJCas,
-									number.getBegin(), number.getEnd());
-							annsToRemove.add(number);
-
-						} else if (vitalType.contains(vitalTypes.Heart_Rate
-								.name())) {
-							this.addOutputAnnotation(
-									Hr_value.class.getCanonicalName(), aJCas,
-									number.getBegin(), number.getEnd());
-							annsToRemove.add(number);
-
-						} else if (vitalType.contains(vitalTypes.Temperature
-								.name())) {
-							this.addOutputAnnotation(
-									T_value.class.getCanonicalName(), aJCas,
-									number.getBegin(), number.getEnd());
-							annsToRemove.add(number);
+					}
+					if (term != null) {
+						String pattern = ((Term) term).getPattern();
+						if (StringUtils.isNotBlank(pattern)) {
+							String vitalType = pattern.split("\\|")[0];
+							if (vitalType.contains(vitalTypes.Blood_Pressure.name())) {
+								this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas, number.getBegin(), number.getEnd());
+								annsToRemove.add(number);
+							} else if (vitalType.contains(vitalTypes.Heart_Rate.name())) {
+								this.addOutputAnnotation(Hr_value.class.getCanonicalName(), aJCas, number.getBegin(), number.getEnd());
+								annsToRemove.add(number);
+							} else if (vitalType.contains(vitalTypes.Temperature.name())) {
+								this.addOutputAnnotation(T_value.class.getCanonicalName(), aJCas, number.getBegin(), number.getEnd());
+								annsToRemove.add(number);
+							}
 						}
 					}
 				}
 			}
+		}// else {
+		 // FIXME: now need to analyze text 
+		 // For those documents that do not contain Pattern, find Indicator, mark 100 chars after and check if Numeric fall in that interval
+		 //
+		for (Annotation a : annsToRemove) {
+			a.removeFromIndexes(aJCas);
 		}
+		annsToRemove = new ArrayList<Annotation>();
+		FSIterator<Annotation> iterI = this.getAnnotationListForType(aJCas, Indicator.class.getCanonicalName());
+
+		while (iterI.hasNext()) {
+			Annotation indicator = iterI.next();
+			int end = indicator.getEnd() + 200;
+			if (end > aJCas.getDocumentText().length()) {
+				end = aJCas.getDocumentText().length();
+			}
+			try {
+				ArrayList<Annotation> numbers = (ArrayList<Annotation>) AnnotationLibrarian.getAllOverlappingAnnotationsOfType(indicator.getBegin(), end,
+				    aJCas, Numeric.type);
+				if (numbers.size() > 0) {
+					for (Annotation number : numbers) {
+						if (isBloodPressure(number.getCoveredText())) {
+							this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas, number.getBegin(), number.getEnd());
+							annsToRemove.add(number);
+						}
+					}
+				}
+			} catch (CASException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		//}
+
 		for (Annotation a : annsToRemove) {
 			a.removeFromIndexes(aJCas);
 		}
 
 	}
 
-	private boolean possibleBP(Annotation number) {
-		// TODO Auto-generated method stub
-		return false;
+	private boolean isBloodPressure(String text) {
+
+		Matcher measureMatcher = mMeasurePattern.matcher(text);
+		if (measureMatcher.find()) {
+			String m = text.substring(measureMatcher.start(), measureMatcher.end());
+
+			return true;
+
+		}
+		else
+			return false;
 	}
 
 	public LeoAEDescriptor getLeoAEDescriptor() throws Exception {
 		return getLeoAEDescriptor(this.getClass().getCanonicalName(),
-				getAnnotatorParams());
+		    getAnnotatorParams());
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Mon Mar 31 19:30:41 CDT 2014 */
+/* First created by JCasGen Tue Sep 30 00:30:29 CDT 2014 */
 package gov.va.vinci.leo.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -12,8 +12,8 @@ import org.apache.uima.jcas.cas.StringArray;
 
 
 /** CSI Annotation
- * Updated by JCasGen Mon Mar 31 19:30:41 CDT 2014
- * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/2/leoTypeDescription_d87e2f92-16c1-4343-a6f5-b3ba255fe459678722988791812076.xml
+ * Updated by JCasGen Tue Sep 30 00:30:29 CDT 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/2/leoTypeDescription_eeaf3c04-9fc0-41b6-bcbf-cee9a35a4d508239547159650927851.xml
  * @generated */
 public class CSI extends Annotation {
   /** @generated
@@ -26,7 +26,9 @@ public class CSI extends Annotation {
    */
   @SuppressWarnings ("hiding")
   public final static int type = typeIndexID;
-  /** @generated  */
+  /** @generated
+   * @return index of the type  
+   */
   @Override
   public              int getTypeIndexID() {return typeIndexID;}
  
@@ -35,19 +37,28 @@ public class CSI extends Annotation {
   protected CSI() {/* intentionally empty block */}
     
   /** Internal - constructor used by generator 
-   * @generated */
+   * @generated
+   * @param addr low level Feature Structure reference
+   * @param type the type of this Feature Structure 
+   */
   public CSI(int addr, TOP_Type type) {
     super(addr, type);
     readObject();
   }
   
-  /** @generated */
+  /** @generated
+   * @param jcas JCas to which this Feature Structure belongs 
+   */
   public CSI(JCas jcas) {
     super(jcas);
     readObject();   
   } 
 
-  /** @generated */  
+  /** @generated
+   * @param jcas JCas to which this Feature Structure belongs
+   * @param begin offset to the begin spot in the SofA
+   * @param end offset to the end spot in the SofA 
+  */  
   public CSI(JCas jcas, int begin, int end) {
     super(jcas);
     setBegin(begin);
@@ -55,10 +66,13 @@ public class CSI extends Annotation {
     readObject();
   }   
 
-  /** <!-- begin-user-doc -->
-    * Write your own initialization here
-    * <!-- end-user-doc -->
-  @generated modifiable */
+  /** 
+   * <!-- begin-user-doc -->
+   * Write your own initialization here
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable 
+   */
   private void readObject() {/*default - does nothing empty block */}
      
  
@@ -67,14 +81,18 @@ public class CSI extends Annotation {
   //* Feature: ID
 
   /** getter for ID - gets ID
-   * @generated */
+   * @generated
+   * @return value of the feature 
+   */
   public String getID() {
     if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_ID == null)
       jcasType.jcas.throwFeatMissing("ID", "gov.va.vinci.leo.types.CSI");
     return jcasType.ll_cas.ll_getStringValue(addr, ((CSI_Type)jcasType).casFeatCode_ID);}
     
   /** setter for ID - sets ID 
-   * @generated */
+   * @generated
+   * @param v value to set into the feature 
+   */
   public void setID(String v) {
     if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_ID == null)
       jcasType.jcas.throwFeatMissing("ID", "gov.va.vinci.leo.types.CSI");
@@ -85,14 +103,18 @@ public class CSI extends Annotation {
   //* Feature: Locator
 
   /** getter for Locator - gets Locator for document.
-   * @generated */
+   * @generated
+   * @return value of the feature 
+   */
   public String getLocator() {
     if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_Locator == null)
       jcasType.jcas.throwFeatMissing("Locator", "gov.va.vinci.leo.types.CSI");
     return jcasType.ll_cas.ll_getStringValue(addr, ((CSI_Type)jcasType).casFeatCode_Locator);}
     
   /** setter for Locator - sets Locator for document. 
-   * @generated */
+   * @generated
+   * @param v value to set into the feature 
+   */
   public void setLocator(String v) {
     if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_Locator == null)
       jcasType.jcas.throwFeatMissing("Locator", "gov.va.vinci.leo.types.CSI");
@@ -103,21 +125,28 @@ public class CSI extends Annotation {
   //* Feature: RowData
 
   /** getter for RowData - gets Row data for document (if any)
-   * @generated */
+   * @generated
+   * @return value of the feature 
+   */
   public StringArray getRowData() {
     if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_RowData == null)
       jcasType.jcas.throwFeatMissing("RowData", "gov.va.vinci.leo.types.CSI");
     return (StringArray)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_RowData)));}
     
   /** setter for RowData - sets Row data for document (if any) 
-   * @generated */
+   * @generated
+   * @param v value to set into the feature 
+   */
   public void setRowData(StringArray v) {
     if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_RowData == null)
       jcasType.jcas.throwFeatMissing("RowData", "gov.va.vinci.leo.types.CSI");
     jcasType.ll_cas.ll_setRefValue(addr, ((CSI_Type)jcasType).casFeatCode_RowData, jcasType.ll_cas.ll_getFSRef(v));}    
     
   /** indexed getter for RowData - gets an indexed value - Row data for document (if any)
-   * @generated */
+   * @generated
+   * @param i index in the array to get
+   * @return value of the element at index i 
+   */
   public String getRowData(int i) {
     if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_RowData == null)
       jcasType.jcas.throwFeatMissing("RowData", "gov.va.vinci.leo.types.CSI");
@@ -125,7 +154,10 @@ public class CSI extends Annotation {
     return jcasType.ll_cas.ll_getStringArrayValue(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_RowData), i);}
 
   /** indexed setter for RowData - sets an indexed value - Row data for document (if any)
-   * @generated */
+   * @generated
+   * @param i index in the array to set
+   * @param v value to set into the array 
+   */
   public void setRowData(int i, String v) { 
     if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_RowData == null)
       jcasType.jcas.throwFeatMissing("RowData", "gov.va.vinci.leo.types.CSI");
@@ -137,21 +169,28 @@ public class CSI extends Annotation {
   //* Feature: PropertiesKeys
 
   /** getter for PropertiesKeys - gets Property keys
-   * @generated */
+   * @generated
+   * @return value of the feature 
+   */
   public StringArray getPropertiesKeys() {
     if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_PropertiesKeys == null)
       jcasType.jcas.throwFeatMissing("PropertiesKeys", "gov.va.vinci.leo.types.CSI");
     return (StringArray)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesKeys)));}
     
   /** setter for PropertiesKeys - sets Property keys 
-   * @generated */
+   * @generated
+   * @param v value to set into the feature 
+   */
   public void setPropertiesKeys(StringArray v) {
     if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_PropertiesKeys == null)
       jcasType.jcas.throwFeatMissing("PropertiesKeys", "gov.va.vinci.leo.types.CSI");
     jcasType.ll_cas.ll_setRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesKeys, jcasType.ll_cas.ll_getFSRef(v));}    
     
   /** indexed getter for PropertiesKeys - gets an indexed value - Property keys
-   * @generated */
+   * @generated
+   * @param i index in the array to get
+   * @return value of the element at index i 
+   */
   public String getPropertiesKeys(int i) {
     if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_PropertiesKeys == null)
       jcasType.jcas.throwFeatMissing("PropertiesKeys", "gov.va.vinci.leo.types.CSI");
@@ -159,7 +198,10 @@ public class CSI extends Annotation {
     return jcasType.ll_cas.ll_getStringArrayValue(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesKeys), i);}
 
   /** indexed setter for PropertiesKeys - sets an indexed value - Property keys
-   * @generated */
+   * @generated
+   * @param i index in the array to set
+   * @param v value to set into the array 
+   */
   public void setPropertiesKeys(int i, String v) { 
     if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_PropertiesKeys == null)
       jcasType.jcas.throwFeatMissing("PropertiesKeys", "gov.va.vinci.leo.types.CSI");
@@ -171,21 +213,28 @@ public class CSI extends Annotation {
   //* Feature: PropertiesValues
 
   /** getter for PropertiesValues - gets Property Values
-   * @generated */
+   * @generated
+   * @return value of the feature 
+   */
   public StringArray getPropertiesValues() {
     if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_PropertiesValues == null)
       jcasType.jcas.throwFeatMissing("PropertiesValues", "gov.va.vinci.leo.types.CSI");
     return (StringArray)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesValues)));}
     
   /** setter for PropertiesValues - sets Property Values 
-   * @generated */
+   * @generated
+   * @param v value to set into the feature 
+   */
   public void setPropertiesValues(StringArray v) {
     if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_PropertiesValues == null)
       jcasType.jcas.throwFeatMissing("PropertiesValues", "gov.va.vinci.leo.types.CSI");
     jcasType.ll_cas.ll_setRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesValues, jcasType.ll_cas.ll_getFSRef(v));}    
     
   /** indexed getter for PropertiesValues - gets an indexed value - Property Values
-   * @generated */
+   * @generated
+   * @param i index in the array to get
+   * @return value of the element at index i 
+   */
   public String getPropertiesValues(int i) {
     if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_PropertiesValues == null)
       jcasType.jcas.throwFeatMissing("PropertiesValues", "gov.va.vinci.leo.types.CSI");
@@ -193,7 +242,10 @@ public class CSI extends Annotation {
     return jcasType.ll_cas.ll_getStringArrayValue(jcasType.ll_cas.ll_getRefValue(addr, ((CSI_Type)jcasType).casFeatCode_PropertiesValues), i);}
 
   /** indexed setter for PropertiesValues - sets an indexed value - Property Values
-   * @generated */
+   * @generated
+   * @param i index in the array to set
+   * @param v value to set into the array 
+   */
   public void setPropertiesValues(int i, String v) { 
     if (CSI_Type.featOkTst && ((CSI_Type)jcasType).casFeat_PropertiesValues == null)
       jcasType.jcas.throwFeatMissing("PropertiesValues", "gov.va.vinci.leo.types.CSI");

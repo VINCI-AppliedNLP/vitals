@@ -4,7 +4,7 @@ readerType = "knowtator"
 
 // Listener types is one or more of the following
 // simpleCsv|simplexmi|csv|xmi|aucompare|compare|database
-listenerTypes = "database"
+listenerTypes = "csv|xmi"
 
 ///////////////////////////////////////////////////////////////////////////////
 sqlDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
@@ -53,14 +53,10 @@ csvFieldList = [
 	["ValueString", "-1", "varchar(1000)"],
 	["Assessment", "-1", "varchar(1000)"],
 	["Unit", "-1", "varchar(1000)"],
-	[
-		"Snippets",
-		"-1",
-		"varchar(2000)"]
-
-	//["SpanStart", "-1", "int"],
-	//["SpanEnd", "-1", "int"],
-	//["InstanceID", "-1", "int"]
+	["Snippets", "-1", "varchar(2000)"],
+	["SpanStart", "-1", "int"],
+	["SpanEnd", "-1", "int"]
+	//,["InstanceID", "-1", "int"]
 ]
 
 
@@ -76,7 +72,7 @@ openViewerAfterProcessing =  false
 // if the list is empty, all files will be outputted
 
 // INFO: Database listener
-outTableName="[nlp].[annotated_20140522]"
+outTableName="[nlp].[annotated_20140529]"
 
 
 
@@ -85,13 +81,14 @@ dbSchema = "dflt" // unless you create your own schema, "dflt" should be used
 outBatchSize= 1000
 
 dbFieldList = [
-	["TIUDocumentSID", "0", "bigint"],
+	["TIUDocumentSID", "0", "varchar(100)"],
 	["Term", "-1", "varchar(1000)"],
 	["Snippets", "-1", "varchar(1000)"],
 	["SpanStart", "-1", "int"],
 	["SpanEnd", "-1", "int"],
 	["InstanceID", "-1", "int"]
 ]
+
 
 // Siman output is for Chex
 simanSchema = "nlp"  //
@@ -109,6 +106,16 @@ auMap = ["gov.va.vinci.kttr.types.BPValue":"gov.va.vinci.vitals.types.Bp_value",
 // INFO: environments
 environments {
 	simple{ envType = "simple"; }
+	kttrToCsv{
+		readerType = "knowtator"
+		listenerTypes = "csv|xmi"
+		envType = "kttrToCsv";
+	}
+	compare{
+		readerType = "knowtator"
+		listenerTypes = "aucompare"
+		envType = "kttrToCsv";
+	}
 }
 
 

@@ -1,5 +1,8 @@
 package gov.va.vinci.vitals.listeners;
 
+import gov.va.vinci.kttr.types.BPValue;
+import gov.va.vinci.kttr.types.HRValue;
+import gov.va.vinci.kttr.types.TValue;
 import gov.va.vinci.leo.listener.BaseDatabaseListener;
 import gov.va.vinci.leo.model.DatabaseConnectionInformation;
 import gov.va.vinci.leo.tools.LeoUtils;
@@ -14,6 +17,11 @@ import java.util.Map.Entry;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.uima.cas.CAS;
+import org.apache.uima.cas.CASException;
+import org.apache.uima.cas.FSIndex;
+import org.apache.uima.cas.FSIterator;
+import org.apache.uima.cas.Type;
+import org.apache.uima.jcas.tcas.Annotation;
 
 public class DbsListener extends BaseDatabaseListener {
 
@@ -114,7 +122,7 @@ public class DbsListener extends BaseDatabaseListener {
 		statement = statement.substring(0, statement.length() - 2)
 				+ " ) VALUES ( " + values.substring(0, values.length() - 1)
 				+ " ) ;";
-
+log.info(statement);
 		return statement;
 	}
 
@@ -130,7 +138,7 @@ public class DbsListener extends BaseDatabaseListener {
 	public static String createCreateStatement(String dbsName,
 			String tableName, ArrayList<ArrayList<String>> fieldList) {
 
-		String statement = "CREATE TABLE " + dbsName + "." + tableName + " ( ";
+		String statement = "Drop table  " + dbsName + "." + tableName +"; CREATE TABLE " + dbsName + "." + tableName + " ( ";
 		for (ArrayList<String> entry : fieldList) {
 			statement = statement + entry.get(0) + " " + entry.get(2) + ", ";
 		}
@@ -140,39 +148,38 @@ public class DbsListener extends BaseDatabaseListener {
 
 	@Override
 	protected List<Object[]> getRows(CAS aCas) {
-		// Common fields from the incoming row data
-		HashMap<String, String> commonFields = new HashMap<String, String>();
+		ArrayList<Object[]> rows = new ArrayList<Object[]>();
+		
+		// Output all refst annotations
+		String[] types = new String[] { BPValue.class.getCanonicalName(),
+				HRValue.class.getCanonicalName(),
+				TValue.class.getCanonicalName() };
+		for (String singleType : types) {
+			Type type = aCas.getTypeSystem().getType(singleType);
+			FSIndex<?> index = aCas.getAnnotationIndex(type);
+			FSIterator<?> iterator = index.iterator();
 
-		if (docInfo.getRowData() == null) {
-			commonFields.put("DocID", ((docInfo.getID()).split("_"))[0]);
-		} else {
-			for (Entry<String, Integer> header : fields.entrySet()) {
-				if (header.getValue() >= 0)
-					commonFields.put(header.getKey(),
-							docInfo.getRowData(header.getValue()));
+			String refLoc;
+			try {
+				refLoc = getReferenceLocation(aCas.getJCas());
+			} catch (CASException e1) {
+				throw new RuntimeException(e1);
+			}
+
+			while (iterator.hasNext()) {  
+				Annotation a = (Annotation) iterator.next();
+				ArrayList<String> lineRow = new ArrayList<String>();
+				lineRow.add(refLoc);
+				lineRow.add(singleType);
+				lineRow.add(a.getCoveredText().replaceAll("\\s+", " "));
+				lineRow.add("" + a.getBegin());
+				lineRow.add("" + a.getEnd());
+				lineRow.add("177");
+				
+				rows.add(lineRow.toArray(new Object[lineRow.size()]));
 			}
 		}
-
-		// Specific fields - possible multiple rows
-		ArrayList<Object[]> rows = new ArrayList();
-
-		ArrayList<HashMap<String, String>> rowsMap = ListenerLogic
-				.getRows(aCas);
-
-		for (HashMap<String, String> rowMap : rowsMap) {
-			// Add common fields
-			rowMap.putAll(commonFields);
-			// populate an ordered list of values for each column
-			ArrayList<String> rowList = new ArrayList<String>();
-			for (String column : headers) {
-				if (rowMap.containsKey(column)) {
-					rowList.add(rowMap.get(column));
-				} else {
-					rowList.add("");
-				}
-			}
-			rows.add(rowList.toArray(new String[rowList.size()]));
-		}
+			    	      
 		return rows;
 	}
 

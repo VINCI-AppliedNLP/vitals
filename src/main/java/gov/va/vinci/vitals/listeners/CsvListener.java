@@ -103,7 +103,7 @@ public class CsvListener extends BaseCsvListener {
 	 * 
 	 * @param fieldList
 	 */
-	protected void setHeaders(ArrayList<ArrayList<String>> fieldList) {
+	public void setHeaders(ArrayList<ArrayList<String>> fieldList) {
 		fields = new HashMap<String, Integer>();
 		for (ArrayList<String> entry : fieldList) {
 			headers.add(entry.get(0));

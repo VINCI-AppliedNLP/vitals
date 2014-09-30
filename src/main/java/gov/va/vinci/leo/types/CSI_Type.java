@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Mon Mar 31 19:30:41 CDT 2014 */
+/* First created by JCasGen Tue Sep 30 00:30:29 CDT 2014 */
 package gov.va.vinci.leo.types;
 
 import org.apache.uima.jcas.JCas;
@@ -14,10 +14,12 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** CSI Annotation
- * Updated by JCasGen Mon Mar 31 19:30:41 CDT 2014
+ * Updated by JCasGen Tue Sep 30 00:30:29 CDT 2014
  * @generated */
 public class CSI_Type extends Annotation_Type {
-  /** @generated */
+  /** @generated 
+   * @return the generator for this type
+   */
   @Override
   protected FSGenerator getFSGenerator() {return fsGenerator;}
   /** @generated */
@@ -48,13 +50,19 @@ public class CSI_Type extends Annotation_Type {
   final Feature casFeat_ID;
   /** @generated */
   final int     casFeatCode_ID;
-  /** @generated */ 
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
   public String getID(int addr) {
         if (featOkTst && casFeat_ID == null)
       jcas.throwFeatMissing("ID", "gov.va.vinci.leo.types.CSI");
     return ll_cas.ll_getStringValue(addr, casFeatCode_ID);
   }
-  /** @generated */    
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
   public void setID(int addr, String v) {
         if (featOkTst && casFeat_ID == null)
       jcas.throwFeatMissing("ID", "gov.va.vinci.leo.types.CSI");
@@ -66,13 +74,19 @@ public class CSI_Type extends Annotation_Type {
   final Feature casFeat_Locator;
   /** @generated */
   final int     casFeatCode_Locator;
-  /** @generated */ 
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
   public String getLocator(int addr) {
         if (featOkTst && casFeat_Locator == null)
       jcas.throwFeatMissing("Locator", "gov.va.vinci.leo.types.CSI");
     return ll_cas.ll_getStringValue(addr, casFeatCode_Locator);
   }
-  /** @generated */    
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
   public void setLocator(int addr, String v) {
         if (featOkTst && casFeat_Locator == null)
       jcas.throwFeatMissing("Locator", "gov.va.vinci.leo.types.CSI");
@@ -84,19 +98,29 @@ public class CSI_Type extends Annotation_Type {
   final Feature casFeat_RowData;
   /** @generated */
   final int     casFeatCode_RowData;
-  /** @generated */ 
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
   public int getRowData(int addr) {
         if (featOkTst && casFeat_RowData == null)
       jcas.throwFeatMissing("RowData", "gov.va.vinci.leo.types.CSI");
     return ll_cas.ll_getRefValue(addr, casFeatCode_RowData);
   }
-  /** @generated */    
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
   public void setRowData(int addr, int v) {
         if (featOkTst && casFeat_RowData == null)
       jcas.throwFeatMissing("RowData", "gov.va.vinci.leo.types.CSI");
     ll_cas.ll_setRefValue(addr, casFeatCode_RowData, v);}
     
-   /** @generated */
+   /** @generated
+   * @param addr low level Feature Structure reference
+   * @param i index of item in the array
+   * @return value at index i in the array 
+   */
   public String getRowData(int addr, int i) {
         if (featOkTst && casFeat_RowData == null)
       jcas.throwFeatMissing("RowData", "gov.va.vinci.leo.types.CSI");
@@ -106,7 +130,11 @@ public class CSI_Type extends Annotation_Type {
 	return ll_cas.ll_getStringArrayValue(ll_cas.ll_getRefValue(addr, casFeatCode_RowData), i);
   }
    
-  /** @generated */ 
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param i index of item in the array
+   * @param v value to set
+   */ 
   public void setRowData(int addr, int i, String v) {
         if (featOkTst && casFeat_RowData == null)
       jcas.throwFeatMissing("RowData", "gov.va.vinci.leo.types.CSI");
@@ -121,19 +149,29 @@ public class CSI_Type extends Annotation_Type {
   final Feature casFeat_PropertiesKeys;
   /** @generated */
   final int     casFeatCode_PropertiesKeys;
-  /** @generated */ 
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
   public int getPropertiesKeys(int addr) {
         if (featOkTst && casFeat_PropertiesKeys == null)
       jcas.throwFeatMissing("PropertiesKeys", "gov.va.vinci.leo.types.CSI");
     return ll_cas.ll_getRefValue(addr, casFeatCode_PropertiesKeys);
   }
-  /** @generated */    
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
   public void setPropertiesKeys(int addr, int v) {
         if (featOkTst && casFeat_PropertiesKeys == null)
       jcas.throwFeatMissing("PropertiesKeys", "gov.va.vinci.leo.types.CSI");
     ll_cas.ll_setRefValue(addr, casFeatCode_PropertiesKeys, v);}
     
-   /** @generated */
+   /** @generated
+   * @param addr low level Feature Structure reference
+   * @param i index of item in the array
+   * @return value at index i in the array 
+   */
   public String getPropertiesKeys(int addr, int i) {
         if (featOkTst && casFeat_PropertiesKeys == null)
       jcas.throwFeatMissing("PropertiesKeys", "gov.va.vinci.leo.types.CSI");
@@ -143,7 +181,11 @@ public class CSI_Type extends Annotation_Type {
 	return ll_cas.ll_getStringArrayValue(ll_cas.ll_getRefValue(addr, casFeatCode_PropertiesKeys), i);
   }
    
-  /** @generated */ 
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param i index of item in the array
+   * @param v value to set
+   */ 
   public void setPropertiesKeys(int addr, int i, String v) {
         if (featOkTst && casFeat_PropertiesKeys == null)
       jcas.throwFeatMissing("PropertiesKeys", "gov.va.vinci.leo.types.CSI");
@@ -158,19 +200,29 @@ public class CSI_Type extends Annotation_Type {
   final Feature casFeat_PropertiesValues;
   /** @generated */
   final int     casFeatCode_PropertiesValues;
-  /** @generated */ 
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
   public int getPropertiesValues(int addr) {
         if (featOkTst && casFeat_PropertiesValues == null)
       jcas.throwFeatMissing("PropertiesValues", "gov.va.vinci.leo.types.CSI");
     return ll_cas.ll_getRefValue(addr, casFeatCode_PropertiesValues);
   }
-  /** @generated */    
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
   public void setPropertiesValues(int addr, int v) {
         if (featOkTst && casFeat_PropertiesValues == null)
       jcas.throwFeatMissing("PropertiesValues", "gov.va.vinci.leo.types.CSI");
     ll_cas.ll_setRefValue(addr, casFeatCode_PropertiesValues, v);}
     
-   /** @generated */
+   /** @generated
+   * @param addr low level Feature Structure reference
+   * @param i index of item in the array
+   * @return value at index i in the array 
+   */
   public String getPropertiesValues(int addr, int i) {
         if (featOkTst && casFeat_PropertiesValues == null)
       jcas.throwFeatMissing("PropertiesValues", "gov.va.vinci.leo.types.CSI");
@@ -180,7 +232,11 @@ public class CSI_Type extends Annotation_Type {
 	return ll_cas.ll_getStringArrayValue(ll_cas.ll_getRefValue(addr, casFeatCode_PropertiesValues), i);
   }
    
-  /** @generated */ 
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param i index of item in the array
+   * @param v value to set
+   */ 
   public void setPropertiesValues(int addr, int i, String v) {
         if (featOkTst && casFeat_PropertiesValues == null)
       jcas.throwFeatMissing("PropertiesValues", "gov.va.vinci.leo.types.CSI");
@@ -194,7 +250,10 @@ public class CSI_Type extends Annotation_Type {
 
 
   /** initialize variables to correspond with Cas Type and Features
-	* @generated */
+	 * @generated
+	 * @param jcas JCas
+	 * @param casType Type 
+	 */
   public CSI_Type(JCas jcas, Type casType) {
     super(jcas, casType);
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());

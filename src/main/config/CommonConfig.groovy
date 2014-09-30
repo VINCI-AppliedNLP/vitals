@@ -17,9 +17,17 @@ serviceQueueName = "VitalsForSepsis";
  *   vinciDbToDb    =>  Reader: database on VINCI, Listeners: database on VINCI
  *   vinciDbToSiman =>  Reader: database on VINCI, Listeners: siman database on VINCI
  *   "kttrToCsv"
+ *   "compare"
  */
-clientEnvironment = "vinciDbToCsv";
+clientEnvironment = "compare";
 startClient = false;
+generateTypes=true;
+casPoolSize=1;
+registerWithJam=false;
+
+//descriptorPath="P:\\ORD_Iwashyna_201108021D\\NLP\\desc\\";
+//delete_on_exit=false;
+
 
 /**************************************************************/
 /**  Do not change code below                                 */
@@ -32,11 +40,6 @@ else {
   brokerUrl = "tcp://localhost:61616";
   jamURL = "http://localhost:8080/jam";
 }
-
-
-casPoolSize = 4;
-
-
 
 
 
