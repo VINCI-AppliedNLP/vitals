@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Tue Sep 30 00:30:29 CDT 2014 */
+/* First created by JCasGen Wed Oct 01 18:23:38 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Tue Sep 30 00:30:29 CDT 2014
+ * Updated by JCasGen Wed Oct 01 18:23:38 CDT 2014
  * @generated */
 public class Hr_value_Type extends Annotation_Type {
   /** @generated 
@@ -47,50 +47,74 @@ public class Hr_value_Type extends Annotation_Type {
   public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.vitals.types.Hr_value");
  
   /** @generated */
-  final Feature casFeat_Value;
+  final Feature casFeat_value;
   /** @generated */
-  final int     casFeatCode_Value;
+  final int     casFeatCode_value;
   /** @generated
    * @param addr low level Feature Structure reference
    * @return the feature value 
    */ 
   public String getValue(int addr) {
-        if (featOkTst && casFeat_Value == null)
-      jcas.throwFeatMissing("Value", "gov.va.vinci.vitals.types.Hr_value");
-    return ll_cas.ll_getStringValue(addr, casFeatCode_Value);
+        if (featOkTst && casFeat_value == null)
+      jcas.throwFeatMissing("value", "gov.va.vinci.vitals.types.Hr_value");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_value);
   }
   /** @generated
    * @param addr low level Feature Structure reference
    * @param v value to set 
    */    
   public void setValue(int addr, String v) {
-        if (featOkTst && casFeat_Value == null)
-      jcas.throwFeatMissing("Value", "gov.va.vinci.vitals.types.Hr_value");
-    ll_cas.ll_setStringValue(addr, casFeatCode_Value, v);}
+        if (featOkTst && casFeat_value == null)
+      jcas.throwFeatMissing("value", "gov.va.vinci.vitals.types.Hr_value");
+    ll_cas.ll_setStringValue(addr, casFeatCode_value, v);}
     
   
  
   /** @generated */
-  final Feature casFeat_Unit;
+  final Feature casFeat_unit;
   /** @generated */
-  final int     casFeatCode_Unit;
+  final int     casFeatCode_unit;
   /** @generated
    * @param addr low level Feature Structure reference
    * @return the feature value 
    */ 
   public int getUnit(int addr) {
-        if (featOkTst && casFeat_Unit == null)
-      jcas.throwFeatMissing("Unit", "gov.va.vinci.vitals.types.Hr_value");
-    return ll_cas.ll_getRefValue(addr, casFeatCode_Unit);
+        if (featOkTst && casFeat_unit == null)
+      jcas.throwFeatMissing("unit", "gov.va.vinci.vitals.types.Hr_value");
+    return ll_cas.ll_getRefValue(addr, casFeatCode_unit);
   }
   /** @generated
    * @param addr low level Feature Structure reference
    * @param v value to set 
    */    
   public void setUnit(int addr, int v) {
-        if (featOkTst && casFeat_Unit == null)
-      jcas.throwFeatMissing("Unit", "gov.va.vinci.vitals.types.Hr_value");
-    ll_cas.ll_setRefValue(addr, casFeatCode_Unit, v);}
+        if (featOkTst && casFeat_unit == null)
+      jcas.throwFeatMissing("unit", "gov.va.vinci.vitals.types.Hr_value");
+    ll_cas.ll_setRefValue(addr, casFeatCode_unit, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_source;
+  /** @generated */
+  final int     casFeatCode_source;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public String getSource(int addr) {
+        if (featOkTst && casFeat_source == null)
+      jcas.throwFeatMissing("source", "gov.va.vinci.vitals.types.Hr_value");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_source);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setSource(int addr, String v) {
+        if (featOkTst && casFeat_source == null)
+      jcas.throwFeatMissing("source", "gov.va.vinci.vitals.types.Hr_value");
+    ll_cas.ll_setStringValue(addr, casFeatCode_source, v);}
     
   
 
@@ -106,12 +130,16 @@ public class Hr_value_Type extends Annotation_Type {
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
  
-    casFeat_Value = jcas.getRequiredFeatureDE(casType, "Value", "uima.cas.String", featOkTst);
-    casFeatCode_Value  = (null == casFeat_Value) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_Value).getCode();
+    casFeat_value = jcas.getRequiredFeatureDE(casType, "value", "uima.cas.String", featOkTst);
+    casFeatCode_value  = (null == casFeat_value) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_value).getCode();
 
  
-    casFeat_Unit = jcas.getRequiredFeatureDE(casType, "Unit", "uima.tcas.Annotation", featOkTst);
-    casFeatCode_Unit  = (null == casFeat_Unit) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_Unit).getCode();
+    casFeat_unit = jcas.getRequiredFeatureDE(casType, "unit", "uima.tcas.Annotation", featOkTst);
+    casFeatCode_unit  = (null == casFeat_unit) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_unit).getCode();
+
+ 
+    casFeat_source = jcas.getRequiredFeatureDE(casType, "source", "uima.cas.String", featOkTst);
+    casFeatCode_source  = (null == casFeat_source) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_source).getCode();
 
   }
 }

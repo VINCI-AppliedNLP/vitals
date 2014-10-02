@@ -5,7 +5,6 @@ ratio\b
 mm\s?\[?hg\]?
 mm\/Hg
 \b1 *\r\n
-beats per minute
+beats per minute|/min/b
 sq\/cm
 #meters\s+per\s+second
-#This is for those cases when there is a superscript squared or cubed. But it causes other errors. cm\S

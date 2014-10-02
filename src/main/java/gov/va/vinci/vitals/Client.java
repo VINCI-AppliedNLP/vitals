@@ -255,15 +255,14 @@ public class Client {
 					    + "_Compare.csv";
 					HashMap<String, String> comparePairs = new HashMap<String, String>();
 					comparePairs.put(BPValue.class.getCanonicalName(), Bp_value.class.getCanonicalName());
-					comparePairs.put(TValue.class.getCanonicalName(), 					    T_value.class.getCanonicalName());
+					comparePairs.put(TValue.class.getCanonicalName(), T_value.class.getCanonicalName());
 					comparePairs.put(HRValue.class.getCanonicalName(), Hr_value.class.getCanonicalName());
-					
+
 					if (!(new File(csvPath).getParentFile().exists()))
 						new File(csvPath).getParentFile().mkdirs();
 					listener = new SimpleCompareListener(comparePairs, new File(csvPath));
 					listenerList.add(listener);
 
-					
 					/**
 						gov.va.vinci.leo.listener.AuSummaryListener listener = null;
 						HashMap<String, String> auMap = ((HashMap<String, String>) config.get("auMap"));

@@ -36,6 +36,9 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 	        | java.util.regex.Pattern.CASE_INSENSITIVE);
 	public static java.util.regex.Pattern singleNumber = java.util.regex.Pattern.compile("\\b\\d{2,3}\\b",
 	    java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
+	public static java.util.regex.Pattern oneDecmalNumber = java.util.regex.Pattern.compile(
+	    "\\b\\d{2,3}\\.\\d\\b",
+	    java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
 
 	public static enum vitalTypes {
 		Blood_Pressure, Heart_Rate, Temperature
@@ -104,28 +107,58 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 				if (numbers.size() > 0) {
 					for (Annotation number : numbers) {
 						if (isBloodPressure(number.getCoveredText())) {
-							this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas, number.getBegin(),
+							Annotation newAnn = this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas,
+							    number.getBegin(),
 							    number.getEnd());
-							annsToRemove.add(number);
+							((Bp_value) newAnn).setSource("heuristics");
+						} else if (isTemperature(number.getCoveredText())) {
+							T_value newAnn = (T_value) this.addOutputAnnotation(T_value.class.getCanonicalName(), aJCas,
+							    number.getBegin(),
+							    number.getEnd());
+							newAnn.setSource("heuristics");
+						} else if (isPulse(number.getCoveredText())) {
+							Hr_value newAnn = (Hr_value) this.addOutputAnnotation(Hr_value.class.getCanonicalName(), aJCas,
+							    number.getBegin(),
+							    number.getEnd());
+							newAnn.setSource("heuristics");
 						}
-					}
+
+						annsToRemove.add(number);
+					}// end of Number loop
+				}
+				for (Annotation a : annsToRemove) {
+					a.removeFromIndexes(aJCas);
 				}
 			} catch (CASException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-
 		//}
+	}
 
-		for (Annotation a : annsToRemove) {
-			a.removeFromIndexes(aJCas);
+	private boolean isPulse(String text) {
+		return false;
+	}
+
+	private boolean isTemperature(String text) {
+		Matcher digitMatcher = oneDecmalNumber.matcher(text);
+		if (digitMatcher.find()) {
+			String n = text.substring(digitMatcher.start(), digitMatcher.end());
+			try {
+				double num = Double.parseDouble(n);
+				if ((num > 32 && num < 43) || (num > 94 && num < 105))
+					return true;
+				else
+					return false;
+			} catch (Exception e) {
+				return false;
+			}
 		}
-
+		return false;
 	}
 
 	private boolean isBloodPressure(String text) {
-
 		Matcher measureMatcher = bpPattern.matcher(text);
 		if (measureMatcher.find()) {
 			String m = text.substring(measureMatcher.start(), measureMatcher.end());
@@ -133,22 +166,15 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 			if (digitMatcher.find()) {
 				String n = m.substring(digitMatcher.start(), digitMatcher.end());
 				try {
-					int num = Integer.parseInt(m);
-					if (num < 40)
-						return false;
-					if (num > 300)
-						return false;
-					return true;
+					int num = Integer.parseInt(n);
+					if (num > 50 && num < 300)
+						return true;
 				} catch (Exception e) {
 					return false;
 				}
-			} else {
-				return false;
 			}
-
 		}
-		else
-			return false;
+		return false;
 	}
 
 	public LeoAEDescriptor getLeoAEDescriptor() throws Exception {

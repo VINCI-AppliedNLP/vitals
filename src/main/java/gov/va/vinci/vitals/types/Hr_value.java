@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Tue Sep 30 00:30:29 CDT 2014 */
+/* First created by JCasGen Wed Oct 01 18:23:38 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Tue Sep 30 00:30:29 CDT 2014
- * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/2/leoTypeDescription_eeaf3c04-9fc0-41b6-bcbf-cee9a35a4d508239547159650927851.xml
+ * Updated by JCasGen Wed Oct 01 18:23:38 CDT 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/2/leoTypeDescription_3cbfca89-0bac-4912-8ad7-42664a9615298058308700437010140.xml
  * @generated */
 public class Hr_value extends Annotation {
   /** @generated
@@ -77,47 +77,69 @@ public class Hr_value extends Annotation {
  
     
   //*--------------*
-  //* Feature: Value
+  //* Feature: value
 
-  /** getter for Value - gets 
+  /** getter for value - gets 
    * @generated
    * @return value of the feature 
    */
   public String getValue() {
-    if (Hr_value_Type.featOkTst && ((Hr_value_Type)jcasType).casFeat_Value == null)
-      jcasType.jcas.throwFeatMissing("Value", "gov.va.vinci.vitals.types.Hr_value");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Hr_value_Type)jcasType).casFeatCode_Value);}
+    if (Hr_value_Type.featOkTst && ((Hr_value_Type)jcasType).casFeat_value == null)
+      jcasType.jcas.throwFeatMissing("value", "gov.va.vinci.vitals.types.Hr_value");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Hr_value_Type)jcasType).casFeatCode_value);}
     
-  /** setter for Value - sets  
+  /** setter for value - sets  
    * @generated
    * @param v value to set into the feature 
    */
   public void setValue(String v) {
-    if (Hr_value_Type.featOkTst && ((Hr_value_Type)jcasType).casFeat_Value == null)
-      jcasType.jcas.throwFeatMissing("Value", "gov.va.vinci.vitals.types.Hr_value");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Hr_value_Type)jcasType).casFeatCode_Value, v);}    
+    if (Hr_value_Type.featOkTst && ((Hr_value_Type)jcasType).casFeat_value == null)
+      jcasType.jcas.throwFeatMissing("value", "gov.va.vinci.vitals.types.Hr_value");
+    jcasType.ll_cas.ll_setStringValue(addr, ((Hr_value_Type)jcasType).casFeatCode_value, v);}    
    
     
   //*--------------*
-  //* Feature: Unit
+  //* Feature: unit
 
-  /** getter for Unit - gets 
+  /** getter for unit - gets 
    * @generated
    * @return value of the feature 
    */
   public Annotation getUnit() {
-    if (Hr_value_Type.featOkTst && ((Hr_value_Type)jcasType).casFeat_Unit == null)
-      jcasType.jcas.throwFeatMissing("Unit", "gov.va.vinci.vitals.types.Hr_value");
-    return (Annotation)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Hr_value_Type)jcasType).casFeatCode_Unit)));}
+    if (Hr_value_Type.featOkTst && ((Hr_value_Type)jcasType).casFeat_unit == null)
+      jcasType.jcas.throwFeatMissing("unit", "gov.va.vinci.vitals.types.Hr_value");
+    return (Annotation)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Hr_value_Type)jcasType).casFeatCode_unit)));}
     
-  /** setter for Unit - sets  
+  /** setter for unit - sets  
    * @generated
    * @param v value to set into the feature 
    */
   public void setUnit(Annotation v) {
-    if (Hr_value_Type.featOkTst && ((Hr_value_Type)jcasType).casFeat_Unit == null)
-      jcasType.jcas.throwFeatMissing("Unit", "gov.va.vinci.vitals.types.Hr_value");
-    jcasType.ll_cas.ll_setRefValue(addr, ((Hr_value_Type)jcasType).casFeatCode_Unit, jcasType.ll_cas.ll_getFSRef(v));}    
+    if (Hr_value_Type.featOkTst && ((Hr_value_Type)jcasType).casFeat_unit == null)
+      jcasType.jcas.throwFeatMissing("unit", "gov.va.vinci.vitals.types.Hr_value");
+    jcasType.ll_cas.ll_setRefValue(addr, ((Hr_value_Type)jcasType).casFeatCode_unit, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
+  //*--------------*
+  //* Feature: source
+
+  /** getter for source - gets 
+   * @generated
+   * @return value of the feature 
+   */
+  public String getSource() {
+    if (Hr_value_Type.featOkTst && ((Hr_value_Type)jcasType).casFeat_source == null)
+      jcasType.jcas.throwFeatMissing("source", "gov.va.vinci.vitals.types.Hr_value");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Hr_value_Type)jcasType).casFeatCode_source);}
+    
+  /** setter for source - sets  
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setSource(String v) {
+    if (Hr_value_Type.featOkTst && ((Hr_value_Type)jcasType).casFeat_source == null)
+      jcasType.jcas.throwFeatMissing("source", "gov.va.vinci.vitals.types.Hr_value");
+    jcasType.ll_cas.ll_setStringValue(addr, ((Hr_value_Type)jcasType).casFeatCode_source, v);}    
   }
 
     

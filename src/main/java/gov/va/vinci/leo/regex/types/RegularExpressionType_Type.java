@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Tue Sep 30 00:30:29 CDT 2014 */
+/* First created by JCasGen Wed Oct 01 18:23:38 CDT 2014 */
 package gov.va.vinci.leo.regex.types;
 
 import org.apache.uima.jcas.JCas;
@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Tue Sep 30 00:30:29 CDT 2014
+ * Updated by JCasGen Wed Oct 01 18:23:38 CDT 2014
  * @generated */
 public class RegularExpressionType_Type extends Annotation_Type {
   /** @generated 

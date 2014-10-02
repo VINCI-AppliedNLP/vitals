@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Tue Sep 30 00:30:29 CDT 2014 */
+/* First created by JCasGen Wed Oct 01 18:23:38 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Tue Sep 30 00:30:29 CDT 2014
+ * Updated by JCasGen Wed Oct 01 18:23:38 CDT 2014
  * @generated */
 public class Bp_value_Type extends Annotation_Type {
   /** @generated 
@@ -47,74 +47,98 @@ public class Bp_value_Type extends Annotation_Type {
   public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.vitals.types.Bp_value");
  
   /** @generated */
-  final Feature casFeat_SystolicValue;
+  final Feature casFeat_systolicValue;
   /** @generated */
-  final int     casFeatCode_SystolicValue;
+  final int     casFeatCode_systolicValue;
   /** @generated
    * @param addr low level Feature Structure reference
    * @return the feature value 
    */ 
   public String getSystolicValue(int addr) {
-        if (featOkTst && casFeat_SystolicValue == null)
-      jcas.throwFeatMissing("SystolicValue", "gov.va.vinci.vitals.types.Bp_value");
-    return ll_cas.ll_getStringValue(addr, casFeatCode_SystolicValue);
+        if (featOkTst && casFeat_systolicValue == null)
+      jcas.throwFeatMissing("systolicValue", "gov.va.vinci.vitals.types.Bp_value");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_systolicValue);
   }
   /** @generated
    * @param addr low level Feature Structure reference
    * @param v value to set 
    */    
   public void setSystolicValue(int addr, String v) {
-        if (featOkTst && casFeat_SystolicValue == null)
-      jcas.throwFeatMissing("SystolicValue", "gov.va.vinci.vitals.types.Bp_value");
-    ll_cas.ll_setStringValue(addr, casFeatCode_SystolicValue, v);}
+        if (featOkTst && casFeat_systolicValue == null)
+      jcas.throwFeatMissing("systolicValue", "gov.va.vinci.vitals.types.Bp_value");
+    ll_cas.ll_setStringValue(addr, casFeatCode_systolicValue, v);}
     
   
  
   /** @generated */
-  final Feature casFeat_DiastolicValue;
+  final Feature casFeat_diastolicValue;
   /** @generated */
-  final int     casFeatCode_DiastolicValue;
+  final int     casFeatCode_diastolicValue;
   /** @generated
    * @param addr low level Feature Structure reference
    * @return the feature value 
    */ 
   public String getDiastolicValue(int addr) {
-        if (featOkTst && casFeat_DiastolicValue == null)
-      jcas.throwFeatMissing("DiastolicValue", "gov.va.vinci.vitals.types.Bp_value");
-    return ll_cas.ll_getStringValue(addr, casFeatCode_DiastolicValue);
+        if (featOkTst && casFeat_diastolicValue == null)
+      jcas.throwFeatMissing("diastolicValue", "gov.va.vinci.vitals.types.Bp_value");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_diastolicValue);
   }
   /** @generated
    * @param addr low level Feature Structure reference
    * @param v value to set 
    */    
   public void setDiastolicValue(int addr, String v) {
-        if (featOkTst && casFeat_DiastolicValue == null)
-      jcas.throwFeatMissing("DiastolicValue", "gov.va.vinci.vitals.types.Bp_value");
-    ll_cas.ll_setStringValue(addr, casFeatCode_DiastolicValue, v);}
+        if (featOkTst && casFeat_diastolicValue == null)
+      jcas.throwFeatMissing("diastolicValue", "gov.va.vinci.vitals.types.Bp_value");
+    ll_cas.ll_setStringValue(addr, casFeatCode_diastolicValue, v);}
     
   
  
   /** @generated */
-  final Feature casFeat_Unit;
+  final Feature casFeat_unit;
   /** @generated */
-  final int     casFeatCode_Unit;
+  final int     casFeatCode_unit;
   /** @generated
    * @param addr low level Feature Structure reference
    * @return the feature value 
    */ 
   public int getUnit(int addr) {
-        if (featOkTst && casFeat_Unit == null)
-      jcas.throwFeatMissing("Unit", "gov.va.vinci.vitals.types.Bp_value");
-    return ll_cas.ll_getRefValue(addr, casFeatCode_Unit);
+        if (featOkTst && casFeat_unit == null)
+      jcas.throwFeatMissing("unit", "gov.va.vinci.vitals.types.Bp_value");
+    return ll_cas.ll_getRefValue(addr, casFeatCode_unit);
   }
   /** @generated
    * @param addr low level Feature Structure reference
    * @param v value to set 
    */    
   public void setUnit(int addr, int v) {
-        if (featOkTst && casFeat_Unit == null)
-      jcas.throwFeatMissing("Unit", "gov.va.vinci.vitals.types.Bp_value");
-    ll_cas.ll_setRefValue(addr, casFeatCode_Unit, v);}
+        if (featOkTst && casFeat_unit == null)
+      jcas.throwFeatMissing("unit", "gov.va.vinci.vitals.types.Bp_value");
+    ll_cas.ll_setRefValue(addr, casFeatCode_unit, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_source;
+  /** @generated */
+  final int     casFeatCode_source;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public String getSource(int addr) {
+        if (featOkTst && casFeat_source == null)
+      jcas.throwFeatMissing("source", "gov.va.vinci.vitals.types.Bp_value");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_source);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setSource(int addr, String v) {
+        if (featOkTst && casFeat_source == null)
+      jcas.throwFeatMissing("source", "gov.va.vinci.vitals.types.Bp_value");
+    ll_cas.ll_setStringValue(addr, casFeatCode_source, v);}
     
   
 
@@ -130,16 +154,20 @@ public class Bp_value_Type extends Annotation_Type {
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
  
-    casFeat_SystolicValue = jcas.getRequiredFeatureDE(casType, "SystolicValue", "uima.cas.String", featOkTst);
-    casFeatCode_SystolicValue  = (null == casFeat_SystolicValue) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_SystolicValue).getCode();
+    casFeat_systolicValue = jcas.getRequiredFeatureDE(casType, "systolicValue", "uima.cas.String", featOkTst);
+    casFeatCode_systolicValue  = (null == casFeat_systolicValue) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_systolicValue).getCode();
 
  
-    casFeat_DiastolicValue = jcas.getRequiredFeatureDE(casType, "DiastolicValue", "uima.cas.String", featOkTst);
-    casFeatCode_DiastolicValue  = (null == casFeat_DiastolicValue) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_DiastolicValue).getCode();
+    casFeat_diastolicValue = jcas.getRequiredFeatureDE(casType, "diastolicValue", "uima.cas.String", featOkTst);
+    casFeatCode_diastolicValue  = (null == casFeat_diastolicValue) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_diastolicValue).getCode();
 
  
-    casFeat_Unit = jcas.getRequiredFeatureDE(casType, "Unit", "uima.tcas.Annotation", featOkTst);
-    casFeatCode_Unit  = (null == casFeat_Unit) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_Unit).getCode();
+    casFeat_unit = jcas.getRequiredFeatureDE(casType, "unit", "uima.tcas.Annotation", featOkTst);
+    casFeatCode_unit  = (null == casFeat_unit) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_unit).getCode();
+
+ 
+    casFeat_source = jcas.getRequiredFeatureDE(casType, "source", "uima.cas.String", featOkTst);
+    casFeatCode_source  = (null == casFeat_source) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_source).getCode();
 
   }
 }

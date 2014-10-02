@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Tue Sep 30 00:30:29 CDT 2014 */
+/* First created by JCasGen Wed Oct 01 18:23:38 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -10,8 +10,8 @@ import org.apache.uima.jcas.cas.TOP_Type;
 
 
 /** 
- * Updated by JCasGen Tue Sep 30 00:30:29 CDT 2014
- * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/2/leoTypeDescription_eeaf3c04-9fc0-41b6-bcbf-cee9a35a4d508239547159650927851.xml
+ * Updated by JCasGen Wed Oct 01 18:23:38 CDT 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/2/leoTypeDescription_3cbfca89-0bac-4912-8ad7-42664a9615298058308700437010140.xml
  * @generated */
 public class Relation extends Pattern {
   /** @generated

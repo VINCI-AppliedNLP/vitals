@@ -10,14 +10,32 @@
  /**************************************************************/
 /**  Do not change code below                                 */ 
 /**************************************************************/
-
+ /*
+	* clientEnvironment encodes the data source (file vs database)
+	*   and  data target (csv, xmi, database, siman for chex)
+	*
+	* clientEvironment can be
+	*   simple   =>  Reader: files, Listeners: csv, xmi
+	*   localdb  =>  Reader: local MySql database, Listeners: csv, xmi  ( rare option )
+	*   vinciDbToCsv   =>  Reader: database on VINCI, Listeners: csv, xmi
+	*   vinciDbToDb    =>  Reader: database on VINCI, Listeners: database on VINCI
+	*   vinciDbToSiman =>  Reader: database on VINCI, Listeners: siman database on VINCI
+	*   "kttrToCsv"
+	*   "compare"
+	*/
+ clientEnvironment = "compare"
+ startClient = false
+ 
 /**
  * UIMA-AS service Variables
  */
 numInstances = 4;
 runAsync = false;
-generateTypes = false;
+generateTypes=true
+registerWithJam=false
 
+//descriptorPath="P:\\ORD_Iwashyna_201108021D\\NLP\\desc\\";
+//delete_on_exit=false;
 /**
  * JAM variables
  */
