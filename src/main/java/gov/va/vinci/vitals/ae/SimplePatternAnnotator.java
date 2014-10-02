@@ -68,16 +68,19 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 						if (StringUtils.isNotBlank(pattern)) {
 							String vitalType = pattern.split("\\|")[0];
 							if (vitalType.contains(vitalTypes.Blood_Pressure.name())) {
-								this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas, number.getBegin(),
+								Bp_value newAnn = (Bp_value) this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas, number.getBegin(),
 								    number.getEnd());
+								newAnn.setSource("pattern");
 								annsToRemove.add(number);
 							} else if (vitalType.contains(vitalTypes.Heart_Rate.name())) {
-								this.addOutputAnnotation(Hr_value.class.getCanonicalName(), aJCas, number.getBegin(),
+								Hr_value newAnn = (Hr_value)this.addOutputAnnotation(Hr_value.class.getCanonicalName(), aJCas, number.getBegin(),
 								    number.getEnd());
+								newAnn.setSource("pattern");
 								annsToRemove.add(number);
 							} else if (vitalType.contains(vitalTypes.Temperature.name())) {
-								this.addOutputAnnotation(T_value.class.getCanonicalName(), aJCas, number.getBegin(),
+								T_value newAnn = (T_value) this.addOutputAnnotation(T_value.class.getCanonicalName(), aJCas, number.getBegin(),
 								    number.getEnd());
+								newAnn.setSource("pattern");
 								annsToRemove.add(number);
 							}
 						}
@@ -108,18 +111,15 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 					for (Annotation number : numbers) {
 						if (isBloodPressure(number.getCoveredText())) {
 							Annotation newAnn = this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas,
-							    number.getBegin(),
-							    number.getEnd());
+							    number.getBegin(), number.getEnd());
 							((Bp_value) newAnn).setSource("heuristics");
 						} else if (isTemperature(number.getCoveredText())) {
 							T_value newAnn = (T_value) this.addOutputAnnotation(T_value.class.getCanonicalName(), aJCas,
-							    number.getBegin(),
-							    number.getEnd());
+							    number.getBegin(), number.getEnd());
 							newAnn.setSource("heuristics");
 						} else if (isPulse(number.getCoveredText())) {
 							Hr_value newAnn = (Hr_value) this.addOutputAnnotation(Hr_value.class.getCanonicalName(), aJCas,
-							    number.getBegin(),
-							    number.getEnd());
+							    number.getBegin(), number.getEnd());
 							newAnn.setSource("heuristics");
 						}
 
@@ -138,6 +138,17 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 	}
 
 	private boolean isPulse(String text) {
+		Matcher digitMatcher = singleNumber.matcher(text);
+		if (digitMatcher.find()) {
+			String n = text.substring(digitMatcher.start(), digitMatcher.end());
+			try {
+				int num = Integer.parseInt(n);
+				if (num > 20 && num < 300)
+					return true;
+			} catch (Exception e) {
+				return false;
+			}
+		}
 		return false;
 	}
 

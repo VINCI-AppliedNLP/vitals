@@ -72,7 +72,7 @@ openViewerAfterProcessing =  false
 // if the list is empty, all files will be outputted
 
 // INFO: Database listener
-outTableName="[nlp].[annotated_20140529]"
+outTableName="[nlp].[annotated_xxx]"
 
 
 

@@ -38,7 +38,7 @@ public class AnnotationFilter extends LeoBaseAnnotator {
 	 * @param a
 	 * @param punc
 	 */
-	
+
 	@Override
 	public void initialize(UimaContext aContext) throws ResourceInitializationException {
 		super.initialize(aContext);

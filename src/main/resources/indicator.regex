@@ -1,25 +1,25 @@
 vital signs
 \bvitals
-\bvs
+\bvs\b
 \bo\b
-\bpe
+\bpe\b
 \bphysical exam
 \bphysical examination
 \bobjective
-\bv/s
-\bexam
-\bvital
+\bv/s\b
+\bexam\b
+\bvital\b
 \bmost recent vitals
 \bvitals signs
 \bpost-blood pressure and pulse
 \bpre-blood pressure and pulse
-\bvss
+\bvss\b
 \bexamination
 \bassessment
 \bpost-blood pressure and pulse seated
 \bpost-blood pressure and pulse standing
-\bpost-temp
-\bpre-temp
+\bpost-temp\b
+\bpre-temp\b
 \brecent vitals
 \badmission vitals
 \bbaseline vitals
@@ -37,7 +37,7 @@ vital signs
 \bpre-blood pressure and pulse seated
 \bpre-blood pressure and pulse standing
 \bprevious vitals
-\bpx
+\bpx\b
 \brechecked bp
 \brechecked vitals
 \bvital sign

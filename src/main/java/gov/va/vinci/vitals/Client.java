@@ -9,9 +9,7 @@ import java.util.Map.Entry;
 import gov.va.vinci.leo.cr.BatchDatabaseCollectionReader;
 import gov.va.vinci.leo.cr.FileCollectionReader;
 import gov.va.vinci.leo.cr.LeoCollectionReaderInterface;
-import gov.va.vinci.leo.listener.BaseListener;
-import gov.va.vinci.leo.listener.SimpleCsvListener;
-import gov.va.vinci.leo.listener.SimpleXmiListener;
+import gov.va.vinci.leo.listener.*;
 import gov.va.vinci.leo.model.DatabaseConnectionInformation;
 import gov.va.vinci.leo.tools.LeoUtils;
 import gov.va.vinci.leo.tools.TextFilter;
@@ -263,22 +261,19 @@ public class Client {
 					listener = new SimpleCompareListener(comparePairs, new File(csvPath));
 					listenerList.add(listener);
 
-					/**
-						gov.va.vinci.leo.listener.AuSummaryListener listener = null;
-						HashMap<String, String> auMap = ((HashMap<String, String>) config.get("auMap"));
-						if (auMap == null) {
-							log.error("Error getting the mapping string for the gold compare listener, NOT initializing!");
-						}
-						listener = new gov.va.vinci.leo.listener.AuSummaryListener(auMap);
+					/**/
 
-						listenerList.add(listener);
-						String csvPath = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp);
-						
-						if (!(new File(csvPath).getParentFile().exists()))
-							new File(csvPath).getParentFile().mkdirs();
-						gov.va.vinci.leo.listener.AuCompareCSVListener listener2 = new gov.va.vinci.leo.listener.AuCompareCSVListener(		    auMap, new File(csvPath));
-						listenerList.add(listener2);
-						*/
+					AuSummary aulistener = null;
+					HashMap<String, String> auMap = ((HashMap<String, String>) config.get("auMap"));
+					if (auMap == null) {
+						log.error("Error getting the mapping string for the gold compare listener, NOT initializing!");
+					}
+					aulistener = new AuSummary(auMap);
+					listenerList.add(aulistener);
+					//String csvPath1 = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp)		    + "_AuComparey.csv";
+					//AuCompareCSVListener listener2 = new AuCompareCSVListener(auMap, new File(csvPath1));
+					//listenerList.add(listener2);
+					/**/
 				}
 				// INFO: SimpleCSV
 				if (type.equalsIgnoreCase(LISTENERS.simpleCsv.name())) {

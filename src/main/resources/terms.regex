@@ -1,8 +1,8 @@
 Blood_Pressure|blood *pressure|(\bb(/|-|\.)?p(\.)?\b|blood\s*pressure)
 Blood_Pressure_Diastolic|diastolic
 Blood_Pressure_Systolic|bp *systolic|systolic|systolic *bp|sytolic
-Heart_Rate|heart *rate|(\bpulse\b(\srate)?|\bp\b|\bhr\b)|hr before tx|(max|mean|min)\s+pulse|p[uls]+e|\bhr\b|pulse rate
-Temperature|temp[erature]*|(\btemp\w*\b|fever|\bt\b|\btm\b|\btmax\b|\btcurrent\b)
+Heart_Rate|heart *rate|(\bpulse\b(\srate)?|\bp\b|\bhr\b)|hr before tx|(max|mean|min)\s+pulse|\bp[uls]+e\b|\bhr\b|pulse rate
+Temperature|\btemp[erature]*|(\btemp\w*\b|fever|\bt\b|\btm\b|\btmax\b|\btcurrent\b)
 Respiratory_Rate|respiratory rate|respiration rate|\brr\b|respirations
 \bp\b
 \bpl\b
@@ -21,8 +21,8 @@ pulse pre
 pulse: b
 pulses
 radial pulse
-rate
-repeat *bp
+\brate\b
+\brepeat *bp
 rest *bp
 sbp *dbp
 sitting *blood *presure
