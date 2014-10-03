@@ -5,7 +5,7 @@
     <primitive>true</primitive>
     <annotatorImplementationName>gov.va.vinci.leo.regex.ae.RegexAnnotator</annotatorImplementationName>
     <analysisEngineMetaData>
-        <name>RegexAnnotator_22112e337d0cb-a3a6-4747-844a-7bac2abadf01</name>
+        <name>RegexAnnotator_12112852cff28-be33-497b-b805-73b5dd124c49</name>
         <configurationParameters>
             <configurationParameter>
                 <name>resource</name>
@@ -30,13 +30,13 @@
             <nameValuePair>
                 <name>resource</name>
                 <value>
-                    <string>src/main/resources/indicator.regex</string>
+                    <string>src/main/resources/numericValuesExclude.regex</string>
                 </value>
             </nameValuePair>
             <nameValuePair>
                 <name>outputType</name>
                 <value>
-                    <string>gov.va.vinci.vitals.types.Indicator</string>
+                    <string>gov.va.vinci.vitals.types.NumericExclude</string>
                 </value>
             </nameValuePair>
             <nameValuePair>

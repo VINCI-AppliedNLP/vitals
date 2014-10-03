@@ -23,6 +23,7 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.apache.log4j.Logger;
 import org.apache.uima.resource.metadata.TypeDescription;
 import org.apache.uima.resource.metadata.impl.TypeDescription_impl;
+import org.apache.xmlbeans.impl.regex.RegularExpression;
 
 /**
  * 
@@ -57,12 +58,17 @@ public class Service {
     static String RegexType = "gov.va.vinci.leo.regex.types.RegularExpressionType";
     static String LogicType = "gov.va.vinci.vitals.types.Logic";
     static HashMap<String, String> regexResourceToType = new HashMap<String, String>();
+    static String TYPE_NUMERIC = "gov.va.vinci.vitals.types.Numeric";
+    static String resourceNumeric = "numericValues.regex";
+
+    static String TYPE_UNIT = "gov.va.vinci.vitals.types.Unit";
+    static String resourceUnit = "unitsOfMeasure.regex";
 
     static {
       // regexResourceToType.put(resource file name, Type to create from the resource file);
       regexResourceToType.put("indicator.regex", "gov.va.vinci.vitals.types.Indicator");
-      regexResourceToType.put("numericValues.regex", "gov.va.vinci.vitals.types.Numeric");
-      regexResourceToType.put("units.regex", "gov.va.vinci.vitals.types.Unit");
+
+      //   regexResourceToType.put("units.regex", "gov.va.vinci.vitals.types.Unit");
       regexResourceToType.put("numericValuesExclude.regex", "gov.va.vinci.vitals.types.NumericExclude");
       regexResourceToType.put("terms.regex", "gov.va.vinci.vitals.types.Term");
       regexResourceToType.put("termsExclude.regex", "gov.va.vinci.vitals.types.TermExclude");
@@ -78,10 +84,8 @@ public class Service {
 
     static HashMap<String, String[]> filterTypes = new HashMap<String, String[]>();
     static {
-      filterTypes.put("gov.va.vinci.vitals.types.NumericExclude",
-          new String[] { "gov.va.vinci.vitals.types.Numeric" });
-      filterTypes.put("gov.va.vinci.vitals.types.TermExclude", new String[] {
-          "gov.va.vinci.vitals.types.Term", "gov.va.vinci.vitals.types.Unit" });
+      filterTypes.put("gov.va.vinci.vitals.types.NumericExclude", new String[] { PipelineVariables.TYPE_NUMERIC });
+      filterTypes.put("gov.va.vinci.vitals.types.TermExclude", new String[] { PipelineVariables.TYPE_NUMERIC, PipelineVariables.TYPE_UNIT });
     }
 
     static String TYPE_OUTPUT = "gov.va.vinci.vitals.types.OutputValue";
@@ -128,7 +132,7 @@ public class Service {
     gov.va.vinci.leo.Service service = new gov.va.vinci.leo.Service();
     service.setInputQueueName(GeneralSettings.SERVICE_NAME);
     service.setBrokerURL(GeneralSettings.BROKER_URL);
-    service.setCasPoolSize(GeneralSettings.CAS_POOL_SIZE);
+    //service.setCasPoolSize(GeneralSettings.CAS_POOL_SIZE);
 
     if (GeneralSettings.REGISTER_WITH_JAM) {
       service.setJamServerBaseUrl((String) config.get("jamURL"));
@@ -241,6 +245,19 @@ public class Service {
       throws Exception {
     LeoAEDescriptor aggregate = new LeoAEDescriptor();
 
+    aggregate.addDelegate(new LeoAEDescriptor()
+        .setName("NumericAnnotator")
+        .setImplementationName(RegexAnnotator.class.getCanonicalName())
+        .addParameterSetting(RegexAnnotator.Param.RESOURCE.getName(), true, false, "String", PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceNumeric)
+        .addParameterSetting(RegexAnnotator.Param.OUTPUT_TYPE.getName(), true, false, "String", PipelineVariables.TYPE_NUMERIC)
+        .addParameterSetting(Param.MATCHED_PATTERN_FEATURE_NAME.getName(), false, false, "String", "pattern"));
+
+    aggregate.addDelegate(new LeoAEDescriptor()
+        .setName("NumericAnnotator")
+        .setImplementationName(RegexAnnotator.class.getCanonicalName())
+        .addParameterSetting(RegexAnnotator.Param.GROOVY_CONFIG_FILE.getName(), true, false, "String", PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceUnit)
+        .addParameterSetting(Param.MATCHED_PATTERN_FEATURE_NAME.getName(), false, false, "String", "pattern"));
+
     // INFO: Create initial annotations
     int i = 0;
     for (Entry<String, String> a : PipelineVariables.regexResourceToType.entrySet()) {
@@ -254,6 +271,11 @@ public class Service {
 
       aggregate.addDelegate(regexAnnotator);
     }
+    
+    aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
+        .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { "gov.va.vinci.vitals.types.Term", "gov.va.vinci.vitals.types.Indicator"})
+        .addTypeSystemDescription(types));
+    
     // INFO: Filter overannotated instances
     for (Entry<String, String[]> a : PipelineVariables.filterTypes.entrySet()) {
       aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
@@ -283,12 +305,7 @@ public class Service {
               .addTypeSystemDescription(types));
     }
     // INFO: Filter unneeded annotations*/
-    aggregate.addDelegate(new AnnotationFilter()
-        .getLeoAEDescriptor()
-        .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(),
-            new String[] { "gov.va.vinci.vitals.types.Relation" })
-        .setParameterSetting(AnnotationFilter.Param.REMOVE_OVERLAPPING.getName(), true)
-        .addTypeSystemDescription(types));
+
     aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
         .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] {
             "gov.va.vinci.vitals.types.NumericExclude",
@@ -337,6 +354,17 @@ public class Service {
     // Regex default type
     types.addTypeSystemDescription(new RegexAnnotator().getLeoTypeSystemDescription());
 
+    TypeDescription numType = new TypeDescription_impl(PipelineVariables.TYPE_NUMERIC, "", PipelineVariables.RegexType);
+    // numType.addFeature("concept", "", "uima.cas.String");
+    numType.addFeature("value1", "", "uima.cas.String");
+    numType.addFeature("value2", "", "uima.cas.String");
+    numType.addFeature("valueType", "", "uima.cas.String");
+    numType.addFeature("unit", "", "uima.tcas.Annotation");
+    numType.addFeature("source", "", "uima.cas.String");
+
+    types.addType(PipelineVariables.TYPE_UNIT, "", PipelineVariables.RegexType);
+
+    types.addType(numType);
     for (Entry<String, String> a : PipelineVariables.regexResourceToType
         .entrySet()) {
       types.addType(a.getValue(), "", PipelineVariables.RegexType);

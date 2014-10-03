@@ -2,7 +2,6 @@ Blood_Pressure_Diastolic|diastolic
 Blood_Pressure_Diastolic|sys *dias
 Blood_Pressure_Systolic|bp *systolic|systolic|systolic *bp|sytolic
 Blood_Pressure|\bb(/|-|\.)?p(\.)?\b
-Blood_Pressure|\bp\b
 Blood_Pressure|\bpr\b
 Blood_Pressure|blood\s*pressures?\b
 Blood_Pressure|bp *lying
@@ -19,12 +18,14 @@ Blood_Pressure|sbp *dbp\b
 Blood_Pressure|sitting *blood *presure
 Blood_Pressure|sitting *bp
 Blood_Pressure|sitting p\b
-Blood_Pressure|standing *blood *presure\b
+Blood_Pressure|standing *blood *presures?\b
+Blood_Pressure|standing\b(\s*after\s*\d+\sminutes?)?
+Blood_Pressure|lying\b
 BMI|bmi
 Heart_Rate|\bpulse\b(\srate)?
 Heart_Rate|(max|mean|min)\s+pulse
 Heart_Rate|\bhr\b
-Heart_Rate|\bhr\b
+Heart_Rate|\bheart\s*rate\b
 Heart_Rate|\bp[uls]+e\b
 Heart_Rate|\bp\b
 Heart_Rate|\bpl\b
@@ -35,18 +36,20 @@ Heart_Rate|pulse pre\b
 Heart_Rate|pulse rate
 Heart_Rate|pulses\b
 Heart_Rate|radial pulse
-Height|height
+Height|\bht\b
 Pain|pain score
 Respiratory_Rate|\brate\b
+Respiratory_Rate|\bresp\b
 Respiratory_Rate|\brr\b
-Respiratory_Rate|respiration rate
+Respiratory_Rate|respiration\s*rate
 Respiratory_Rate|respirations
-Respiratory_Rate|respiratory rate
+Respiratory_Rate|respiratory\s*rate
 SO2|\bsat\b
 SO2|po2
 SO2|SAO2
 SO2|saturation
 SO2|saturation\s*O2
+SO2|saturation\s*o2\s*stats
 Temperature|\btemp\w*\b
 Temperature|fever\b
 Temperature|\bt\b
@@ -54,4 +57,4 @@ Temperature|\btm\b
 Temperature|\btmax\b
 Temperature|\btcur\b
 Temperature|\bt *current\b
-Weight|weight
+Weight|\bwt\b

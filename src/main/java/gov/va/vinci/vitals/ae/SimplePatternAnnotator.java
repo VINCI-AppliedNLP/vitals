@@ -37,7 +37,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
   public static java.util.regex.Pattern oneDecmalNumber = java.util.regex.Pattern.compile("\\b\\d{2,3}\\.\\d\\b", java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
 
   public static enum vitalTypes {
-    Blood_Pressure, Heart_Rate, Temperature
+    Blood_Pressure, Heart_Rate, Temperature, Height, Weight, SO2, BMI, Pain;
   };
 
   private static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
@@ -52,7 +52,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
       while (iter.hasNext()) {
         Relation currRelation = (Relation) iter.next();
         if (currRelation.getTarget() != null) {
-          Annotation number = currRelation.getTarget();
+          Numeric number = (Numeric) currRelation.getTarget();
           Annotation term = null;
           if (currRelation.getAnchor() != null) {
             term = currRelation.getAnchor();
@@ -60,23 +60,52 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
           }
           if (term != null) {
             String pattern = ((Term) term).getPattern();
-            if (StringUtils.isNotBlank(pattern)) {
+
+            if (StringUtils.isNotBlank(pattern) && (StringUtils.isBlank(number.getConcept()))) {
               String vitalType = pattern.split("\\|")[0];
-              if (vitalType.contains(vitalTypes.Blood_Pressure.name())) {
-                Bp_value newAnn = (Bp_value) this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas, number.getBegin(), number.getEnd());
-                newAnn.setSource("pattern");
+
+              if (vitalType.startsWith(vitalTypes.Blood_Pressure.name())) {
+                number.setValueType(vitalTypes.Blood_Pressure.name());
+                number.setSource("pattern");
+              } else if (vitalType.startsWith(vitalTypes.Heart_Rate.name())) {
+                number.setValueType(vitalTypes.Heart_Rate.name());
+                number.setSource("pattern");
+              } else if (vitalType.startsWith(vitalTypes.Temperature.name())) {
+                number.setValueType(vitalTypes.Temperature.name());
+                number.setSource("pattern");
+              } else {
+                number.setValueType(pattern);
                 annsToRemove.add(number);
-              } else if (vitalType.contains(vitalTypes.Heart_Rate.name())) {
-                Hr_value newAnn = (Hr_value) this.addOutputAnnotation(Hr_value.class.getCanonicalName(), aJCas, number.getBegin(), number.getEnd());
-                newAnn.setSource("pattern");
-                annsToRemove.add(number);
-              } else if (vitalType.contains(vitalTypes.Temperature.name())) {
-                T_value newAnn = (T_value) this.addOutputAnnotation(T_value.class.getCanonicalName(), aJCas, number.getBegin(),
-                    number.getEnd());
-                newAnn.setSource("pattern");
-                annsToRemove.add(number);
+                annsToRemove.add(currRelation);
               }
             }
+          } else {
+            try {
+              ArrayList<Annotation> units = (ArrayList<Annotation>) AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type);
+              if (units.size() > 0) {
+                Unit curUnit = (Unit) units.get(0); // get the first unit in the pattern
+                if (StringUtils.isNotBlank(curUnit.getConcept())) {
+                  if (curUnit.getConcept().startsWith(vitalTypes.Blood_Pressure.name())) {
+                    number.setValueType(vitalTypes.Blood_Pressure.name());
+                    number.setSource("pattern");
+                  } else if (curUnit.getConcept().startsWith(vitalTypes.Heart_Rate.name())) {
+                    number.setValueType(vitalTypes.Heart_Rate.name());
+                    number.setSource("pattern");
+                  } else if (curUnit.getConcept().startsWith(vitalTypes.Temperature.name())) {
+                    number.setValueType(vitalTypes.Temperature.name());
+                    number.setSource("pattern");
+                  } else {
+                    number.setValueType(curUnit.getConcept());
+                    annsToRemove.add(number);
+                    annsToRemove.add(currRelation);
+                  }
+                }
+              }
+            } catch (CASException e) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
+            }
+
           }
         }
       }
@@ -84,9 +113,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
      // FIXME: now need to analyze text 
      // For those documents that do not contain Pattern, find Indicator, mark 100 chars after and check if Numeric fall in that interval
      //
-    for (Annotation a : annsToRemove) {
-      a.removeFromIndexes(aJCas);
-    }
+     // FIXME:       for (Annotation a : annsToRemove) {       a.removeFromIndexes(aJCas);     }
     annsToRemove = new ArrayList<Annotation>();
     FSIterator<Annotation> iterI = this.getAnnotationListForType(aJCas, Indicator.class.getCanonicalName());
 
@@ -97,34 +124,51 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
         end = aJCas.getDocumentText().length();
       }
       try {
-        ArrayList<Annotation> numbers = (ArrayList<Annotation>) AnnotationLibrarian     .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, Numeric.type);
+        ArrayList<Annotation> numbers = (ArrayList<Annotation>) AnnotationLibrarian.getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, Numeric.type);
         if (numbers.size() > 0) {
-          for (Annotation number : numbers) {
-            if (isBloodPressure(number.getCoveredText())) {
-              Annotation newAnn = this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas,
-                  number.getBegin(), number.getEnd());
-              ((Bp_value) newAnn).setSource("heuristics");
-            } else if (isTemperature(number.getCoveredText())) {
-              T_value newAnn = (T_value) this.addOutputAnnotation(T_value.class.getCanonicalName(), aJCas,
-                  number.getBegin(), number.getEnd());
-              newAnn.setSource("heuristics");
-            } else if (isPulse(number.getCoveredText())) {
-              Hr_value newAnn = (Hr_value) this.addOutputAnnotation(Hr_value.class.getCanonicalName(), aJCas,
-                  number.getBegin(), number.getEnd());
-              newAnn.setSource("heuristics");
-            }
-
-            annsToRemove.add(number);
-          }// end of Number loop
+          for (Annotation n : numbers) {
+            Numeric number = (Numeric) n;
+            if (StringUtils.isEmpty(number.getValueType())) {
+              if (isBloodPressure(number.getCoveredText())) {
+                number.setValueType(vitalTypes.Blood_Pressure.name());
+                number.setSource("heuristics");
+              } else if (isTemperature(number.getCoveredText())) {
+                number.setValueType(vitalTypes.Temperature.name());
+                number.setSource("heuristics");
+              } else if (isPulse(number.getCoveredText())) {
+                number.setValueType(vitalTypes.Heart_Rate.name());
+                number.setSource("heuristics");
+              }
+            }// end of Number loop
+          }
         }
-        for (Annotation a : annsToRemove) {
-          a.removeFromIndexes(aJCas);
-        }
+        // FIXME:        for (Annotation a : annsToRemove) {           a.removeFromIndexes(aJCas);         }
       } catch (CASException e) {
         e.printStackTrace();
       }
     }
-    //}
+    FSIterator<Annotation> iterNums = this.getAnnotationListForType(aJCas, Numeric.class.getCanonicalName());
+    while (iterNums.hasNext()) {
+      Numeric curNum = (Numeric) iterNums.next();
+      if (StringUtils.isNotBlank(curNum.getValueType())) {
+
+        if (curNum.getValueType().equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
+          Bp_value newAnn = (Bp_value) this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas, curNum.getBegin(), curNum.getEnd());
+          newAnn.setSource(curNum.getSource());
+          newAnn.setValueType(curNum.getValueType());
+
+        } else if (curNum.getValueType().equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
+          Hr_value newAnn = (Hr_value) this.addOutputAnnotation(Hr_value.class.getCanonicalName(), aJCas, curNum.getBegin(), curNum.getEnd());
+          newAnn.setSource(curNum.getSource());
+          newAnn.setValueType(curNum.getValueType());
+        } else if (curNum.getValueType().equalsIgnoreCase(vitalTypes.Temperature.name())) {
+          T_value newAnn = (T_value) this.addOutputAnnotation(T_value.class.getCanonicalName(), aJCas, curNum.getBegin(), curNum.getEnd());
+          newAnn.setSource(curNum.getSource());
+
+        }
+      }
+
+    }
   }
 
   private boolean isPulse(String text) {

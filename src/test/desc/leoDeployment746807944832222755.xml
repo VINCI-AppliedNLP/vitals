@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <analysisEngineDeploymentDescription xmlns="http://uima.apache.org/resourceSpecifier">
-    <name>defaultLeoDeployDescriptor20141002.175644</name>
+    <name>defaultLeoDeployDescriptor20141003.142350</name>
     <description/>
     <version>1.0</version>
     <vendor/>
     <deployment protocol="jms" provider="activemq">
-        <casPool numberOfCASes="1" initialFsHeapSize="2000000"/>
+        <casPool numberOfCASes="4" initialFsHeapSize="2000000"/>
         <service>
-            <inputQueue endpoint="VitalsForSepsis" brokerURL="tcp://vhacdwuapp01:61616" prefetch="0"/>
+            <inputQueue endpoint="VitalsForSepsis" brokerURL="tcp://localhost:61616" prefetch="0"/>
             <topDescriptor>
-                <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/leoAggregate618318405201012945.xml"/>
+                <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/leoAggregate702760890843505525.xml"/>
             </topDescriptor>
             <analysisEngine async="false">
                 <scaleout numberOfInstances="1"/>

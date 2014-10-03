@@ -4,7 +4,7 @@
 /**************************************************************/
 /**  Change for each project or each run   */
 /**************************************************************/
-processingOnVinci = true
+processingOnVinci = false
 serviceQueueName = "VitalsForSepsis"
 
 casPoolSize=1

@@ -1,0 +1,64 @@
+/* An arbitrary name for this annotator. Used in the pipeline for the name of this annotation. */
+// Blood_Pressure, Heart_Rate, Temperature, Height, Weight, SO2, BMI, Pain;
+name = "UnitOfMeasureAnnotation"
+configuration { /* All configuration for this annotator. */
+    defaults {
+        /* Global for all configrations below if a property specified here is not overridden in a section below. */
+        outputType = "gov.va.vinci.vitals.types.Unit"
+        concept_feature_name = "concept"
+        case_sensitive = false
+    }
+
+
+    /* An arbitrary name for this set of patterns/config. */
+    "Temperature" {
+        expressions = [
+                        '\\bc\\b',
+                        '\\bf\\b'
+                      ]
+        concept_feature_value = "Temperature"
+    }
+    
+    "Blood_Pressure" {
+      expressions = [
+                      '\\bmm ?(\\[)?hg(\\])?',
+                      '\\bmm\\/Hg',
+                      '\\bmmhg\\b'
+                    ]
+      concept_feature_value = "Blood_Pressure"
+  }
+  
+    "Heart_Rate" {
+      expressions = [
+                      'beats per minute',
+                      '/min\\b',
+'\bbpm\b'
+                    ]
+      concept_feature_value = "Heart_Rate"
+  }
+    "Height" {
+      expressions = [
+                      '\\bin\\b',
+                      '\\"',
+                      '\\bm\\b',
+                      '\\bcm\\b'
+                    ]
+      concept_feature_value = "Height"
+  }
+    "Weight" {
+      expressions = [
+                      '\\blb\\b',
+                      '\\bkg\\b',
+                      '\\bpounds?\\b'
+                    ]
+      concept_feature_value = "Weight"
+  }
+    "SO2" {
+      expressions = [
+                      'per *cent',
+                      '%'
+                    ]
+      concept_feature_value = "SO2"
+  }
+}
+

@@ -5,7 +5,7 @@
     <primitive>true</primitive>
     <annotatorImplementationName>gov.va.vinci.vitals.ae.AnnotationFilter</annotatorImplementationName>
     <analysisEngineMetaData>
-        <name>gov.va.vinci.vitals.ae.AnnotationFilter2112a7aaa444-e1ce-4619-8ff9-fc5aa443a680</name>
+        <name>gov.va.vinci.vitals.ae.AnnotationFilter211211ab7142-524d-4945-b587-81de0319afac</name>
         <configurationParameters>
             <configurationParameter>
                 <name>typesToKeep</name>
@@ -43,13 +43,13 @@
                 <name>typesToKeep</name>
                 <value>
                     <array>
-                        <string>gov.va.vinci.vitals.types.T_value</string>
+                        <string>gov.va.vinci.vitals.types.So2_value</string>
                     </array>
                 </value>
             </nameValuePair>
         </configurationParameterSettings>
         <typeSystemDescription>
-            <name>leoTypeDescription_367b645e-c091-4f29-8788-a4cfc4647b6f</name>
+            <name>leoTypeDescription_55a880f5-e33d-48d7-abd1-54bc2fb35e22</name>
             <types>
                 <typeDescription>
                     <name>gov.va.vinci.leo.types.CSI</name>
@@ -172,6 +172,38 @@
                     </features>
                 </typeDescription>
                 <typeDescription>
+                    <name>gov.va.vinci.vitals.types.Numeric</name>
+                    <description/>
+                    <supertypeName>gov.va.vinci.leo.regex.types.RegularExpressionType</supertypeName>
+                    <features>
+                        <featureDescription>
+                            <name>value1</name>
+                            <description/>
+                            <rangeTypeName>uima.cas.String</rangeTypeName>
+                        </featureDescription>
+                        <featureDescription>
+                            <name>value2</name>
+                            <description/>
+                            <rangeTypeName>uima.cas.String</rangeTypeName>
+                        </featureDescription>
+                        <featureDescription>
+                            <name>valueType</name>
+                            <description/>
+                            <rangeTypeName>uima.cas.String</rangeTypeName>
+                        </featureDescription>
+                        <featureDescription>
+                            <name>unit</name>
+                            <description/>
+                            <rangeTypeName>uima.tcas.Annotation</rangeTypeName>
+                        </featureDescription>
+                        <featureDescription>
+                            <name>source</name>
+                            <description/>
+                            <rangeTypeName>uima.cas.String</rangeTypeName>
+                        </featureDescription>
+                    </features>
+                </typeDescription>
+                <typeDescription>
                     <name>gov.va.vinci.vitals.types.NumericExclude</name>
                     <description/>
                     <supertypeName>gov.va.vinci.leo.regex.types.RegularExpressionType</supertypeName>
@@ -188,11 +220,6 @@
                 </typeDescription>
                 <typeDescription>
                     <name>gov.va.vinci.vitals.types.TermExclude</name>
-                    <description/>
-                    <supertypeName>gov.va.vinci.leo.regex.types.RegularExpressionType</supertypeName>
-                </typeDescription>
-                <typeDescription>
-                    <name>gov.va.vinci.vitals.types.Numeric</name>
                     <description/>
                     <supertypeName>gov.va.vinci.leo.regex.types.RegularExpressionType</supertypeName>
                 </typeDescription>
