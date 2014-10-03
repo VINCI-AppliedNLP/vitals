@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Thu Oct 02 11:45:54 CDT 2014 */
+/* First created by JCasGen Thu Oct 02 18:35:36 MDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Thu Oct 02 11:45:54 CDT 2014
+ * Updated by JCasGen Thu Oct 02 18:35:36 MDT 2014
  * @generated */
 public class Logic_Type extends Annotation_Type {
   /** @generated 

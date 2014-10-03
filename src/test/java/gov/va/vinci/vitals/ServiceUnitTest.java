@@ -33,7 +33,7 @@ public class ServiceUnitTest {
 	protected String inputDir = "src/test/resources/input/";
 	protected int numDocs = 18;
 	// protected int numDocs = 1;
-	protected boolean launchView = false;
+	protected boolean launchView = true;
 	protected String aggXmi = "aggregateDesc";
 
 	@Before

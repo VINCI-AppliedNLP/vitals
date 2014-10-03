@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+    <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+    <primitive>false</primitive>
+    <delegateAnalysisEngineSpecifiers>
+        <delegateAnalysisEngine key="RegexAnnotator_12112576334e8-f0b4-4737-b76c-a3fc5946f8e4">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/RegexAnnotator_12112576334e8-f0b4-4737-b76c-a3fc5946f8e48134975630101763440.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="RegexAnnotator_22112e337d0cb-a3a6-4747-844a-7bac2abadf01">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/RegexAnnotator_22112e337d0cb-a3a6-4747-844a-7bac2abadf013333044208166083051.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="RegexAnnotator_32112dc075a47-73e9-4ce5-9e39-e09ac88b44f8">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/RegexAnnotator_32112dc075a47-73e9-4ce5-9e39-e09ac88b44f87034809087494864337.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="RegexAnnotator_42112a3ee85b9-1e02-4d28-a420-92f0dc5a8280">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/RegexAnnotator_42112a3ee85b9-1e02-4d28-a420-92f0dc5a82802535298124719479251.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="RegexAnnotator_521123ebb5ad1-6693-4af4-80ec-8523e4f254be">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/RegexAnnotator_521123ebb5ad1-6693-4af4-80ec-8523e4f254be108569253047432353.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="RegexAnnotator_62112a756345c-3a3d-4913-9bdb-41ecdafa3629">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/RegexAnnotator_62112a756345c-3a3d-4913-9bdb-41ecdafa36292798667171438137266.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="RegexAnnotator_72112a5bd93cd-2c6f-4e42-a288-6125e710ad14">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/RegexAnnotator_72112a5bd93cd-2c6f-4e42-a288-6125e710ad143268181835451783990.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="gov.va.vinci.vitals.ae.AnnotationFilter21127f87ea84-5e0b-443d-920d-dac49b409c4e">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/gov.va.vinci.vitals.ae.AnnotationFilter21127f87ea84-5e0b-443d-920d-dac49b409c4e7204343194535342406.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="gov.va.vinci.vitals.ae.AnnotationFilter2112dc18d81d-97a2-4774-a6d7-c8498b968fab">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/gov.va.vinci.vitals.ae.AnnotationFilter2112dc18d81d-97a2-4774-a6d7-c8498b968fab5782834613552890344.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="gov.va.vinci.vitals.ae.AnnotationFilter2112fb5c08ee-cbe9-4356-824f-c5becaa2dcf3">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/gov.va.vinci.vitals.ae.AnnotationFilter2112fb5c08ee-cbe9-4356-824f-c5becaa2dcf37647273913323705130.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="gov.va.vinci.vitals.ae.AnnotationFilter21125702f01d-7005-4b58-bfb5-d5219830094f">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/gov.va.vinci.vitals.ae.AnnotationFilter21125702f01d-7005-4b58-bfb5-d5219830094f2808855380177092072.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="gov.va.vinci.vitals.ae.AnnotationFilter21121d323eec-fe8a-4288-bf70-70fe3fe7b4ef">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/gov.va.vinci.vitals.ae.AnnotationFilter21121d323eec-fe8a-4288-bf70-70fe3fe7b4ef4844748264271790777.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="gov.va.vinci.vitals.ae.AnnotationFilter2112c4a3891a-eed4-48b9-b146-2572aeca89b6">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/gov.va.vinci.vitals.ae.AnnotationFilter2112c4a3891a-eed4-48b9-b146-2572aeca89b68084867841743053184.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="PatternAnnotator12112eb355aad-a802-49ff-b1c8-2eed7c209e60">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/PatternAnnotator12112eb355aad-a802-49ff-b1c8-2eed7c209e605857290869609342808.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="PatternAnnotator22112eea7fe73-17ce-4620-aaaf-6a1c6833d17a">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/PatternAnnotator22112eea7fe73-17ce-4620-aaaf-6a1c6833d17a6808797792366613236.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="PatternAnnotator321121e3b3783-f496-4bca-a6a7-dd306d3c4140">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/PatternAnnotator321121e3b3783-f496-4bca-a6a7-dd306d3c41401443477629402557652.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="gov.va.vinci.vitals.ae.AnnotationFilter2112219eed2f-d775-4660-82a6-8bd81ce25f63">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/gov.va.vinci.vitals.ae.AnnotationFilter2112219eed2f-d775-4660-82a6-8bd81ce25f631090778657501926123.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="gov.va.vinci.vitals.ae.AnnotationFilter21125555b62a-ce6c-40c4-9a75-3c5d673874c5">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/gov.va.vinci.vitals.ae.AnnotationFilter21125555b62a-ce6c-40c4-9a75-3c5d673874c51405127815035306395.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="gov.va.vinci.vitals.ae.SimplePatternAnnotator21128fcdabfa-f39a-45bd-a940-13d56befa30d">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/gov.va.vinci.vitals.ae.SimplePatternAnnotator21128fcdabfa-f39a-45bd-a940-13d56befa30d4577030400382576421.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="gov.va.vinci.vitals.ae.AnnotationFilter21120e38815e-97ce-424f-9498-9256f2236fbe">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/gov.va.vinci.vitals.ae.AnnotationFilter21120e38815e-97ce-424f-9498-9256f2236fbe678694848622958694.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="gov.va.vinci.vitals.ae.AnnotationFilter21127cb142f7-ba7a-4751-a567-2576bafa295f">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/gov.va.vinci.vitals.ae.AnnotationFilter21127cb142f7-ba7a-4751-a567-2576bafa295f711779602958741473.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="gov.va.vinci.vitals.ae.AnnotationFilter2112a7aaa444-e1ce-4619-8ff9-fc5aa443a680">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/gov.va.vinci.vitals.ae.AnnotationFilter2112a7aaa444-e1ce-4619-8ff9-fc5aa443a6806520737841240665617.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="gov.va.vinci.vitals.ae.AnnotationFilter211202be0dde-9924-4634-b6b1-12a852cc9d02">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/gov.va.vinci.vitals.ae.AnnotationFilter211202be0dde-9924-4634-b6b1-12a852cc9d021370433704293675801.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="gov.va.vinci.vitals.ae.AnnotationFilter2112f4e8592b-5c31-4f08-8700-f5b65b0e9ef6">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/gov.va.vinci.vitals.ae.AnnotationFilter2112f4e8592b-5c31-4f08-8700-f5b65b0e9ef66392332199813949710.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="gov.va.vinci.vitals.ae.AnnotationFilter2112a9e9a65f-484c-4f43-8c28-e5ae50db92bd">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/gov.va.vinci.vitals.ae.AnnotationFilter2112a9e9a65f-484c-4f43-8c28-e5ae50db92bd3063020173089381031.xml"/>
+        </delegateAnalysisEngine>
+        <delegateAnalysisEngine key="gov.va.vinci.vitals.ae.AnnotationFilter21122dba7e34-cc20-41ba-9d97-5ceb08b0cb33">
+            <import location="/Users/imed/Documents/workspace/vitals/src/test/desc/gov.va.vinci.vitals.ae.AnnotationFilter21122dba7e34-cc20-41ba-9d97-5ceb08b0cb337542332133687108093.xml"/>
+        </delegateAnalysisEngine>
+    </delegateAnalysisEngineSpecifiers>
+    <analysisEngineMetaData>
+        <name>leoAggregate</name>
+        <configurationParameters/>
+        <configurationParameterSettings/>
+        <flowConstraints>
+            <fixedFlow>
+                <node>RegexAnnotator_12112576334e8-f0b4-4737-b76c-a3fc5946f8e4</node>
+                <node>RegexAnnotator_22112e337d0cb-a3a6-4747-844a-7bac2abadf01</node>
+                <node>RegexAnnotator_32112dc075a47-73e9-4ce5-9e39-e09ac88b44f8</node>
+                <node>RegexAnnotator_42112a3ee85b9-1e02-4d28-a420-92f0dc5a8280</node>
+                <node>RegexAnnotator_521123ebb5ad1-6693-4af4-80ec-8523e4f254be</node>
+                <node>RegexAnnotator_62112a756345c-3a3d-4913-9bdb-41ecdafa3629</node>
+                <node>RegexAnnotator_72112a5bd93cd-2c6f-4e42-a288-6125e710ad14</node>
+                <node>gov.va.vinci.vitals.ae.AnnotationFilter21127f87ea84-5e0b-443d-920d-dac49b409c4e</node>
+                <node>gov.va.vinci.vitals.ae.AnnotationFilter2112dc18d81d-97a2-4774-a6d7-c8498b968fab</node>
+                <node>gov.va.vinci.vitals.ae.AnnotationFilter2112fb5c08ee-cbe9-4356-824f-c5becaa2dcf3</node>
+                <node>gov.va.vinci.vitals.ae.AnnotationFilter21125702f01d-7005-4b58-bfb5-d5219830094f</node>
+                <node>gov.va.vinci.vitals.ae.AnnotationFilter21121d323eec-fe8a-4288-bf70-70fe3fe7b4ef</node>
+                <node>gov.va.vinci.vitals.ae.AnnotationFilter2112c4a3891a-eed4-48b9-b146-2572aeca89b6</node>
+                <node>PatternAnnotator12112eb355aad-a802-49ff-b1c8-2eed7c209e60</node>
+                <node>PatternAnnotator22112eea7fe73-17ce-4620-aaaf-6a1c6833d17a</node>
+                <node>PatternAnnotator321121e3b3783-f496-4bca-a6a7-dd306d3c4140</node>
+                <node>gov.va.vinci.vitals.ae.AnnotationFilter2112219eed2f-d775-4660-82a6-8bd81ce25f63</node>
+                <node>gov.va.vinci.vitals.ae.AnnotationFilter21125555b62a-ce6c-40c4-9a75-3c5d673874c5</node>
+                <node>gov.va.vinci.vitals.ae.SimplePatternAnnotator21128fcdabfa-f39a-45bd-a940-13d56befa30d</node>
+                <node>gov.va.vinci.vitals.ae.AnnotationFilter21120e38815e-97ce-424f-9498-9256f2236fbe</node>
+                <node>gov.va.vinci.vitals.ae.AnnotationFilter21127cb142f7-ba7a-4751-a567-2576bafa295f</node>
+                <node>gov.va.vinci.vitals.ae.AnnotationFilter2112a7aaa444-e1ce-4619-8ff9-fc5aa443a680</node>
+                <node>gov.va.vinci.vitals.ae.AnnotationFilter211202be0dde-9924-4634-b6b1-12a852cc9d02</node>
+                <node>gov.va.vinci.vitals.ae.AnnotationFilter2112f4e8592b-5c31-4f08-8700-f5b65b0e9ef6</node>
+                <node>gov.va.vinci.vitals.ae.AnnotationFilter2112a9e9a65f-484c-4f43-8c28-e5ae50db92bd</node>
+                <node>gov.va.vinci.vitals.ae.AnnotationFilter21122dba7e34-cc20-41ba-9d97-5ceb08b0cb33</node>
+            </fixedFlow>
+        </flowConstraints>
+        <capabilities/>
+        <operationalProperties>
+            <modifiesCas>true</modifiesCas>
+            <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+            <outputsNewCASes>false</outputsNewCASes>
+        </operationalProperties>
+    </analysisEngineMetaData>
+</analysisEngineDescription>

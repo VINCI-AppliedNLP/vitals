@@ -1,35 +1,57 @@
-Blood_Pressure|blood *pressure|(\bb(/|-|\.)?p(\.)?\b|blood\s*pressure)
 Blood_Pressure_Diastolic|diastolic
+Blood_Pressure_Diastolic|sys *dias
 Blood_Pressure_Systolic|bp *systolic|systolic|systolic *bp|sytolic
-Heart_Rate|heart *rate|(\bpulse\b(\srate)?|\bp\b|\bhr\b)|hr before tx|(max|mean|min)\s+pulse|\bp[uls]+e\b|\bhr\b|pulse rate
-Temperature|\btemp[erature]*|(\btemp\w*\b|fever|\bt\b|\btm\b|\btmax\b|\btcurrent\b)
-Respiratory_Rate|respiratory rate|respiration rate|\brr\b|respirations
-\bp\b
-\bpl\b
-\bpr\b
-apical pulse
-bp *lying
-bp *range
-bp *recheck
-bp *standing
-bp *today
-lying *bp
-manual *pressure
-nbp
-pulse pre
-
-pulse: b
-pulses
-radial pulse
-\brate\b
-\brepeat *bp
-rest *bp
-sbp *dbp
-sitting *blood *presure
-sitting *bp
-sitting p
-standing *blood *presure
-sys *dias
-
-
-
+Blood_Pressure|\bb(/|-|\.)?p(\.)?\b
+Blood_Pressure|\bp\b
+Blood_Pressure|\bpr\b
+Blood_Pressure|blood\s*pressures?\b
+Blood_Pressure|bp *lying
+Blood_Pressure|bp *range
+Blood_Pressure|bp *recheck
+Blood_Pressure|bp *standing
+Blood_Pressure|bp *today
+Blood_Pressure|lying *bp
+Blood_Pressure|manual *pressure
+Blood_Pressure|\bnbp\b
+Blood_Pressure|repeat *bp\b
+Blood_Pressure|rest *bp\b
+Blood_Pressure|sbp *dbp\b
+Blood_Pressure|sitting *blood *presure
+Blood_Pressure|sitting *bp
+Blood_Pressure|sitting p\b
+Blood_Pressure|standing *blood *presure\b
+BMI|bmi
+Heart_Rate|\bpulse\b(\srate)?
+Heart_Rate|(max|mean|min)\s+pulse
+Heart_Rate|\bhr\b
+Heart_Rate|\bhr\b
+Heart_Rate|\bp[uls]+e\b
+Heart_Rate|\bp\b
+Heart_Rate|\bpl\b
+Heart_Rate|apical pulse
+Heart_Rate|heart *rate
+Heart_Rate|hr before tx
+Heart_Rate|pulse pre\b
+Heart_Rate|pulse rate
+Heart_Rate|pulses\b
+Heart_Rate|radial pulse
+Height|height
+Pain|pain score
+Respiratory_Rate|\brate\b
+Respiratory_Rate|\brr\b
+Respiratory_Rate|respiration rate
+Respiratory_Rate|respirations
+Respiratory_Rate|respiratory rate
+SO2|\bsat\b
+SO2|po2
+SO2|SAO2
+SO2|saturation
+SO2|saturation\s*O2
+Temperature|\btemp\w*\b
+Temperature|fever\b
+Temperature|\bt\b
+Temperature|\btm\b
+Temperature|\btmax\b
+Temperature|\btcur\b
+Temperature|\bt *current\b
+Weight|weight
