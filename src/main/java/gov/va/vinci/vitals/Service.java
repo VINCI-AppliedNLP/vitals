@@ -253,7 +253,7 @@ public class Service {
         .addParameterSetting(Param.MATCHED_PATTERN_FEATURE_NAME.getName(), false, false, "String", "pattern"));
 
     aggregate.addDelegate(new LeoAEDescriptor()
-        .setName("NumericAnnotator")
+        .setName("UnitsAnnotator")
         .setImplementationName(RegexAnnotator.class.getCanonicalName())
         .addParameterSetting(RegexAnnotator.Param.GROOVY_CONFIG_FILE.getName(), true, false, "String", PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceUnit)
         .addParameterSetting(Param.MATCHED_PATTERN_FEATURE_NAME.getName(), false, false, "String", "pattern"));
