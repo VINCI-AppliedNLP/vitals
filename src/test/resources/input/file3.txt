@@ -1,0 +1,33 @@
+cc: fever
+
+HPI
+Mr. Elmo is a a 96yo WM with retroperitoneal liposarcoma s/p 10 surgical 
+resections and currently on a phase II clinical trial with adriamycin +/- AMG 
+655 (last dose per patient report 9/09/2009). 
+
+
+
+------------------------------------
+
+
+
+Date              Vital             Measurement      Qualifiers
+09/09/2009 10:57  Pain              7 
+09/09/2009 10:51  Pain              7 
+09/09/2009 09:29  Pulse             82 
+   "        "     Respir            10 
+09/09/2009 09:00  Temp F (C)        99.1 (37.3) 
+   "        "     Pulse             90               Apical - Regular
+   "        "     Respir            18               Assisted Ventilator
+   "        "     BP                134/80 
+   "        "     POx (L/Min)(%)     98 ()(45)       Ventilator
+09/09/2009 01:38  Temp F (C)        100.3 (37.9) 
+   "        "     BP                120/64 
+   "        "     Wt lbs (kg)[BMI]  233 (105.69)[36*]Actual, Bed Scale
+   "        "     POx (L/Min)(%)     95 ()(50)       Ventilator
+09/09/2009 06:11  Ht in (cm)        68 (172.72) 
+   "        "     Wt lbs (kg)[BMI]  220.0 (99.79)[34*]
+
+
+
+---------------------------------------------

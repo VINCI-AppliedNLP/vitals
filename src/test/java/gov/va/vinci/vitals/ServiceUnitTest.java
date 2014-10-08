@@ -27,192 +27,203 @@ import org.junit.Test;
 
 public class ServiceUnitTest {
 
-  protected LeoAEDescriptor aggregate = null;
-  protected LeoTypeSystemDescription types = null;
-  protected String outputDir = "src/test/resources/output/xmi";
-  protected String inputDir = "src/test/resources/input/";
-  protected int numDocs = 18;
-  // protected int numDocs = 1;
-  protected boolean launchView = true;
-  protected String aggXmi = "aggregateDesc";
+	protected LeoAEDescriptor aggregate = null;
+	protected LeoTypeSystemDescription types = null;
+	protected String outputDir = "src/test/resources/output/xmi";
+	protected String inputDir = "src/test/resources/input/";
+	protected int numDocs = 18;
+	// protected int numDocs = 1;
+	protected boolean launchView = true;
+	protected String aggXmi = "aggregateDesc";
 
-  @Before
-  public void setup() throws Exception {
-    Service ds = new Service();
-    // aggregate = ds.createPipeline(false);
-    LeoTypeSystemDescription types = ds.createTypeSystem();
-    aggregate = ds.createPipeline(types);
+	@Before
+	public void setup() throws Exception {
+		Service ds = new Service();
+		// aggregate = ds.createPipeline(false);
+		LeoTypeSystemDescription types = ds.createTypeSystem();
+		aggregate = ds.createPipeline(types);
 
-    File o = new File(outputDir);
-    if (!o.exists()) {
-      o.mkdirs();
-    }// if
-  }// setup
+		File o = new File(outputDir);
+		if (!o.exists()) {
+			o.mkdirs();
+		}// if
+	}// setup
 
-  public String getDocText(String filename) throws IOException {
-    return FileUtils.file2String(new File(inputDir + filename));
-  }
+	public String getDocText(String filename) throws IOException {
+		return FileUtils.file2String(new File(inputDir + filename));
+	}
 
-  @Test
-  public void testXmi() throws Exception {
+	@Test
+	public void testXmi() throws Exception {
 
-  
-    AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(aggregate.getAnalysisEngineDescription());
+		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(aggregate.getAnalysisEngineDescription());
+		String filename = "";
+		String docText = "";
+		JCas jcas = null;
+		/**
+		filename = "file0.txt";
+		docText = getDocText(filename);
+		jcas = createJCas(ae, docText, filename);
+		ae.process(jcas);
+		outputXmi(filename, jcas);
+		assertAndPrint(jcas, 10, 10, 9);
 
-    String filename = "file0.txt";
-    String docText = getDocText(filename);
-    JCas jcas = createJCas(ae, docText, filename);
-    ae.process(jcas);
-    outputXmi(filename, jcas);  
-    assertAndPrint(jcas, 10, 10, 9);
-    
-    filename = "file1.txt";
-    docText = getDocText(filename);
-    jcas = createJCas(ae, docText, filename);
-    ae.process(jcas);
-    outputXmi(filename, jcas);  
-    assertAndPrint(jcas, 8, 10, 4);
-    
+		filename = "file1.txt";
+		docText = getDocText(filename);
+		jcas = createJCas(ae, docText, filename);
+		ae.process(jcas);
+		outputXmi(filename, jcas);
+		assertAndPrint(jcas, 8, 4, 11); // 10
 
-    filename = "file2.txt";
-    docText = getDocText(filename);
-    jcas = createJCas(ae, docText, filename);
-    ae.process(jcas);
-    outputXmi(filename, jcas);  
-    assertAndPrint(jcas, 0, 0, 0);
-    
+		filename = "file2.txt";
+		docText = getDocText(filename);
+		jcas = createJCas(ae, docText, filename);
+		ae.process(jcas);
+		outputXmi(filename, jcas);
+		assertAndPrint(jcas, 0, 0, 0);
+		/**/
+		filename = "file3.txt";
+		docText = getDocText(filename);
+		jcas = createJCas(ae, docText, filename);
+		ae.process(jcas);
+		outputXmi(filename, jcas);
+		assertAndPrint(jcas, 0, 0, 0);
 
-  }// testXmi method
+	}// testXmi method
 
-public void outputXmi(String filename, JCas jcas){
-  try {
+	public void outputXmi(String filename, JCas jcas) {
+		try {
 
-    File xmio = new File(outputDir, filename + ".xmi");
-    XmiCasSerializer.serialize(jcas.getCas(), new FileOutputStream(xmio));
-  } catch (Exception e) {
-    e.printStackTrace();
+			File xmio = new File(outputDir, filename + ".xmi");
+			XmiCasSerializer.serialize(jcas.getCas(), new FileOutputStream(xmio));
+		} catch (Exception e) {
+			e.printStackTrace();
 
-  }
-}
-  @SuppressWarnings("unchecked")
-  public void assertAndPrint(JCas jcas, int bpCount, int tCount, int hrCount) {
-    ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Bp_value.type);
+		}
+	}
 
-    System.out.println("BP count : " + list.size() + " vs " + bpCount);
-    for (Annotation a : list) {
-      System.out.println("BP:" + a.getCoveredText());
-    }
-    Assert.assertTrue(list.size() == bpCount);
+	@SuppressWarnings("unchecked")
+	public void assertAndPrint(JCas jcas, int bpCount, int tCount, int hrCount) {
+		ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas,
+		    Bp_value.type);
 
-    list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_value.type);
-    System.out.println("T count : " + list.size() + " vs " + tCount);
-    for (Annotation a : list) {
-      System.out.println("T :" + a.getCoveredText());
-    }
-    Assert.assertTrue(list.size() == tCount);
+		System.out.println("BP count : " + list.size() + " vs " + bpCount);
+		for (Annotation a : list) {
+			System.out.println("BP:" + a.getCoveredText());
+		}
+		Assert.assertTrue(list.size() == bpCount);
 
-    list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Hr_value.type);
-    System.out.println("HR count : " + list.size() + " vs " + hrCount);
-    for (Annotation a : list) {
-      System.out.println("HR:" + a.getCoveredText());
-    }
+		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_value.type);
+		System.out.println("T count : " + list.size() + " vs " + tCount);
+		for (Annotation a : list) {
+			System.out.println("T :" + a.getCoveredText());
+		}
+		Assert.assertTrue(list.size() == tCount);
 
-    Assert.assertTrue(list.size() == hrCount);
-  }
+		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Hr_value.type);
+		System.out.println("HR count : " + list.size() + " vs " + hrCount);
+		for (Annotation a : list) {
+			System.out.println("HR:" + a.getCoveredText());
+		}
 
-  /**
-   * 
-   * @param ae
-   * @param docText
-   * @param id
-   * @return
-   * @throws ResourceInitializationException
-   */
-  protected JCas createJCas(AnalysisEngine ae, String docText, String id)
-      throws ResourceInitializationException {
-    JCas jcas = ae.newJCas();
-    jcas.setDocumentText(docText);
-    CSI csi = new CSI(jcas);
-    csi.setBegin(0);
-    csi.setEnd(docText.length());
-    csi.setID(id);
-    csi.addToIndexes();
-    return jcas;
-  }
+		Assert.assertTrue(list.size() == hrCount);
+	}
 
-  protected void launchViewer() throws Exception {
-    if (aggregate == null) { throw new RuntimeException(
-        "Aggregate is null, unable to generate descriptor for viewing xmi"); }
-    aggregate.toXML(aggXmi);
-    String aggLoc = aggregate.getDescriptorLocator();
-    Preferences prefs = Preferences.userRoot().node(
-        "org/apache/uima/tools/AnnotationViewer");
-    if (aggLoc != null) {
-      prefs.put("taeDescriptorFile", aggLoc);
-    }// if mAggDesc != null
-    if (outputDir != null) {
-      prefs.put("inDir", outputDir);
-    }// if mOutputDir != null
-    AnnotationViewerMain avm = new AnnotationViewerMain();
-    avm.setBounds(0, 0, 1000, 225);
-    avm.setVisible(true);
-  }// launchViewer method
+	/**
+	 * 
+	 * @param ae
+	 * @param docText
+	 * @param id
+	 * @return
+	 * @throws ResourceInitializationException
+	 */
+	protected JCas createJCas(AnalysisEngine ae, String docText, String id)
+	    throws ResourceInitializationException {
+		JCas jcas = ae.newJCas();
+		jcas.setDocumentText(docText);
+		CSI csi = new CSI(jcas);
+		csi.setBegin(0);
+		csi.setEnd(docText.length());
+		csi.setID(id);
+		csi.addToIndexes();
+		return jcas;
+	}
 
-  @After
-  public void cleanup() throws Exception {
+	protected void launchViewer() throws Exception {
+		if (aggregate == null) {
+			throw new RuntimeException(
+			    "Aggregate is null, unable to generate descriptor for viewing xmi");
+		}
+		aggregate.toXML(aggXmi);
+		String aggLoc = aggregate.getDescriptorLocator();
+		Preferences prefs = Preferences.userRoot().node(
+		    "org/apache/uima/tools/AnnotationViewer");
+		if (aggLoc != null) {
+			prefs.put("taeDescriptorFile", aggLoc);
+		}// if mAggDesc != null
+		if (outputDir != null) {
+			prefs.put("inDir", outputDir);
+		}// if mOutputDir != null
+		AnnotationViewerMain avm = new AnnotationViewerMain();
+		avm.setBounds(0, 0, 1000, 225);
+		avm.setVisible(true);
+	}// launchViewer method
 
-  }// cleanup method
-  /*
-   file0.txt
-   BP count : 6
-  BP:126/50
-  BP:144/69
-  BP:128/82
-  BP:142/81
-  BP:128/75
-  BP:124/70
-  --BP: 129/83
-  --BP: 128/85
-  --BP: 135/88
-  --BP: 106/74
-   
-   T count : 5
-  T :98.2
-  T :98.1
-  T :98.6
-  T :99.1
-  T :97
-  -- T:36.5
-  -- T: 97.9F
-  -- T: 36.6C
-  HR count : 8
-  HR:88
-  HR:70
-  HR:76
-  HR:77
-  HR:64
-  HR:79
-  HR:79
-  HR:72
+	@After
+	public void cleanup() throws Exception {
 
-  file1.txt
-  BP count : 5
-  BP:96/64
-  BP:100/64
-  BP:106/64
-  BP:100/67
-  BP:121/52
-  T count : 2
-  T :98.2
-  T :97.4
-  HR count : 1
-  HR:72
+	}// cleanup method
+	/*
+	 file0.txt
+	 BP count : 6
+	BP:126/50
+	BP:144/69
+	BP:128/82
+	BP:142/81
+	BP:128/75
+	BP:124/70
+	--BP: 129/83
+	--BP: 128/85
+	--BP: 135/88
+	--BP: 106/74
+	 
+	 T count : 5
+	T :98.2
+	T :98.1
+	T :98.6
+	T :99.1
+	T :97
+	-- T:36.5
+	-- T: 97.9F
+	-- T: 36.6C
+	HR count : 8
+	HR:88
+	HR:70
+	HR:76
+	HR:77
+	HR:64
+	HR:79
+	HR:79
+	HR:72
 
-  file2.txt
-  BP count : 0
-  T count : 0
-  HR count : 0
+	file1.txt
+	BP count : 5
+	BP:96/64
+	BP:100/64
+	BP:106/64
+	BP:100/67
+	BP:121/52
+	T count : 2
+	T :98.2
+	T :97.4
+	HR count : 1
+	HR:72
+
+	file2.txt
+	BP count : 0
+	T count : 0
+	HR count : 0
 
 
-   */
+	 */
 }

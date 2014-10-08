@@ -14,7 +14,8 @@ configuration { /* All configuration for this annotator. */
     "Temperature" {
         expressions = [
                         '\\bc\\b',
-                        '\\bf\\b'
+                        '\\bf\\b',
+						'degrees Fahr\\w+'
                       ]
         concept_feature_value = "Temperature"
     }
@@ -31,8 +32,8 @@ configuration { /* All configuration for this annotator. */
     "Heart_Rate" {
       expressions = [
                       'beats per minute',
-                      '/min\\b',
-'\bbpm\b'
+					  '\\bbpm\\b',
+                      '/min\\b'
                     ]
       concept_feature_value = "Heart_Rate"
   }
@@ -48,6 +49,7 @@ configuration { /* All configuration for this annotator. */
     "Weight" {
       expressions = [
                       '\\blb\\b',
+					  '\\blbs\\b',
                       '\\bkg\\b',
                       '\\bpounds?\\b'
                     ]

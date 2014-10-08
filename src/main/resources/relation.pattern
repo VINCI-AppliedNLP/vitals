@@ -15,4 +15,4 @@
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*(is|are|was|were)\s*<!target><gov.va.vinci.vitals.types.Numeric/><!target/>\s*<gov.va.vinci.vitals.types.Unit/>
 
 
-<!target><gov.va.vinci.vitals.types.Numeric/><!target/>\s*<gov.va.vinci.vitals.types.Unit/>
+<!target><gov.va.vinci.vitals.types.Numeric/><!target/>\s*<gov.va.vinci.vitals.types.Unit concept="Temperature"/>

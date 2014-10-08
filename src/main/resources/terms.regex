@@ -40,16 +40,19 @@ Height|\bht\b
 Pain|pain score
 Respiratory_Rate|\brate\b
 Respiratory_Rate|\bresp\b
+Respiratory_Rate|\brespir\b
 Respiratory_Rate|\brr\b
+Respiratory_Rate|\br\b
 Respiratory_Rate|respiration\s*rate
 Respiratory_Rate|respirations
 Respiratory_Rate|respiratory\s*rate
 SO2|\bsat\b
-SO2|po2
+SO2|\bpo2
 SO2|SAO2
 SO2|saturation
 SO2|saturation\s*O2
 SO2|saturation\s*o2\s*stats
+SO2|O2 SATS
 Temperature|\btemp\w*\b
 Temperature|fever\b
 Temperature|\bt\b

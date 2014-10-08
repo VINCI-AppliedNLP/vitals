@@ -4,7 +4,7 @@ readerType = "knowtator"
 
 // Listener types is one or more of the following
 // simpleCsv|simplexmi|csv|xmi|aucompare|compare|database
-listenerTypes = "aucompare|xmi"
+listenerTypes = "xmi|aucompare|csv"
 
 ///////////////////////////////////////////////////////////////////////////////
 sqlDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
@@ -66,7 +66,7 @@ csvFieldList = [
  *   If xmi files exist, they will be overwritten.
  *   If the path does not exist, it will be created.  */
 xmiOutPath = mainOutPath + "xmi\\"
-xmiOutputTypeList =  []
+xmiOutputTypeList =  ["gov.va.vinci.vitals.types.T_value", "gov.va.vinci.vitals.types.Hr_value", "gov.va.vinci.vitals.types.Bp_value"]
 
 openViewerAfterProcessing =  false
 // if the list is empty, all files will be outputted

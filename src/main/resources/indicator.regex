@@ -1,12 +1,12 @@
 vital signs
 \bvitals
 \bvs\b
-\bo\b
-\bpe\b
+\n *\bo\b
+\n *\bpe\b
 \bphysical exam
 \bphysical examination
 \bobjective
-\bv/s\b
+\n *\bv/s\b
 \bexam\b
 \bvital\b
 \bmost recent vitals
@@ -28,10 +28,10 @@ vital signs
 \bblood pressure taken at this visit
 \bbp check
 \bcurrent vitals
-\bi/o\b
+\n *\bi/o\b
 \blatest vitals
 \bnormal physical exam findings include
-\bo:
+\n *\bo:
 \bpast 7 day ht-ivr data
 \bpatient's vital signs are
 \bpre-blood pressure and pulse seated
