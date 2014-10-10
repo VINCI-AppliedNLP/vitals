@@ -83,6 +83,9 @@ public class Service {
 		static String TYPE_RELATION =  "gov.va.vinci.vitals.types.Relation";
 		static String RESOURCE_RELATION = "relation.pattern";
 		
+		static String TYPE_RELATION_TIMESTAMP =  "gov.va.vinci.vitals.types.Relation_Time";
+		static String RESOURCE_RELATION_TIMESTAMP = "relation_time.pattern";
+		
 		static HashMap<String, String[]> filterTypes = new HashMap<String, String[]>();
 		static {
 			filterTypes.put("gov.va.vinci.vitals.types.NumericExclude",    new String[] { PipelineVariables.TYPE_NUMERIC });

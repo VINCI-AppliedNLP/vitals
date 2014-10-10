@@ -87,14 +87,14 @@ public class ServiceUnitTest {
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 4, 5, 3, filename);  //
+		assertAndPrint(jcas, 4, 6, 3, filename);  //
 		/**/
 		filename = "file4.txt";
 		docText = getDocText(filename);
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 1, 0, 2, filename);
+		assertAndPrint(jcas, 1, 0, 2, filename); // (1,0,2)
 
 	}// testXmi method
 
