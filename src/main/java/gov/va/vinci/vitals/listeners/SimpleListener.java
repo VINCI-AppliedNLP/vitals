@@ -4,7 +4,7 @@ package gov.va.vinci.vitals.listeners;
  * #%L
  * Leo
  * %%
- * Copyright (C) 2010 - 2013 University of Utah
+ * Copyright (C) 2010 - 2014 Department of Veterans Affairs
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,10 +29,11 @@ import gov.va.vinci.leo.listener.BaseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * Note: This is a very simple listener to output one type of annotation and, optionally,
+ * Note: This is a very simple gov.va.vinci.leo.listener to output one type of annotation and, optionally,
  * its features. It DOES NOT work well with features of Array type. If you need to
  * output features of Array type, this code simply calls toStringArray on the ArrayFS, and
  * outputs those values.
@@ -42,9 +43,9 @@ import java.util.ArrayList;
 public class SimpleListener extends BaseListener {
 
 	/**
-	 * The type name this annotation listener is limited to.
+	 * The type name this annotation gov.va.vinci.leo.listener is limited to.
 	 */
-	protected ArrayList<String> typeNames;
+	protected List<String> typeNames;
 
 	/**
 	 * The output file to write to.
@@ -60,20 +61,22 @@ public class SimpleListener extends BaseListener {
 	 * Include features on the annotations or not.
 	 */
 	protected boolean includeFeatures;
-	protected String del = ",";
 
 	/**
 	 * Constructor that sets the initial outputFile, annotation type name for output, and includeFeatures flag.
 	 *
 	 * @param outputFile      File to which the annotation information will be output.
-	 * @param typeName        Name of the annotation type that will be output to the file.
 	 * @param includeFeatures If true then include the features that need to be added.
+	 * @param typeName        Name of the annotation type that will be output to the file. At least one type name is
+	 *                        required.
 	 * @throws FileNotFoundException  if the output file cannot be found or written to.
 	 */
-	public SimpleListener(File outputFile, ArrayList<String> types, boolean includeFeatures)
+	public SimpleListener(File outputFile, boolean includeFeatures, String... typeName)
 	    throws FileNotFoundException {
-		this.typeNames = new ArrayList<String>();
-		this.typeNames.addAll(types);
+		if (typeName == null || typeName.length < 1) {
+			throw new IllegalArgumentException("Type name is required.");
+		}
+		this.typeNames = Arrays.asList(typeName);
 		this.outputFile = outputFile;
 		this.includeFeatures = includeFeatures;
 		writer = new PrintWriter(outputFile);
@@ -86,8 +89,9 @@ public class SimpleListener extends BaseListener {
 	 */
 	@Override
 	public void entityProcessComplete(CAS aCas, EntityProcessStatus aStatus) {
-		for (String typeName : typeNames) {
-			Type type = aCas.getTypeSystem().getType(typeName);
+		super.entityProcessComplete(aCas, aStatus);
+		for (String singleType : typeNames) {
+			Type type = aCas.getTypeSystem().getType(singleType);
 			FSIndex<?> index = aCas.getAnnotationIndex(type);
 			FSIterator<?> iterator = index.iterator();
 
@@ -101,31 +105,28 @@ public class SimpleListener extends BaseListener {
 			while (iterator.hasNext()) {
 				Annotation a = (Annotation) iterator.next();
 
-				writer.write(refLoc + del + a.getBegin() + del + a.getEnd() + del + typeName + del + "\""
-				    + a.getCoveredText() + "\"" + del);
+				writer.write(refLoc + " ~ " + a.getBegin() + " ~ " + a.getEnd() + " ~ " + singleType + " ~ "
+				    + a.getCoveredText().replaceAll("\\s+", " ") + "~");
 
 				if (includeFeatures) {
-
 					for (Feature f : type.getFeatures()) {
-						if (f.getName().startsWith(typeName + ":")) {
+						if (f.getName().startsWith(typeNames + ":")) {
 							try {
 								if (a.getFeatureValue(f) instanceof ArrayFS) {
 									String[] values = ((ArrayFS) a.getFeatureValue(f)).toStringArray();
-									writer.write("[ " + f.getShortName() + del);
+									writer.write("[ " + f.getShortName() + " ~ ");
 									for (String val : values) {
 										writer.write(val + ",");
 									}
 									writer.write("] ");
-
 								} else {
-									writer.write("[ " + f.getShortName() + del + a.getFeatureValueAsString(f) + "]");
+									writer.write("[ " + f.getShortName() + " ~ " + a.getFeatureValueAsString(f) + "]");
 								}
 							} catch (Exception e) {
-								e.printStackTrace();
+								LOG.error(e);
 							}
 						}
 					}
-
 				}
 				writer.write("\n");
 			}
@@ -140,6 +141,7 @@ public class SimpleListener extends BaseListener {
 	 */
 	@Override
 	public void collectionProcessComplete(EntityProcessStatus aStatus) {
+		super.collectionProcessComplete(aStatus);
 		try {
 			writer.close();
 		} catch (Exception e) {

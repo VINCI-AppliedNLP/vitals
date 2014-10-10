@@ -277,7 +277,7 @@ public class Client {
 				}
 				// INFO: SimpleCSV
 				if (type.equalsIgnoreCase(LISTENERS.simpleCsv.name())) {
-					SimpleCsvListener listener = null;
+					SimpleListener listener = null;
 					HashMap<String, ArrayList<String>> simpleListenerTypes = (HashMap<String, ArrayList<String>>) config
 					    .get("simpleCsvOutTypes");
 					String csvDirPath = ((String) config.get("csvOutPath")).replaceAll("\\{suffix\\}", timeStamp);
@@ -289,7 +289,7 @@ public class Client {
 
 							String[] listenerOutTypes = new String[simpleListenerTypes.get(outFileName).size()];
 							listenerOutTypes = simpleListenerTypes.get(outFileName).toArray(listenerOutTypes);
-							listener = new SimpleCsvListener(new File(filePathString), true, listenerOutTypes);
+							listener = new SimpleListener(new File(filePathString), true, listenerOutTypes);
 							listenerList.add(listener);
 						}
 					}

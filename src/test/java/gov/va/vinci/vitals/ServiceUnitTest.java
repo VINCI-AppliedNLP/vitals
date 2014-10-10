@@ -60,34 +60,41 @@ public class ServiceUnitTest {
 		String filename = "";
 		String docText = "";
 		JCas jcas = null;
-		/**
+		/**/
 		filename = "file0.txt";
 		docText = getDocText(filename);
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 10, 10, 9);
+		assertAndPrint(jcas, 10, 10, 8, filename); //(10,10,9)
 
 		filename = "file1.txt";
 		docText = getDocText(filename);
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 8, 4, 11); // 10
+		assertAndPrint(jcas, 8, 4, 1, filename); // (9,4 10)
 
 		filename = "file2.txt";
 		docText = getDocText(filename);
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 0, 0, 0);
+		assertAndPrint(jcas, 0, 0, 0, filename); // (0,0,0)
 		/**/
 		filename = "file3.txt";
 		docText = getDocText(filename);
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 0, 0, 0);
+		assertAndPrint(jcas, 4, 5, 3, filename);  //
+		/**/
+		filename = "file4.txt";
+		docText = getDocText(filename);
+		jcas = createJCas(ae, docText, filename);
+		ae.process(jcas);
+		outputXmi(filename, jcas);
+		assertAndPrint(jcas, 1, 0, 2, filename);
 
 	}// testXmi method
 
@@ -103,7 +110,8 @@ public class ServiceUnitTest {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void assertAndPrint(JCas jcas, int bpCount, int tCount, int hrCount) {
+	public void assertAndPrint(JCas jcas, int bpCount, int tCount, int hrCount, String filename) {
+		System.out.println(filename);
 		ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas,
 		    Bp_value.type);
 
@@ -173,57 +181,5 @@ public class ServiceUnitTest {
 	public void cleanup() throws Exception {
 
 	}// cleanup method
-	/*
-	 file0.txt
-	 BP count : 6
-	BP:126/50
-	BP:144/69
-	BP:128/82
-	BP:142/81
-	BP:128/75
-	BP:124/70
-	--BP: 129/83
-	--BP: 128/85
-	--BP: 135/88
-	--BP: 106/74
-	 
-	 T count : 5
-	T :98.2
-	T :98.1
-	T :98.6
-	T :99.1
-	T :97
-	-- T:36.5
-	-- T: 97.9F
-	-- T: 36.6C
-	HR count : 8
-	HR:88
-	HR:70
-	HR:76
-	HR:77
-	HR:64
-	HR:79
-	HR:79
-	HR:72
 
-	file1.txt
-	BP count : 5
-	BP:96/64
-	BP:100/64
-	BP:106/64
-	BP:100/67
-	BP:121/52
-	T count : 2
-	T :98.2
-	T :97.4
-	HR count : 1
-	HR:72
-
-	file2.txt
-	BP count : 0
-	T count : 0
-	HR count : 0
-
-
-	 */
 }

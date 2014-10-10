@@ -23,7 +23,6 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.apache.log4j.Logger;
 import org.apache.uima.resource.metadata.TypeDescription;
 import org.apache.uima.resource.metadata.impl.TypeDescription_impl;
-import org.apache.xmlbeans.impl.regex.RegularExpression;
 
 /**
  * 
@@ -79,9 +78,11 @@ public class Service {
 		static {
 			apaResourceToType.put("numericValuesExclude.pattern", "gov.va.vinci.vitals.types.NumericExclude");
 			apaResourceToType.put("termsExclude.pattern", "gov.va.vinci.vitals.types.TermExclude");
-			apaResourceToType.put("relation.pattern", "gov.va.vinci.vitals.types.Relation");
+		
 		}
-
+		static String TYPE_RELATION =  "gov.va.vinci.vitals.types.Relation";
+		static String RESOURCE_RELATION = "relation.pattern";
+		
 		static HashMap<String, String[]> filterTypes = new HashMap<String, String[]>();
 		static {
 			filterTypes.put("gov.va.vinci.vitals.types.NumericExclude",    new String[] { PipelineVariables.TYPE_NUMERIC });
@@ -329,12 +330,21 @@ public class Service {
 		        "gov.va.vinci.vitals.types.TermExclude" })
 		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_DELETE.getName(), new String[] {
 		        "gov.va.vinci.vitals.types.Numeric",
-		        "gov.va.vinci.vitals.types.Term",
-		        "gov.va.vinci.vitals.types.Relation" })
+		        "gov.va.vinci.vitals.types.Term" })
 		    .setParameterSetting(AnnotationFilter.Param.REMOVE_OVERLAPPING.getName(), true)
 
 		    .addTypeSystemDescription(types));
 
+		aggregate
+    .addDelegate(new AnnotationPatternAnnotator()
+        .getLeoAEDescriptor()
+        .setName("PatternAnnotator" + i)
+        .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
+            PipelineVariables.RESOURCE_PATH +  PipelineVariables.RESOURCE_RELATION)
+        .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(),PipelineVariables.TYPE_RELATION)
+        .addTypeSystemDescription(types));
+		
+		
 		aggregate.addDelegate(new SimplePatternAnnotator().getLeoAEDescriptor()
 		    .addTypeSystemDescription(types));
 		for (String a : PipelineVariables.valueTypes) {
@@ -403,6 +413,7 @@ public class Service {
 			types.addType(a.getValue(), "", PipelineVariables.PatternType);
 		}
 
+types.addType(PipelineVariables.TYPE_RELATION, "",PipelineVariables.PatternType );
 		/*  Logic annotation */
 		TypeDescription type = new TypeDescription_impl(PipelineVariables.LogicType, "", "uima.tcas.Annotation");
 		type.addFeature("VitalType", "", "uima.cas.String");

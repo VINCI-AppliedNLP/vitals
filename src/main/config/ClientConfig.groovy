@@ -4,7 +4,7 @@ readerType = "knowtator"
 
 // Listener types is one or more of the following
 // simpleCsv|simplexmi|csv|xmi|aucompare|compare|database
-listenerTypes = "xmi|aucompare|csv"
+listenerTypes = "xmi|aucompare|csv|simpleCsv"
 
 ///////////////////////////////////////////////////////////////////////////////
 sqlDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
@@ -32,7 +32,7 @@ endId=   100
 
 // Simple CSV Listener
 csvOutPath = mainOutPath
-simpleCsvOutTypes=[ "outputRelation.csv": ["gov.va.vinci.vitals.types.Relation"]]
+simpleCsvOutTypes=[ "outputRefSt.csv": ["gov.va.vinci.kttr.types.BPValue","gov.va.vinci.kttr.types.HRValue",	"gov.va.vinci.kttr.types.TValue"]]
 
 // Knowtator listener
 knowtatorOutTypes = ["gov.va.vinci.example.types.Logic"]

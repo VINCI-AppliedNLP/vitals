@@ -31,3 +31,42 @@ Date              Vital             Measurement      Qualifiers
 
 
 ---------------------------------------------
+
+
+Neuro:
+Intubated, follows commands, denies pain
+meds:  dilaudid 0.2mg /ativan 1mg prn
+
+CV:
+HR 40-110 (55 current)
+BP 90-130/30-60 (98/51)
+CVP 15-24
+MAP 60-80
+Amiodarone dc'd yesterday 2/2 spont cardioversion and bradycardia
+exam:  sinus brady, no m/r/g
+
+RESP:
+Intubated
+AC 10/700/5/40%
+RR 7-12 satting 100% pulse ox
+ABG 7.26/36/130/16 on 40% FiO2 (essentially unchanged from yesterday)
+exam:  CTA-B
+
+
+--------------------------------------
+
+
+LABS:  REVIEWED AND DISCUSSED WITH THE PATIENT.
+
+Physical Exam:
+     Vital Signs:  128/75 (08/13/2002 10:04), 72 (08/13/2002 10:04), 72 
+(08/13/2002 10:04), 97 F [36.1 C] (08/13/2002 10:04), 3 (08/13/2002 
+10:04), 204.8 lb [93.1 kg] (08/13/2002 10:04)
+
+Physical Exam
+     VS noted and BP is 128/75 P72.
+GENERAL:  AO X 3, NAD.
+HEENT/HEAD:  AT/NC, PERRLA, EOMI, Fundi benign, no visual fields defects, 
+         no nystagmus, oropharynx clear, nose benign, TM/EXT canals clear 
+         bil.
+

@@ -98,13 +98,12 @@ public class SimpleCompareListener extends BaseCsvListener {
 		ArrayList<String[]> rows = new ArrayList<String[]>();
 		for (String auType : auSysMap.keySet()) {
 			String toolType = auSysMap.get(auType);
+			
 			try {
-				ArrayList<Annotation> auAnns = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(
-				    cas.getJCas(), auType);
-				ArrayList<Annotation> toolAnns = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(
-				    cas.getJCas(), toolType);
+				ArrayList<Annotation> auAnns = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(	    cas.getJCas(), auType);
+				ArrayList<Annotation> toolAnns = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(				    cas.getJCas(), toolType);
 				if (auAnns.size() == 0 && toolAnns.size() == 0) {
-					return rows;
+					continue;
 				}
 				else {
 					if (totalCount.containsKey(auType)) {

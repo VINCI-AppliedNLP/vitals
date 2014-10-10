@@ -22,6 +22,7 @@ Blood_Pressure|standing *blood *presures?\b
 Blood_Pressure|standing\b(\s*after\s*\d+\sminutes?)?
 Blood_Pressure|lying\b
 BMI|bmi
+BMI|body\s+mass\*index
 Heart_Rate|\bpulse\b(\srate)?
 Heart_Rate|(max|mean|min)\s+pulse
 Heart_Rate|\bhr\b
@@ -37,6 +38,7 @@ Heart_Rate|pulse rate
 Heart_Rate|pulses\b
 Heart_Rate|radial pulse
 Height|\bht\b
+Height|\bHt +in *(\()?cm(\))?
 Pain|pain score
 Respiratory_Rate|\brate\b
 Respiratory_Rate|\bresp\b
@@ -60,4 +62,5 @@ Temperature|\btm\b
 Temperature|\btmax\b
 Temperature|\btcur\b
 Temperature|\bt *current\b
+Temperature|\bTemp +F *\(C\)
 Weight|\bwt\b

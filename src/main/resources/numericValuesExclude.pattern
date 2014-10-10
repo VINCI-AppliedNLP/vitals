@@ -1,1 +1,2 @@
 #<gov.va.vinci.vitals.types.Numeric/> (cm|m|gram|gr|lbs|%|mm)
+<gov.va.vinci.vitals.types.Numeric/> *-? *y\w*

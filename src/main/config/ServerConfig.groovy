@@ -29,12 +29,12 @@
 /**
  * UIMA-AS service Variables
  */
-numInstances = 4;
+numInstances = 1;
 runAsync = false;
 generateTypes=true
 registerWithJam=false
 
-//descriptorPath="/Users/imed/Documents/workspace/vitals/src/test/desc/"; //"P:\\ORD_Iwashyna_201108021D\\NLP\\desc\\";
+//descriptorPath="P:\\ORD_Iwashyna_201108021D\\NLP\\desc\\";
 //delete_on_exit=false;
 /**
  * JAM variables
