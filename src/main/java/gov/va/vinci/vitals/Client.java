@@ -106,7 +106,8 @@ public class Client {
 		log.info(" Starting " + this.getClass().getCanonicalName() + "  at "
 		    + new Date(sw.getStartTime()));
 		ConfigObject config = Utils.loadConfigFile(environment,
-		    "KnowtatorConfig.groovy", "CommonConfig.groovy",
+		    //   "KnowtatorConfig.groovy", 
+		    "CommonConfig.groovy",
 		    "ClientConfig.groovy");
 		loadProperties(config);
 		log.info("Loading properties took " + sw.toString() + " seconds.");
@@ -141,16 +142,16 @@ public class Client {
 			    .produceCollectionReader();
 
 		} else if (ReaderVariables.useDatabaseReader) {
-			String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-			String server = "";
-			String dbsName = "";
+			String driver = (String) config.get("sqlDriver");
+			String server = (String) config.get("projectServer");
+			String dbsName = (String) config.get("projectDbsName");
 			String username = "";
 			String password = "";
-			String query = "";
-			String idColumn = "";
-			String noteColumn = "";
-			int minRecordNumber = 0;
-			int maxRecordNumber = 0;
+			String query = (String) config.get("query");
+			String idColumn = (String) config.get("idIndex");
+			String noteColumn = (String) config.get("noteIndex");
+			int minRecordNumber = (Integer) config.get("startId");
+			int maxRecordNumber = (Integer) config.get("endId");
 			int batchSize = 0;
 			String url = "jdbc:sqlserver://" + server + ":1433;databasename="
 			    + dbsName + ";integratedSecurity=true";
@@ -312,6 +313,10 @@ public class Client {
 
 	}
 
+	/**
+	 * 
+	 * @param config
+	 */
 	private void loadProperties(ConfigObject config) {
 		GeneralSettings.SERVICE_NAME = (String) config.get("serviceQueueName");
 		GeneralSettings.BROKER_URL = (String) config.get("brokerUrl");

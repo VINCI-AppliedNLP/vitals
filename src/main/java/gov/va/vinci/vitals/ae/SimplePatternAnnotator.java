@@ -36,7 +36,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 	}
 
 	public static java.util.regex.Pattern bpPattern = java.util.regex.Pattern.compile(
-	    "\\b\\d{2,3}/\\d{2,3}\\b",
+	    "\\b\\d{2,3} {0,2}/ {0,2}\\d{2,3}\\b",
 	    java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
 
 	public static java.util.regex.Pattern singleNumber = java.util.regex.Pattern.compile("\\b\\d{2,3}\\b",
@@ -50,13 +50,15 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 
 	private static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
 
+	public int rightWindow = 400;
+
 	public void advancedHeuristics(JCas aJCas) throws AnalysisEngineProcessException {
 
 		FSIterator<Annotation> iterI = this.getAnnotationListForType(aJCas, Indicator.class.getCanonicalName());
 
 		while (iterI.hasNext()) {
 			Annotation indicator = iterI.next();
-			int end = indicator.getEnd() + 150;
+			int end = indicator.getEnd() + rightWindow; // 200 is better than 150, 250 is better than 200, but 300 better than 400
 			if (end > aJCas.getDocumentText().length()) {
 				end = aJCas.getDocumentText().length();
 			}
@@ -74,45 +76,77 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 								number.setValueType(vitalTypes.Temperature.name());
 								number.setSource("heuristics");
 							}
-							/**else if (isPulse(number.getCoveredText())) {  -- gets additional Recall 14%, but down precision 44%
-							number.setValueType(vitalTypes.Heart_Rate.name());
-							number.setSource("heuristics");
-							} /**/
+
 						}// end of Number loop
 					}
 				}
-				// FIXME:        for (Annotation a : annsToRemove) {           a.removeFromIndexes(aJCas);         }
 			} catch (CASException e) {
 				e.printStackTrace();
 			}
 		}
-		FSIterator<Annotation> iterNums = this.getAnnotationListForType(aJCas, Numeric.class.getCanonicalName());
-		while (iterNums.hasNext()) {
-			Numeric curNum = (Numeric) iterNums.next();
-			if (StringUtils.isNotBlank(curNum.getValueType())) {
 
-				if (curNum.getValueType().equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
-					Bp_value newAnn = (Bp_value) this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas,
-					    curNum.getBegin(), curNum.getEnd());
-					newAnn.setSource(curNum.getSource());
-					newAnn.setValueType(curNum.getValueType());
+	}
 
-				} else if (curNum.getValueType().equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
-					Hr_value newAnn = (Hr_value) this.addOutputAnnotation(Hr_value.class.getCanonicalName(), aJCas,
-					    curNum.getBegin(), curNum.getEnd());
-					newAnn.setSource(curNum.getSource());
-					newAnn.setValueType(curNum.getValueType());
-				} else if (curNum.getValueType().equalsIgnoreCase(vitalTypes.Temperature.name())) {
-					T_value newAnn = (T_value) this.addOutputAnnotation(T_value.class.getCanonicalName(), aJCas,
-					    curNum.getBegin(), curNum.getEnd());
-					newAnn.setValueType(curNum.getValueType());
-					newAnn.setSource(curNum.getSource());
+	/**
+	 * 
+	 * @param aJCas
+	 * @throws AnalysisEngineProcessException 
+	 * @throws CASException 
+	 */
+	public void advancedHeuristics_Time(JCas aJCas) throws AnalysisEngineProcessException, CASException {
+		// Step 1: remove allRelation_time if overlaps with any of the value types but keep Numeric
+		// This should have been achieved in createValueTypes
 
-				}
+		AnnotationLibrarian.removeOverlappingAnnotations(aJCas, Bp_value.class.getCanonicalName(),
+		    Relation_Time.class.getCanonicalName());
+		AnnotationLibrarian.removeOverlappingAnnotations(aJCas, Hr_value.class.getCanonicalName(),
+		    Relation_Time.class.getCanonicalName());
+		AnnotationLibrarian.removeOverlappingAnnotations(aJCas, T_value.class.getCanonicalName(),
+		    Relation_Time.class.getCanonicalName());
+
+		// Step 2: iterate through relation_time if it is within 350 chars after indicator
+		FSIterator<Annotation> iterI = this.getAnnotationListForType(aJCas, Indicator.class.getCanonicalName());
+
+		while (iterI.hasNext()) {
+			Annotation indicator = iterI.next();
+			int end = indicator.getEnd() + rightWindow; // 200 is better than 150, 250 is better than 200, but 300 better than 400
+			if (end > aJCas.getDocumentText().length()) {
+				end = aJCas.getDocumentText().length();
 			}
 
-		}
+			ArrayList<Annotation> relations = (ArrayList<Annotation>) AnnotationLibrarian
+			    .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, Relation_Time.type);
 
+			if (relations.size() > 0) {
+				for (Annotation r : relations) {
+					Relation_Time currRelation = (Relation_Time) r;
+					if (currRelation.getTarget() != null) { // Target stands for Numeric.
+						Numeric number = (Numeric) currRelation.getTarget();
+
+						/** if (this.isBloodPressure(number.getCoveredText())) {
+							number.setValueType(vitalTypes.Blood_Pressure.name());
+						} else if (this.isTemperature(number.getCoveredText())) {
+							number.setValueType(vitalTypes.Temperature.name());
+
+						} else
+						/**/
+						if (this.isHeartRate(number.getCoveredText())) {
+							number.setValueType(vitalTypes.Heart_Rate.name());
+							number.setSource("time_pattern");
+						}
+					}
+				}
+			}
+			/**else if (isPulse(number.getCoveredText())) {  -- gets additional Recall 14%, but down precision 44%
+			number.setValueType(vitalTypes.Heart_Rate.name());
+			number.setSource("heuristics");
+			} /**/
+
+			// Step 3: check target isHeartRate
+
+			//	gov.va.vinci.vitals.types.Relation_Time
+
+		}
 	}
 
 	/**
@@ -121,8 +155,6 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 	 * @throws CASException 
 	 */
 	public void analyzePatterns(JCas aJCas) throws CASException {
-
-		ArrayList<Annotation> annsToRemove = new ArrayList<Annotation>();
 
 		FSIterator<Annotation> iter = this.getAnnotationListForType(aJCas, Relation.class.getCanonicalName());
 		if (iter.hasNext()) {
@@ -161,13 +193,10 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 									number.setSource("pattern");
 								} else {
 									number.setValueType(vitalType);
-									annsToRemove.add(number);
-									annsToRemove.add(currRelation);
 								}
 							}
 						} else // No term. Check if there is a unit
-						if (((ArrayList<Annotation>) AnnotationLibrarian.getAllOverlappingAnnotationsOfType(
-						    currRelation,
+						if (((ArrayList<Annotation>) AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation,
 						    Unit.type)).size() > 0) {
 
 							Unit curUnit = (Unit) ((ArrayList<Annotation>) AnnotationLibrarian
@@ -198,24 +227,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 								}
 							}
 						} else  // at this time all pattern with term and all patterns with unit have been processed. The only patterns left are the ones that have a number and timestamp
-						if (((ArrayList<Annotation>) AnnotationLibrarian.getAllOverlappingAnnotationsOfType(
-						    currRelation,    Timestamp.type)).size() > 0) {
-							ArrayList<Annotation> times = (ArrayList<Annotation>) AnnotationLibrarian
-							    .getAllOverlappingAnnotationsOfType(currRelation, Timestamp.type);
-							/**
-														if (this.isBloodPressure(number.getCoveredText())) {
-															number.setValueType(vitalTypes.Blood_Pressure.name());
-
-														} else if (this.isTemperature(number.getCoveredText())) {
-															number.setValueType(vitalTypes.Temperature.name());
-
-														} else 
-														/**/
-							if (this.isHeartRate(number.getCoveredText())) {
-								number.setValueType(vitalTypes.Heart_Rate.name());
-								number.setSource("pattern");
-							}
-
+						{
 						}
 					} // end if Target -- should always be the case in Relations
 
@@ -224,7 +236,6 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 
 		}  // The end of going through relations
 	}
-
 
 	public LeoAEDescriptor getLeoAEDescriptor() throws Exception {
 		return getLeoAEDescriptor(this.getClass().getCanonicalName(),
@@ -255,6 +266,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 			Matcher digitMatcher = singleNumber.matcher(m);
 			if (digitMatcher.find()) {
 				String n = m.substring(digitMatcher.start(), digitMatcher.end());
+				n = n.trim();
 				try {
 					int num = Integer.parseInt(n);
 					if (num > 50 && num < 300)
@@ -295,6 +307,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 		Matcher digitMatcher = singleNumber.matcher(text);
 		if (digitMatcher.find()) {
 			String n = text.substring(digitMatcher.start(), digitMatcher.end());
+			n = n.trim();
 			try {
 				int num = Integer.parseInt(n);
 				if (num > 26 && num < 320)
@@ -318,6 +331,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 			Matcher digitMatcher = oneDecmalNumber.matcher(text);
 			if (digitMatcher.find()) {
 				String n = text.substring(digitMatcher.start(), digitMatcher.end());
+				n = n.trim();
 				try {
 					double num = Double.parseDouble(n);
 					if ((num > 34 && num < 44) || (num > 94 && num < 107))
@@ -349,8 +363,12 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 			super.process(aJCas);
 
 			analyzePatterns(aJCas);
-
+			//createValueTypes(aJCas);
 			advancedHeuristics(aJCas);
+			createValueTypes(aJCas);
+			advancedHeuristics_Time(aJCas);
+
+			createValueTypes(aJCas);
 
 		} catch (AnalysisEngineProcessException ex1) {
 			log.error(ex1.getMessage() + ex1.getStackTrace());
@@ -358,12 +376,34 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 			log.error(ex.getMessage() + ex.getStackTrace());
 		}
 
-		// else {
-		// FIXME: now need to analyze text 
-		// For those documents that do not contain Pattern, find Indicator, mark 100 chars after and check if Numeric fall in that interval
-		//
-		// FIXME:       for (Annotation a : annsToRemove) {       a.removeFromIndexes(aJCas);     }
+	}
 
+	private void createValueTypes(JCas aJCas) throws AnalysisEngineProcessException {
+
+		FSIterator<Annotation> iterNums = this.getAnnotationListForType(aJCas, Numeric.class.getCanonicalName());
+		while (iterNums.hasNext()) {
+			Numeric curNum = (Numeric) iterNums.next();
+			if (StringUtils.isNotBlank(curNum.getValueType())) {
+
+				if (curNum.getValueType().equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
+					Bp_value newAnn = (Bp_value) this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas,
+					    curNum.getBegin(), curNum.getEnd());
+					newAnn.setSource(curNum.getSource());
+					newAnn.setValueType(curNum.getValueType());
+
+				} else if (curNum.getValueType().equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
+					Hr_value newAnn = (Hr_value) this.addOutputAnnotation(Hr_value.class.getCanonicalName(), aJCas,
+					    curNum.getBegin(), curNum.getEnd());
+					newAnn.setSource(curNum.getSource());
+					newAnn.setValueType(curNum.getValueType());
+				} else if (curNum.getValueType().equalsIgnoreCase(vitalTypes.Temperature.name())) {
+					T_value newAnn = (T_value) this.addOutputAnnotation(T_value.class.getCanonicalName(), aJCas,
+					    curNum.getBegin(), curNum.getEnd());
+					newAnn.setValueType(curNum.getValueType());
+					newAnn.setSource(curNum.getSource());
+				}
+			}
+		}
 	}
 
 }

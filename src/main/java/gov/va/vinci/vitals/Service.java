@@ -78,18 +78,19 @@ public class Service {
 		static {
 			apaResourceToType.put("numericValuesExclude.pattern", "gov.va.vinci.vitals.types.NumericExclude");
 			apaResourceToType.put("termsExclude.pattern", "gov.va.vinci.vitals.types.TermExclude");
-		
+
 		}
-		static String TYPE_RELATION =  "gov.va.vinci.vitals.types.Relation";
+		static String TYPE_RELATION = "gov.va.vinci.vitals.types.Relation";
 		static String RESOURCE_RELATION = "relation.pattern";
-		
-		static String TYPE_RELATION_TIMESTAMP =  "gov.va.vinci.vitals.types.Relation_Time";
+
+		static String TYPE_RELATION_TIMESTAMP = "gov.va.vinci.vitals.types.Relation_Time";
 		static String RESOURCE_RELATION_TIMESTAMP = "relation_time.pattern";
-		
+
 		static HashMap<String, String[]> filterTypes = new HashMap<String, String[]>();
 		static {
-			filterTypes.put("gov.va.vinci.vitals.types.NumericExclude",    new String[] { PipelineVariables.TYPE_NUMERIC });
-			filterTypes.put("gov.va.vinci.vitals.types.Timestamp",    new String[] { PipelineVariables.TYPE_NUMERIC });
+			filterTypes.put("gov.va.vinci.vitals.types.NumericExclude",
+			    new String[] { PipelineVariables.TYPE_NUMERIC });
+			filterTypes.put("gov.va.vinci.vitals.types.Timestamp", new String[] { PipelineVariables.TYPE_NUMERIC });
 			filterTypes.put("gov.va.vinci.vitals.types.TermExclude", new String[] { PipelineVariables.TYPE_NUMERIC,
 			    PipelineVariables.TYPE_UNIT });
 		}
@@ -339,15 +340,24 @@ public class Service {
 		    .addTypeSystemDescription(types));
 
 		aggregate
-    .addDelegate(new AnnotationPatternAnnotator()
-        .getLeoAEDescriptor()
-        .setName("PatternAnnotator" + i)
-        .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
-            PipelineVariables.RESOURCE_PATH +  PipelineVariables.RESOURCE_RELATION)
-        .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(),PipelineVariables.TYPE_RELATION)
-        .addTypeSystemDescription(types));
-		
-		
+		    .addDelegate(new AnnotationPatternAnnotator()
+		        .getLeoAEDescriptor()
+		        .setName("PatternAnnotator" + i)
+		        .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
+		            PipelineVariables.RESOURCE_PATH + PipelineVariables.RESOURCE_RELATION)
+		        .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(),
+		            PipelineVariables.TYPE_RELATION)
+		        .addTypeSystemDescription(types));
+		aggregate
+		    .addDelegate(new AnnotationPatternAnnotator()
+		        .getLeoAEDescriptor()
+		        .setName("PatternAnnotator" + i)
+		        .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
+		            PipelineVariables.RESOURCE_PATH + PipelineVariables.RESOURCE_RELATION_TIMESTAMP)
+		        .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(),
+		            PipelineVariables.TYPE_RELATION_TIMESTAMP)
+		        .addTypeSystemDescription(types));
+
 		aggregate.addDelegate(new SimplePatternAnnotator().getLeoAEDescriptor()
 		    .addTypeSystemDescription(types));
 		for (String a : PipelineVariables.valueTypes) {
@@ -416,7 +426,8 @@ public class Service {
 			types.addType(a.getValue(), "", PipelineVariables.PatternType);
 		}
 
-types.addType(PipelineVariables.TYPE_RELATION, "",PipelineVariables.PatternType );
+		types.addType(PipelineVariables.TYPE_RELATION, "", PipelineVariables.PatternType);
+		types.addType(PipelineVariables.TYPE_RELATION_TIMESTAMP, "", PipelineVariables.PatternType);
 		/*  Logic annotation */
 		TypeDescription type = new TypeDescription_impl(PipelineVariables.LogicType, "", "uima.tcas.Annotation");
 		type.addFeature("VitalType", "", "uima.cas.String");

@@ -1,0 +1,3 @@
+# if this pattern appears close to Indicator annotation, check if it is in the range of 
+<!target><gov.va.vinci.vitals.types.Numeric/><!target/>\s*(\[|\() *<gov.va.vinci.vitals.types.Timestamp/> *(\]|\))
+\n *<gov.va.vinci.vitals.types.Timestamp/> *<!target><gov.va.vinci.vitals.types.Numeric/><!target/>

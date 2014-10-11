@@ -13,7 +13,7 @@ import org.apache.uima.cas.Type;
 /** 
  * Updated by JCasGen Fri Oct 10 16:23:22 CDT 2014
  * @generated */
-public class Relation_Type extends Pattern_Type {
+public class Relation_Time_Type extends Pattern_Type {
   /** @generated 
    * @return the generator for this type
    */
@@ -23,25 +23,25 @@ public class Relation_Type extends Pattern_Type {
   private final FSGenerator fsGenerator = 
     new FSGenerator() {
       public FeatureStructure createFS(int addr, CASImpl cas) {
-  			 if (Relation_Type.this.useExistingInstance) {
+  			 if (Relation_Time_Type.this.useExistingInstance) {
   			   // Return eq fs instance if already created
-  		     FeatureStructure fs = Relation_Type.this.jcas.getJfsFromCaddr(addr);
+  		     FeatureStructure fs = Relation_Time_Type.this.jcas.getJfsFromCaddr(addr);
   		     if (null == fs) {
-  		       fs = new Relation(addr, Relation_Type.this);
-  			   Relation_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  		       fs = new Relation_Time(addr, Relation_Time_Type.this);
+  			   Relation_Time_Type.this.jcas.putJfsFromCaddr(addr, fs);
   			   return fs;
   		     }
   		     return fs;
-        } else return new Relation(addr, Relation_Type.this);
+        } else return new Relation_Time(addr, Relation_Time_Type.this);
   	  }
     };
   /** @generated */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = Relation.typeIndexID;
+  public final static int typeIndexID = Relation_Time.typeIndexID;
   /** @generated 
      @modifiable */
   @SuppressWarnings ("hiding")
-  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.vitals.types.Relation");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.vitals.types.Relation_Time");
 
 
 
@@ -50,7 +50,7 @@ public class Relation_Type extends Pattern_Type {
 	 * @param jcas JCas
 	 * @param casType Type 
 	 */
-  public Relation_Type(JCas jcas, Type casType) {
+  public Relation_Time_Type(JCas jcas, Type casType) {
     super(jcas, casType);
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 

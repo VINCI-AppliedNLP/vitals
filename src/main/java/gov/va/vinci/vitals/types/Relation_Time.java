@@ -13,12 +13,12 @@ import org.apache.uima.jcas.cas.TOP_Type;
  * Updated by JCasGen Fri Oct 10 16:23:22 CDT 2014
  * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/4/leoTypeDescription_13fb1ec6-92ec-41fd-a8a0-fdf53f330cd58057878633564057603.xml
  * @generated */
-public class Hr_value extends OutputValue {
+public class Relation_Time extends Pattern {
   /** @generated
    * @ordered 
    */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = JCasRegistry.register(Hr_value.class);
+  public final static int typeIndexID = JCasRegistry.register(Relation_Time.class);
   /** @generated
    * @ordered 
    */
@@ -32,14 +32,14 @@ public class Hr_value extends OutputValue {
  
   /** Never called.  Disable default constructor
    * @generated */
-  protected Hr_value() {/* intentionally empty block */}
+  protected Relation_Time() {/* intentionally empty block */}
     
   /** Internal - constructor used by generator 
    * @generated
    * @param addr low level Feature Structure reference
    * @param type the type of this Feature Structure 
    */
-  public Hr_value(int addr, TOP_Type type) {
+  public Relation_Time(int addr, TOP_Type type) {
     super(addr, type);
     readObject();
   }
@@ -47,7 +47,7 @@ public class Hr_value extends OutputValue {
   /** @generated
    * @param jcas JCas to which this Feature Structure belongs 
    */
-  public Hr_value(JCas jcas) {
+  public Relation_Time(JCas jcas) {
     super(jcas);
     readObject();   
   } 
@@ -57,7 +57,7 @@ public class Hr_value extends OutputValue {
    * @param begin offset to the begin spot in the SofA
    * @param end offset to the end spot in the SofA 
   */  
-  public Hr_value(JCas jcas, int begin, int end) {
+  public Relation_Time(JCas jcas, int begin, int end) {
     super(jcas);
     setBegin(begin);
     setEnd(end);
