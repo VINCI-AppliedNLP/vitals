@@ -3,8 +3,8 @@
 readerType = "database"
 
 // Listener types is one or more of the following
-// simpleCsv|simplexmi|csv|xmi|aucompare|compare|database
-listenerTypes = "database"
+// simpleCsv|simplexmi|csv|xmi|aucompare|compare|database|chex
+listenerTypes = "chex"
 
 ///////////////////////////////////////////////////////////////////////////////
 sqlDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
@@ -19,8 +19,8 @@ mainInPath     = mainPath + "\\input\\"
 
 getFilesFromSubdirectories=false
 
-query= "SELECT  a.[TIUDocumentSID] ,[ReportText], a.patientsid,b.Entrydatetime, Sta3n    FROM [ORD_Iwashyna_201108021D].[Src].[TIUDocument_8925] b,   [ORD_Iwashyna_201108021D].[nlp].[NLP_VitalsCorpus_v2]  a   where a.TIUDocumentSID=b.TIUDocumentSID;"
-batchSize=10000
+query= "SELECT top 1000 a.[TIUDocumentSID] ,[ReportText], a.patientsid, b.Entrydatetime, Sta3n    FROM [ORD_Iwashyna_201108021D].[Src].[TIUDocument_8925] b, [ORD_Iwashyna_201108021D].[nlp].[NLP_VitalsCorpus_v2]  a   where a.TIUDocumentSID=b.TIUDocumentSID and a.tiudocumentsid not in (SELECT  distinct convert(bigint, replace([TIUDocumentSID],'.txt', '')) as docs  FROM [ORD_Iwashyna_201108021D].[nlp].[annotated_20140522]) order by newid();"
+readBatchSize=10000
 startId= 1
 endId=   100
 idIndex="tiudocumentsid"
@@ -76,7 +76,7 @@ outTableName="[nlp].[output_NLP_VitalsCorpus_v2]"
 
 
 
-// Siman listener
+//  listener
 dbSchema = "dflt" // unless you create your own schema, "dflt" should be used
 outBatchSize= 1000
 
@@ -99,10 +99,15 @@ dbFieldList = [
 
 
 // Siman output is for Chex
-simanSchema = "nlp"  //
-simanSuffix = "_test" // Change the suffix for each run, otherwise the data WILL BE OVERWRITTEN!
-simanTypes= []  // when blank, SimanListener outputs all annotations
-simanOverwrite = true
+chexSchema = "validation"  //
+chexSuffix = "_20141013" // Change the suffix for each run, otherwise the data WILL BE OVERWRITTEN!
+chexTypes= ["gov.va.vinci.vitals.types.Bp_value","gov.va.vinci.vitals.types.Hr_value","gov.va.vinci.vitals.types.T_value" ]  // when blank, SimanListener outputs all annotations
+chexOverwrite = true
+chexDocumentTextSelectQuery = ""
+chexColumnPrefix = "[";
+chexColumnSuffix ="]";
+chexBatchSize = 1000;
+
 
 
 // AuCompare -- not setup yet
@@ -128,6 +133,11 @@ environments {
 		readerType = "database"
 		listenerTypes = "database"
 		envType = "dbOut";
+	}
+	chex{
+		readerType = "database"
+		listenerTypes = "chex"
+		envType = "chex";
 	}
 }
 

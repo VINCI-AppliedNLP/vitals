@@ -2,6 +2,7 @@ package gov.va.vinci.vitals;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -10,6 +11,7 @@ import gov.va.vinci.leo.cr.BatchDatabaseCollectionReader;
 import gov.va.vinci.leo.cr.FileCollectionReader;
 import gov.va.vinci.leo.cr.LeoCollectionReaderInterface;
 import gov.va.vinci.leo.listener.*;
+import gov.va.vinci.leo.model.ChexSimanDataSourceConfiguration;
 import gov.va.vinci.leo.model.DatabaseConnectionInformation;
 import gov.va.vinci.leo.tools.LeoUtils;
 import gov.va.vinci.leo.tools.TextFilter;
@@ -55,7 +57,7 @@ public class Client {
 	 * ListenerLogic SimanChexListener KnowtatorListener CustomListener
 	 */
 	public enum LISTENERS { // INFO: enum LISTENERS
-		simpleCsv, csv, xmi, compare, aucompare, knowtator, database;
+		simpleCsv, csv, xmi, compare, aucompare, knowtator, database, chex;
 	}
 
 	public static class KnowtatorVariables {
@@ -152,7 +154,8 @@ public class Client {
 			String noteColumn = (String) config.get("noteIndex");
 			int minRecordNumber = (Integer) config.get("startId");
 			int maxRecordNumber = (Integer) config.get("endId");
-			int batchSize = 0;
+			int batchSize = (Integer) config.get("readBatchSize");
+			;
 			String url = "jdbc:sqlserver://" + server + ":1433;databasename="
 			    + dbsName + ";integratedSecurity=true";
 			reader = new BatchDatabaseCollectionReader(driver, url, username,
@@ -208,6 +211,37 @@ public class Client {
 					listener.createTable(dbi, listener.createStatement, false, tableName);
 					listenerList.add(listener);
 				}
+				// INFO:  Chex Listener
+				if (type.equalsIgnoreCase(LISTENERS.chex.name())) {
+					String driver = (String) config.get("sqlDriver");
+					String url = (String) config.get("connectionURL");
+					String dbUser = "";
+					String dbPwd = "";
+					DatabaseConnectionInformation dbi = new DatabaseConnectionInformation(
+					    driver, url, dbUser, dbPwd);
+
+					ArrayList<String> tempList = (ArrayList<String>) config.get("chexTypes");
+					
+					String[] typeList = (String [])tempList.toArray(new String[tempList.size()]);
+					
+					String documentTextSelectQuery = (String) config.get("chexDocumentTextSelectQuery");
+					String schema = (String) config.get("chexSchema");
+					String tableSuffix = (String) config.get("chexSuffix");
+					String columnPrefix = (String) config.get("chexColumnPrefix");
+					String columnSuffix = (String) config.get("chexColumnSuffix");
+					int chexBatchSize = (Integer) config.get("chexBatchSize");;
+					boolean deleteIfExists = (Boolean) config.get("chexOverwrite");;
+					ChexSimanDataSourceConfiguration simanDataSourceConfiguration = new ChexSimanDataSourceConfiguration(
+					    dbi,
+					    documentTextSelectQuery, 
+					    schema, tableSuffix, columnPrefix, columnSuffix);
+
+					ChexListener listener = new ChexListener(simanDataSourceConfiguration,
+					    (String[]) typeList, chexBatchSize, deleteIfExists);
+					//listener.createTable(dbi, listener.createStatement, false, tableName);
+					listenerList.add(listener);
+				}
+
 				// INFO: XMI Listener
 
 				if (type.equalsIgnoreCase(LISTENERS.xmi.name())) {
