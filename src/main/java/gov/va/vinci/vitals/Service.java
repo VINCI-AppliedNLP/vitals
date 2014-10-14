@@ -64,13 +64,8 @@ public class Service {
 		static String resourceUnit = "unitsOfMeasure.regex";
 
 		static {
-			// regexResourceToType.put(resource file name, Type to create from the resource file);
 			regexResourceToType.put("indicator.regex", "gov.va.vinci.vitals.types.Indicator");
-
-			//   regexResourceToType.put("units.regex", "gov.va.vinci.vitals.types.Unit");
-			regexResourceToType.put("numericValuesExclude.regex", "gov.va.vinci.vitals.types.NumericExclude");
 			regexResourceToType.put("terms.regex", "gov.va.vinci.vitals.types.Term");
-			regexResourceToType.put("termsExclude.regex", "gov.va.vinci.vitals.types.TermExclude");
 			regexResourceToType.put("date.regex", "gov.va.vinci.vitals.types.Timestamp");
 		}
 
@@ -88,11 +83,11 @@ public class Service {
 
 		static HashMap<String, String[]> filterTypes = new HashMap<String, String[]>();
 		static {
-			filterTypes.put("gov.va.vinci.vitals.types.NumericExclude",
-			    new String[] { PipelineVariables.TYPE_NUMERIC });
 			filterTypes.put("gov.va.vinci.vitals.types.Timestamp", new String[] { PipelineVariables.TYPE_NUMERIC });
 			filterTypes.put("gov.va.vinci.vitals.types.TermExclude", new String[] { PipelineVariables.TYPE_NUMERIC,
-			    PipelineVariables.TYPE_UNIT });
+			    PipelineVariables.TYPE_UNIT, "gov.va.vinci.vitals.types.Term" });
+			filterTypes.put("gov.va.vinci.vitals.types.NumericExclude", new String[] {
+			    PipelineVariables.TYPE_NUMERIC, PipelineVariables.TYPE_UNIT, "gov.va.vinci.vitals.types.Term" });
 		}
 
 		static String TYPE_OUTPUT = "gov.va.vinci.vitals.types.OutputValue";
@@ -298,19 +293,6 @@ public class Service {
 		        new String[] { "gov.va.vinci.vitals.types.Term", "gov.va.vinci.vitals.types.Indicator" })
 		    .addTypeSystemDescription(types));
 
-		// INFO: Filter overannotated instances
-		for (Entry<String, String[]> a : PipelineVariables.filterTypes.entrySet()) {
-			aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
-			    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { a.getKey() })
-			    .addTypeSystemDescription(types));
-			aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
-			    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), a.getValue())
-			    .addTypeSystemDescription(types));
-			aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
-			    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { a.getKey() })
-			    .addTypeSystemDescription(types));
-		}
-
 		// INFO: Created annotators to find patterns.
 		i = 0;
 		for (Entry<String, String> a : PipelineVariables.apaResourceToType.entrySet()) {
@@ -327,18 +309,21 @@ public class Service {
 			        .addTypeSystemDescription(types));
 		}
 		// INFO: Filter unneeded annotations*/
+		for (Entry<String, String[]> a : PipelineVariables.filterTypes.entrySet()) {
+			aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
+			    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { a.getKey() })
+			    .addTypeSystemDescription(types));
+			aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
+			    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), a.getValue())
+			    .addTypeSystemDescription(types));
+			aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
+			    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { a.getKey() })
+			    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_DELETE.getName(), a.getValue())
+			    .setParameterSetting(AnnotationFilter.Param.REMOVE_OVERLAPPING.getName(), true)
+			    .addTypeSystemDescription(types));
+		}
 
-		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
-		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] {
-		        "gov.va.vinci.vitals.types.NumericExclude",
-		        "gov.va.vinci.vitals.types.TermExclude" })
-		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_DELETE.getName(), new String[] {
-		        "gov.va.vinci.vitals.types.Numeric",
-		        "gov.va.vinci.vitals.types.Term" })
-		    .setParameterSetting(AnnotationFilter.Param.REMOVE_OVERLAPPING.getName(), true)
-
-		    .addTypeSystemDescription(types));
-
+		i++;
 		aggregate
 		    .addDelegate(new AnnotationPatternAnnotator()
 		        .getLeoAEDescriptor()
@@ -348,6 +333,7 @@ public class Service {
 		        .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(),
 		            PipelineVariables.TYPE_RELATION)
 		        .addTypeSystemDescription(types));
+		i++;
 		aggregate
 		    .addDelegate(new AnnotationPatternAnnotator()
 		        .getLeoAEDescriptor()
@@ -360,6 +346,8 @@ public class Service {
 
 		aggregate.addDelegate(new SimplePatternAnnotator().getLeoAEDescriptor()
 		    .addTypeSystemDescription(types));
+		
+		// Remove overannotated    
 		for (String a : PipelineVariables.valueTypes) {
 			aggregate.addDelegate(new AnnotationFilter()
 			    .getLeoAEDescriptor()

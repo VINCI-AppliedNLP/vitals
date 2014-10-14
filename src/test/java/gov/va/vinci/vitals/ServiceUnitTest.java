@@ -66,7 +66,7 @@ public class ServiceUnitTest {
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 10, 10, 10, filename); //(10,10,9)
+		assertAndPrint(jcas, 11, 10, 10, filename); //(10,10,9)
 
 		filename = "file1.txt";
 		docText = getDocText(filename);
@@ -94,7 +94,7 @@ public class ServiceUnitTest {
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 5, 1, 6, filename); // 5,0,4)
+		assertAndPrint(jcas, 8, 3, 7, filename); // 8,3,7)
 
 	}// testXmi method
 

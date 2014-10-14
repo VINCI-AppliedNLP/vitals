@@ -1,2 +1,10 @@
 #<gov.va.vinci.vitals.types.Numeric/> (cm|m|gram|gr|lbs|%|mm)
 <gov.va.vinci.vitals.types.Numeric/> *-? *y\w*
+
+\( ?\d+ ?\) ?(\d| |\-|\*)+
+\b\d+/\d+/\d+\b
+ \b\d+-\d+-\d+\b 
+\b\d+:\d+:\d+\b
+\d+\/\d+\/\d+\s+\d+:\d+(:\d+ ?(am|pm)?)?
+\d+:\d+:\d+ ?(am|pm)
+\r\n *\d+\. 

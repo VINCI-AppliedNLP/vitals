@@ -108,7 +108,7 @@ public class Client {
 		log.info(" Starting " + this.getClass().getCanonicalName() + "  at "
 		    + new Date(sw.getStartTime()));
 		ConfigObject config = Utils.loadConfigFile(environment,
-		    //   "KnowtatorConfig.groovy", 
+		       "KnowtatorConfig.groovy", 
 		    "CommonConfig.groovy",
 		    "ClientConfig.groovy");
 		loadProperties(config);
