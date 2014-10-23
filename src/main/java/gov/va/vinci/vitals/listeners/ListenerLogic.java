@@ -27,7 +27,8 @@ public class ListenerLogic {
 		String[] types = new String[] {
 		    //BPValue.class.getCanonicalName(), HRValue.class.getCanonicalName(), TValue.class.getCanonicalName()
 		    //, 
-		    	Bp_value.class.getCanonicalName(),				Hr_value.class.getCanonicalName(),				T_value.class.getCanonicalName()
+		    Bp_value.class.getCanonicalName(), Hr_value.class.getCanonicalName(),
+		    T_value.class.getCanonicalName()
 		};
 		for (String singleType : types) {
 			Type type = aCas.getTypeSystem().getType(singleType);
@@ -38,6 +39,13 @@ public class ListenerLogic {
 				recordID++;
 				HashMap<String, String> lineRow = new HashMap<String, String>();
 				Annotation a = (Annotation) iterator.next();
+				String unit = "";
+				String valueString = "";
+
+				if (((OutputValue) a).getUnit() != null) {
+					unit = ((OutputValue) a).getUnit().getCoveredText();
+				}
+				lineRow.put("Unit", unit);
 				lineRow.put("VitalType", singleType);
 				lineRow.put("ValueString", a.getCoveredText().replaceAll("\\s+", " "));
 				lineRow.put("SpanStart", "" + a.getBegin());

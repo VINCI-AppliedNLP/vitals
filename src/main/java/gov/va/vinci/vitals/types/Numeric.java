@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Fri Oct 10 16:23:22 CDT 2014 */
+/* First created by JCasGen Wed Oct 22 19:48:12 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -12,8 +12,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Fri Oct 10 16:23:22 CDT 2014
- * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/4/leoTypeDescription_13fb1ec6-92ec-41fd-a8a0-fdf53f330cd58057878633564057603.xml
+ * Updated by JCasGen Wed Oct 22 19:48:12 CDT 2014
+ * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_492671f4-0d6e-4652-a2e1-4409d348a8f65928562604259442684.xml
  * @generated */
 public class Numeric extends RegularExpressionType {
   /** @generated
@@ -119,28 +119,6 @@ public class Numeric extends RegularExpressionType {
     if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_value2 == null)
       jcasType.jcas.throwFeatMissing("value2", "gov.va.vinci.vitals.types.Numeric");
     jcasType.ll_cas.ll_setStringValue(addr, ((Numeric_Type)jcasType).casFeatCode_value2, v);}    
-   
-    
-  //*--------------*
-  //* Feature: valueType
-
-  /** getter for valueType - gets 
-   * @generated
-   * @return value of the feature 
-   */
-  public String getValueType() {
-    if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_valueType == null)
-      jcasType.jcas.throwFeatMissing("valueType", "gov.va.vinci.vitals.types.Numeric");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Numeric_Type)jcasType).casFeatCode_valueType);}
-    
-  /** setter for valueType - sets  
-   * @generated
-   * @param v value to set into the feature 
-   */
-  public void setValueType(String v) {
-    if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_valueType == null)
-      jcasType.jcas.throwFeatMissing("valueType", "gov.va.vinci.vitals.types.Numeric");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Numeric_Type)jcasType).casFeatCode_valueType, v);}    
    
     
   //*--------------*

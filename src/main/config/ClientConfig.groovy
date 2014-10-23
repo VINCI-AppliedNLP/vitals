@@ -78,7 +78,10 @@ xmiOutPath = mainOutPath + "xmi\\"
 xmiOutputTypeList =  [
 	"gov.va.vinci.vitals.types.T_value",
 	"gov.va.vinci.vitals.types.Hr_value",
-	"gov.va.vinci.vitals.types.Bp_value"
+	"gov.va.vinci.vitals.types.Bp_value",
+	"gov.va.vinci.kttr.types.BPValue",
+	"gov.va.vinci.kttr.types.HRValue",
+	"gov.va.vinci.kttr.types.TValue"
 ]
 
 openViewerAfterProcessing =  false
@@ -142,7 +145,7 @@ environments {
 	}
 	compare{
 		readerType = "knowtator"
-		listenerTypes = "aucompare|xmi"
+		listenerTypes = "aucompare|xmi|csv"
 		envType = "compare"
 	}
 	dbOut{

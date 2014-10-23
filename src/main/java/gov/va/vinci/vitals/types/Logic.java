@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Fri Oct 10 16:23:22 CDT 2014 */
+/* First created by JCasGen Wed Oct 22 12:58:22 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Fri Oct 10 16:23:22 CDT 2014
- * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/4/leoTypeDescription_13fb1ec6-92ec-41fd-a8a0-fdf53f330cd58057878633564057603.xml
+ * Updated by JCasGen Wed Oct 22 12:58:22 CDT 2014
+ * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_b197590f-47d7-4b4a-9b00-1168bb123e483263799881190741720.xml
  * @generated */
 public class Logic extends Annotation {
   /** @generated

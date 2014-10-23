@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Fri Oct 10 16:23:22 CDT 2014 */
+/* First created by JCasGen Wed Oct 22 19:48:12 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import gov.va.vinci.leo.regex.types.RegularExpressionType_Type;
 
 /** 
- * Updated by JCasGen Fri Oct 10 16:23:22 CDT 2014
+ * Updated by JCasGen Wed Oct 22 19:48:12 CDT 2014
  * @generated */
 public class Numeric_Type extends RegularExpressionType_Type {
   /** @generated 
@@ -95,30 +95,6 @@ public class Numeric_Type extends RegularExpressionType_Type {
   
  
   /** @generated */
-  final Feature casFeat_valueType;
-  /** @generated */
-  final int     casFeatCode_valueType;
-  /** @generated
-   * @param addr low level Feature Structure reference
-   * @return the feature value 
-   */ 
-  public String getValueType(int addr) {
-        if (featOkTst && casFeat_valueType == null)
-      jcas.throwFeatMissing("valueType", "gov.va.vinci.vitals.types.Numeric");
-    return ll_cas.ll_getStringValue(addr, casFeatCode_valueType);
-  }
-  /** @generated
-   * @param addr low level Feature Structure reference
-   * @param v value to set 
-   */    
-  public void setValueType(int addr, String v) {
-        if (featOkTst && casFeat_valueType == null)
-      jcas.throwFeatMissing("valueType", "gov.va.vinci.vitals.types.Numeric");
-    ll_cas.ll_setStringValue(addr, casFeatCode_valueType, v);}
-    
-  
- 
-  /** @generated */
   final Feature casFeat_unit;
   /** @generated */
   final int     casFeatCode_unit;
@@ -184,10 +160,6 @@ public class Numeric_Type extends RegularExpressionType_Type {
  
     casFeat_value2 = jcas.getRequiredFeatureDE(casType, "value2", "uima.cas.String", featOkTst);
     casFeatCode_value2  = (null == casFeat_value2) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_value2).getCode();
-
- 
-    casFeat_valueType = jcas.getRequiredFeatureDE(casType, "valueType", "uima.cas.String", featOkTst);
-    casFeatCode_valueType  = (null == casFeat_valueType) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_valueType).getCode();
 
  
     casFeat_unit = jcas.getRequiredFeatureDE(casType, "unit", "uima.tcas.Annotation", featOkTst);

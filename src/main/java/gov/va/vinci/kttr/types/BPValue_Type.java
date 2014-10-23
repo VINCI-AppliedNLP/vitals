@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Fri Oct 10 16:23:21 CDT 2014 */
+/* First created by JCasGen Wed Oct 22 19:48:12 CDT 2014 */
 package gov.va.vinci.kttr.types;
 
 import org.apache.uima.jcas.JCas;
@@ -12,7 +12,7 @@ import org.apache.uima.cas.Type;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Fri Oct 10 16:23:21 CDT 2014
+ * Updated by JCasGen Wed Oct 22 19:48:12 CDT 2014
  * @generated */
 public class BPValue_Type extends Annotation_Type {
   /** @generated 

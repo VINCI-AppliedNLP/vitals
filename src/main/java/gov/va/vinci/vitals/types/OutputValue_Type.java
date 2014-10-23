@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Fri Oct 10 16:23:22 CDT 2014 */
+/* First created by JCasGen Wed Oct 22 19:48:12 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Fri Oct 10 16:23:22 CDT 2014
+ * Updated by JCasGen Wed Oct 22 19:48:12 CDT 2014
  * @generated */
 public class OutputValue_Type extends Annotation_Type {
   /** @generated 
@@ -95,26 +95,26 @@ public class OutputValue_Type extends Annotation_Type {
   
  
   /** @generated */
-  final Feature casFeat_valueType;
+  final Feature casFeat_concept;
   /** @generated */
-  final int     casFeatCode_valueType;
+  final int     casFeatCode_concept;
   /** @generated
    * @param addr low level Feature Structure reference
    * @return the feature value 
    */ 
-  public String getValueType(int addr) {
-        if (featOkTst && casFeat_valueType == null)
-      jcas.throwFeatMissing("valueType", "gov.va.vinci.vitals.types.OutputValue");
-    return ll_cas.ll_getStringValue(addr, casFeatCode_valueType);
+  public String getConcept(int addr) {
+        if (featOkTst && casFeat_concept == null)
+      jcas.throwFeatMissing("concept", "gov.va.vinci.vitals.types.OutputValue");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_concept);
   }
   /** @generated
    * @param addr low level Feature Structure reference
    * @param v value to set 
    */    
-  public void setValueType(int addr, String v) {
-        if (featOkTst && casFeat_valueType == null)
-      jcas.throwFeatMissing("valueType", "gov.va.vinci.vitals.types.OutputValue");
-    ll_cas.ll_setStringValue(addr, casFeatCode_valueType, v);}
+  public void setConcept(int addr, String v) {
+        if (featOkTst && casFeat_concept == null)
+      jcas.throwFeatMissing("concept", "gov.va.vinci.vitals.types.OutputValue");
+    ll_cas.ll_setStringValue(addr, casFeatCode_concept, v);}
     
   
  
@@ -186,8 +186,8 @@ public class OutputValue_Type extends Annotation_Type {
     casFeatCode_value2  = (null == casFeat_value2) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_value2).getCode();
 
  
-    casFeat_valueType = jcas.getRequiredFeatureDE(casType, "valueType", "uima.cas.String", featOkTst);
-    casFeatCode_valueType  = (null == casFeat_valueType) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_valueType).getCode();
+    casFeat_concept = jcas.getRequiredFeatureDE(casType, "concept", "uima.cas.String", featOkTst);
+    casFeatCode_concept  = (null == casFeat_concept) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_concept).getCode();
 
  
     casFeat_unit = jcas.getRequiredFeatureDE(casType, "unit", "uima.tcas.Annotation", featOkTst);

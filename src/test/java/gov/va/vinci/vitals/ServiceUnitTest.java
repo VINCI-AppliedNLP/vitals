@@ -14,6 +14,7 @@ import java.util.prefs.Preferences;
 
 import org.apache.uima.UIMAFramework;
 import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.impl.XmiCasSerializer;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
@@ -29,10 +30,12 @@ public class ServiceUnitTest {
 
 	protected LeoAEDescriptor aggregate = null;
 	protected LeoTypeSystemDescription types = null;
-	protected String outputDir = "src/test/resources/output/xmi";
-	protected String inputDir = "src/test/resources/input/";
-	protected int numDocs = 18;
-	// protected int numDocs = 1;
+	protected String outputDir = "P:\\ORD_Iwashyna_201108021D\\NLP\\testCases\\output\\xmi";
+	// "src/test/resources/output/xmi";
+
+	protected String inputDir = "P:\\ORD_Iwashyna_201108021D\\NLP\\testCases\\input\\";
+	//"src/test/resources/input/";
+
 	protected boolean launchView = true;
 	protected String aggXmi = "aggregateDesc";
 
@@ -54,6 +57,25 @@ public class ServiceUnitTest {
 	}
 
 	@Test
+	public void testWithoutAsset() throws ResourceInitializationException, IOException,
+	    AnalysisEngineProcessException {
+		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(aggregate.getAnalysisEngineDescription());
+
+		String docText = "";
+		JCas jcas = null;
+		/**/
+		String[] filesToProcess = new String[] { "test1.txt", "test2.txt", "test3.txt", "test4.txt", "test5.txt",
+		    "test6.txt" };
+		for (String filename : filesToProcess) {
+			docText = getDocText(filename);
+			jcas = createJCas(ae, docText, filename);
+			ae.process(jcas);
+			outputXmi(filename, jcas);
+			justPrint(jcas, filename);
+		}
+	}
+
+	@Test
 	public void testXmi() throws Exception {
 
 		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(aggregate.getAnalysisEngineDescription());
@@ -66,35 +88,35 @@ public class ServiceUnitTest {
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 11, 10, 10, filename); //(10,10,9)
+		assertAndPrint(jcas, 11, 10, 9, filename); //(10,10,9)  Unresolved: goal   Blood Pressure > 139/89:  
 
 		filename = "file1.txt";
 		docText = getDocText(filename);
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 8, 4, 1, filename); // (9,4 10)
+		assertAndPrint(jcas, 8, 4, 7, filename); // (10,4 10)  unresolved: BP without term or indicator 
 
 		filename = "file2.txt";
 		docText = getDocText(filename);
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 0, 0, 0, filename); // (0,0,0)
+		assertAndPrint(jcas, 0, 0, 0, filename); // (0,0,0) unresolved: extra HR when window 400.
 		/**/
 		filename = "file3.txt";
 		docText = getDocText(filename);
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 6, 6, 5, filename);  // ( 6,6,5 )
+		assertAndPrint(jcas, 6, 6, 6, filename);  // ( 6,6,5 )
 		/**/
 		filename = "file4.txt";
 		docText = getDocText(filename);
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 8, 3, 7, filename); // 8,3,7)
+		assertAndPrint(jcas, 8, 3, 8, filename); // 8,3,7) // unresolved: extra HR that is machine
 
 	}// testXmi method
 
@@ -107,6 +129,31 @@ public class ServiceUnitTest {
 			e.printStackTrace();
 
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void justPrint(JCas jcas, String filename) {
+		System.out.println(filename);
+		ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas,
+		    Bp_value.type);
+
+		System.out.println("BP count : " + list.size());
+		for (Annotation a : list) {
+			System.out.println("BP:" + a.getCoveredText());
+		}
+
+		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_value.type);
+		System.out.println("T count : " + list.size());
+		for (Annotation a : list) {
+			System.out.println("T :" + a.getCoveredText());
+		}
+
+		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Hr_value.type);
+		System.out.println("HR count : " + list.size());
+		for (Annotation a : list) {
+			System.out.println("HR:" + a.getCoveredText());
+		}
+
 	}
 
 	@SuppressWarnings("unchecked")

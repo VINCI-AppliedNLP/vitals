@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+    <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+    <primitive>true</primitive>
+    <annotatorImplementationName>gov.va.vinci.leo.regex.ae.RegexAnnotator</annotatorImplementationName>
+    <analysisEngineMetaData>
+        <name>UnitsAnnotator21125940346c-542d-440b-93f8-78a8ac881462</name>
+        <configurationParameters>
+            <configurationParameter>
+                <name>groovy_config_file</name>
+                <type>String</type>
+                <multiValued>false</multiValued>
+                <mandatory>true</mandatory>
+            </configurationParameter>
+            <configurationParameter>
+                <name>matchedPatternFeatureName</name>
+                <type>String</type>
+                <multiValued>false</multiValued>
+                <mandatory>false</mandatory>
+            </configurationParameter>
+        </configurationParameters>
+        <configurationParameterSettings>
+            <nameValuePair>
+                <name>groovy_config_file</name>
+                <value>
+                    <string>src/main/resources/unitsOfMeasure.groovy</string>
+                </value>
+            </nameValuePair>
+            <nameValuePair>
+                <name>matchedPatternFeatureName</name>
+                <value>
+                    <string>pattern</string>
+                </value>
+            </nameValuePair>
+        </configurationParameterSettings>
+        <capabilities/>
+        <operationalProperties>
+            <modifiesCas>true</modifiesCas>
+            <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+            <outputsNewCASes>false</outputsNewCASes>
+        </operationalProperties>
+    </analysisEngineMetaData>
+</analysisEngineDescription>

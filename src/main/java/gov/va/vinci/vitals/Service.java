@@ -55,17 +55,18 @@ public class Service {
 		static String RESOURCE_PATH = "src/main/resources/";
 		static String PatternType = "gov.va.vinci.vitals.types.Pattern";
 		static String RegexType = "gov.va.vinci.leo.regex.types.RegularExpressionType";
-		static String LogicType = "gov.va.vinci.vitals.types.Logic";
 		static HashMap<String, String> regexResourceToType = new HashMap<String, String>();
 		static String TYPE_NUMERIC = "gov.va.vinci.vitals.types.Numeric";
 		static String resourceNumeric = "numericValues.regex";
 
 		static String TYPE_UNIT = "gov.va.vinci.vitals.types.Unit";
-		static String resourceUnit = "unitsOfMeasure.regex";
+		static String resourceUnit = "unitsOfMeasure.groovy";
+
+		static String TYPE_TERM = "gov.va.vinci.vitals.types.Term";
+		static String resourceTerm = "concepts.groovy";
 
 		static {
 			regexResourceToType.put("indicator.regex", "gov.va.vinci.vitals.types.Indicator");
-			regexResourceToType.put("terms.regex", "gov.va.vinci.vitals.types.Term");
 			regexResourceToType.put("date.regex", "gov.va.vinci.vitals.types.Timestamp");
 		}
 
@@ -84,10 +85,10 @@ public class Service {
 		static HashMap<String, String[]> filterTypes = new HashMap<String, String[]>();
 		static {
 			filterTypes.put("gov.va.vinci.vitals.types.Timestamp", new String[] { PipelineVariables.TYPE_NUMERIC });
-			filterTypes.put("gov.va.vinci.vitals.types.TermExclude", new String[] { PipelineVariables.TYPE_NUMERIC,
-			    PipelineVariables.TYPE_UNIT, "gov.va.vinci.vitals.types.Term" });
-			filterTypes.put("gov.va.vinci.vitals.types.NumericExclude", new String[] {
-			    PipelineVariables.TYPE_NUMERIC, PipelineVariables.TYPE_UNIT, "gov.va.vinci.vitals.types.Term" });
+			filterTypes.put("gov.va.vinci.vitals.types.TermExclude", new String[] { PipelineVariables.TYPE_UNIT,
+			    PipelineVariables.TYPE_TERM });
+			filterTypes.put("gov.va.vinci.vitals.types.NumericExclude",
+			    new String[] { PipelineVariables.TYPE_NUMERIC });
 		}
 
 		static String TYPE_OUTPUT = "gov.va.vinci.vitals.types.OutputValue";
@@ -99,7 +100,8 @@ public class Service {
 		    "gov.va.vinci.vitals.types.Height_value",
 		    "gov.va.vinci.vitals.types.So2_value",
 		    "gov.va.vinci.vitals.types.Resp_value",
-		    "gov.va.vinci.vitals.types.Pain_value"
+		    "gov.va.vinci.vitals.types.Pain_value",
+		    "gov.va.vinci.vitals.types.BMI_value"
 		};
 	}
 
@@ -269,6 +271,15 @@ public class Service {
 		            PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceUnit)
 		        .addParameterSetting(Param.MATCHED_PATTERN_FEATURE_NAME.getName(), false, false, "String",
 		            "pattern"));
+		
+		aggregate
+		    .addDelegate(new LeoAEDescriptor()
+		        .setName("TermAnnotator")
+		        .setImplementationName(RegexAnnotator.class.getCanonicalName())
+		        .addParameterSetting(RegexAnnotator.Param.GROOVY_CONFIG_FILE.getName(), true, false, "String",
+		            PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceTerm)
+		        .addParameterSetting(Param.MATCHED_PATTERN_FEATURE_NAME.getName(), false, false, "String",
+		            "pattern"));
 
 		// INFO: Create initial annotations
 		int i = 0;
@@ -346,7 +357,7 @@ public class Service {
 
 		aggregate.addDelegate(new SimplePatternAnnotator().getLeoAEDescriptor()
 		    .addTypeSystemDescription(types));
-		
+
 		// Remove overannotated    
 		for (String a : PipelineVariables.valueTypes) {
 			aggregate.addDelegate(new AnnotationFilter()
@@ -386,15 +397,15 @@ public class Service {
 
 		TypeDescription numType = new TypeDescription_impl(PipelineVariables.TYPE_NUMERIC, "",
 		    PipelineVariables.RegexType);
-		// numType.addFeature("concept", "", "uima.cas.String");
+		// numType.addFeature("concept", "", "uima.cas.String");  -- already set 
 		numType.addFeature("value1", "", "uima.cas.String");
 		numType.addFeature("value2", "", "uima.cas.String");
-		numType.addFeature("valueType", "", "uima.cas.String");
+		//numType.addFeature("valueType", "", "uima.cas.String");
 		numType.addFeature("unit", "", "uima.tcas.Annotation");
 		numType.addFeature("source", "", "uima.cas.String");
 
 		types.addType(PipelineVariables.TYPE_UNIT, "", PipelineVariables.RegexType);
-
+		types.addType(PipelineVariables.TYPE_TERM, "", PipelineVariables.RegexType);
 		types.addType(numType);
 		for (Entry<String, String> a : PipelineVariables.regexResourceToType
 		    .entrySet()) {
@@ -416,14 +427,6 @@ public class Service {
 
 		types.addType(PipelineVariables.TYPE_RELATION, "", PipelineVariables.PatternType);
 		types.addType(PipelineVariables.TYPE_RELATION_TIMESTAMP, "", PipelineVariables.PatternType);
-		/*  Logic annotation */
-		TypeDescription type = new TypeDescription_impl(PipelineVariables.LogicType, "", "uima.tcas.Annotation");
-		type.addFeature("VitalType", "", "uima.cas.String");
-		type.addFeature("VitalTerm", "", "uima.tcas.Annotation");
-		type.addFeature("VitalValue", "", "uima.tcas.Annotation");
-		type.addFeature("ValueString", "", "uima.cas.String");
-		type.addFeature("Unit", "", "uima.cas.String");
-		types.addType(type);
 
 		/* Additional annotations for specific values */
 
@@ -431,7 +434,7 @@ public class Service {
 		    "uima.tcas.Annotation");
 		outType.addFeature("value1", "", "uima.cas.String");
 		outType.addFeature("value2", "", "uima.cas.String");
-		outType.addFeature("valueType", "", "uima.cas.String");
+		outType.addFeature("concept", "", "uima.cas.String");
 		outType.addFeature("unit", "", "uima.tcas.Annotation");
 		outType.addFeature("source", "", "uima.cas.String");
 		types.addType(outType);
