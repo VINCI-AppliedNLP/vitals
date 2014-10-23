@@ -15,6 +15,7 @@ configuration {
 			'\\btemp\\w*\\b',
 			'fever\\b',
 			'\\bt\\b',
+			'\\bt(?=\\d)',
 			'\\btm\\b',
 			'\\btmax\\b',
 			'\\btcur\\b',
@@ -31,7 +32,6 @@ configuration {
 			'systolic *bp',
 			'sytolic',
 			'\\bb(/|-|\\.)?p(\\.)?\\b',
-			'\\bpr\\b',
 			'blood\\s*pressures?\\b',
 			'bp *lying',
 			'bp *range',
@@ -67,6 +67,7 @@ configuration {
 			'\\bp[uls]+e\\b',
 			'\\bp\\b',
 			'\\bpl\\b',
+			'\\bpr\\b',
 			'apical pulse',
 			'heart *rate',
 			'hr before tx',
@@ -74,7 +75,9 @@ configuration {
 			'pulse rate',
 			'pulses\\b',
 			'radial pulse',
-			'\\bp(?=\\d{2,3}\\b)'
+			'\\bp(?=\\d{2,3}\\b)',
+			'pulse\\s+(dropped|raised|went\\s+up)\\s+to',
+			'Ventricular\\s+Rate'
 		]
 		concept_feature_value = "Heart_Rate" }
 
@@ -95,6 +98,7 @@ configuration {
 			'\\br\\b',
 			'respiration\\s*rate',
 			'respirations',
+			'respiration',
 			'respiratory\\s*rate',
 			'\\br(?=\\d{2,3}\\b)'
 		]
@@ -109,7 +113,8 @@ configuration {
 			'saturation',
 			'saturation\\s*O2',
 			'saturation\\s*o2\\s*stats',
-			'O2 SATS'
+			'O2 SATS',
+			'SpO2'
 		]
 		concept_feature_value = "SO2" }
 
@@ -118,5 +123,5 @@ configuration {
 		concept_feature_value = "Weight" }
 
 	"Age" {
-		expressions = ["age", "dob"]
+		expressions = ["\\bage\\b", "\\bdob\\b"]
 		concept_feature_value = "Age" } }

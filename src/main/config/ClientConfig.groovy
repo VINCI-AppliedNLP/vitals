@@ -62,6 +62,7 @@ csvFieldList = [
 	["ValueString", "-1", "varchar(1000)"],
 	["Assessment", "-1", "varchar(1000)"],
 	["Unit", "-1", "varchar(1000)"],
+	["Unit", "-1", "varchar(1000)"],
 	["Snippets", "-1", "varchar(2000)"],
 	["SpanStart", "-1", "int"],
 	["SpanEnd", "-1", "int"]
@@ -108,6 +109,7 @@ dbFieldList = [
 	["ValueString", "-1", "varchar(1000)"],
 	["Assessment", "-1", "varchar(1000)"],
 	["Unit", "-1", "varchar(1000)"],
+	["Timestamp", "-1", "varchar(1000)"],
 	["Snippets", "-1", "varchar(2000)"],
 	["SpanStart", "-1", "int"],
 	["SpanEnd", "-1", "int"]

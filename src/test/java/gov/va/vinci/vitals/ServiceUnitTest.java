@@ -64,7 +64,8 @@ public class ServiceUnitTest {
 		String docText = "";
 		JCas jcas = null;
 		/**/
-		String[] filesToProcess = new String[] { "test1.txt", "test2.txt", "test3.txt", "test4.txt", "test5.txt",
+		String[] filesToProcess = new String[] { 
+		 "test1.txt", "test2.txt", "test3.txt", "test4.txt", "test5.txt",
 		    "test6.txt" };
 		for (String filename : filesToProcess) {
 			docText = getDocText(filename);
@@ -116,7 +117,7 @@ public class ServiceUnitTest {
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 8, 3, 8, filename); // 8,3,7) // unresolved: extra HR that is machine
+		assertAndPrint(jcas, 9, 3, 9, filename); // 9,3,7) // unresolved: extra HR that is machine and resp rate
 
 	}// testXmi method
 

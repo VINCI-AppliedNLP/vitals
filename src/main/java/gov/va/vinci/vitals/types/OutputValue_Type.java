@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Wed Oct 22 19:48:12 CDT 2014 */
+/* First created by JCasGen Thu Oct 23 12:32:08 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Wed Oct 22 19:48:12 CDT 2014
+ * Updated by JCasGen Thu Oct 23 12:32:08 CDT 2014
  * @generated */
 public class OutputValue_Type extends Annotation_Type {
   /** @generated 
@@ -165,6 +165,30 @@ public class OutputValue_Type extends Annotation_Type {
     ll_cas.ll_setStringValue(addr, casFeatCode_source, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_timestamp;
+  /** @generated */
+  final int     casFeatCode_timestamp;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public String getTimestamp(int addr) {
+        if (featOkTst && casFeat_timestamp == null)
+      jcas.throwFeatMissing("timestamp", "gov.va.vinci.vitals.types.OutputValue");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_timestamp);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setTimestamp(int addr, String v) {
+        if (featOkTst && casFeat_timestamp == null)
+      jcas.throwFeatMissing("timestamp", "gov.va.vinci.vitals.types.OutputValue");
+    ll_cas.ll_setStringValue(addr, casFeatCode_timestamp, v);}
+    
+  
 
 
 
@@ -196,6 +220,10 @@ public class OutputValue_Type extends Annotation_Type {
  
     casFeat_source = jcas.getRequiredFeatureDE(casType, "source", "uima.cas.String", featOkTst);
     casFeatCode_source  = (null == casFeat_source) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_source).getCode();
+
+ 
+    casFeat_timestamp = jcas.getRequiredFeatureDE(casType, "timestamp", "uima.cas.String", featOkTst);
+    casFeatCode_timestamp  = (null == casFeat_timestamp) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_timestamp).getCode();
 
   }
 }

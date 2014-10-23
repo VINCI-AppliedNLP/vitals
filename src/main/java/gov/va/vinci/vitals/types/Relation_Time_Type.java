@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Wed Oct 22 19:48:13 CDT 2014 */
+/* First created by JCasGen Thu Oct 23 12:32:08 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -11,7 +11,7 @@ import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.cas.Type;
 
 /** 
- * Updated by JCasGen Wed Oct 22 19:48:13 CDT 2014
+ * Updated by JCasGen Thu Oct 23 12:32:08 CDT 2014
  * @generated */
 public class Relation_Time_Type extends Pattern_Type {
   /** @generated 

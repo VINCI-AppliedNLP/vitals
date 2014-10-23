@@ -16,6 +16,8 @@ configuration {
 		expressions = [
 			'\\bc\\b',
 			'\\bf\\b',
+			'(?<=\\d)f\\b',
+			'(?<=\\d)c\\b',
 			'degrees Fahr\\w+'
 		]
 		concept_feature_value = "Temperature"
@@ -34,7 +36,8 @@ configuration {
 		expressions = [
 			'beats per minute',
 			'\\bbpm\\b',
-			'/min\\b'
+			'/min\\b',
+			'/mt'
 		]
 		concept_feature_value = "Heart_Rate"
 	}

@@ -74,6 +74,7 @@ public class Service {
 		static {
 			apaResourceToType.put("numericValuesExclude.pattern", "gov.va.vinci.vitals.types.NumericExclude");
 			apaResourceToType.put("termsExclude.pattern", "gov.va.vinci.vitals.types.TermExclude");
+			apaResourceToType.put("indicator.pattern", "gov.va.vinci.vitals.types.Indicator");
 
 		}
 		static String TYPE_RELATION = "gov.va.vinci.vitals.types.Relation";
@@ -437,6 +438,7 @@ public class Service {
 		outType.addFeature("concept", "", "uima.cas.String");
 		outType.addFeature("unit", "", "uima.tcas.Annotation");
 		outType.addFeature("source", "", "uima.cas.String");
+		outType.addFeature("timestamp", "", "uima.cas.String");
 		types.addType(outType);
 
 		for (String a : PipelineVariables.valueTypes) {

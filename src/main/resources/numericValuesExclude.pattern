@@ -4,7 +4,7 @@
 \( ?\d+ ?\) ?((\d+|\-|\*) ?)+
 
 # single digit number is ok for pain. Will have to reconsider when pain is included in the extraction
-[^\.]\b\d\b
+#[^\.]\b\d\b
 
 # 09/09/1990
 \b\d+/\d+/\d+\b
@@ -18,7 +18,10 @@
 \d+\/\d+\/\d+\s+\d+:\d+(:\d+ ?(am|pm)?)?
 
 \n *\d+\. 
-\n *\d+\)\.
+\n *\d+\)
+
 
 <gov.va.vinci.vitals.types.Numeric/> *-? *y\w*
 <gov.va.vinci.vitals.types.Numeric/> *IV
+<gov.va.vinci.vitals.types.Numeric/> *(mcg|mg|spray|lpm|cc)
+reading\s+<gov.va.vinci.vitals.types.Numeric/>

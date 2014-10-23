@@ -91,7 +91,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 								}
 
 							}
-							number.setSource("advancedHeuristics");
+							number.setSource("advancedHeuristics Hr");
 						}// end of Number loop
 					}
 				}
@@ -118,16 +118,19 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 					for (Annotation n : numbers) {
 						Numeric number = (Numeric) n;
 						if (StringUtils.isEmpty(number.getConcept())) {
+							/**/
 							if (isBloodPressure(number.getCoveredText())) {
 								number.setConcept(vitalTypes.Blood_Pressure.name());
 							} else if (isTemperature(number.getCoveredText(), true)) {
 								number.setConcept(vitalTypes.Temperature.name());
-							} else if (isHeartRate(number.getCoveredText())) {
+							}
+							/**/
+							else if (isHeartRate(number.getCoveredText())) {
 
 								if (AnnotationLibrarian
 								    .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, Bp_value.type)
 								    .size() == 0
-								    || AnnotationLibrarian
+								    && AnnotationLibrarian
 								        .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, T_value.type)
 								        .size() == 0) {
 								} else {
@@ -135,7 +138,8 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 									number.setConcept(vitalTypes.Heart_Rate.name());
 								}
 
-							}
+							} // end if heart rate
+							/**/
 							number.setSource("advancedHeuristics");
 						}// end of Number loop
 					}
@@ -169,7 +173,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 
 		while (iterI.hasNext()) {
 			Annotation indicator = iterI.next();
-			int end = indicator.getEnd() + rightWindow; // 200 is better than 150, 250 is better than 200, but 300 better than 400
+			int end = indicator.getEnd() + rightWindow + 1000; // 200 is better than 150, 250 is better than 200, but 300 better than 400
 			if (end > aJCas.getDocumentText().length()) {
 				end = aJCas.getDocumentText().length();
 			}
