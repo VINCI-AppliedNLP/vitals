@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Thu Oct 23 12:32:09 CDT 2014 */
+/* First created by JCasGen Thu Oct 23 19:03:44 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -10,8 +10,8 @@ import org.apache.uima.jcas.cas.TOP_Type;
 
 
 /** 
- * Updated by JCasGen Thu Oct 23 12:32:09 CDT 2014
- * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_b799260b-1efd-4e70-a64e-6d5f55d281572067650211522696652.xml
+ * Updated by JCasGen Thu Oct 23 19:03:44 CDT 2014
+ * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_69d7d58b-64ff-4f55-8c03-1bdada4da87a8080794173395829785.xml
  * @generated */
 public class Weight_value extends OutputValue {
   /** @generated

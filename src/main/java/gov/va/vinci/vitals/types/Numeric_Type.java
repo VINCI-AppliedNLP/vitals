@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Thu Oct 23 12:32:08 CDT 2014 */
+/* First created by JCasGen Thu Oct 23 19:03:44 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import gov.va.vinci.leo.regex.types.RegularExpressionType_Type;
 
 /** 
- * Updated by JCasGen Thu Oct 23 12:32:08 CDT 2014
+ * Updated by JCasGen Thu Oct 23 19:03:44 CDT 2014
  * @generated */
 public class Numeric_Type extends RegularExpressionType_Type {
   /** @generated 
@@ -141,6 +141,30 @@ public class Numeric_Type extends RegularExpressionType_Type {
     ll_cas.ll_setStringValue(addr, casFeatCode_source, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_timestamp;
+  /** @generated */
+  final int     casFeatCode_timestamp;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public int getTimestamp(int addr) {
+        if (featOkTst && casFeat_timestamp == null)
+      jcas.throwFeatMissing("timestamp", "gov.va.vinci.vitals.types.Numeric");
+    return ll_cas.ll_getRefValue(addr, casFeatCode_timestamp);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setTimestamp(int addr, int v) {
+        if (featOkTst && casFeat_timestamp == null)
+      jcas.throwFeatMissing("timestamp", "gov.va.vinci.vitals.types.Numeric");
+    ll_cas.ll_setRefValue(addr, casFeatCode_timestamp, v);}
+    
+  
 
 
 
@@ -168,6 +192,10 @@ public class Numeric_Type extends RegularExpressionType_Type {
  
     casFeat_source = jcas.getRequiredFeatureDE(casType, "source", "uima.cas.String", featOkTst);
     casFeatCode_source  = (null == casFeat_source) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_source).getCode();
+
+ 
+    casFeat_timestamp = jcas.getRequiredFeatureDE(casType, "timestamp", "uima.tcas.Annotation", featOkTst);
+    casFeatCode_timestamp  = (null == casFeat_timestamp) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_timestamp).getCode();
 
   }
 }

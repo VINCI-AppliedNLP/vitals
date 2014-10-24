@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Thu Oct 23 12:32:08 CDT 2014 */
+/* First created by JCasGen Thu Oct 23 19:03:44 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Thu Oct 23 12:32:08 CDT 2014
+ * Updated by JCasGen Thu Oct 23 19:03:44 CDT 2014
  * @generated */
 public class OutputValue_Type extends Annotation_Type {
   /** @generated 
@@ -174,19 +174,19 @@ public class OutputValue_Type extends Annotation_Type {
    * @param addr low level Feature Structure reference
    * @return the feature value 
    */ 
-  public String getTimestamp(int addr) {
+  public int getTimestamp(int addr) {
         if (featOkTst && casFeat_timestamp == null)
       jcas.throwFeatMissing("timestamp", "gov.va.vinci.vitals.types.OutputValue");
-    return ll_cas.ll_getStringValue(addr, casFeatCode_timestamp);
+    return ll_cas.ll_getRefValue(addr, casFeatCode_timestamp);
   }
   /** @generated
    * @param addr low level Feature Structure reference
    * @param v value to set 
    */    
-  public void setTimestamp(int addr, String v) {
+  public void setTimestamp(int addr, int v) {
         if (featOkTst && casFeat_timestamp == null)
       jcas.throwFeatMissing("timestamp", "gov.va.vinci.vitals.types.OutputValue");
-    ll_cas.ll_setStringValue(addr, casFeatCode_timestamp, v);}
+    ll_cas.ll_setRefValue(addr, casFeatCode_timestamp, v);}
     
   
 
@@ -222,7 +222,7 @@ public class OutputValue_Type extends Annotation_Type {
     casFeatCode_source  = (null == casFeat_source) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_source).getCode();
 
  
-    casFeat_timestamp = jcas.getRequiredFeatureDE(casType, "timestamp", "uima.cas.String", featOkTst);
+    casFeat_timestamp = jcas.getRequiredFeatureDE(casType, "timestamp", "uima.tcas.Annotation", featOkTst);
     casFeatCode_timestamp  = (null == casFeat_timestamp) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_timestamp).getCode();
 
   }

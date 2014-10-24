@@ -75,6 +75,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 				    .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, Numeric.type);
 				if (numbers.size() > 0) {
 					for (Annotation n : numbers) {
+
 						Numeric number = (Numeric) n;
 						if (StringUtils.isEmpty(number.getConcept())) {
 							if (isHeartRate(number.getCoveredText())) {
@@ -92,6 +93,17 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 
 							}
 							number.setSource("advancedHeuristics Hr");
+							// INFO: adding timestamp
+							ArrayList<Annotation> times = (ArrayList<Annotation>) AnnotationLibrarian
+							    .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, Timestamp.type);
+							if (times.size() > 0) {
+								try {
+									number.setTimestamp(((ArrayList<Annotation>) AnnotationLibrarian
+									    .getPreviousClosestAnnotations(number, times)).get(0));
+								} catch (Exception a) {
+									number.setTimestamp(times.get(0));
+								}
+							}
 						}// end of Number loop
 					}
 				}
@@ -114,12 +126,13 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 			try {
 				ArrayList<Annotation> numbers = (ArrayList<Annotation>) AnnotationLibrarian
 				    .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, Numeric.type);
+
 				if (numbers.size() > 0) {
 					for (Annotation n : numbers) {
 						Numeric number = (Numeric) n;
 						if (StringUtils.isEmpty(number.getConcept())) {
 							/**/
-							if (isBloodPressure(number.getCoveredText())) {
+							if (isBloodPressure(number.getCoveredText(), true)) {
 								number.setConcept(vitalTypes.Blood_Pressure.name());
 							} else if (isTemperature(number.getCoveredText(), true)) {
 								number.setConcept(vitalTypes.Temperature.name());
@@ -140,6 +153,17 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 
 							} // end if heart rate
 							/**/
+							// INFO: adding timestamp
+							ArrayList<Annotation> times = (ArrayList<Annotation>) AnnotationLibrarian
+							    .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, Timestamp.type);
+							if (times.size() > 0) {
+								try {
+									number.setTimestamp(((ArrayList<Annotation>) AnnotationLibrarian
+									    .getPreviousClosestAnnotations(number, times)).get(0));
+								} catch (Exception a) {
+									number.setTimestamp(times.get(0));
+								}
+							}
 							number.setSource("advancedHeuristics");
 						}// end of Number loop
 					}
@@ -184,21 +208,30 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 			if (relations.size() > 0) {
 				for (Annotation r : relations) {
 					Relation_Time currRelation = (Relation_Time) r;
+
 					if (currRelation.getTarget() != null) { // Target stands for Numeric.
 						Numeric number = (Numeric) currRelation.getTarget();
-						if (StringUtils.isBlank(number.getConcept())) {
 
+						if (StringUtils.isBlank(number.getConcept())) {
 							/**/
-							if (this.isBloodPressure(number.getCoveredText())) {
+							if (this.isBloodPressure(number.getCoveredText(),true)) {
 								number.setConcept(vitalTypes.Blood_Pressure.name());
 
 							} else if (this.isTemperature(number.getCoveredText(), true)) {
 								number.setConcept(vitalTypes.Temperature.name());
 
-							} else if (this.isHeartRate(number.getCoveredText())) {
-								number.setConcept(vitalTypes.Heart_Rate.name());
-							}
+							}/* else if (this.isHeartRate(number.getCoveredText())) {
+							 number.setConcept(vitalTypes.Heart_Rate.name());
+							 }*/
 							number.setSource("time_pattern");
+
+						}
+
+						// INFO: adding timestamp
+						ArrayList<Annotation> times = (ArrayList<Annotation>) AnnotationLibrarian
+						    .getAllOverlappingAnnotationsOfType(currRelation, Timestamp.type);
+						if (times.size() > 0) {
+							number.setTimestamp(times.get(0));
 						}
 					}
 				}
@@ -237,8 +270,21 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 					if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type).size() > 0) {
 						curUnit = (Unit) ((ArrayList<Annotation>) AnnotationLibrarian
 						    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type)).get(0); // get the first unit in the pattern
-
 						number.setUnit(curUnit);
+					}
+					// INFO: adding timestamp
+					ArrayList<Annotation> times = (ArrayList<Annotation>) AnnotationLibrarian
+					    .getAllOverlappingAnnotationsOfType(currRelation, Timestamp.type);
+					if (times.size() > 0) {
+						number.setTimestamp(times.get(0));
+					} else {
+						times = (ArrayList<Annotation>) AnnotationLibrarian.getPreviousAnnotationsOfType(number,
+						    Timestamp.type, 1);
+						if (times.size() > 0) {
+							if (times.get(0).getEnd() - number.getBegin() < 50) {
+								number.setTimestamp(times.get(0));
+							}
+						}
 					}
 					// INFO: Anchor stands for Term with pattern
 					if (currRelation.getAnchor() != null) {
@@ -249,7 +295,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 						if (StringUtils.isNotBlank(termConcept)) {
 
 							if (termConcept.equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
-								if (!this.isBloodPressure(number.getCoveredText())) {
+								if (!this.isBloodPressure(number.getCoveredText(), false)) {
 									number.setConcept("Matched term " + termConcept + " but missed value");
 								}
 							} else if (termConcept.equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
@@ -271,11 +317,10 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 					} else // No term. Check if there is a unit
 
 					if (curUnit != null) {
-
 						String unitConcept = curUnit.getConcept();
 
 						if (unitConcept.equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
-							if (!this.isBloodPressure(number.getCoveredText())) {
+							if (!this.isBloodPressure(number.getCoveredText(), false)) {
 								number.setConcept("Matched term " + unitConcept + " but missed value");
 							}
 						} else if (unitConcept.equalsIgnoreCase(vitalTypes.Temperature.name())) {
@@ -287,7 +332,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 								number.setConcept("Matched term " + unitConcept + " but missed value");
 							}
 						}
-						// there is a term in the pattern and it not discarded 
+						
 						if (StringUtils.isBlank(number.getConcept())) {
 							number.setConcept(unitConcept);
 						}
@@ -319,18 +364,32 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 	 * @param text
 	 * @return
 	 */
-	private boolean isBloodPressure(String text) {
+	private boolean isBloodPressure(String text, boolean isStrict) {
 		Matcher decimalMatcher = anyDecmalNumber.matcher(text);
 		if (decimalMatcher.find()) {
 			return false;
 		}
-
-		Matcher measureMatcher = bpPattern.matcher(text);
-		if (measureMatcher.find()) {
-			String m = text.substring(measureMatcher.start(), measureMatcher.end());
-			Matcher digitMatcher = singleNumber.matcher(m);
+		if (isStrict) { // FIXME: check if it helps
+			Matcher measureMatcher = bpPattern.matcher(text);
+			if (measureMatcher.find()) {
+				String m = text.substring(measureMatcher.start(), measureMatcher.end());
+				Matcher digitMatcher = singleNumber.matcher(m);
+				if (digitMatcher.find()) {
+					String n = m.substring(digitMatcher.start(), digitMatcher.end());
+					n = n.trim();
+					try {
+						int num = Integer.parseInt(n);
+						if (num > 50 && num < 300)
+							return true;
+					} catch (Exception e) {
+						return false;
+					}
+				}
+			}
+		} else {
+			Matcher digitMatcher = singleNumber.matcher(text);
 			if (digitMatcher.find()) {
-				String n = m.substring(digitMatcher.start(), digitMatcher.end());
+				String n = text.substring(digitMatcher.start(), digitMatcher.end());
 				n = n.trim();
 				try {
 					int num = Integer.parseInt(n);
@@ -352,7 +411,10 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 	private boolean isHeartRate(String text) {
 		Matcher decimalMatcher = anyDecmalNumber.matcher(text);
 		if (decimalMatcher.find()) {
-			return false;
+			if (text.endsWith(".0")) { // FIXME: checking if it helps
+			} else {
+				return false;
+			}
 		}
 
 		Matcher digitMatcher = singleNumber.matcher(text);
@@ -415,10 +477,15 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 		try {
 			super.process(aJCas);
 
+			/**
+			 * Step 1: Term:Numeric pattern for all vital type.
+			 */
 			analyzePatterns(aJCas);
 			createValueTypes(aJCas);
+
 			advancedHeuristics_Time(aJCas);
 			createValueTypes(aJCas);
+
 			advancedHeuristics(aJCas);
 			createValueTypes(aJCas);
 
@@ -445,18 +512,21 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 					    curNum.getBegin(), curNum.getEnd());
 					newAnn.setSource(curNum.getSource());
 					newAnn.setUnit(curNum.getUnit());
+					newAnn.setTimestamp(curNum.getTimestamp());
 
 				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
 					Hr_value newAnn = (Hr_value) this.addOutputAnnotation(Hr_value.class.getCanonicalName(), aJCas,
 					    curNum.getBegin(), curNum.getEnd());
 					newAnn.setSource(curNum.getSource());
 					newAnn.setUnit(curNum.getUnit());
+					newAnn.setTimestamp(curNum.getTimestamp());
 
 				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Temperature.name())) {
 					T_value newAnn = (T_value) this.addOutputAnnotation(T_value.class.getCanonicalName(), aJCas,
 					    curNum.getBegin(), curNum.getEnd());
 					newAnn.setSource(curNum.getSource());
 					newAnn.setUnit(curNum.getUnit());
+					newAnn.setTimestamp(curNum.getTimestamp());
 				}
 			}
 		}

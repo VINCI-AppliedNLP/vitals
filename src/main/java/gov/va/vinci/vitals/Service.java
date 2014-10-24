@@ -404,6 +404,7 @@ public class Service {
 		//numType.addFeature("valueType", "", "uima.cas.String");
 		numType.addFeature("unit", "", "uima.tcas.Annotation");
 		numType.addFeature("source", "", "uima.cas.String");
+		numType.addFeature("timestamp", "", "uima.tcas.Annotation");
 
 		types.addType(PipelineVariables.TYPE_UNIT, "", PipelineVariables.RegexType);
 		types.addType(PipelineVariables.TYPE_TERM, "", PipelineVariables.RegexType);
@@ -438,7 +439,7 @@ public class Service {
 		outType.addFeature("concept", "", "uima.cas.String");
 		outType.addFeature("unit", "", "uima.tcas.Annotation");
 		outType.addFeature("source", "", "uima.cas.String");
-		outType.addFeature("timestamp", "", "uima.cas.String");
+		outType.addFeature("timestamp", "", "uima.tcas.Annotation");
 		types.addType(outType);
 
 		for (String a : PipelineVariables.valueTypes) {

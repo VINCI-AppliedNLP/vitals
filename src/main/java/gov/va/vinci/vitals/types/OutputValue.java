@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Thu Oct 23 12:32:08 CDT 2014 */
+/* First created by JCasGen Thu Oct 23 19:03:44 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Thu Oct 23 12:32:08 CDT 2014
- * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_b799260b-1efd-4e70-a64e-6d5f55d281572067650211522696652.xml
+ * Updated by JCasGen Thu Oct 23 19:03:44 CDT 2014
+ * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_69d7d58b-64ff-4f55-8c03-1bdada4da87a8080794173395829785.xml
  * @generated */
 public class OutputValue extends Annotation {
   /** @generated
@@ -193,19 +193,19 @@ public class OutputValue extends Annotation {
    * @generated
    * @return value of the feature 
    */
-  public String getTimestamp() {
+  public Annotation getTimestamp() {
     if (OutputValue_Type.featOkTst && ((OutputValue_Type)jcasType).casFeat_timestamp == null)
       jcasType.jcas.throwFeatMissing("timestamp", "gov.va.vinci.vitals.types.OutputValue");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((OutputValue_Type)jcasType).casFeatCode_timestamp);}
+    return (Annotation)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((OutputValue_Type)jcasType).casFeatCode_timestamp)));}
     
   /** setter for timestamp - sets  
    * @generated
    * @param v value to set into the feature 
    */
-  public void setTimestamp(String v) {
+  public void setTimestamp(Annotation v) {
     if (OutputValue_Type.featOkTst && ((OutputValue_Type)jcasType).casFeat_timestamp == null)
       jcasType.jcas.throwFeatMissing("timestamp", "gov.va.vinci.vitals.types.OutputValue");
-    jcasType.ll_cas.ll_setStringValue(addr, ((OutputValue_Type)jcasType).casFeatCode_timestamp, v);}    
+    jcasType.ll_cas.ll_setRefValue(addr, ((OutputValue_Type)jcasType).casFeatCode_timestamp, jcasType.ll_cas.ll_getFSRef(v));}    
   }
 
     

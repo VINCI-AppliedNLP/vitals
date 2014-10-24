@@ -39,13 +39,15 @@ public class ListenerLogic {
 				recordID++;
 				HashMap<String, String> lineRow = new HashMap<String, String>();
 				Annotation a = (Annotation) iterator.next();
-				String unit = "";
-				String valueString = "";
 
 				if (((OutputValue) a).getUnit() != null) {
-					unit = ((OutputValue) a).getUnit().getCoveredText();
+					lineRow.put("Unit", ((OutputValue) a).getUnit().getCoveredText().replaceAll("\\s+", " "));
+					;
 				}
-				lineRow.put("Unit", unit);
+				if (((OutputValue) a).getTimestamp() != null) {
+					lineRow.put("Timestamp", ((OutputValue) a).getTimestamp().getCoveredText().replaceAll("\\s+", " "));
+				}
+
 				lineRow.put("VitalType", singleType);
 				lineRow.put("ValueString", a.getCoveredText().replaceAll("\\s+", " "));
 				lineRow.put("SpanStart", "" + a.getBegin());

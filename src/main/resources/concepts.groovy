@@ -26,6 +26,7 @@ configuration {
 	"Blood_Pressure" {
 		expressions = [
 			'diastolic',
+			'\\babp\\b',
 			'\\bsys *dias',
 			'bp *systolic',
 			'systolic',

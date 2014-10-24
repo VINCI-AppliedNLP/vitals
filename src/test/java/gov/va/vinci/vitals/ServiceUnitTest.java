@@ -4,6 +4,7 @@ import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.leo.types.CSI;
+import gov.va.vinci.vitals.listeners.ListenerLogic;
 import gov.va.vinci.vitals.types.*;
 
 import java.io.File;
@@ -57,22 +58,24 @@ public class ServiceUnitTest {
 	}
 
 	@Test
-	public void testWithoutAsset() throws ResourceInitializationException, IOException,
+	public void testWithoutAssert() throws ResourceInitializationException, IOException,
 	    AnalysisEngineProcessException {
 		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(aggregate.getAnalysisEngineDescription());
 
 		String docText = "";
 		JCas jcas = null;
 		/**/
-		String[] filesToProcess = new String[] { 
-		 "test1.txt", "test2.txt", "test3.txt", "test4.txt", "test5.txt",
-		    "test6.txt" };
+		String[] filesToProcess = new String[] {
+		    //"test1.txt", "test2.txt", "test3.txt", "test4.txt", "test5.txt",
+		   // "test6.txt" 
+		   "test7.txt"};
 		for (String filename : filesToProcess) {
 			docText = getDocText(filename);
 			jcas = createJCas(ae, docText, filename);
 			ae.process(jcas);
 			outputXmi(filename, jcas);
 			justPrint(jcas, filename);
+
 		}
 	}
 
@@ -135,6 +138,7 @@ public class ServiceUnitTest {
 	@SuppressWarnings("unchecked")
 	public void justPrint(JCas jcas, String filename) {
 		System.out.println(filename);
+		System.out.println(ListenerLogic.getRows(jcas.getCas()));
 		ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas,
 		    Bp_value.type);
 
@@ -160,6 +164,7 @@ public class ServiceUnitTest {
 	@SuppressWarnings("unchecked")
 	public void assertAndPrint(JCas jcas, int bpCount, int tCount, int hrCount, String filename) {
 		System.out.println(filename);
+		System.out.println(ListenerLogic.getRows(jcas.getCas()));
 		ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas,
 		    Bp_value.type);
 
