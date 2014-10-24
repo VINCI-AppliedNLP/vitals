@@ -66,9 +66,14 @@ public class ServiceUnitTest {
 		JCas jcas = null;
 		/**/
 		String[] filesToProcess = new String[] {
-		    //"test1.txt", "test2.txt", "test3.txt", "test4.txt", "test5.txt",
-		   // "test6.txt" 
-		   "test7.txt"};
+		    "test1.txt", 
+		    "test2.txt", 
+		    "test3.txt", 
+		    "test4.txt", 
+		    "test5.txt",
+		    "test6.txt",
+		    "test7.txt"
+		};
 		for (String filename : filesToProcess) {
 			docText = getDocText(filename);
 			jcas = createJCas(ae, docText, filename);
@@ -99,21 +104,22 @@ public class ServiceUnitTest {
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 8, 4, 7, filename); // (10,4 10)  unresolved: BP without term or indicator 
+		assertAndPrint(jcas, 13, 4, 7, filename); // (10 ,4 10)  unresolved: BP without term or indicator + 4 mislabeld HRs; 1 HR overannotation and 
 
 		filename = "file2.txt";
 		docText = getDocText(filename);
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 0, 0, 0, filename); // (0,0,0) unresolved: extra HR when window 400.
+		assertAndPrint(jcas, 0, 0, 0, filename); // (0,0,0) 
 		/**/
 		filename = "file3.txt";
 		docText = getDocText(filename);
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 6, 6, 6, filename);  // ( 6,6,5 )
+		assertAndPrint(jcas, 6, 6, 6, filename);  // ( 6,6,8 )  HR 40-110 (55 current) missing range
+
 		/**/
 		filename = "file4.txt";
 		docText = getDocText(filename);

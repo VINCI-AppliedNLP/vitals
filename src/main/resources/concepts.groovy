@@ -51,7 +51,8 @@ configuration {
 			'standing *blood *presures?\\b',
 			'standing(\\s*after\\s*\\d+\\sminutes?)?',
 			// standing after 3 minutes
-			'lying\\b'
+			'lying\\b',
+			'BP\\s+LEFT\\s+ARM\\s+SITTING'
 		]
 		concept_feature_value = "Blood_Pressure" }
 

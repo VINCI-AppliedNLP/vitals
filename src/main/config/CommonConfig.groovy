@@ -7,7 +7,7 @@
 processingOnVinci = true
 serviceQueueName = "VitalsForSepsis"
 
-casPoolSize=1
+casPoolSize=10
 
 /**************************************************************/
 /**  Do not change code below                                 */

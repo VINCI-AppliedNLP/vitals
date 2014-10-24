@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Thu Oct 23 19:03:44 CDT 2014 */
+/* First created by JCasGen Fri Oct 24 15:29:18 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -10,8 +10,8 @@ import org.apache.uima.jcas.cas.TOP_Type;
 
 
 /** 
- * Updated by JCasGen Thu Oct 23 19:03:44 CDT 2014
- * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_69d7d58b-64ff-4f55-8c03-1bdada4da87a8080794173395829785.xml
+ * Updated by JCasGen Fri Oct 24 15:29:18 CDT 2014
+ * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_68faca53-e9c3-490d-a635-e47abbd633cb5394996109092161032.xml
  * @generated */
 public class Pain_value extends OutputValue {
   /** @generated

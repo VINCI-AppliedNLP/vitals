@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Thu Oct 23 19:03:44 CDT 2014 */
+/* First created by JCasGen Fri Oct 24 15:29:19 CDT 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -12,7 +12,7 @@ import org.apache.uima.cas.Type;
 import gov.va.vinci.leo.regex.types.RegularExpressionType_Type;
 
 /** 
- * Updated by JCasGen Thu Oct 23 19:03:44 CDT 2014
+ * Updated by JCasGen Fri Oct 24 15:29:19 CDT 2014
  * @generated */
 public class Term_Type extends RegularExpressionType_Type {
   /** @generated 

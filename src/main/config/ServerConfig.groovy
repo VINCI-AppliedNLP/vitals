@@ -29,9 +29,9 @@
 /**
  * UIMA-AS service Variables
  */
-numInstances = 1;
+numInstances = 10;
 runAsync = false;
-generateTypes=true
+generateTypes=false
 registerWithJam=false
 
 //descriptorPath="P:\\ORD_Iwashyna_201108021D\\NLP\\desc";

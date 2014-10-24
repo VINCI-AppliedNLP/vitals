@@ -44,29 +44,140 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 	}
 
 	public static java.util.regex.Pattern bpPattern = java.util.regex.Pattern.compile(
-	    "\\b\\d{2,3} {0,2}/ {0,2}\\d{2,3}\\b",
+	    "\\d{2,3}('?s)? {0,2}(/|over) {0,2}\\d{2,3}('?s)?",
 	    java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
 
-	public static java.util.regex.Pattern singleNumber = java.util.regex.Pattern.compile("\\b\\d{2,3}\\b",
+	public static java.util.regex.Pattern singleNumber = java.util.regex.Pattern.compile("\\d{2,3}",
 	    java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
 
 	public static java.util.regex.Pattern oneDecmalNumber = java.util.regex.Pattern.compile(
 	    "\\b\\d{2,3}\\.\\d\\b", java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
 
 	public static java.util.regex.Pattern anyDecmalNumber = java.util.regex.Pattern.compile(
-	    "\\b\\d*\\.\\d+\\b", java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);;
+	    "\\d*\\.\\d+", java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);;
 
 	private static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
 
 	public int rightWindow = 400;
 
+	/**
+	 * INFO: analyzePatterns
+	 * Annotation type Relation can be produced as a 
+	 * @param aJCas
+	 * @throws CASException 
+	 * 
+	 *  1) if pattern contains <Target: Numeric> and <Anchor: Term> , assign term.concept to numeric.concept  
+	 *  2) if pattern contains <Target: Numeric> and <Unit> after <Indicator>, assign unit.concept to numeric.concept
+	 *  
+	 */
+	public void analyzePatterns(JCas aJCas) throws CASException {
+
+		FSIterator<Annotation> iter = this.getAnnotationListForType(aJCas, Relation.class.getCanonicalName());
+		while (iter.hasNext()) {
+			Relation currRelation = (Relation) iter.next();
+
+			// INFO: Target stands for Numeric.
+			if (currRelation.getTarget() != null) {
+				Numeric number = (Numeric) currRelation.getTarget();
+				if (StringUtils.isEmpty(number.getConcept())) {  // make sure the concept is not set already
+
+					Unit curUnit = null;
+
+					if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type).size() > 0) {
+						curUnit = (Unit) ((ArrayList<Annotation>) AnnotationLibrarian
+						    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type)).get(0); // get the first unit in the pattern
+						number.setUnit(curUnit);
+					}
+					// INFO: adding timestamp
+					ArrayList<Annotation> times = (ArrayList<Annotation>) AnnotationLibrarian
+					    .getAllOverlappingAnnotationsOfType(currRelation, Timestamp.type);
+					if (times.size() > 0) {
+						number.setTimestamp(times.get(0));
+					} else {
+						times = (ArrayList<Annotation>) AnnotationLibrarian.getPreviousAnnotationsOfType(number,
+						    Timestamp.type, 1);
+						if (times.size() > 0) {
+							if (times.get(0).getEnd() - number.getBegin() < 50) {
+								number.setTimestamp(times.get(0));
+							}
+						}
+					}
+					// INFO: Anchor stands for Term with pattern
+					if (currRelation.getAnchor() != null) {
+						Annotation term = currRelation.getAnchor();
+						String termConcept = ((Term) term).getConcept();
+
+						// check if termConcept is set  
+						if (StringUtils.isNotBlank(termConcept)) {
+
+							if (termConcept.equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
+								if (!this.isBloodPressure(number.getCoveredText(), false)) {
+									number.setConcept("Matched term " + termConcept + " but missed value");
+								}
+							} else if (termConcept.equalsIgnoreCase(vitalTypes.Temperature.name())) {
+								if (!this.isTemperature(number.getCoveredText(), false)) {
+									number.setConcept("Matched term " + termConcept + " but missed value");
+
+								}
+							} else if (termConcept.equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
+								if (!this.isHeartRate(number.getCoveredText())) {
+									number.setConcept("Matched term " + termConcept + " but missed value");
+								}
+							}
+
+							// there is a term in the pattern and it not discarded 
+							if (StringUtils.isBlank(number.getConcept())) {
+								number.setConcept(termConcept);
+							}
+							number.setSource("Term pattern");
+						} // number gets concept as term concept
+					} else // No term. Check if there is a unit
+
+					if (curUnit != null) {
+						String unitConcept = curUnit.getConcept();
+
+						if (unitConcept.equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
+							if (!this.isBloodPressure(number.getCoveredText(), false)) {
+								number.setConcept("Matched term " + unitConcept + " but missed value");
+							}
+						} else if (unitConcept.equalsIgnoreCase(vitalTypes.Temperature.name())) {
+							if (!this.isTemperature(number.getCoveredText(), false)) {
+								number.setConcept("Matched term " + unitConcept + " but missed value");
+							}
+						} else if (unitConcept.equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
+							if (!this.isHeartRate(number.getCoveredText())) {
+								number.setConcept("Matched term " + unitConcept + " but missed value");
+							}
+						}
+
+						if (StringUtils.isBlank(number.getConcept())) {
+							number.setConcept(unitConcept);
+						}
+						number.setSource("Unit pattern");
+					}
+					// INFO:  at this time all pattern with term and all patterns with unit have been processed. 
+					//The only patterns left are the ones that have a number and timestamp
+				} // end if Target -- should always be the case in Relations					
+			} // there is no target. If this is ever a case, the pattern is useless and will be skipped.
+			else {
+				log.error("Check pattern without target: " + currRelation);
+			}
+		}// end of while loop
+	}
+
+	/**
+	 * Annotates Heart rate  when a time pattern is within right window from the indicator
+	 * 
+	 * @param aJCas
+	 * @throws AnalysisEngineProcessException
+	 */
 	public void advancedHeuristics_Hr(JCas aJCas) throws AnalysisEngineProcessException {
 
 		FSIterator<Annotation> iterI = this.getAnnotationListForType(aJCas, Indicator.class.getCanonicalName());
 
 		while (iterI.hasNext()) {
 			Annotation indicator = iterI.next();
-			int end = indicator.getEnd() + rightWindow; // 200 is better than 150, 250 is better than 200, but 300 better than 400
+			int end = indicator.getEnd() + rightWindow;
 			if (end > aJCas.getDocumentText().length()) {
 				end = aJCas.getDocumentText().length();
 			}
@@ -79,18 +190,17 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 						Numeric number = (Numeric) n;
 						if (StringUtils.isEmpty(number.getConcept())) {
 							if (isHeartRate(number.getCoveredText())) {
-
+								/**/
 								if (AnnotationLibrarian
 								    .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, Bp_value.type)
-								    .size() == 0
+								    .size() > 0
 								    || AnnotationLibrarian
 								        .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, T_value.type)
-								        .size() == 0) {
-								} else {
-
-									number.setConcept(vitalTypes.Heart_Rate.name());
+								        .size() > 0) {
+									if (StringUtils.isBlank(number.getConcept())) {
+										number.setConcept(vitalTypes.Heart_Rate.name());
+									}
 								}
-
 							}
 							number.setSource("advancedHeuristics Hr");
 							// INFO: adding timestamp
@@ -113,6 +223,11 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 		}
 	}
 
+	/**
+	 * 
+	 * @param aJCas
+	 * @throws AnalysisEngineProcessException
+	 */
 	public void advancedHeuristics(JCas aJCas) throws AnalysisEngineProcessException {
 
 		FSIterator<Annotation> iterI = this.getAnnotationListForType(aJCas, Indicator.class.getCanonicalName());
@@ -137,17 +252,14 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 							} else if (isTemperature(number.getCoveredText(), true)) {
 								number.setConcept(vitalTypes.Temperature.name());
 							}
-							/**/
+							/**
 							else if (isHeartRate(number.getCoveredText())) {
 
 								if (AnnotationLibrarian
 								    .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, Bp_value.type)
-								    .size() == 0
-								    && AnnotationLibrarian
-								        .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, T_value.type)
-								        .size() == 0) {
-								} else {
-
+								    .size() > 0
+								    && AnnotationLibrarian.getAllOverlappingAnnotationsOfType(indicator.getBegin(), end,
+								        aJCas, T_value.type).size() > 0) {
 									number.setConcept(vitalTypes.Heart_Rate.name());
 								}
 
@@ -214,15 +326,17 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 
 						if (StringUtils.isBlank(number.getConcept())) {
 							/**/
-							if (this.isBloodPressure(number.getCoveredText(),true)) {
+							if (this.isBloodPressure(number.getCoveredText(), true)) {
 								number.setConcept(vitalTypes.Blood_Pressure.name());
 
 							} else if (this.isTemperature(number.getCoveredText(), true)) {
 								number.setConcept(vitalTypes.Temperature.name());
 
-							}/* else if (this.isHeartRate(number.getCoveredText())) {
-							 number.setConcept(vitalTypes.Heart_Rate.name());
-							 }*/
+							}
+							/** else if (this.isHeartRate(number.getCoveredText())) {
+							number.setConcept(vitalTypes.Heart_Rate.name());
+							}/**/
+
 							number.setSource("time_pattern");
 
 						}
@@ -244,110 +358,6 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 		}
 	}
 
-	/**
-	 * INFO: analyzePatterns
-	 * Annotation type Relation can be produced as a 
-	 * @param aJCas
-	 * @throws CASException 
-	 * 
-	 *  1) if pattern contains <Target: Numeric> and <Anchor: Term> , assign term.concept to numeric.concept  
-	 *  2) if pattern contains <Target: Numeric> and <Unit> after <Indicator>, assign unit.concept to numeric.concept
-	 *  
-	 */
-	public void analyzePatterns(JCas aJCas) throws CASException {
-
-		FSIterator<Annotation> iter = this.getAnnotationListForType(aJCas, Relation.class.getCanonicalName());
-		while (iter.hasNext()) {
-			Relation currRelation = (Relation) iter.next();
-
-			// INFO: Target stands for Numeric.
-			if (currRelation.getTarget() != null) {
-				Numeric number = (Numeric) currRelation.getTarget();
-				if (StringUtils.isEmpty(number.getConcept())) {  // make sure the concept is not set already
-
-					Unit curUnit = null;
-
-					if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type).size() > 0) {
-						curUnit = (Unit) ((ArrayList<Annotation>) AnnotationLibrarian
-						    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type)).get(0); // get the first unit in the pattern
-						number.setUnit(curUnit);
-					}
-					// INFO: adding timestamp
-					ArrayList<Annotation> times = (ArrayList<Annotation>) AnnotationLibrarian
-					    .getAllOverlappingAnnotationsOfType(currRelation, Timestamp.type);
-					if (times.size() > 0) {
-						number.setTimestamp(times.get(0));
-					} else {
-						times = (ArrayList<Annotation>) AnnotationLibrarian.getPreviousAnnotationsOfType(number,
-						    Timestamp.type, 1);
-						if (times.size() > 0) {
-							if (times.get(0).getEnd() - number.getBegin() < 50) {
-								number.setTimestamp(times.get(0));
-							}
-						}
-					}
-					// INFO: Anchor stands for Term with pattern
-					if (currRelation.getAnchor() != null) {
-						Annotation term = currRelation.getAnchor();
-						String termConcept = ((Term) term).getConcept();
-
-						// check if termConcept is set  
-						if (StringUtils.isNotBlank(termConcept)) {
-
-							if (termConcept.equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
-								if (!this.isBloodPressure(number.getCoveredText(), false)) {
-									number.setConcept("Matched term " + termConcept + " but missed value");
-								}
-							} else if (termConcept.equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
-								if (!this.isHeartRate(number.getCoveredText())) {
-									number.setConcept("Matched term " + termConcept + " but missed value");
-								}
-							} else if (termConcept.equalsIgnoreCase(vitalTypes.Temperature.name())) {
-								if (!this.isTemperature(number.getCoveredText(), false)) {
-									number.setConcept("Matched term " + termConcept + " but missed value");
-								}
-							}
-
-							// there is a term in the pattern and it not discarded 
-							if (StringUtils.isBlank(number.getConcept())) {
-								number.setConcept(termConcept);
-							}
-							number.setSource("Term pattern");
-						} // number gets concept as term concept
-					} else // No term. Check if there is a unit
-
-					if (curUnit != null) {
-						String unitConcept = curUnit.getConcept();
-
-						if (unitConcept.equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
-							if (!this.isBloodPressure(number.getCoveredText(), false)) {
-								number.setConcept("Matched term " + unitConcept + " but missed value");
-							}
-						} else if (unitConcept.equalsIgnoreCase(vitalTypes.Temperature.name())) {
-							if (!this.isTemperature(number.getCoveredText(), false)) {
-								number.setConcept("Matched term " + unitConcept + " but missed value");
-							}
-						} else if (unitConcept.equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
-							if (!this.isHeartRate(number.getCoveredText())) {
-								number.setConcept("Matched term " + unitConcept + " but missed value");
-							}
-						}
-						
-						if (StringUtils.isBlank(number.getConcept())) {
-							number.setConcept(unitConcept);
-						}
-						number.setSource("Unit pattern");
-					}
-					// INFO:  at this time all pattern with term and all patterns with unit have been processed. 
-					//The only patterns left are the ones that have a number and timestamp
-				} // end if Target -- should always be the case in Relations					
-			} // there is no target. If this is ever a case, the pattern is useless and will be skipped.
-			else {
-				log.error("Check pattern without target: " + currRelation);
-			}
-		}// end of while loop
-	}
-
 	public LeoAEDescriptor getLeoAEDescriptor() throws Exception {
 		return getLeoAEDescriptor(this.getClass().getCanonicalName(), getAnnotatorParams());
 	}
@@ -367,7 +377,10 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 	private boolean isBloodPressure(String text, boolean isStrict) {
 		Matcher decimalMatcher = anyDecmalNumber.matcher(text);
 		if (decimalMatcher.find()) {
-			return false;
+			if (text.endsWith(".0")) { // FIXME: checking if it helps
+			} else {
+				return false;
+			}
 		}
 		if (isStrict) { // FIXME: check if it helps
 			Matcher measureMatcher = bpPattern.matcher(text);
@@ -379,7 +392,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 					n = n.trim();
 					try {
 						int num = Integer.parseInt(n);
-						if (num > 50 && num < 300)
+						if (num > 70 && num < 300)
 							return true;
 					} catch (Exception e) {
 						return false;
@@ -434,7 +447,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 
 	/**
 	 * Temperature is a 2-3 digit number with possible decimal in range
-	 * [25-42] or [ 95 - 107]
+	 * [35-42] or [ 95 - 107]
 	 * 
 	 * @param text
 	 * @return
@@ -478,20 +491,32 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 			super.process(aJCas);
 
 			/**
-			 * Step 1: Term:Numeric pattern for all vital type.
+			 * INFO: analyzePatterns: Term:Numeric pattern for all vital type.  Numeric-Unit pattern for all vitals
+			 * 
 			 */
 			analyzePatterns(aJCas);
 			createValueTypes(aJCas);
+			/**/
 
+			/**
+			 * INFO: advancedHeuristics_Time: Numeric-Timestamp pattern after Indicator+RightWindow+1000 for BP and T
+			 */
 			advancedHeuristics_Time(aJCas);
 			createValueTypes(aJCas);
+			/**/
 
+			/**
+			 * INFO: advancedHeuristics : Numerics between Indicator+RightWindow for BP and T
+			 */
 			advancedHeuristics(aJCas);
 			createValueTypes(aJCas);
-
+			/**/
+			/**
+			 * INFO: advancedHeuristics_Hr: Numbers betweem Indicator+rightWindow for HR if BP or T are present
+			 */
 			advancedHeuristics_Hr(aJCas);
 			createValueTypes(aJCas);
-
+			/**/
 		} catch (AnalysisEngineProcessException ex1) {
 			log.error(ex1.getMessage() + ex1.getStackTrace());
 		} catch (CASException ex) {
