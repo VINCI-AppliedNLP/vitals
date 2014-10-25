@@ -194,7 +194,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 								if (AnnotationLibrarian
 								    .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, Bp_value.type)
 								    .size() > 0
-								    || AnnotationLibrarian
+								    && AnnotationLibrarian
 								        .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, T_value.type)
 								        .size() > 0) {
 									if (StringUtils.isBlank(number.getConcept())) {
@@ -377,10 +377,11 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 	private boolean isBloodPressure(String text, boolean isStrict) {
 		Matcher decimalMatcher = anyDecmalNumber.matcher(text);
 		if (decimalMatcher.find()) {
-			if (text.endsWith(".0")) { // FIXME: checking if it helps
-			} else {
+			/**/
+			if (text.endsWith(".0")) { // FIXME: checking if it helps  -- does not change anything.
+			} else
+				/**/
 				return false;
-			}
 		}
 		if (isStrict) { // FIXME: check if it helps
 			Matcher measureMatcher = bpPattern.matcher(text);
@@ -424,10 +425,11 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 	private boolean isHeartRate(String text) {
 		Matcher decimalMatcher = anyDecmalNumber.matcher(text);
 		if (decimalMatcher.find()) {
-			if (text.endsWith(".0")) { // FIXME: checking if it helps
-			} else {
-				return false;
-			}
+			/** if (text.endsWith(".0")) { // FIXME: checking if it helps -- it actually hurts
+			} else
+			/**/
+			return false;
+
 		}
 
 		Matcher digitMatcher = singleNumber.matcher(text);
@@ -496,8 +498,14 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 			 */
 			analyzePatterns(aJCas);
 			createValueTypes(aJCas);
-			/**/
 
+			/**/
+			/**
+			 * INFO: advancedHeuristics : Numerics between Indicator+RightWindow for BP and T
+			 */
+			advancedHeuristics(aJCas);
+			createValueTypes(aJCas);
+			/**/
 			/**
 			 * INFO: advancedHeuristics_Time: Numeric-Timestamp pattern after Indicator+RightWindow+1000 for BP and T
 			 */
@@ -506,13 +514,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 			/**/
 
 			/**
-			 * INFO: advancedHeuristics : Numerics between Indicator+RightWindow for BP and T
-			 */
-			advancedHeuristics(aJCas);
-			createValueTypes(aJCas);
-			/**/
-			/**
-			 * INFO: advancedHeuristics_Hr: Numbers betweem Indicator+rightWindow for HR if BP or T are present
+			 * INFO: advancedHeuristics_Hr: Numbers between Indicator+rightWindow for HR if BP or T are present
 			 */
 			advancedHeuristics_Hr(aJCas);
 			createValueTypes(aJCas);
