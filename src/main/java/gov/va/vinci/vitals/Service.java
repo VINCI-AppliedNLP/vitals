@@ -15,7 +15,7 @@ import gov.va.vinci.leo.types.TypeLibrarian;
 import gov.va.vinci.vitals.Client;
 import gov.va.vinci.vitals.Utils;
 import gov.va.vinci.vitals.ae.AnnotationFilter;
-import gov.va.vinci.vitals.ae.SimplePatternAnnotator;
+import gov.va.vinci.vitals.ae.VitalsExtractorAnnotator;
 import groovy.util.ConfigObject;
 
 import org.apache.commons.lang3.StringUtils;
@@ -356,7 +356,7 @@ public class Service {
 		            PipelineVariables.TYPE_RELATION_TIMESTAMP)
 		        .addTypeSystemDescription(types));
 
-		aggregate.addDelegate(new SimplePatternAnnotator().getLeoAEDescriptor()
+		aggregate.addDelegate(new VitalsExtractorAnnotator().getLeoAEDescriptor()
 		    .addTypeSystemDescription(types));
 
 		// Remove overannotated    

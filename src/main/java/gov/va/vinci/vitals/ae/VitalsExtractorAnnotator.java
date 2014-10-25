@@ -29,7 +29,7 @@ import org.apache.uima.jcas.tcas.Annotation;
  * @author olga.patterson@utah.edu
  * 
  */
-public class SimplePatternAnnotator extends LeoBaseAnnotator {
+public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 
 	public static enum vitalTypes {
 		Blood_Pressure, //1
@@ -333,6 +333,7 @@ public class SimplePatternAnnotator extends LeoBaseAnnotator {
 								number.setConcept(vitalTypes.Temperature.name());
 
 							}
+							
 							/** else if (this.isHeartRate(number.getCoveredText())) {
 							number.setConcept(vitalTypes.Heart_Rate.name());
 							}/**/
