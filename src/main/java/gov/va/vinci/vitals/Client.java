@@ -290,6 +290,13 @@ public class Client {
 					comparePairs.put(BPValue.class.getCanonicalName(), Bp_value.class.getCanonicalName());
 					comparePairs.put(TValue.class.getCanonicalName(), T_value.class.getCanonicalName());
 					comparePairs.put(HRValue.class.getCanonicalName(), Hr_value.class.getCanonicalName());
+					//comparePairs.put(BMIValue.class.getCanonicalName(), BMI_value.class.getCanonicalName());
+					//comparePairs.put(HeightValue.class.getCanonicalName(), Height_value.class.getCanonicalName());
+					//comparePairs.put(WeightValue.class.getCanonicalName(), Weight_value.class.getCanonicalName());
+					//comparePairs.put(PainValue.class.getCanonicalName(), Pain_value.class.getCanonicalName());
+					//comparePairs.put(RespValue.class.getCanonicalName(), Resp_value.class.getCanonicalName());
+					//comparePairs.put(OxygenValue.class.getCanonicalName(), SO2_value.class.getCanonicalName());
+					//comparePairs.put(TimeValue.class.getCanonicalName(), Timestamp.class.getCanonicalName());
 
 					if (!(new File(csvPath).getParentFile().exists()))
 						new File(csvPath).getParentFile().mkdirs();

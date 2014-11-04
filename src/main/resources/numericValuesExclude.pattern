@@ -25,3 +25,5 @@
 <gov.va.vinci.vitals.types.Numeric/> *IV
 <gov.va.vinci.vitals.types.Numeric/> *(mcg|mg|spray|lpm|cc)
 reading\s+<gov.va.vinci.vitals.types.Numeric/>
+
+\b\d/\d+\b

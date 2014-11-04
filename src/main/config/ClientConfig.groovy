@@ -74,22 +74,25 @@ csvFieldList = [
 
 /* Full path for a new xmi output files. These files can be viewed with UIMA viewer.
  *   If xmi files exist, they will be overwritten.
- *   If the path does not exist, it will be created.  */
-xmiOutPath = mainOutPath + "xmi\\"
-xmiOutputTypeList =  [
+ *   If the path does not exist, it will be created.  
+ *   
 	"gov.va.vinci.vitals.types.T_value",
 	"gov.va.vinci.vitals.types.Hr_value",
 	"gov.va.vinci.vitals.types.Bp_value",
 	"gov.va.vinci.kttr.types.BPValue",
 	"gov.va.vinci.kttr.types.HRValue",
-	"gov.va.vinci.kttr.types.TValue"
-]
+	"gov.va.vinci.kttr.types.TValue",
+	"gov.va.vinci.vitals.types.BMI_value",
+	"gov.va.vinci.vitals.types.Height_value",
+	"gov.va.vinci.vitals.types.Weight_value"*/
+xmiOutPath = mainOutPath + "xmi\\"
+xmiOutputTypeList =  []
 
 openViewerAfterProcessing =  false
 // if the list is empty, all files will be outputted
 
 // INFO: Database listener
-outTableName="[nlp].[output_NLP_VitalsCorpus_v2]"
+outTableName="[nlp].[output_NLP_VitalsCorpus_v3]"
 
 
 
@@ -134,7 +137,15 @@ chexBatchSize = 1000
 // AuCompare -- not setup yet
 auMap = ["gov.va.vinci.kttr.types.BPValue":"gov.va.vinci.vitals.types.Bp_value",
 	"gov.va.vinci.kttr.types.HRValue":"gov.va.vinci.vitals.types.Hr_value",
-	"gov.va.vinci.kttr.types.TValue":"gov.va.vinci.vitals.types.T_value"
+	"gov.va.vinci.kttr.types.TValue":"gov.va.vinci.vitals.types.T_value",
+	"gov.va.vinci.vitals.types.BMIValue":"gov.va.vinci.vitals.types.BMI_value",
+	"gov.va.vinci.vitals.types.HeightValue":"gov.va.vinci.vitals.types.Height_value",,
+	"gov.va.vinci.vitals.types.WeightValue":"gov.va.vinci.vitals.types.Weight_value",
+	"gov.va.vinci.vitals.types.OxygenValue":"gov.va.vinci.vitals.types.SO2_value",
+	"gov.va.vinci.vitals.types.PainValue":"gov.va.vinci.vitals.types.Pain_value",
+	"gov.va.vinci.vitals.types.RespValue":"gov.va.vinci.vitals.types.Resp_value",
+	"gov.va.vinci.vitals.types.TimeValue":"gov.va.vinci.vitals.types.Timestamp" 
+	
 ]
 
 // INFO: environments
@@ -147,7 +158,7 @@ environments {
 	}
 	compare{
 		readerType = "knowtator"
-		listenerTypes = "aucompare"
+		listenerTypes = "aucompare|csv|xmi"
 		envType = "compare"
 	}
 	dbOut{

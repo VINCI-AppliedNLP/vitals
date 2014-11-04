@@ -58,6 +58,23 @@ public class ServiceUnitTest {
 	}
 
 	@Test
+	public void testSigleFile() throws ResourceInitializationException, IOException,
+	    AnalysisEngineProcessException {
+		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(aggregate.getAnalysisEngineDescription());
+
+		String docText = "";
+		JCas jcas = null;
+		/**/
+		String filename = "file4.txt";
+		docText = getDocText(filename);
+		jcas = createJCas(ae, docText, filename);
+		ae.process(jcas);
+		outputXmi(filename, jcas);
+		justPrint(jcas, filename);
+
+	}
+
+	@Test
 	public void testWithoutAssert() throws ResourceInitializationException, IOException,
 	    AnalysisEngineProcessException {
 		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(aggregate.getAnalysisEngineDescription());
@@ -66,12 +83,12 @@ public class ServiceUnitTest {
 		JCas jcas = null;
 		/**/
 		String[] filesToProcess = new String[] {
-		    "test1.txt", 
-		    "test2.txt", 
-		    "test3.txt", 
-		    "test4.txt", 
+		    /**/"test1.txt",
+		    "test2.txt",
+		    "test3.txt",
+		    "test4.txt",
 		    "test5.txt",
-		    "test6.txt",
+		    "test6.txt", /**/
 		    "test7.txt"
 		};
 		for (String filename : filesToProcess) {
@@ -126,7 +143,7 @@ public class ServiceUnitTest {
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 9, 3, 9, filename); // 9,3,7) // unresolved: extra HR that is machine and resp rate
+		assertAndPrint(jcas, 9, 3, 7, filename); // 9,3,7) // unresolved: extra HR that is machine and resp rate
 
 	}// testXmi method
 

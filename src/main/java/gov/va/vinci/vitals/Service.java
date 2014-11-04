@@ -99,7 +99,7 @@ public class Service {
 		    "gov.va.vinci.vitals.types.T_value",
 		    "gov.va.vinci.vitals.types.Weight_value",
 		    "gov.va.vinci.vitals.types.Height_value",
-		    "gov.va.vinci.vitals.types.So2_value",
+		    "gov.va.vinci.vitals.types.SO2_value",
 		    "gov.va.vinci.vitals.types.Resp_value",
 		    "gov.va.vinci.vitals.types.Pain_value",
 		    "gov.va.vinci.vitals.types.BMI_value"

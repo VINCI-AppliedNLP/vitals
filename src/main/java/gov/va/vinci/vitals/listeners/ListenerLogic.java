@@ -1,11 +1,8 @@
 package gov.va.vinci.vitals.listeners;
-
-import gov.va.vinci.kttr.types.*;
 import gov.va.vinci.vitals.types.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.FSIndex;

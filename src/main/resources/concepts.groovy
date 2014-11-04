@@ -84,14 +84,14 @@ configuration {
 		concept_feature_value = "Heart_Rate" }
 
 	"Height" {
-		expressions = ['\\bht\\b', '\\bHt +in *(\\()?cm(\\))?', 'height']
+		expressions = ['\\bht\\b', '\\bHt +in *(\\()?cm(\\))?', '\\bheight\\b']
 		concept_feature_value = "Height" }
 
 	"Pain" {
 		expressions = ['Pain', 'pain score']
-		concept_feature_value = "BMI" }
+		concept_feature_value = "Pain" }
 
-	"Respiratory_Rate" {
+	"Respiratory" {
 		expressions = [
 			'\\brate\\b',
 			'\\bresp\\b',
@@ -104,7 +104,7 @@ configuration {
 			'respiratory\\s*rate',
 			'\\br(?=\\d{2,3}\\b)'
 		]
-		concept_feature_value = "Respiratory_Rate" }
+		concept_feature_value = "Respiratory" }
 
 	"SO2" {
 		expressions = [
@@ -121,7 +121,7 @@ configuration {
 		concept_feature_value = "SO2" }
 
 	"Weight" {
-		expressions = ['Weight', '\\bwt\\b', '\\bw\\b', '\\bw(?<=\\d{2,3}\\b)']
+		expressions = ['\\bWeight', '\\bwt\\b', '\\bw\\b', '\\bw(?<=\\d{2,3}\\b)']
 		concept_feature_value = "Weight" }
 
 	"Age" {

@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Fri Oct 24 15:29:17 CDT 2014 */
+/* First created by JCasGen Mon Nov 03 14:56:59 CST 2014 */
 package gov.va.vinci.kttr.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Fri Oct 24 15:29:17 CDT 2014
- * XML source: C:/DOCUME~1/VH813C~1/LOCALS~1/Temp/5/leoTypeDescription_68faca53-e9c3-490d-a635-e47abbd633cb5394996109092161032.xml
+ * Updated by JCasGen Mon Nov 03 14:56:59 CST 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_fd3018eb-3ac8-46af-97b6-cba6315a91096847798674094739469.xml
  * @generated */
 public class HRTerm extends Annotation {
   /** @generated

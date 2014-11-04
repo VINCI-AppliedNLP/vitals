@@ -40,8 +40,13 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 		SO2,            //6
 		BMI,            //7
 		Pain,           //8
-		Age;            //9
+		Respiratory,   //9
+		Age;            //10
 	}
+
+	public static java.util.regex.Pattern sectionEndPattern = java.util.regex.Pattern.compile(
+	    "\\blabs\\b|\\blab\\b|\\bplan\\b",
+	    java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
 
 	public static java.util.regex.Pattern bpPattern = java.util.regex.Pattern.compile(
 	    "\\d{2,3}('?s)? {0,2}(/|over) {0,2}\\d{2,3}('?s)?",
@@ -181,6 +186,10 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 			if (end > aJCas.getDocumentText().length()) {
 				end = aJCas.getDocumentText().length();
 			}
+			Matcher endMatch = sectionEndPattern.matcher(aJCas.getDocumentText().substring(indicator.getBegin(),   end));
+			if (endMatch.find()) {
+				end = endMatch.start();
+			}
 			try {
 				ArrayList<Annotation> numbers = (ArrayList<Annotation>) AnnotationLibrarian
 				    .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, Numeric.type);
@@ -211,6 +220,7 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 									number.setTimestamp(((ArrayList<Annotation>) AnnotationLibrarian
 									    .getPreviousClosestAnnotations(number, times)).get(0));
 								} catch (Exception a) {
+									AnnotationLibrarian.trimAnnotation(times.get(0));
 									number.setTimestamp(times.get(0));
 								}
 							}
@@ -237,6 +247,12 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 			int end = indicator.getEnd() + rightWindow; // 200 is better than 150, 250 is better than 200, but 300 better than 400
 			if (end > aJCas.getDocumentText().length()) {
 				end = aJCas.getDocumentText().length();
+
+			}
+			Matcher endMatch = sectionEndPattern.matcher(aJCas.getDocumentText().substring(indicator.getBegin(),
+			    end));
+			if (endMatch.find()) {
+				end = endMatch.start();
 			}
 			try {
 				ArrayList<Annotation> numbers = (ArrayList<Annotation>) AnnotationLibrarian
@@ -312,8 +328,13 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 			int end = indicator.getEnd() + rightWindow + 1000; // 200 is better than 150, 250 is better than 200, but 300 better than 400
 			if (end > aJCas.getDocumentText().length()) {
 				end = aJCas.getDocumentText().length();
-			}
 
+			}
+			Matcher endMatch = sectionEndPattern.matcher(aJCas.getDocumentText().substring(indicator.getBegin(),
+			    end));
+			if (endMatch.find()) {
+				end = endMatch.start();
+			}
 			ArrayList<Annotation> relations = (ArrayList<Annotation>) AnnotationLibrarian
 			    .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, Relation_Time.type);
 
@@ -333,7 +354,7 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 								number.setConcept(vitalTypes.Temperature.name());
 
 							}
-							
+
 							/** else if (this.isHeartRate(number.getCoveredText())) {
 							number.setConcept(vitalTypes.Heart_Rate.name());
 							}/**/
@@ -346,6 +367,7 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 						ArrayList<Annotation> times = (ArrayList<Annotation>) AnnotationLibrarian
 						    .getAllOverlappingAnnotationsOfType(currRelation, Timestamp.type);
 						if (times.size() > 0) {
+							AnnotationLibrarian.trimAnnotation(times.get(0));
 							number.setTimestamp(times.get(0));
 						}
 					}
@@ -551,6 +573,48 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 
 				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Temperature.name())) {
 					T_value newAnn = (T_value) this.addOutputAnnotation(T_value.class.getCanonicalName(), aJCas,
+					    curNum.getBegin(), curNum.getEnd());
+					newAnn.setSource(curNum.getSource());
+					newAnn.setUnit(curNum.getUnit());
+					newAnn.setTimestamp(curNum.getTimestamp());
+				} ///////////////////////
+				else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Respiratory.name())) {
+					Resp_value newAnn = (Resp_value) this.addOutputAnnotation(Resp_value.class.getCanonicalName(),
+					    aJCas,
+					    curNum.getBegin(), curNum.getEnd());
+					newAnn.setSource(curNum.getSource());
+					newAnn.setUnit(curNum.getUnit());
+					newAnn.setTimestamp(curNum.getTimestamp());
+				}
+				else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Height.name())) {
+					Height_value newAnn = (Height_value) this.addOutputAnnotation(
+					    Height_value.class.getCanonicalName(), aJCas,
+					    curNum.getBegin(), curNum.getEnd());
+					newAnn.setSource(curNum.getSource());
+					newAnn.setUnit(curNum.getUnit());
+					newAnn.setTimestamp(curNum.getTimestamp());
+				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Weight.name())) {
+					Weight_value newAnn = (Weight_value) this.addOutputAnnotation(
+					    Weight_value.class.getCanonicalName(), aJCas,
+					    curNum.getBegin(), curNum.getEnd());
+					newAnn.setSource(curNum.getSource());
+					newAnn.setUnit(curNum.getUnit());
+					newAnn.setTimestamp(curNum.getTimestamp());
+				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.SO2.name())) {
+					SO2_value newAnn = (SO2_value) this.addOutputAnnotation(SO2_value.class.getCanonicalName(), aJCas,
+					    curNum.getBegin(), curNum.getEnd());
+					newAnn.setSource(curNum.getSource());
+					newAnn.setUnit(curNum.getUnit());
+					newAnn.setTimestamp(curNum.getTimestamp());
+				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.BMI.name())) {
+					BMI_value newAnn = (BMI_value) this.addOutputAnnotation(BMI_value.class.getCanonicalName(), aJCas,
+					    curNum.getBegin(), curNum.getEnd());
+					newAnn.setSource(curNum.getSource());
+					newAnn.setUnit(curNum.getUnit());
+					newAnn.setTimestamp(curNum.getTimestamp());
+				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Pain.name())) {
+					Pain_value newAnn = (Pain_value) this.addOutputAnnotation(Pain_value.class.getCanonicalName(),
+					    aJCas,
 					    curNum.getBegin(), curNum.getEnd());
 					newAnn.setSource(curNum.getSource());
 					newAnn.setUnit(curNum.getUnit());
