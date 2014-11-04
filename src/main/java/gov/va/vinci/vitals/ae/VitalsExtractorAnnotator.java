@@ -144,19 +144,29 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 						if (unitConcept.equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
 							if (!this.isBloodPressure(number.getCoveredText(), false)) {
 								number.setConcept("Matched term " + unitConcept + " but missed value");
+							} else {
+								number.setConcept(unitConcept);
 							}
 						} else if (unitConcept.equalsIgnoreCase(vitalTypes.Temperature.name())) {
 							if (!this.isTemperature(number.getCoveredText(), false)) {
 								number.setConcept("Matched term " + unitConcept + " but missed value");
+							} else {
+								number.setConcept(unitConcept);
 							}
 						} else if (unitConcept.equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
 							if (!this.isHeartRate(number.getCoveredText())) {
 								number.setConcept("Matched term " + unitConcept + " but missed value");
+							} else {
+								number.setConcept(unitConcept);
 							}
 						}
 
+						if (unitConcept.equalsIgnoreCase(vitalTypes.Weight.name())) {
+							number.setConcept(unitConcept);							
+						}
+						
 						if (StringUtils.isBlank(number.getConcept())) {
-							number.setConcept(unitConcept);
+							number.setConcept("possible: " + unitConcept);
 						}
 						number.setSource("Unit pattern");
 					}

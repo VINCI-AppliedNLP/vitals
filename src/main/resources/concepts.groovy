@@ -109,19 +109,22 @@ configuration {
 	"SO2" {
 		expressions = [
 			'SO2',
-			'\\bsat\\b',
+			'\\bsats?\\b',
 			'\\bpo2',
 			'SAO2',
 			'saturations?',
 			'saturation\\s*O2',
 			'saturation\\s*o2\\s*stats',
-			'O2 SATS',
+			'O2 *SATS',
 			'SpO2',
-			'PO2 \\(L/Min\\)\\(%\\)',
+			'PO2 *\\(L/Min\\)\\(%\\)',
 			'PULSE OXIMETRY RESULTS',
 			'PULSE\\s+OXIMETRY\\s+\\(MOST RECENT IN LAST YEAR\\)',
 			'PULSE OXIMETRY',
-			'Pulse Ox'
+			'Pulse Ox\\w*\\b',
+			'\\bpox\\b',
+			'saturating',
+			'02sat'
 		]
 		concept_feature_value = "SO2" }
 
