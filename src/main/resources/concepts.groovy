@@ -88,7 +88,7 @@ configuration {
 		concept_feature_value = "Height" }
 
 	"Pain" {
-		expressions = ['Pain', 'pain score']
+		expressions = ['Pain', 'pain score', 'PAIN INTENSITY', 'LEVEL OF PAIN']
 		concept_feature_value = "Pain" }
 
 	"Respiratory" {
@@ -112,11 +112,16 @@ configuration {
 			'\\bsat\\b',
 			'\\bpo2',
 			'SAO2',
-			'saturation',
+			'saturations?',
 			'saturation\\s*O2',
 			'saturation\\s*o2\\s*stats',
 			'O2 SATS',
-			'SpO2'
+			'SpO2',
+			'PO2 \\(L/Min\\)\\(%\\)',
+			'PULSE OXIMETRY RESULTS',
+			'PULSE\\s+OXIMETRY\\s+\\(MOST RECENT IN LAST YEAR\\)',
+			'PULSE OXIMETRY',
+			'Pulse Ox'
 		]
 		concept_feature_value = "SO2" }
 

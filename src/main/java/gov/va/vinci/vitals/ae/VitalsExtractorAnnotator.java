@@ -45,7 +45,7 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 	}
 
 	public static java.util.regex.Pattern sectionEndPattern = java.util.regex.Pattern.compile(
-	    "\\blabs\\b|\\blab\\b|\\bplan\\b",
+	    "\\blabs\\b|\\blab\\b|\\bplan\\b|LABORATORY|allerg|medication|history|\\bA/P:",
 	    java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
 
 	public static java.util.regex.Pattern bpPattern = java.util.regex.Pattern.compile(
@@ -186,7 +186,8 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 			if (end > aJCas.getDocumentText().length()) {
 				end = aJCas.getDocumentText().length();
 			}
-			Matcher endMatch = sectionEndPattern.matcher(aJCas.getDocumentText().substring(indicator.getBegin(),   end));
+			Matcher endMatch = sectionEndPattern.matcher(aJCas.getDocumentText().substring(indicator.getBegin(),
+			    end));
 			if (endMatch.find()) {
 				end = endMatch.start();
 			}
@@ -249,11 +250,12 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 				end = aJCas.getDocumentText().length();
 
 			}
-			Matcher endMatch = sectionEndPattern.matcher(aJCas.getDocumentText().substring(indicator.getBegin(),
-			    end));
+			/**
+			 Matcher endMatch = sectionEndPattern.matcher(aJCas.getDocumentText().substring(indicator.getBegin(),    end));
 			if (endMatch.find()) {
 				end = endMatch.start();
 			}
+			/**/
 			try {
 				ArrayList<Annotation> numbers = (ArrayList<Annotation>) AnnotationLibrarian
 				    .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, Numeric.type);
@@ -330,11 +332,12 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 				end = aJCas.getDocumentText().length();
 
 			}
-			Matcher endMatch = sectionEndPattern.matcher(aJCas.getDocumentText().substring(indicator.getBegin(),
-			    end));
+			/**
+			Matcher endMatch = sectionEndPattern.matcher(aJCas.getDocumentText().substring(indicator.getBegin(),    end));
 			if (endMatch.find()) {
 				end = endMatch.start();
 			}
+			/**/
 			ArrayList<Annotation> relations = (ArrayList<Annotation>) AnnotationLibrarian
 			    .getAllOverlappingAnnotationsOfType(indicator.getBegin(), end, aJCas, Relation_Time.type);
 
@@ -542,12 +545,33 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 			advancedHeuristics_Hr(aJCas);
 			createValueTypes(aJCas);
 			/**/
+			// Clear timestamps
+			filterOutUnusedTimestamps(aJCas);
+
 		} catch (AnalysisEngineProcessException ex1) {
 			log.error(ex1.getMessage() + ex1.getStackTrace());
 		} catch (CASException ex) {
 			log.error(ex.getMessage() + ex.getStackTrace());
 		}
 
+	}
+
+	@SuppressWarnings("unchecked")
+	private void filterOutUnusedTimestamps(JCas aJCas) {
+		ArrayList<Annotation> timestamps = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(
+		    aJCas, Timestamp.type);
+
+		for (Annotation t : timestamps) {
+			t.removeFromIndexes();
+		}
+		ArrayList<Annotation> numerics = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(
+		    aJCas, Numeric.type);
+		for (Annotation n : numerics) {
+			if (((Numeric) n).getTimestamp() != null) {
+
+				(((Numeric) n).getTimestamp()).addToIndexes(aJCas);
+			}
+		}
 	}
 
 	private void createValueTypes(JCas aJCas) throws AnalysisEngineProcessException {

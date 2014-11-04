@@ -143,7 +143,8 @@ public class ServiceUnitTest {
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 9, 3, 7, filename); // 9,3,7) // unresolved: extra HR that is machine and resp rate
+		assertAndPrint(jcas, 9, 3, 7, filename); // 9,3,7) // unresolved: extra HR that is machine and resp rate, but did not get 2 HRs because only BP was near
+		
 
 	}// testXmi method
 

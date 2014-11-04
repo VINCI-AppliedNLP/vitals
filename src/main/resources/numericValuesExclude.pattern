@@ -27,3 +27,7 @@
 reading\s+<gov.va.vinci.vitals.types.Numeric/>
 
 \b\d/\d+\b
+\d\d\d+-\d\d+-\d\d\d+
+
+# 28 SEPT 2009
+\d+ *(jan\w*|feb\w*|mar\w*|apr\w*|may\w*|jun\w*|jul\w*|aug\w*|sep\w*|oct\w*|nov\w*|dec\w*),? *\d{2,4}

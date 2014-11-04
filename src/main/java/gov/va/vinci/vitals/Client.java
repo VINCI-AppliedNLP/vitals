@@ -108,7 +108,7 @@ public class Client {
 		log.info(" Starting " + this.getClass().getCanonicalName() + "  at "
 		    + new Date(sw.getStartTime()));
 		ConfigObject config = Utils.loadConfigFile(environment,
-		       "KnowtatorConfig.groovy", 
+		    "KnowtatorConfig.groovy",
 		    "CommonConfig.groovy",
 		    "ClientConfig.groovy");
 		loadProperties(config);
@@ -221,19 +221,21 @@ public class Client {
 					    driver, url, dbUser, dbPwd);
 
 					ArrayList<String> tempList = (ArrayList<String>) config.get("chexTypes");
-					
-					String[] typeList = (String [])tempList.toArray(new String[tempList.size()]);
-					
+
+					String[] typeList = (String[]) tempList.toArray(new String[tempList.size()]);
+
 					String documentTextSelectQuery = (String) config.get("chexDocumentTextSelectQuery");
 					String schema = (String) config.get("chexSchema");
 					String tableSuffix = (String) config.get("chexSuffix");
 					String columnPrefix = (String) config.get("chexColumnPrefix");
 					String columnSuffix = (String) config.get("chexColumnSuffix");
-					int chexBatchSize = (Integer) config.get("chexBatchSize");;
-					boolean deleteIfExists = (Boolean) config.get("chexOverwrite");;
+					int chexBatchSize = (Integer) config.get("chexBatchSize");
+					;
+					boolean deleteIfExists = (Boolean) config.get("chexOverwrite");
+					;
 					ChexSimanDataSourceConfiguration simanDataSourceConfiguration = new ChexSimanDataSourceConfiguration(
 					    dbi,
-					    documentTextSelectQuery, 
+					    documentTextSelectQuery,
 					    schema, tableSuffix, columnPrefix, columnSuffix);
 
 					ChexListener listener = new ChexListener(simanDataSourceConfiguration,
@@ -290,14 +292,15 @@ public class Client {
 					comparePairs.put(BPValue.class.getCanonicalName(), Bp_value.class.getCanonicalName());
 					comparePairs.put(TValue.class.getCanonicalName(), T_value.class.getCanonicalName());
 					comparePairs.put(HRValue.class.getCanonicalName(), Hr_value.class.getCanonicalName());
-					//comparePairs.put(BMIValue.class.getCanonicalName(), BMI_value.class.getCanonicalName());
-					//comparePairs.put(HeightValue.class.getCanonicalName(), Height_value.class.getCanonicalName());
-					//comparePairs.put(WeightValue.class.getCanonicalName(), Weight_value.class.getCanonicalName());
-					//comparePairs.put(PainValue.class.getCanonicalName(), Pain_value.class.getCanonicalName());
-					//comparePairs.put(RespValue.class.getCanonicalName(), Resp_value.class.getCanonicalName());
-					//comparePairs.put(OxygenValue.class.getCanonicalName(), SO2_value.class.getCanonicalName());
-					//comparePairs.put(TimeValue.class.getCanonicalName(), Timestamp.class.getCanonicalName());
-
+					/**/
+					comparePairs.put(BMIValue.class.getCanonicalName(), BMI_value.class.getCanonicalName());
+					comparePairs.put(HeightValue.class.getCanonicalName(), Height_value.class.getCanonicalName());
+					comparePairs.put(WeightValue.class.getCanonicalName(), Weight_value.class.getCanonicalName());
+					comparePairs.put(PainValue.class.getCanonicalName(), Pain_value.class.getCanonicalName());
+					comparePairs.put(RespValue.class.getCanonicalName(), Resp_value.class.getCanonicalName());
+					comparePairs.put(OxygenValue.class.getCanonicalName(), SO2_value.class.getCanonicalName());
+					comparePairs.put(TimeValue.class.getCanonicalName(), Timestamp.class.getCanonicalName());
+					/**/
 					if (!(new File(csvPath).getParentFile().exists()))
 						new File(csvPath).getParentFile().mkdirs();
 					listener = new SimpleCompareListener(comparePairs, new File(csvPath));
@@ -312,7 +315,7 @@ public class Client {
 					}
 					aulistener = new AuSummary(auMap);
 					listenerList.add(aulistener);
-					//String csvPath1 = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp)		    + "_AuComparey.csv";
+					//String csvPath1 = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp)		    + "_AuCompare.csv";
 					//AuCompareCSVListener listener2 = new AuCompareCSVListener(auMap, new File(csvPath1));
 					//listenerList.add(listener2);
 					/**/
