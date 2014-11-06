@@ -23,6 +23,16 @@ configuration {
 			'\\bTemp +F *\\(C\\)'
 		]
 		concept_feature_value = "Temperature" }
+	"Systolic"{
+		expressions = [
+			'bp *systolic',
+			'systolic',
+			'systolic *bp',
+			'sytolic',
+			'\\bsys\\b',
+			'\\bsbp\\b'
+			]
+	}
 	"Blood_Pressure" {
 		expressions = [
 			'diastolic',
@@ -37,7 +47,7 @@ configuration {
 			'bp *lying',
 			'bp *range',
 			'bp *recheck',
-			'bp *standing',
+		//	'bp *standing',
 			'bp *today',
 			'lying *bp',
 			'manual *pressure',
@@ -48,10 +58,10 @@ configuration {
 			'sitting *blood *presure',
 			'sitting *bp',
 			'sitting p\\b',
-			'standing *blood *presures?\\b',
-			'standing(\\s*after\\s*\\d+\\sminutes?)?',
-			// standing after 3 minutes
-			'lying\\b',
+		//	'standing *blood *presures?\\b',
+		//	'standing(\\s*after\\s*\\d+\\sminutes?)?',
+		//  standing after 3 minutes
+		//	'lying\\b',
 			'BP\\s+LEFT\\s+ARM\\s+SITTING'
 		]
 		concept_feature_value = "Blood_Pressure" }
@@ -79,7 +89,8 @@ configuration {
 			'radial pulse',
 			'\\bp(?=\\d{2,3}\\b)',
 			'pulse\\s+(dropped|raised|went\\s+up)\\s+to',
-			'Ventricular\\s+Rate'
+			'Ventricular\\s+Rate',
+			'afib'
 		]
 		concept_feature_value = "Heart_Rate" }
 

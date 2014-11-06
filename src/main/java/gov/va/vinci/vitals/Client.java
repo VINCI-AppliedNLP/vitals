@@ -15,6 +15,7 @@ import gov.va.vinci.leo.model.ChexSimanDataSourceConfiguration;
 import gov.va.vinci.leo.model.DatabaseConnectionInformation;
 import gov.va.vinci.leo.tools.LeoUtils;
 import gov.va.vinci.leo.tools.TextFilter;
+import gov.va.vinci.svmlib.ml.SvmVectorTranslator;
 import gov.va.vinci.vitals.listeners.*;
 import gov.va.vinci.vitals.types.*;
 import groovy.util.ConfigObject;
@@ -57,7 +58,7 @@ public class Client {
 	 * ListenerLogic SimanChexListener KnowtatorListener CustomListener
 	 */
 	public enum LISTENERS { // INFO: enum LISTENERS
-		simpleCsv, csv, xmi, compare, aucompare, knowtator, database, chex;
+		simpleCsv, csv, xmi, compare, aucompare, knowtator, database, chex, training;
 	}
 
 	public static class KnowtatorVariables {
@@ -76,6 +77,10 @@ public class Client {
 		static boolean useKnowtatorListener = false;
 		static String[] knowtatorOutTypes = null;
 		static String knowtatorOutPath = "";
+
+		static boolean useTrainingListener = false;
+		static String hrValidationMap;
+		static String hrSvmModelPath;
 
 	}
 
@@ -101,7 +106,7 @@ public class Client {
 		System.exit(0);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "null" })
 	public void run(String environment) throws Exception {
 		StopWatch sw = new StopWatch();
 		sw.start();
@@ -188,6 +193,7 @@ public class Client {
 		String[] listenerTypes = null;
 		if (StringUtils.isNotBlank(strListenerTypes))
 			listenerTypes = strListenerTypes.split("\\|");
+		HrLearningListener learningListener = null;
 
 		if (listenerTypes != null) {
 			for (String type : listenerTypes) {
@@ -339,6 +345,23 @@ public class Client {
 						}
 					}
 				}
+
+				if (type.equalsIgnoreCase(LISTENERS.training.name())) {
+					// FIXME  Add training listener
+
+					ListenerVariables.useTrainingListener = true;
+					ListenerVariables.hrValidationMap = (String) config.get("client.listener.learning.rValidationMap");
+					ListenerVariables.hrSvmModelPath = (String) config
+					    .get("client.listener.learning.relativeSvmModelPath");
+					learningListener = new HrLearningListener(
+					    Service.LearningVariables.TYPE_FeatureVector,
+					    "context",
+					    "prediction",
+					    "keys",
+					    "values", ListenerVariables.hrValidationMap, true,
+					    Service.LearningVariables.TYPE_Prediction);
+					listenerList.add(learningListener);
+				}
 			}
 		}
 
@@ -349,6 +372,25 @@ public class Client {
 		}
 		// Running the client
 		myClient.run(listeners);
+
+		if (ListenerVariables.useTrainingListener) {
+			/**             * Relative Validation             */
+			//Perform validation and training of SVM model            
+			StopWatch clock = new StopWatch();
+			log.info("Validate and serialize SVMLib model...");
+			clock.start();
+			SvmVectorTranslator svt = new SvmVectorTranslator();
+			learningListener.addMap(ListenerVariables.hrValidationMap);
+			double rSvmAccuracy = learningListener.validate(svt, 10);
+			if (StringUtils.isNotBlank(ListenerVariables.hrSvmModelPath)) {
+				svt.setModelPath(ListenerVariables.hrSvmModelPath);
+				learningListener.train(svt);
+			}
+			clock.stop();
+
+			log.info("Validation and serialization complete, " + clock.toString());
+			log.info("Relative Validation Accuracy, SVM: " + rSvmAccuracy);
+		}
 
 		// Client run is completed
 		log.info("Processing time: " + sw.toString() + "\n"

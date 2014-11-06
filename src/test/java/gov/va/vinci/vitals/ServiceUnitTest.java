@@ -114,7 +114,7 @@ public class ServiceUnitTest {
 		jcas = createJCas(ae, docText, filename);
 		ae.process(jcas);
 		outputXmi(filename, jcas);
-		assertAndPrint(jcas, 11, 10, 9, filename); //(10,10,9)  Unresolved: goal   Blood Pressure > 139/89:  
+		assertAndPrint(jcas, 10, 10, 9, filename); //(9,10,9)  Unresolved: goal   Blood Pressure > 139/89:  
 
 		filename = "file1.txt";
 		docText = getDocText(filename);
@@ -192,11 +192,12 @@ public class ServiceUnitTest {
 		ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas,
 		    Bp_value.type);
 
-		System.out.println("BP count : " + list.size() + " vs " + bpCount);
+		System.out.println("BP count : " +  bpCount + " vs " + list.size() );
 		for (Annotation a : list) {
 			System.out.println("BP:" + a.getCoveredText());
 		}
-		Assert.assertTrue(list.size() == bpCount);
+		System.out.println("Assering " + filename + " BP refst=" + bpCount + " , but was sys=" + list.size());
+	 	Assert.assertTrue(list.size() == bpCount);
 
 		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_value.type);
 		System.out.println("T count : " + list.size() + " vs " + tCount);

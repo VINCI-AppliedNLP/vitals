@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Mon Nov 03 14:56:59 CST 2014 */
+/* First created by JCasGen Wed Nov 05 19:07:01 CST 2014 */
 package gov.va.vinci.kttr.types;
 
 import org.apache.uima.jcas.JCas;
@@ -12,7 +12,7 @@ import org.apache.uima.cas.Type;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Mon Nov 03 14:56:59 CST 2014
+ * Updated by JCasGen Wed Nov 05 19:07:01 CST 2014
  * @generated */
 public class BPTerm_Type extends Annotation_Type {
   /** @generated 

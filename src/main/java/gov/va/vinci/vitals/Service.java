@@ -5,17 +5,21 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import gov.va.vinci.kttr.types.HRValue;
 import gov.va.vinci.leo.annotationpattern.ae.AnnotationPatternAnnotator;
 import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
+import gov.va.vinci.leo.descriptors.TypeDescriptionBuilder;
 import gov.va.vinci.leo.regex.ae.RegexAnnotator;
 import gov.va.vinci.leo.regex.ae.RegexAnnotator.Param;
 import gov.va.vinci.leo.tools.LeoUtils;
 import gov.va.vinci.leo.types.TypeLibrarian;
+import gov.va.vinci.sherlock.ae.LearningAnnotator;
+import gov.va.vinci.svmlib.ml.SvmVectorTranslator;
 import gov.va.vinci.vitals.Client;
 import gov.va.vinci.vitals.Utils;
-import gov.va.vinci.vitals.ae.AnnotationFilter;
-import gov.va.vinci.vitals.ae.VitalsExtractorAnnotator;
+import gov.va.vinci.vitals.ae.*;
+import gov.va.vinci.vitals.types.*;
 import groovy.util.ConfigObject;
 
 import org.apache.commons.lang3.StringUtils;
@@ -104,6 +108,12 @@ public class Service {
 		    "gov.va.vinci.vitals.types.Pain_value",
 		    "gov.va.vinci.vitals.types.BMI_value"
 		};
+	}
+
+	public static class LearningVariables {
+		static String TYPE_FeatureVector = "gov.va.vinci.vitals.types.Hr_Vector";
+		static String TYPE_Prediction = "gov.va.vinci.vitals.types.Hr_Prediction";
+		static String Hr_SvmModelPath = PipelineVariables.RESOURCE_PATH + "hr_model.svm";
 	}
 
 	/**
@@ -272,7 +282,7 @@ public class Service {
 		            PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceUnit)
 		        .addParameterSetting(Param.MATCHED_PATTERN_FEATURE_NAME.getName(), false, false, "String",
 		            "pattern"));
-		
+
 		aggregate
 		    .addDelegate(new LeoAEDescriptor()
 		        .setName("TermAnnotator")
@@ -367,6 +377,27 @@ public class Service {
 			    .addTypeSystemDescription(types));
 		}
 
+		// FIXME: Add a feature vector AE - for all Hr_values
+
+		aggregate.addDelegate(new HrVectorAnnotator()
+		    .getLeoAEDescriptor()
+		    .addParameterSetting(HrVectorAnnotator.Param.INPUT_TYPE.getName(), false, true, "String",
+		        new String[] { Hr_value.class.getCanonicalName(), HRValue.class.getCanonicalName() })
+		    .addParameterSetting(HrVectorAnnotator.Param.OUTPUT_TYPE.getName(), false, false, "String",
+		        LearningVariables.TYPE_FeatureVector)
+		    .addParameterSetting(HrVectorAnnotator.Param.KEY_FEATURE_PARAM.getName(), false, false, "String",
+		        "keys")
+		    .addParameterSetting(HrVectorAnnotator.Param.VALUE_FEATURE_PARAM.getName(), false, false, "String",
+		        "values")
+		    .addTypeSystemDescription(types));
+
+		if (GeneralSettings.ENVIRONMENT.equalsIgnoreCase("predict")) {
+			aggregate.addDelegate(LearningAnnotator.getLeoAEDescriptor(
+			    SvmVectorTranslator.class.getCanonicalName(),
+			    LearningVariables.TYPE_Prediction, "srcFVFeature", "prediction",
+			    LearningVariables.TYPE_FeatureVector,
+			    "keys", "values", LearningVariables.Hr_SvmModelPath));
+		}
 		return aggregate;
 	}
 
@@ -429,6 +460,20 @@ public class Service {
 
 		types.addType(PipelineVariables.TYPE_RELATION, "", PipelineVariables.PatternType);
 		types.addType(PipelineVariables.TYPE_RELATION_TIMESTAMP, "", PipelineVariables.PatternType);
+
+		types.addType(TypeDescriptionBuilder
+		    .create(LearningVariables.TYPE_FeatureVector, "Type used to store the fearures and values",
+		        "uima.tcas.Annotation")
+		    .addFeature("keys", "", "uima.cas.StringArray")
+		    .addFeature("values", "", "uima.cas.StringArray")
+		    .addFeature("context", "", "uima.tcas.Annotation")
+		    .getTypeDescription());
+
+		types.addType(TypeDescriptionBuilder
+		    .create(LearningVariables.TYPE_Prediction, "Type used to output predictions", "uima.tcas.Annotation")
+		    .addFeature("srcFVFeature", "", "uima.cas.String")
+		    .addFeature("prediction", "", "uima.cas.String")
+		    .getTypeDescription());
 
 		/* Additional annotations for specific values */
 
