@@ -45,7 +45,7 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 	}
 
 	public static java.util.regex.Pattern sectionEndPattern = java.util.regex.Pattern.compile(
-	    "\\blabs\\b|\\blab\\b|\\bplan\\b|LABORATORY|allerg|medication|history|\\bA/P:",
+	    "\\blabs\\b|\\blab\\b|\\bplan\\b|LABORATORY|allerg|medication|history|\\bA/P:|chemistry",
 	    java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
 
 	public static java.util.regex.Pattern bpPattern = java.util.regex.Pattern.compile(
