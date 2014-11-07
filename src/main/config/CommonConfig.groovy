@@ -7,6 +7,9 @@
 processingOnVinci = true
 serviceQueueName = "VitalsForSepsis"
 
+// SVM model
+svmModelPath="src/main/resources/hr_model_500_2.svm"
+
 casPoolSize=10
 
 /**************************************************************/
@@ -20,6 +23,8 @@ else {
 	brokerUrl = "tcp://localhost:61616"
 	jamURL = "http://localhost:8080/jam"
 }
+
+
 
 
 

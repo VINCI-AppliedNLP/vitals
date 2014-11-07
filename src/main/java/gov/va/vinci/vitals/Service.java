@@ -68,7 +68,6 @@ public class Service {
 
 		static String TYPE_TERM = "gov.va.vinci.vitals.types.Term";
 		static String resourceTerm = "concepts.groovy";
-
 		static {
 			regexResourceToType.put("indicator.regex", "gov.va.vinci.vitals.types.Indicator");
 			regexResourceToType.put("date.regex", "gov.va.vinci.vitals.types.Timestamp");
@@ -113,7 +112,7 @@ public class Service {
 	public static class LearningVariables {
 		static String TYPE_FeatureVector = "gov.va.vinci.vitals.types.Hr_Vector";
 		static String TYPE_Prediction = "gov.va.vinci.vitals.types.Hr_Prediction";
-		static String Hr_SvmModelPath = PipelineVariables.RESOURCE_PATH + "hr_model.svm";
+		static String Hr_SvmModelPath = PipelineVariables.RESOURCE_PATH + "/hr_model.svm";
 	}
 
 	/**
@@ -212,9 +211,11 @@ public class Service {
 		} catch (Exception e) {
 			log.warn("No features were added to the types!");
 		}
-		// Deploy the Service
+		 
 		loadTypeMap(typeList, featureList);
-
+		if (config.get("svmModelPath") != null) {
+			LearningVariables.Hr_SvmModelPath = (String) config.get("svmModelPath");
+		}
 	}
 
 	/**
@@ -373,6 +374,7 @@ public class Service {
 		for (String a : PipelineVariables.valueTypes) {
 			aggregate.addDelegate(new AnnotationFilter()
 			    .getLeoAEDescriptor()
+			    .setName("AnnotationFilter")
 			    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { a })
 			    .addTypeSystemDescription(types));
 		}
@@ -381,6 +383,7 @@ public class Service {
 
 		aggregate.addDelegate(new HrVectorAnnotator()
 		    .getLeoAEDescriptor()
+		    .setName("HrVectorAnnotator")
 		    .addParameterSetting(HrVectorAnnotator.Param.INPUT_TYPE.getName(), false, true, "String",
 		        new String[] { Hr_value.class.getCanonicalName(), HRValue.class.getCanonicalName() })
 		    .addParameterSetting(HrVectorAnnotator.Param.OUTPUT_TYPE.getName(), false, false, "String",
@@ -396,7 +399,12 @@ public class Service {
 			    SvmVectorTranslator.class.getCanonicalName(),
 			    LearningVariables.TYPE_Prediction, "srcFVFeature", "prediction",
 			    LearningVariables.TYPE_FeatureVector,
-			    "keys", "values", LearningVariables.Hr_SvmModelPath));
+			    "keys", "values", LearningVariables.Hr_SvmModelPath).addTypeSystemDescription(types));
+			;
+
+			aggregate.addDelegate(new FilterHeartRateAnnotator().getLeoAEDescriptor()
+			    .setName("FilterHeartRateAnnotator")
+			    .addTypeSystemDescription(types));
 		}
 		return aggregate;
 	}
@@ -471,7 +479,7 @@ public class Service {
 
 		types.addType(TypeDescriptionBuilder
 		    .create(LearningVariables.TYPE_Prediction, "Type used to output predictions", "uima.tcas.Annotation")
-		    .addFeature("srcFVFeature", "", "uima.cas.String")
+		    .addFeature("srcFVFeature", "Feature vector annotation", "uima.tcas.Annotation")
 		    .addFeature("prediction", "", "uima.cas.String")
 		    .getTypeDescription());
 

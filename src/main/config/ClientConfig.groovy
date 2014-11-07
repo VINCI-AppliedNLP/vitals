@@ -4,7 +4,7 @@ readerType = "knowtator"
 
 // Listener types is one or more of the following
 // simpleCsv|simplexmi|csv|xmi|aucompare|compare|database|chex
-listenerTypes = "aucompare"
+listenerTypes = "xmi"
 
 ///////////////////////////////////////////////////////////////////////////////
 sqlDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
@@ -96,6 +96,8 @@ outTableName="[nlp].[output_NLP_VitalsCorpus_v3]"
 
 
 
+
+
 //  listener
 dbSchema = "dflt" // unless you create your own schema, "dflt" should be used
 outBatchSize= 1000
@@ -170,6 +172,11 @@ environments {
 		readerType = "database"
 		listenerTypes = "chex"
 		envType = "chex"
+	}
+	training{
+		readerType = "knowtator"
+		listenerTypes = "training"
+		envType = "training"
 	}
 }
 

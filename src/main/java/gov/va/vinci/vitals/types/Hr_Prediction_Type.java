@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Wed Nov 05 19:07:02 CST 2014 */
+/* First created by JCasGen Thu Nov 06 14:24:22 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** Type used to output predictions
- * Updated by JCasGen Wed Nov 05 19:07:02 CST 2014
+ * Updated by JCasGen Thu Nov 06 14:24:22 CST 2014
  * @generated */
 public class Hr_Prediction_Type extends Annotation_Type {
   /** @generated 
@@ -54,19 +54,19 @@ public class Hr_Prediction_Type extends Annotation_Type {
    * @param addr low level Feature Structure reference
    * @return the feature value 
    */ 
-  public String getSrcFVFeature(int addr) {
+  public int getSrcFVFeature(int addr) {
         if (featOkTst && casFeat_srcFVFeature == null)
       jcas.throwFeatMissing("srcFVFeature", "gov.va.vinci.vitals.types.Hr_Prediction");
-    return ll_cas.ll_getStringValue(addr, casFeatCode_srcFVFeature);
+    return ll_cas.ll_getRefValue(addr, casFeatCode_srcFVFeature);
   }
   /** @generated
    * @param addr low level Feature Structure reference
    * @param v value to set 
    */    
-  public void setSrcFVFeature(int addr, String v) {
+  public void setSrcFVFeature(int addr, int v) {
         if (featOkTst && casFeat_srcFVFeature == null)
       jcas.throwFeatMissing("srcFVFeature", "gov.va.vinci.vitals.types.Hr_Prediction");
-    ll_cas.ll_setStringValue(addr, casFeatCode_srcFVFeature, v);}
+    ll_cas.ll_setRefValue(addr, casFeatCode_srcFVFeature, v);}
     
   
  
@@ -106,7 +106,7 @@ public class Hr_Prediction_Type extends Annotation_Type {
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
  
-    casFeat_srcFVFeature = jcas.getRequiredFeatureDE(casType, "srcFVFeature", "uima.cas.String", featOkTst);
+    casFeat_srcFVFeature = jcas.getRequiredFeatureDE(casType, "srcFVFeature", "uima.tcas.Annotation", featOkTst);
     casFeatCode_srcFVFeature  = (null == casFeat_srcFVFeature) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_srcFVFeature).getCode();
 
  

@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Wed Nov 05 19:07:02 CST 2014 */
+/* First created by JCasGen Thu Nov 06 14:24:22 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** Type used to output predictions
- * Updated by JCasGen Wed Nov 05 19:07:02 CST 2014
- * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_048c6248-2b53-4010-92c2-0661ad2d89595383182291980440741.xml
+ * Updated by JCasGen Thu Nov 06 14:24:22 CST 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_947bb20e-523c-44a3-b9c0-5f44a2fac4524456720835600867553.xml
  * @generated */
 public class Hr_Prediction extends Annotation {
   /** @generated
@@ -79,23 +79,23 @@ public class Hr_Prediction extends Annotation {
   //*--------------*
   //* Feature: srcFVFeature
 
-  /** getter for srcFVFeature - gets 
+  /** getter for srcFVFeature - gets Feature vector annotation
    * @generated
    * @return value of the feature 
    */
-  public String getSrcFVFeature() {
+  public Annotation getSrcFVFeature() {
     if (Hr_Prediction_Type.featOkTst && ((Hr_Prediction_Type)jcasType).casFeat_srcFVFeature == null)
       jcasType.jcas.throwFeatMissing("srcFVFeature", "gov.va.vinci.vitals.types.Hr_Prediction");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Hr_Prediction_Type)jcasType).casFeatCode_srcFVFeature);}
+    return (Annotation)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Hr_Prediction_Type)jcasType).casFeatCode_srcFVFeature)));}
     
-  /** setter for srcFVFeature - sets  
+  /** setter for srcFVFeature - sets Feature vector annotation 
    * @generated
    * @param v value to set into the feature 
    */
-  public void setSrcFVFeature(String v) {
+  public void setSrcFVFeature(Annotation v) {
     if (Hr_Prediction_Type.featOkTst && ((Hr_Prediction_Type)jcasType).casFeat_srcFVFeature == null)
       jcasType.jcas.throwFeatMissing("srcFVFeature", "gov.va.vinci.vitals.types.Hr_Prediction");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Hr_Prediction_Type)jcasType).casFeatCode_srcFVFeature, v);}    
+    jcasType.ll_cas.ll_setRefValue(addr, ((Hr_Prediction_Type)jcasType).casFeatCode_srcFVFeature, jcasType.ll_cas.ll_getFSRef(v));}    
    
     
   //*--------------*

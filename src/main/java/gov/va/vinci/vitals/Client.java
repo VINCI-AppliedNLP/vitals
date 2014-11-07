@@ -16,6 +16,7 @@ import gov.va.vinci.leo.model.DatabaseConnectionInformation;
 import gov.va.vinci.leo.tools.LeoUtils;
 import gov.va.vinci.leo.tools.TextFilter;
 import gov.va.vinci.svmlib.ml.SvmVectorTranslator;
+import gov.va.vinci.vitals.Service.LearningVariables;
 import gov.va.vinci.vitals.listeners.*;
 import gov.va.vinci.vitals.types.*;
 import groovy.util.ConfigObject;
@@ -80,7 +81,7 @@ public class Client {
 
 		static boolean useTrainingListener = false;
 		static String hrValidationMap;
-		static String hrSvmModelPath;
+		static String hrSvmModelPath = "src/resources/hr_model.svm";
 
 	}
 
@@ -351,15 +352,12 @@ public class Client {
 
 					ListenerVariables.useTrainingListener = true;
 					ListenerVariables.hrValidationMap = (String) config.get("client.listener.learning.rValidationMap");
-					ListenerVariables.hrSvmModelPath = (String) config
-					    .get("client.listener.learning.relativeSvmModelPath");
-					learningListener = new HrLearningListener(
-					    Service.LearningVariables.TYPE_FeatureVector,
-					    "context",
-					    "prediction",
-					    "keys",
-					    "values", ListenerVariables.hrValidationMap, true,
-					    Service.LearningVariables.TYPE_Prediction);
+					if (config.get("svmModelPath") != null) {
+						ListenerVariables.hrSvmModelPath = (String) config.get("svmModelPath");
+					}
+
+					learningListener = new HrLearningListener("{\"other\":\"0.0\",\"hr\":\"1.0\"}", true, new String[] {
+					    Hr_Vector.class.getCanonicalName() });
 					listenerList.add(learningListener);
 				}
 			}

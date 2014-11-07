@@ -95,7 +95,11 @@ configuration {
 		concept_feature_value = "Heart_Rate" }
 
 	"Height" {
-		expressions = ['\\bht\\b', '\\bHt +in *(\\()?cm(\\))?', '\\bheight\\b']
+		expressions = [
+			'\\bht\\b', 
+			'\\bHt +in *(\\()?cm(\\))?',
+			'Ht *in *\\( *cm *\\)',
+			'\\bheight\\b']
 		concept_feature_value = "Height" }
 
 	"Pain" {
@@ -129,6 +133,7 @@ configuration {
 			'O2 *SATS',
 			'SpO2',
 			'PO2 *\\(L/Min\\)\\(%\\)',
+			'POx *\\( *L */ *Min *\\) *\\( *% *\\)',
 			'PULSE OXIMETRY RESULTS',
 			'PULSE\\s+OXIMETRY\\s+\\(MOST RECENT IN LAST YEAR\\)',
 			'PULSE OXIMETRY',
@@ -140,7 +145,8 @@ configuration {
 		concept_feature_value = "SO2" }
 
 	"Weight" {
-		expressions = ['\\bWeight', '\\bwt\\b', '\\bw\\b', '\\bw(?<=\\d{2,3}\\b)']
+		expressions = ['\\bWeight', '\\bwt\\b', '\\bw\\b', '\\bw(?<=\\d{2,3}\\b)',
+			'Wt *lbs *\\(kg\\)']
 		concept_feature_value = "Weight" }
 
 	"Age" {
