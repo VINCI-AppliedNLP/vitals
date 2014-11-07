@@ -99,6 +99,8 @@ public class Service {
 		static String[] valueTypes = new String[] {
 		    "gov.va.vinci.vitals.types.Hr_value",
 		    "gov.va.vinci.vitals.types.Bp_value",
+		    "gov.va.vinci.vitals.types.Bp_Systolic_value",
+		    "gov.va.vinci.vitals.types.Bp_Diastolic_value",
 		    "gov.va.vinci.vitals.types.T_value",
 		    "gov.va.vinci.vitals.types.Weight_value",
 		    "gov.va.vinci.vitals.types.Height_value",
@@ -211,7 +213,7 @@ public class Service {
 		} catch (Exception e) {
 			log.warn("No features were added to the types!");
 		}
-		 
+
 		loadTypeMap(typeList, featureList);
 		if (config.get("svmModelPath") != null) {
 			LearningVariables.Hr_SvmModelPath = (String) config.get("svmModelPath");

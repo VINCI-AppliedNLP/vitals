@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Thu Nov 06 14:24:23 CST 2014 */
+/* First created by JCasGen Fri Nov 07 14:26:24 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -10,8 +10,8 @@ import org.apache.uima.jcas.cas.TOP_Type;
 
 
 /** 
- * Updated by JCasGen Thu Nov 06 14:24:23 CST 2014
- * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_947bb20e-523c-44a3-b9c0-5f44a2fac4524456720835600867553.xml
+ * Updated by JCasGen Fri Nov 07 14:26:24 CST 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_8930b8b0-96bf-41aa-b7b5-cce3ac3ffcba7639834250728076426.xml
  * @generated */
 public class SO2_value extends OutputValue {
   /** @generated

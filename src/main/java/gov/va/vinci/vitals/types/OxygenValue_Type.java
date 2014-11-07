@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Thu Nov 06 14:24:22 CST 2014 */
+/* First created by JCasGen Fri Nov 07 14:26:24 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -12,7 +12,7 @@ import org.apache.uima.cas.Type;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Thu Nov 06 14:24:22 CST 2014
+ * Updated by JCasGen Fri Nov 07 14:26:24 CST 2014
  * @generated */
 public class OxygenValue_Type extends Annotation_Type {
   /** @generated 

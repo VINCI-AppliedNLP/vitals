@@ -34,6 +34,8 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 	public static enum vitalTypes {
 		Blood_Pressure, //1
 		Heart_Rate,     //2
+		Systolic,
+		Diastolic,
 		Temperature,    //3
 		Height,         //4
 		Weight,         //5
@@ -466,6 +468,10 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 			/**/
 			return false;
 
+		}
+		Matcher measureMatcher = bpPattern.matcher(text);
+		if (measureMatcher.find()) {
+		return false;
 		}
 
 		Matcher digitMatcher = singleNumber.matcher(text);
