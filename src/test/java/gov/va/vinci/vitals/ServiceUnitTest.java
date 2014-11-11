@@ -4,7 +4,6 @@ import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.leo.types.CSI;
-import gov.va.vinci.vitals.Service.GeneralSettings;
 import gov.va.vinci.vitals.listeners.ListenerLogic;
 import gov.va.vinci.vitals.types.*;
 
@@ -43,9 +42,9 @@ public class ServiceUnitTest {
 
 	@Before
 	public void setup() throws Exception {
-		Service ds = new Service();
+		Service2 ds = new Service2();
 		// aggregate = ds.createPipeline(false);
-		Service.GeneralSettings.ENVIRONMENT = "predict";
+		Service2.GeneralSettings.ENVIRONMENT = "updateTypes";
 		LeoTypeSystemDescription types = ds.createTypeSystem();
 		aggregate = ds.createPipeline(types);
 

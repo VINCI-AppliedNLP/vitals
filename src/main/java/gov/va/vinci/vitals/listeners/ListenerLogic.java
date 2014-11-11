@@ -1,4 +1,5 @@
 package gov.va.vinci.vitals.listeners;
+
 import gov.va.vinci.vitals.types.*;
 
 import java.util.ArrayList;
@@ -37,12 +38,13 @@ public class ListenerLogic {
 				HashMap<String, String> lineRow = new HashMap<String, String>();
 				Annotation a = (Annotation) iterator.next();
 
-				if (((OutputValue) a).getUnit() != null) {
-					lineRow.put("Unit", ((OutputValue) a).getUnit().getCoveredText().replaceAll("\\s+", " "));
+				if (((Output_Value) a).getUnit() != null) {
+					lineRow.put("Unit", ((Output_Value) a).getUnit().getCoveredText().replaceAll("\\s+", " "));
 					;
 				}
-				if (((OutputValue) a).getTimestamp() != null) {
-					lineRow.put("Timestamp", ((OutputValue) a).getTimestamp().getCoveredText().replaceAll("\\s+", " "));
+				if (((Output_Value) a).getTimestamp() != null) {
+					lineRow
+					    .put("Timestamp", ((Output_Value) a).getTimestamp().getCoveredText().replaceAll("\\s+", " "));
 				}
 
 				lineRow.put("VitalType", singleType);

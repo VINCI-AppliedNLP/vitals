@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Fri Nov 07 14:26:24 CST 2014 */
+/* First created by JCasGen Mon Nov 10 20:51:01 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -12,8 +12,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Fri Nov 07 14:26:24 CST 2014
- * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_8930b8b0-96bf-41aa-b7b5-cce3ac3ffcba7639834250728076426.xml
+ * Updated by JCasGen Mon Nov 10 20:51:01 CST 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_85b5dc32-c235-4807-a5db-675f218043d14024772527837021571.xml
  * @generated */
 public class Numeric extends RegularExpressionType {
   /** @generated
@@ -78,47 +78,113 @@ public class Numeric extends RegularExpressionType {
  
     
   //*--------------*
-  //* Feature: value1
+  //* Feature: comment
 
-  /** getter for value1 - gets 
+  /** getter for comment - gets 
    * @generated
    * @return value of the feature 
    */
-  public String getValue1() {
-    if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_value1 == null)
-      jcasType.jcas.throwFeatMissing("value1", "gov.va.vinci.vitals.types.Numeric");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Numeric_Type)jcasType).casFeatCode_value1);}
+  public String getComment() {
+    if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_comment == null)
+      jcasType.jcas.throwFeatMissing("comment", "gov.va.vinci.vitals.types.Numeric");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Numeric_Type)jcasType).casFeatCode_comment);}
     
-  /** setter for value1 - sets  
+  /** setter for comment - sets  
    * @generated
    * @param v value to set into the feature 
    */
-  public void setValue1(String v) {
-    if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_value1 == null)
-      jcasType.jcas.throwFeatMissing("value1", "gov.va.vinci.vitals.types.Numeric");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Numeric_Type)jcasType).casFeatCode_value1, v);}    
+  public void setComment(String v) {
+    if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_comment == null)
+      jcasType.jcas.throwFeatMissing("comment", "gov.va.vinci.vitals.types.Numeric");
+    jcasType.ll_cas.ll_setStringValue(addr, ((Numeric_Type)jcasType).casFeatCode_comment, v);}    
    
     
   //*--------------*
-  //* Feature: value2
+  //* Feature: value
 
-  /** getter for value2 - gets 
+  /** getter for value - gets 
    * @generated
    * @return value of the feature 
    */
-  public String getValue2() {
-    if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_value2 == null)
-      jcasType.jcas.throwFeatMissing("value2", "gov.va.vinci.vitals.types.Numeric");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Numeric_Type)jcasType).casFeatCode_value2);}
+  public double getValue() {
+    if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_value == null)
+      jcasType.jcas.throwFeatMissing("value", "gov.va.vinci.vitals.types.Numeric");
+    return jcasType.ll_cas.ll_getDoubleValue(addr, ((Numeric_Type)jcasType).casFeatCode_value);}
     
-  /** setter for value2 - sets  
+  /** setter for value - sets  
    * @generated
    * @param v value to set into the feature 
    */
-  public void setValue2(String v) {
-    if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_value2 == null)
-      jcasType.jcas.throwFeatMissing("value2", "gov.va.vinci.vitals.types.Numeric");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Numeric_Type)jcasType).casFeatCode_value2, v);}    
+  public void setValue(double v) {
+    if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_value == null)
+      jcasType.jcas.throwFeatMissing("value", "gov.va.vinci.vitals.types.Numeric");
+    jcasType.ll_cas.ll_setDoubleValue(addr, ((Numeric_Type)jcasType).casFeatCode_value, v);}    
+   
+    
+  //*--------------*
+  //* Feature: decimal
+
+  /** getter for decimal - gets 
+   * @generated
+   * @return value of the feature 
+   */
+  public boolean getDecimal() {
+    if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_decimal == null)
+      jcasType.jcas.throwFeatMissing("decimal", "gov.va.vinci.vitals.types.Numeric");
+    return jcasType.ll_cas.ll_getBooleanValue(addr, ((Numeric_Type)jcasType).casFeatCode_decimal);}
+    
+  /** setter for decimal - sets  
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setDecimal(boolean v) {
+    if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_decimal == null)
+      jcasType.jcas.throwFeatMissing("decimal", "gov.va.vinci.vitals.types.Numeric");
+    jcasType.ll_cas.ll_setBooleanValue(addr, ((Numeric_Type)jcasType).casFeatCode_decimal, v);}    
+   
+    
+  //*--------------*
+  //* Feature: integer
+
+  /** getter for integer - gets 
+   * @generated
+   * @return value of the feature 
+   */
+  public boolean getInteger() {
+    if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_integer == null)
+      jcasType.jcas.throwFeatMissing("integer", "gov.va.vinci.vitals.types.Numeric");
+    return jcasType.ll_cas.ll_getBooleanValue(addr, ((Numeric_Type)jcasType).casFeatCode_integer);}
+    
+  /** setter for integer - sets  
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setInteger(boolean v) {
+    if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_integer == null)
+      jcasType.jcas.throwFeatMissing("integer", "gov.va.vinci.vitals.types.Numeric");
+    jcasType.ll_cas.ll_setBooleanValue(addr, ((Numeric_Type)jcasType).casFeatCode_integer, v);}    
+   
+    
+  //*--------------*
+  //* Feature: zero_decimal
+
+  /** getter for zero_decimal - gets 
+   * @generated
+   * @return value of the feature 
+   */
+  public boolean getZero_decimal() {
+    if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_zero_decimal == null)
+      jcasType.jcas.throwFeatMissing("zero_decimal", "gov.va.vinci.vitals.types.Numeric");
+    return jcasType.ll_cas.ll_getBooleanValue(addr, ((Numeric_Type)jcasType).casFeatCode_zero_decimal);}
+    
+  /** setter for zero_decimal - sets  
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setZero_decimal(boolean v) {
+    if (Numeric_Type.featOkTst && ((Numeric_Type)jcasType).casFeat_zero_decimal == null)
+      jcasType.jcas.throwFeatMissing("zero_decimal", "gov.va.vinci.vitals.types.Numeric");
+    jcasType.ll_cas.ll_setBooleanValue(addr, ((Numeric_Type)jcasType).casFeatCode_zero_decimal, v);}    
    
     
   //*--------------*

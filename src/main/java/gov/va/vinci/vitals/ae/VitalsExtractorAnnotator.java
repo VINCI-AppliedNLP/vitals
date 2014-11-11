@@ -9,7 +9,6 @@ import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.leo.tools.LeoUtils;
 import gov.va.vinci.vitals.types.*;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -641,7 +640,7 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 					newAnn.setUnit(curNum.getUnit());
 					newAnn.setTimestamp(curNum.getTimestamp());
 				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.SO2.name())) {
-					SO2_value newAnn = (SO2_value) this.addOutputAnnotation(SO2_value.class.getCanonicalName(), aJCas,
+					So2_value newAnn = (So2_value) this.addOutputAnnotation(So2_value.class.getCanonicalName(), aJCas,
 					    curNum.getBegin(), curNum.getEnd());
 					newAnn.setSource(curNum.getSource());
 					newAnn.setUnit(curNum.getUnit());

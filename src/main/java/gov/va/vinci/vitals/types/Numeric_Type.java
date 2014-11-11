@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Fri Nov 07 14:26:24 CST 2014 */
+/* First created by JCasGen Mon Nov 10 20:51:01 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import gov.va.vinci.leo.regex.types.RegularExpressionType_Type;
 
 /** 
- * Updated by JCasGen Fri Nov 07 14:26:24 CST 2014
+ * Updated by JCasGen Mon Nov 10 20:51:01 CST 2014
  * @generated */
 public class Numeric_Type extends RegularExpressionType_Type {
   /** @generated 
@@ -47,50 +47,122 @@ public class Numeric_Type extends RegularExpressionType_Type {
   public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.vitals.types.Numeric");
  
   /** @generated */
-  final Feature casFeat_value1;
+  final Feature casFeat_comment;
   /** @generated */
-  final int     casFeatCode_value1;
+  final int     casFeatCode_comment;
   /** @generated
    * @param addr low level Feature Structure reference
    * @return the feature value 
    */ 
-  public String getValue1(int addr) {
-        if (featOkTst && casFeat_value1 == null)
-      jcas.throwFeatMissing("value1", "gov.va.vinci.vitals.types.Numeric");
-    return ll_cas.ll_getStringValue(addr, casFeatCode_value1);
+  public String getComment(int addr) {
+        if (featOkTst && casFeat_comment == null)
+      jcas.throwFeatMissing("comment", "gov.va.vinci.vitals.types.Numeric");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_comment);
   }
   /** @generated
    * @param addr low level Feature Structure reference
    * @param v value to set 
    */    
-  public void setValue1(int addr, String v) {
-        if (featOkTst && casFeat_value1 == null)
-      jcas.throwFeatMissing("value1", "gov.va.vinci.vitals.types.Numeric");
-    ll_cas.ll_setStringValue(addr, casFeatCode_value1, v);}
+  public void setComment(int addr, String v) {
+        if (featOkTst && casFeat_comment == null)
+      jcas.throwFeatMissing("comment", "gov.va.vinci.vitals.types.Numeric");
+    ll_cas.ll_setStringValue(addr, casFeatCode_comment, v);}
     
   
  
   /** @generated */
-  final Feature casFeat_value2;
+  final Feature casFeat_value;
   /** @generated */
-  final int     casFeatCode_value2;
+  final int     casFeatCode_value;
   /** @generated
    * @param addr low level Feature Structure reference
    * @return the feature value 
    */ 
-  public String getValue2(int addr) {
-        if (featOkTst && casFeat_value2 == null)
-      jcas.throwFeatMissing("value2", "gov.va.vinci.vitals.types.Numeric");
-    return ll_cas.ll_getStringValue(addr, casFeatCode_value2);
+  public double getValue(int addr) {
+        if (featOkTst && casFeat_value == null)
+      jcas.throwFeatMissing("value", "gov.va.vinci.vitals.types.Numeric");
+    return ll_cas.ll_getDoubleValue(addr, casFeatCode_value);
   }
   /** @generated
    * @param addr low level Feature Structure reference
    * @param v value to set 
    */    
-  public void setValue2(int addr, String v) {
-        if (featOkTst && casFeat_value2 == null)
-      jcas.throwFeatMissing("value2", "gov.va.vinci.vitals.types.Numeric");
-    ll_cas.ll_setStringValue(addr, casFeatCode_value2, v);}
+  public void setValue(int addr, double v) {
+        if (featOkTst && casFeat_value == null)
+      jcas.throwFeatMissing("value", "gov.va.vinci.vitals.types.Numeric");
+    ll_cas.ll_setDoubleValue(addr, casFeatCode_value, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_decimal;
+  /** @generated */
+  final int     casFeatCode_decimal;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public boolean getDecimal(int addr) {
+        if (featOkTst && casFeat_decimal == null)
+      jcas.throwFeatMissing("decimal", "gov.va.vinci.vitals.types.Numeric");
+    return ll_cas.ll_getBooleanValue(addr, casFeatCode_decimal);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setDecimal(int addr, boolean v) {
+        if (featOkTst && casFeat_decimal == null)
+      jcas.throwFeatMissing("decimal", "gov.va.vinci.vitals.types.Numeric");
+    ll_cas.ll_setBooleanValue(addr, casFeatCode_decimal, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_integer;
+  /** @generated */
+  final int     casFeatCode_integer;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public boolean getInteger(int addr) {
+        if (featOkTst && casFeat_integer == null)
+      jcas.throwFeatMissing("integer", "gov.va.vinci.vitals.types.Numeric");
+    return ll_cas.ll_getBooleanValue(addr, casFeatCode_integer);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setInteger(int addr, boolean v) {
+        if (featOkTst && casFeat_integer == null)
+      jcas.throwFeatMissing("integer", "gov.va.vinci.vitals.types.Numeric");
+    ll_cas.ll_setBooleanValue(addr, casFeatCode_integer, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_zero_decimal;
+  /** @generated */
+  final int     casFeatCode_zero_decimal;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public boolean getZero_decimal(int addr) {
+        if (featOkTst && casFeat_zero_decimal == null)
+      jcas.throwFeatMissing("zero_decimal", "gov.va.vinci.vitals.types.Numeric");
+    return ll_cas.ll_getBooleanValue(addr, casFeatCode_zero_decimal);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setZero_decimal(int addr, boolean v) {
+        if (featOkTst && casFeat_zero_decimal == null)
+      jcas.throwFeatMissing("zero_decimal", "gov.va.vinci.vitals.types.Numeric");
+    ll_cas.ll_setBooleanValue(addr, casFeatCode_zero_decimal, v);}
     
   
  
@@ -178,12 +250,24 @@ public class Numeric_Type extends RegularExpressionType_Type {
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
  
-    casFeat_value1 = jcas.getRequiredFeatureDE(casType, "value1", "uima.cas.String", featOkTst);
-    casFeatCode_value1  = (null == casFeat_value1) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_value1).getCode();
+    casFeat_comment = jcas.getRequiredFeatureDE(casType, "comment", "uima.cas.String", featOkTst);
+    casFeatCode_comment  = (null == casFeat_comment) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_comment).getCode();
 
  
-    casFeat_value2 = jcas.getRequiredFeatureDE(casType, "value2", "uima.cas.String", featOkTst);
-    casFeatCode_value2  = (null == casFeat_value2) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_value2).getCode();
+    casFeat_value = jcas.getRequiredFeatureDE(casType, "value", "uima.cas.Double", featOkTst);
+    casFeatCode_value  = (null == casFeat_value) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_value).getCode();
+
+ 
+    casFeat_decimal = jcas.getRequiredFeatureDE(casType, "decimal", "uima.cas.Boolean", featOkTst);
+    casFeatCode_decimal  = (null == casFeat_decimal) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_decimal).getCode();
+
+ 
+    casFeat_integer = jcas.getRequiredFeatureDE(casType, "integer", "uima.cas.Boolean", featOkTst);
+    casFeatCode_integer  = (null == casFeat_integer) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_integer).getCode();
+
+ 
+    casFeat_zero_decimal = jcas.getRequiredFeatureDE(casType, "zero_decimal", "uima.cas.Boolean", featOkTst);
+    casFeatCode_zero_decimal  = (null == casFeat_zero_decimal) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_zero_decimal).getCode();
 
  
     casFeat_unit = jcas.getRequiredFeatureDE(casType, "unit", "uima.tcas.Annotation", featOkTst);

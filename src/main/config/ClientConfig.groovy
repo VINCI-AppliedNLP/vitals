@@ -137,16 +137,17 @@ chexBatchSize = 1000
 
 
 // AuCompare -- not setup yet
-auMap = ["gov.va.vinci.kttr.types.BPValue":"gov.va.vinci.vitals.types.Bp_value",
-	"gov.va.vinci.kttr.types.HRValue":"gov.va.vinci.vitals.types.Hr_value",
-	"gov.va.vinci.kttr.types.TValue":"gov.va.vinci.vitals.types.T_value",
-	"gov.va.vinci.vitals.types.BMIValue":"gov.va.vinci.vitals.types.BMI_value",
-	"gov.va.vinci.vitals.types.HeightValue":"gov.va.vinci.vitals.types.Height_value",,
-	"gov.va.vinci.vitals.types.WeightValue":"gov.va.vinci.vitals.types.Weight_value",
-	"gov.va.vinci.vitals.types.OxygenValue":"gov.va.vinci.vitals.types.SO2_value",
-	"gov.va.vinci.vitals.types.PainValue":"gov.va.vinci.vitals.types.Pain_value",
-	"gov.va.vinci.vitals.types.RespValue":"gov.va.vinci.vitals.types.Resp_value",
-	"gov.va.vinci.vitals.types.TimeValue":"gov.va.vinci.vitals.types.Timestamp" 
+auMap = [
+	"gov.va.vinci.kttr.types.BPValue"    :"gov.va.vinci.vitals.types.Bp_value",
+	"gov.va.vinci.kttr.types.HRValue"    :"gov.va.vinci.vitals.types.Hr_value",
+	"gov.va.vinci.kttr.types.TValue"     :"gov.va.vinci.vitals.types.T_value",
+	"gov.va.vinci.kttr.types.BMIValue"   :"gov.va.vinci.vitals.types.BMI_value",
+	"gov.va.vinci.kttr.types.HeightValue":"gov.va.vinci.vitals.types.Height_value",,
+	"gov.va.vinci.kttr.types.WeightValue":"gov.va.vinci.vitals.types.Weight_value",
+	"gov.va.vinci.kttr.types.OxygenValue":"gov.va.vinci.vitals.types.So2_value",
+	"gov.va.vinci.kttr.types.PainValue"  :"gov.va.vinci.vitals.types.Pain_value",
+	"gov.va.vinci.kttr.types.RespValue"  :"gov.va.vinci.vitals.types.Resp_value",
+	"gov.va.vinci.kttr.types.TimeValue"  :"gov.va.vinci.vitals.types.Timestamp" 
 	
 ]
 

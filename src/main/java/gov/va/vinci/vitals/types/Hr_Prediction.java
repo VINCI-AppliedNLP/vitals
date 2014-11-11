@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Fri Nov 07 14:26:24 CST 2014 */
+/* First created by JCasGen Mon Nov 10 20:51:00 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** Type used to output predictions
- * Updated by JCasGen Fri Nov 07 14:26:24 CST 2014
- * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_8930b8b0-96bf-41aa-b7b5-cce3ac3ffcba7639834250728076426.xml
+ * Updated by JCasGen Mon Nov 10 20:51:00 CST 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_85b5dc32-c235-4807-a5db-675f218043d14024772527837021571.xml
  * @generated */
 public class Hr_Prediction extends Annotation {
   /** @generated

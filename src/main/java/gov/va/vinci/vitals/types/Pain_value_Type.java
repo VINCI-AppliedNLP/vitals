@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Fri Nov 07 14:26:24 CST 2014 */
+/* First created by JCasGen Mon Nov 10 20:51:01 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -11,9 +11,9 @@ import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.cas.Type;
 
 /** 
- * Updated by JCasGen Fri Nov 07 14:26:24 CST 2014
+ * Updated by JCasGen Mon Nov 10 20:51:01 CST 2014
  * @generated */
-public class Pain_value_Type extends OutputValue_Type {
+public class Pain_value_Type extends Output_Value_Type {
   /** @generated 
    * @return the generator for this type
    */

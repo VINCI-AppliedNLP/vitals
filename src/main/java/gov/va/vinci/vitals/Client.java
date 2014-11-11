@@ -305,7 +305,7 @@ public class Client {
 					comparePairs.put(WeightValue.class.getCanonicalName(), Weight_value.class.getCanonicalName());
 					comparePairs.put(PainValue.class.getCanonicalName(), Pain_value.class.getCanonicalName());
 					comparePairs.put(RespValue.class.getCanonicalName(), Resp_value.class.getCanonicalName());
-					comparePairs.put(OxygenValue.class.getCanonicalName(), SO2_value.class.getCanonicalName());
+					comparePairs.put(OxygenValue.class.getCanonicalName(), So2_value.class.getCanonicalName());
 					comparePairs.put(TimeValue.class.getCanonicalName(), Timestamp.class.getCanonicalName());
 					/**/
 					if (!(new File(csvPath).getParentFile().exists()))

@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Fri Nov 07 14:26:24 CST 2014 */
+/* First created by JCasGen Mon Nov 10 20:51:00 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -9,12 +9,11 @@ import org.apache.uima.cas.impl.FSGenerator;
 import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.cas.Type;
-import gov.va.vinci.leo.regex.types.RegularExpressionType_Type;
 
 /** 
- * Updated by JCasGen Fri Nov 07 14:26:24 CST 2014
+ * Updated by JCasGen Mon Nov 10 20:51:00 CST 2014
  * @generated */
-public class Indicator_Type extends RegularExpressionType_Type {
+public class Indicator_Type extends Pattern_Type {
   /** @generated 
    * @return the generator for this type
    */

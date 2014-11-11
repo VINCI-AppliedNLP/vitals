@@ -41,13 +41,13 @@ knowtatorToUimaTypeMap = [
 	"temperature_term":"gov.va.vinci.kttr.types.TTerm",
 	"temperature_value":"gov.va.vinci.kttr.types.TValue",
 	"Document_reviewed":"gov.va.vinci.kttr.types.Other",
-	"bmi_value":"gov.va.vinci.vitals.types.BMIValue",
-	"height_value":"gov.va.vinci.vitals.types.HeightValue",
-	"weight_value":"gov.va.vinci.vitals.types.WeightValue",
-	"oxygen_value":"gov.va.vinci.vitals.types.OxygenValue",
-	"pain_value":"gov.va.vinci.vitals.types.PainValue",
-	"respiration_value":"gov.va.vinci.vitals.types.RespValue",
-	"time_value":"gov.va.vinci.vitals.types.TimeValue"
+	"bmi_value":"gov.va.vinci.kttr.types.BMIValue",
+	"height_value":"gov.va.vinci.kttr.types.HeightValue",
+	"weight_value":"gov.va.vinci.kttr.types.WeightValue",
+	"oxygen_value":"gov.va.vinci.kttr.types.OxygenValue",
+	"pain_value":"gov.va.vinci.kttr.types.PainValue",
+	"respiration_value":"gov.va.vinci.kttr.types.RespValue",
+	"time_value":"gov.va.vinci.kttr.types.TimeValue"
 	
 ]
 

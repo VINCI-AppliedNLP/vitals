@@ -3,9 +3,11 @@ name = "ConceptsAndTermsAnnotation"
 configuration {
 	/* All configuration for this annotator. */
 	defaults {
-		/* Global for all configrations below if a property specified here is not overridden in a section below. */
+		/* Global for all configurations below if a property specified here is not overridden in a section below. */
 		outputType = "gov.va.vinci.vitals.types.Term"
 		concept_feature_name = "concept"
+		matchedPatternFeatureName = "pattern"
+		groupFeatureName = "group"
 		case_sensitive = false }
 
 
@@ -17,12 +19,18 @@ configuration {
 			'\\bt\\b',
 			'\\bt(?=\\d)',
 			'\\btm\\b',
+			'\\btc\\b',
+			'\\btm/c\\b',
+			'\\btm and t?c\\b',
 			'\\btmax\\b',
 			'\\btcur\\b',
 			'\\bt *current\\b',
-			'\\bTemp +F *\\(C\\)'
+			'\\bTemp +F *\\(C\\)',
+			'febrile',
+			'\\bafeb\\b'
 		]
-		concept_feature_value = "Temperature" }
+		concept_feature_value = "Temperature"
+		outputType = "gov.va.vinci.vitals.types.T_Term" }
 	"Systolic"{
 		expressions = [
 			'bp *systolic',
@@ -30,9 +38,19 @@ configuration {
 			'systolic *bp',
 			'sytolic',
 			'\\bsys\\b',
-			'\\bsbp\\b'
-			]
-	}
+			'\\bsyst\\b',
+			'\\bsbp\\b',
+			'\\bbps\\b'
+		]
+		concept_feature_value = "Systolic" 
+		outputType = "gov.va.vinci.vitals.types.Bp_Systolic_Term"}
+
+	"Diastolic" {
+		expressions= ['(bp *)?diastolic( *bp)?', 'dias\\w*', '\\bdbp\\b']
+		concept_feature_value = "Diastolic" 
+		outputType = "gov.va.vinci.vitals.types.Bp_Diastolic_Term"}
+
+
 	"Blood_Pressure" {
 		expressions = [
 			'diastolic',
@@ -47,7 +65,7 @@ configuration {
 			'bp *lying',
 			'bp *range',
 			'bp *recheck',
-		//	'bp *standing',
+			//	'bp *standing',
 			'bp *today',
 			'lying *bp',
 			'manual *pressure',
@@ -58,17 +76,19 @@ configuration {
 			'sitting *blood *presure',
 			'sitting *bp',
 			'sitting p\\b',
-		//	'standing *blood *presures?\\b',
-		//	'standing(\\s*after\\s*\\d+\\sminutes?)?',
-		//  standing after 3 minutes
-		//	'lying\\b',
+			//	'standing *blood *presures?\\b',
+			//	'standing(\\s*after\\s*\\d+\\sminutes?)?',
+			//  standing after 3 minutes
+			//	'lying\\b',
 			'BP\\s+LEFT\\s+ARM\\s+SITTING'
 		]
-		concept_feature_value = "Blood_Pressure" }
+		concept_feature_value = "Blood_Pressure"
+		outputType = "gov.va.vinci.vitals.types.Bp_Term" }
 
 	"BMI" {
 		expressions = ['bmi', 'body\\s+mass\\s+index']
-		concept_feature_value = "BMI" }
+		concept_feature_value = "BMI"
+		outputType = "gov.va.vinci.vitals.types.Bmi_Term" }
 
 	"Heart_Rate" {
 		expressions = [
@@ -90,21 +110,29 @@ configuration {
 			'\\bp(?=\\d{2,3}\\b)',
 			'pulse\\s+(dropped|raised|went\\s+up)\\s+to',
 			'Ventricular\\s+Rate',
-			'afib'
+			'\\bAF\\b',
+			'\\ba(.){0,3}fib\\b',
+			'atrial fib\\w*\\b',
+			'\\bap\\b',,
+			'\\bat fib\\b'
 		]
-		concept_feature_value = "Heart_Rate" }
+		concept_feature_value = "Heart_Rate"
+		outputType = "gov.va.vinci.vitals.types.Hr_Term" }
 
 	"Height" {
 		expressions = [
-			'\\bht\\b', 
+			'\\bht\\b',
 			'\\bHt +in *(\\()?cm(\\))?',
 			'Ht *in *\\( *cm *\\)',
-			'\\bheight\\b']
-		concept_feature_value = "Height" }
+			'\\bheight\\b'
+		]
+		concept_feature_value = "Height"
+		outputType = "gov.va.vinci.vitals.types.Height_Term" }
 
 	"Pain" {
 		expressions = ['Pain', 'pain score', 'PAIN INTENSITY', 'LEVEL OF PAIN']
-		concept_feature_value = "Pain" }
+		concept_feature_value = "Pain"
+		outputType = "gov.va.vinci.vitals.types.Pain_Term" }
 
 	"Respiratory" {
 		expressions = [
@@ -119,7 +147,8 @@ configuration {
 			'respiratory\\s*rate',
 			'\\br(?=\\d{2,3}\\b)'
 		]
-		concept_feature_value = "Respiratory" }
+		concept_feature_value = "Respiratory" 
+		outputType = "gov.va.vinci.vitals.types.Resp_Term"}
 
 	"SO2" {
 		expressions = [
@@ -140,14 +169,22 @@ configuration {
 			'Pulse Ox\\w*\\b',
 			'\\bpox\\b',
 			'saturating',
-			'02sat'
+			'02sat',
+			'\\bsat\\w*ing'
 		]
-		concept_feature_value = "SO2" }
+		concept_feature_value = "SO2"
+		outputType = "gov.va.vinci.vitals.types.So2_Term" }
 
 	"Weight" {
-		expressions = ['\\bWeight', '\\bwt\\b', '\\bw\\b', '\\bw(?<=\\d{2,3}\\b)',
-			'Wt *lbs *\\(kg\\)']
-		concept_feature_value = "Weight" }
+		expressions = [
+			'\\bWeight',
+			'\\bwt\\b',
+			'\\bw\\b',
+			'\\bw(?<=\\d{2,3}\\b)',
+			'Wt *lbs *\\(kg\\)'
+		]
+		concept_feature_value = "Weight"
+		outputType = "gov.va.vinci.vitals.types.Weight_Term"}
 
 	"Age" {
 		expressions = ["\\bage\\b", "\\bdob\\b"]
