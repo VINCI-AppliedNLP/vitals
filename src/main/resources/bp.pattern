@@ -1,0 +1,4 @@
+<!anchor><gov.va.vinci.vitals.types.IntegerNumber/><!anchor/> {0,2}(/|over) {0,2}<!target><gov.va.vinci.vitals.types.IntegerNumber/><!target/>
+<!anchor><gov.va.vinci.vitals.types.IntegerNumber/><!anchor/>'s {0,2}(/|over) {0,2}<!target><gov.va.vinci.vitals.types.IntegerNumber/><!target/>'s
+<!anchor><gov.va.vinci.vitals.types.Range/><!anchor/> {0,2}(/|over) {0,2}<!target><gov.va.vinci.vitals.types.Range/><!target/>
+<!anchor><gov.va.vinci.vitals.types.Range/><!anchor/>'s {0,2}(/|over) {0,2}<!target><gov.va.vinci.vitals.types.Range/><!target/>'s
