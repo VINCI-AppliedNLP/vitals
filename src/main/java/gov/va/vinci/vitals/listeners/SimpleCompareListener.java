@@ -10,6 +10,7 @@ import gov.va.vinci.leo.listener.BaseCsvListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,11 +48,21 @@ public class SimpleCompareListener extends BaseCsvListener {
 	public void collectionProcessComplete(EntityProcessStatus aStatus) {
 		// TODO Auto-generated method stub
 		super.collectionProcessComplete(aStatus);
-		System.out.println("TP:" + tpCount_au);
-		System.out.println("TP:" + tpCount_sys);
-		System.out.println("FP:" + fpCount_sys);
-		System.out.println("FN:" + fnCount_au);
-		System.out.println("Totals:" + totalCount);
+		System.out.println("TP:	" + outputMap(tpCount_au));
+		System.out.println("TP:	" + outputMap(tpCount_sys));
+		System.out.println("FP:	" + outputMap(fpCount_sys));
+		System.out.println("FN:	" + outputMap(fnCount_au));
+		System.out.println("Totals: " + outputMap(totalCount));
+	}
+
+	public static String outputMap(HashMap<String, Integer> map) {
+		String line = "";
+		ArrayList<String> keys = new ArrayList<String>(map.keySet());
+		Collections.sort(keys);
+		for (String k : keys) {
+			line = line + "," + k.replaceAll("gov.va.vinci.kttr.types.", "").replaceAll("gov.va.vinci.vitals.types.", "") + "," + map.get(k);
+		}
+		return line;
 	}
 
 	public static String[] outTP(Annotation a, String referenceID, String type) {
@@ -98,10 +109,11 @@ public class SimpleCompareListener extends BaseCsvListener {
 		ArrayList<String[]> rows = new ArrayList<String[]>();
 		for (String auType : auSysMap.keySet()) {
 			String toolType = auSysMap.get(auType);
-			
+
 			try {
-				ArrayList<Annotation> auAnns = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(	    cas.getJCas(), auType);
-				ArrayList<Annotation> toolAnns = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(				    cas.getJCas(), toolType);
+				ArrayList<Annotation> auAnns = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(cas.getJCas(), auType);
+				ArrayList<Annotation> toolAnns = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(cas.getJCas(),
+				    toolType);
 				if (auAnns.size() == 0 && toolAnns.size() == 0) {
 					continue;
 				}

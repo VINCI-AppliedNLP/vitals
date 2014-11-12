@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Mon Nov 10 20:51:00 CST 2014 */
+/* First created by JCasGen Wed Nov 12 17:09:40 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -11,7 +11,7 @@ import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.cas.Type;
 
 /** 
- * Updated by JCasGen Mon Nov 10 20:51:00 CST 2014
+ * Updated by JCasGen Wed Nov 12 17:09:40 CST 2014
  * @generated */
 public class Bp_Diastolic_Term_Type extends Term_Type {
   /** @generated 

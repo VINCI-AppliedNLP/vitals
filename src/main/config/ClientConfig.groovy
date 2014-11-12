@@ -4,7 +4,7 @@ readerType = "knowtator"
 
 // Listener types is one or more of the following
 // simpleCsv|simplexmi|csv|xmi|aucompare|compare|database|chex
-listenerTypes = "xmi"
+listenerTypes = "compare"
 
 ///////////////////////////////////////////////////////////////////////////////
 sqlDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"

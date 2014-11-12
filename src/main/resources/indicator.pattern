@@ -2,6 +2,9 @@
 vital signs
 \bvitals
 \bvs\b
+\bv/s\b
+\bv\. *s\.
+\bv\. *s\b
 \n *\bo\b
 \n *\bpe\b
 \bphysical exam
@@ -29,7 +32,7 @@ vital signs
 \bblood pressure taken at this visit
 \bbp check
 \bcurrent vitals
-\n *\bi/o\b
+#\n *\bi/o\b
 \blatest vitals
 \bnormal physical exam findings include
 \n *\bo:

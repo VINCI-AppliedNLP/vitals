@@ -42,12 +42,12 @@ configuration {
 			'\\bsbp\\b',
 			'\\bbps\\b'
 		]
-		concept_feature_value = "Systolic" 
+		concept_feature_value = "Systolic"
 		outputType = "gov.va.vinci.vitals.types.Bp_Systolic_Term"}
 
 	"Diastolic" {
 		expressions= ['(bp *)?diastolic( *bp)?', 'dias\\w*', '\\bdbp\\b']
-		concept_feature_value = "Diastolic" 
+		concept_feature_value = "Diastolic"
 		outputType = "gov.va.vinci.vitals.types.Bp_Diastolic_Term"}
 
 
@@ -80,7 +80,8 @@ configuration {
 			//	'standing(\\s*after\\s*\\d+\\sminutes?)?',
 			//  standing after 3 minutes
 			//	'lying\\b',
-			'BP\\s+LEFT\\s+ARM\\s+SITTING'
+			'BP\\s+LEFT\\s+ARM\\s+SITTING',
+			'\\bb\\.p\\.'
 		]
 		concept_feature_value = "Blood_Pressure"
 		outputType = "gov.va.vinci.vitals.types.Bp_Term" }
@@ -130,7 +131,7 @@ configuration {
 		outputType = "gov.va.vinci.vitals.types.Height_Term" }
 
 	"Pain" {
-		expressions = ['Pain', 'pain score', 'PAIN INTENSITY', 'LEVEL OF PAIN']
+		expressions = ['Pain', 'pain score', 'PAIN INTENSITY', 'LEVEL OF PAIN', 'severity']
 		concept_feature_value = "Pain"
 		outputType = "gov.va.vinci.vitals.types.Pain_Term" }
 
@@ -147,7 +148,7 @@ configuration {
 			'respiratory\\s*rate',
 			'\\br(?=\\d{2,3}\\b)'
 		]
-		concept_feature_value = "Respiratory" 
+		concept_feature_value = "Respiratory"
 		outputType = "gov.va.vinci.vitals.types.Resp_Term"}
 
 	"SO2" {
@@ -169,7 +170,8 @@ configuration {
 			'Pulse Ox\\w*\\b',
 			'\\bpox\\b',
 			'saturating',
-			'02sat',
+			'02 *sats?',
+			'o2 *sats?',
 			'\\bsat\\w*ing'
 		]
 		concept_feature_value = "SO2"
@@ -188,4 +190,38 @@ configuration {
 
 	"Age" {
 		expressions = ["\\bage\\b", "\\bdob\\b"]
-		concept_feature_value = "Age" } }
+		concept_feature_value = "Age"
+		outputType = "gov.va.vinci.vitals.types.Age_Term"}
+
+	"NotVS" {
+		expressions = [
+			"\\ba.c *r\\b",
+			"\\babp\\b",
+			"wbc",
+			"simv(\\s*rate)?",
+			"VENTILATOR\\s*rate" ,
+			"\\bap\\b",
+			"\\balt\\b",
+			"\\bast\\b",
+			"\\bglucose\\b",
+			"\\blipase\\b",
+			"\\baf\\b",
+			"\\buo\\b",
+			"\\bi/o\\b",
+			"cvp\\b",
+			"\\bCl\\b",
+			"\\bCO2\\b",
+			"\\bBUN\\b",
+			"\\bCr\\b",
+			"\\bGlu\\b",
+			"ZINC\\s*OXIDE",
+			"labs\\b",
+			"\\bA/P\\b",
+			"\\bS/P\\b",
+			"\\bml/hr\\b",
+			"\\bunits/hr"
+			
+			
+		]
+		concept_feature_value = "NotIt_Term"
+		outputType = "gov.va.vinci.vitals.types.NotIt_Term" } }

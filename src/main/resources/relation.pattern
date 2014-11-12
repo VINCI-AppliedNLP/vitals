@@ -24,4 +24,5 @@
 \n<gov.va.vinci.vitals.types.Timestamp/> +<gov.va.vinci.vitals.types.Numeric/> +<gov.va.vinci.vitals.types.Numeric/> +<gov.va.vinci.vitals.types.Numeric/> +<!target><gov.va.vinci.vitals.types.Numeric/><!target/>
 
 
-#<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.|of|=)\s*)?<!target><gov.va.vinci.vitals.types.Range/><!target/>
+<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.|of|=)\s*)?<!target><gov.va.vinci.vitals.types.Range/><!target/>
+<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.|of|=)\s*)?<!target><gov.va.vinci.vitals.types.PotentialBp/><!target/>

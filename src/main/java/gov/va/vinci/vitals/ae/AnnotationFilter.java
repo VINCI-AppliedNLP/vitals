@@ -1,5 +1,8 @@
 package gov.va.vinci.vitals.ae;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.ae.LeoBaseAnnotator;
 import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
@@ -7,9 +10,12 @@ import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.leo.tools.ConfigurationParameterImpl;
 import gov.va.vinci.leo.tools.LeoUtils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.cas.CASException;
+import org.apache.uima.cas.Type;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
@@ -54,7 +60,7 @@ public class AnnotationFilter extends LeoBaseAnnotator {
 		super.process(aJCas);
 		for (String type1 : typesToKeep) {
 			if (typesToDelete == null)
-				AnnotationLibrarian.removeCoveredAnnotations(aJCas, type1);
+				removeCoveredAnnotations(aJCas, type1);
 			else {
 				for (String type2 : typesToDelete) {
 					if (removeOverlapping)
@@ -74,6 +80,55 @@ public class AnnotationFilter extends LeoBaseAnnotator {
 	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
 
 		return null;
+	}
+
+	public static void removeCoveredAnnotations(final JCas jcas,
+	    final String type) throws AnalysisEngineProcessException {
+		if (jcas == null)
+			throw new IllegalArgumentException("Missing jcas parameter!", null);
+		if (StringUtils.isBlank(type))
+			throw new IllegalArgumentException("Missing type name parameter!", null);
+		Type typeObj = null;
+		try {
+			typeObj = jcas.getRequiredType(type);
+		} catch (CASException e) {
+			throw new AnalysisEngineProcessException(e);
+		}
+		ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, typeObj);
+		removeCoveredFromList(list, type);
+	}//removeCoveredAnnotations method
+
+	public static void removeCoveredFromList(final List<Annotation> annotations,
+	    final String typeToRemove) {
+		if (annotations == null)
+			throw new IllegalArgumentException("Missing annotations parameter!", null);
+		if (StringUtils.isBlank(typeToRemove))
+			throw new IllegalArgumentException("Missing type2remove parameter or String is blank!", null);
+		for (int current = 0; current < annotations.size(); current++) {
+			Annotation ca = annotations.get(current);
+			for (int next = current + 1; next < annotations.size(); next++) {
+				Annotation na = annotations.get(next);
+				if (AnnotationLibrarian.completelyCovers(ca, na)) {
+					// FIXME -- change to instanceof
+					if (isInstance(na, typeToRemove)) {
+						na.removeFromIndexes();
+					}
+				} else {
+					current = next - 1;
+					break;
+				}
+			}//for
+		}//for
+	}//removeCoveredAnnotations method
+
+	public static boolean isInstance(Object o, String className) {
+		try {
+			Class c = Class.forName(className);
+			return c.isInstance(o);
+		} catch (Exception e) {
+			return false;
+		}
+
 	}
 
 	public static class Param extends LeoBaseAnnotator.Param {

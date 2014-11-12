@@ -13,11 +13,13 @@ import gov.va.vinci.leo.regex.ae.RegexAnnotator;
 import gov.va.vinci.leo.regex.ae.RegexAnnotator.Param;
 import gov.va.vinci.leo.tools.LeoUtils;
 import gov.va.vinci.leo.types.TypeLibrarian;
+import gov.va.vinci.leo.window.ae.WindowAnnotator;
 import gov.va.vinci.sherlock.ae.LearningAnnotator;
 import gov.va.vinci.svmlib.ml.SvmVectorTranslator;
 import gov.va.vinci.vitals.Client;
 import gov.va.vinci.vitals.Utils;
 import gov.va.vinci.vitals.ae.*;
+import gov.va.vinci.vitals.types.Numeric;
 import groovy.util.ConfigObject;
 
 import org.apache.commons.lang3.StringUtils;
@@ -84,7 +86,10 @@ public class Service2 {
 		    "gov.va.vinci.vitals.types.Weight_Term",
 		    "gov.va.vinci.vitals.types.Height_Term",
 		    "gov.va.vinci.vitals.types.So2_Term",
-		    "gov.va.vinci.vitals.types.Bmi_Term"
+		    "gov.va.vinci.vitals.types.Bmi_Term",
+		    "gov.va.vinci.vitals.types.Age_Term",
+		    "gov.va.vinci.vitals.types.NotIt_Term"
+
 		};
 		static String resourceTerm = "concepts.groovy";
 
@@ -104,7 +109,7 @@ public class Service2 {
 		static String resourceBp = "bp.pattern";
 
 		static String TYPE_TERMEXCLUDE = "gov.va.vinci.vitals.types.TermExclude";
-		static String resourceTermExclude = "termsExclude.pattern";
+		static String resourceSectionExclude = "excludeSectionHeader.pattern";
 
 		static String TYPE_RELATION = "gov.va.vinci.vitals.types.Relation";
 		static String RESOURCE_RELATION = "relation.pattern";
@@ -118,8 +123,7 @@ public class Service2 {
 			filterTypes.put("gov.va.vinci.vitals.types.TermExclude", new String[] {
 			    PipelineVariables.TYPE_UNIT,
 			    PipelineVariables.TYPE_TERM });
-			filterTypes.put("gov.va.vinci.vitals.types.NumericExclude",
-			    new String[] { PipelineVariables.TYPE_NUMERIC });
+			filterTypes.put("gov.va.vinci.vitals.types.NumericExclude", new String[] { PipelineVariables.TYPE_NUMERIC });
 		}
 
 		static String TYPE_OUTPUT = "gov.va.vinci.vitals.types.Output_Value";
@@ -135,6 +139,14 @@ public class Service2 {
 		    "gov.va.vinci.vitals.types.Resp_value",
 		    "gov.va.vinci.vitals.types.Pain_value",
 		    "gov.va.vinci.vitals.types.BMI_value"
+		};
+
+		static String TYPE_WINDOW = "gov.va.vinci.leo.window.types.Window";
+		static String[] TYPES_WINDOW = new String[] {
+		    "gov.va.vinci.vitals.types.HiPrecisionWindow",
+		    "gov.va.vinci.vitals.types.LowerPrecisionWindow",
+		    "gov.va.vinci.vitals.types.FVWindow",
+		    "gov.va.vinci.vitals.types.ExcludeAllWindow"
 		};
 
 	}
@@ -365,6 +377,10 @@ public class Service2 {
 		            PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceTerm)
 		        .addTypeSystemDescription(types));
 
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { PipelineVariables.TYPE_TERM })
+		    .addTypeSystemDescription(types));
+
 		aggregate
 		    .addDelegate(new AnnotationPatternAnnotator()
 		        .getLeoAEDescriptor()
@@ -374,15 +390,38 @@ public class Service2 {
 		        .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(),
 		            PipelineVariables.TYPE_INDICATOR)
 		        .addTypeSystemDescription(types));
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { PipelineVariables.TYPE_INDICATOR })
+		    .addTypeSystemDescription(types));
 		aggregate
-		    .addDelegate(new AnnotationPatternAnnotator()
-		        .getLeoAEDescriptor()
+		    .addDelegate(new AnnotationPatternAnnotator().getLeoAEDescriptor()
 		        .setName("TermExcludePatternAnnotator")
 		        .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
-		            PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceTermExclude)
+		            PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceSectionExclude)
 		        .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(),
 		            PipelineVariables.TYPE_TERMEXCLUDE)
 		        .addTypeSystemDescription(types));
+
+		aggregate.addDelegate(new WindowAnnotator().getLeoAEDescriptor()
+		    .setParameterSetting(WindowAnnotator.Param.OUTPUT_TYPE.getName(), "gov.va.vinci.vitals.types.HiPrecisionWindow")
+		    .setParameterSetting(WindowAnnotator.Param.WINDOW_RT.getName(), new Integer(20))
+		    .setParameterSetting(WindowAnnotator.Param.INPUT_TYPE.getName(), new String[] { PipelineVariables.TYPE_INDICATOR })
+		    .setParameterSetting(WindowAnnotator.Param.ANCHOR_FEATURE.getName(), "Anchor")
+		    .setTypeSystemDescription(types));
+
+		aggregate.addDelegate(new WindowAnnotator().getLeoAEDescriptor()
+		    .setParameterSetting(WindowAnnotator.Param.OUTPUT_TYPE.getName(), "gov.va.vinci.vitals.types.ExcludeAllWindow")
+		    .setParameterSetting(WindowAnnotator.Param.WINDOW_RT.getName(), new Integer(10))
+		    .setParameterSetting(WindowAnnotator.Param.INPUT_TYPE.getName(), new String[] { PipelineVariables.TYPE_TERMEXCLUDE })
+		    .setParameterSetting(WindowAnnotator.Param.ANCHOR_FEATURE.getName(), "Anchor")
+		    .setTypeSystemDescription(types));
+
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(),
+		        new String[] { "gov.va.vinci.vitals.types.ExcludeAllWindow" })
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_DELETE.getName(), new String[] { Numeric.class.getCanonicalName() })
+		    .setParameterSetting(AnnotationFilter.Param.REMOVE_OVERLAPPING.getName(), true)
+		    .addTypeSystemDescription(types));
 
 		// INFO: Filter unneeded annotations*/
 		for (Entry<String, String[]> a : PipelineVariables.filterTypes.entrySet()) {
@@ -418,7 +457,8 @@ public class Service2 {
 		            PipelineVariables.TYPE_RELATION_TIMESTAMP)
 		        .addTypeSystemDescription(types));
 
-		aggregate.addDelegate(new VitalsExtractorAnnotator().getLeoAEDescriptor()
+		//	aggregate.addDelegate(new VitalsExtractorAnnotator().getLeoAEDescriptor()
+		aggregate.addDelegate(new VitalClassifier().getLeoAEDescriptor()
 		    .addTypeSystemDescription(types));
 
 		// Remove overannotated    
@@ -562,6 +602,11 @@ public class Service2 {
 
 		for (String a : PipelineVariables.valueTypes) {
 			types.addType(new TypeDescription_impl(a, "", PipelineVariables.TYPE_OUTPUT));
+		}
+
+		types.addTypeSystemDescription(new WindowAnnotator().getLeoTypeSystemDescription());
+		for (String a : PipelineVariables.TYPES_WINDOW) {
+			types.addType(new TypeDescription_impl(a, "", PipelineVariables.TYPE_WINDOW));
 		}
 
 		/*****/

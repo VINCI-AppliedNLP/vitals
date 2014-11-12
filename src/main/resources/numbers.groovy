@@ -13,16 +13,24 @@ configuration {
 
 	/* An arbitrary name for this set of patterns/config. */
 	"Whole_number" {
-		expressions = ['(?<!\\.)\\b\\d{1,3}\\b(?!\\.\\d)']
+		expressions = [
+			'(?<!\\.)\\b\\d{1,3}\\b(?!\\.\\d)'			, 
+			"(?<=[rptb])\\d{2,3}\\b",
+			"(?<!\\.)\\b\\d{2,3}(?='?s\\b)"]
 		concept_feature_value = "pressure, rates"
 		outputType = "gov.va.vinci.vitals.types.IntegerNumber" }
-
-	"ZeroDigit_number" {
-		expressions = ['\\b\\d{2,3}\\.0\\b']
-		concept_feature_value = "Pressure, rates"
-		outputType = "gov.va.vinci.vitals.types.ZeroDecimalNumber" }
-
+	/**
+	 "ZeroDigit_number" {
+	 expressions = ['\\b\\d{2,3}\\.0\\b']
+	 concept_feature_value = "Pressure, rates"
+	 outputType = "gov.va.vinci.vitals.types.ZeroDecimalNumber" }
+	 /**/
 	"Decimal_number"{
-		expressions = ['\\b\\d{2,3}\\.\\d\\b']
+		expressions = [
+			'\\b\\d{2,3}\\.\\d\\b',
+			"(?<=t)\\d{2,3}\\.\\d+\\b",
+			"\\b\\d{2,3}\\.\\d+(?=f\\b)",
+			"\\b\\d{2,3}\\.\\d+(?=c\\b)"
+		]
 		concept_feature_value = "temperature, weight"
 		outputType = "gov.va.vinci.vitals.types.DoubleNumber"} }

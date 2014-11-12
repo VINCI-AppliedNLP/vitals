@@ -84,100 +84,109 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 
 			// INFO: Target stands for Numeric.
 			if (currRelation.getTarget() != null) {
-				Numeric number = (Numeric) currRelation.getTarget();
-				if (StringUtils.isEmpty(number.getConcept())) {  // make sure the concept is not set already
+				if (currRelation.getTarget() instanceof Numeric) {
+					Numeric number = (Numeric) currRelation.getTarget();
+					if (StringUtils.isEmpty(number.getConcept())) {  // make sure the concept is not set already
 
-					Unit curUnit = null;
+						Unit curUnit = null;
 
-					if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type).size() > 0) {
-						curUnit = (Unit) ((ArrayList<Annotation>) AnnotationLibrarian
-						    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type)).get(0); // get the first unit in the pattern
-						number.setUnit(curUnit);
-					}
-					// INFO: adding timestamp
-					ArrayList<Annotation> times = (ArrayList<Annotation>) AnnotationLibrarian
-					    .getAllOverlappingAnnotationsOfType(currRelation, Timestamp.type);
-					if (times.size() > 0) {
-						number.setTimestamp(times.get(0));
-					} else {
-						times = (ArrayList<Annotation>) AnnotationLibrarian.getPreviousAnnotationsOfType(number,
-						    Timestamp.type, 1);
+						if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type).size() > 0) {
+							curUnit = (Unit) ((ArrayList<Annotation>) AnnotationLibrarian
+							    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type)).get(0); // get the first unit in the pattern
+							number.setUnit(curUnit);
+						}
+						// INFO: adding timestamp
+						ArrayList<Annotation> times = (ArrayList<Annotation>) AnnotationLibrarian
+						    .getAllOverlappingAnnotationsOfType(currRelation, Timestamp.type);
 						if (times.size() > 0) {
-							if (times.get(0).getEnd() - number.getBegin() < 50) {
-								number.setTimestamp(times.get(0));
+							number.setTimestamp(times.get(0));
+						} else {
+							times = (ArrayList<Annotation>) AnnotationLibrarian.getPreviousAnnotationsOfType(number,
+							    Timestamp.type, 1);
+							if (times.size() > 0) {
+								if (times.get(0).getEnd() - number.getBegin() < 30) {
+									number.setTimestamp(times.get(0));
+								}
 							}
 						}
-					}
-					// INFO: Anchor stands for Term with pattern
-					if (currRelation.getAnchor() != null) {
-						Annotation term = currRelation.getAnchor();
-						String termConcept = ((Term) term).getConcept();
+						// INFO: Anchor stands for Term with pattern
+						if (currRelation.getAnchor() != null) {
+							Annotation term = currRelation.getAnchor();
+							String termConcept = ((Term) term).getConcept();
 
-						// check if termConcept is set  
-						if (StringUtils.isNotBlank(termConcept)) {
+							// check if termConcept is set  
+							if (StringUtils.isNotBlank(termConcept)) {
 
-							if (termConcept.equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
+								if (termConcept.equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
+									if (!this.isBloodPressure(number.getCoveredText(), false)) {
+										number.setConcept("Matched term " + termConcept + " but missed value");
+									}
+								} else if (termConcept.equalsIgnoreCase(vitalTypes.Temperature.name())) {
+									if (!this.isTemperature(number.getCoveredText(), false)) {
+										number.setConcept("Matched term " + termConcept + " but missed value");
+
+									}
+								} else if (termConcept.equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
+									if (!this.isHeartRate(number.getCoveredText())) {
+										number.setConcept("Matched term " + termConcept + " but missed value");
+									}
+								}
+
+								// there is a term in the pattern and it not discarded 
+								if (StringUtils.isBlank(number.getConcept())) {
+									number.setConcept(termConcept);
+								}
+								number.setSource("Term pattern");
+							} // number gets concept as term concept
+						} else // No term. Check if there is a unit
+
+						if (curUnit != null) {
+							String unitConcept = curUnit.getConcept();
+
+							if (unitConcept.equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
 								if (!this.isBloodPressure(number.getCoveredText(), false)) {
-									number.setConcept("Matched term " + termConcept + " but missed value");
+									number.setConcept("Matched term " + unitConcept + " but missed value");
+								} else {
+									number.setConcept(unitConcept);
 								}
-							} else if (termConcept.equalsIgnoreCase(vitalTypes.Temperature.name())) {
+							} else if (unitConcept.equalsIgnoreCase(vitalTypes.Temperature.name())) {
 								if (!this.isTemperature(number.getCoveredText(), false)) {
-									number.setConcept("Matched term " + termConcept + " but missed value");
-
+									number.setConcept("Matched term " + unitConcept + " but missed value");
+								} else {
+									number.setConcept(unitConcept);
 								}
-							} else if (termConcept.equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
+							} else if (unitConcept.equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
 								if (!this.isHeartRate(number.getCoveredText())) {
-									number.setConcept("Matched term " + termConcept + " but missed value");
+									number.setConcept("Matched term " + unitConcept + " but missed value");
+								} else {
+									number.setConcept(unitConcept);
 								}
 							}
 
-							// there is a term in the pattern and it not discarded 
+							if (unitConcept.equalsIgnoreCase(vitalTypes.Weight.name())) {
+								number.setConcept(unitConcept);
+							}
+
 							if (StringUtils.isBlank(number.getConcept())) {
-								number.setConcept(termConcept);
+								number.setConcept("possible: " + unitConcept);
 							}
-							number.setSource("Term pattern");
-						} // number gets concept as term concept
-					} else // No term. Check if there is a unit
-
-					if (curUnit != null) {
-						String unitConcept = curUnit.getConcept();
-
-						if (unitConcept.equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
-							if (!this.isBloodPressure(number.getCoveredText(), false)) {
-								number.setConcept("Matched term " + unitConcept + " but missed value");
-							} else {
-								number.setConcept(unitConcept);
-							}
-						} else if (unitConcept.equalsIgnoreCase(vitalTypes.Temperature.name())) {
-							if (!this.isTemperature(number.getCoveredText(), false)) {
-								number.setConcept("Matched term " + unitConcept + " but missed value");
-							} else {
-								number.setConcept(unitConcept);
-							}
-						} else if (unitConcept.equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
-							if (!this.isHeartRate(number.getCoveredText())) {
-								number.setConcept("Matched term " + unitConcept + " but missed value");
-							} else {
-								number.setConcept(unitConcept);
-							}
+							number.setSource("Unit pattern");
 						}
-
-						if (unitConcept.equalsIgnoreCase(vitalTypes.Weight.name())) {
-							number.setConcept(unitConcept);							
-						}
-						
-						if (StringUtils.isBlank(number.getConcept())) {
-							number.setConcept("possible: " + unitConcept);
-						}
-						number.setSource("Unit pattern");
-					}
-					// INFO:  at this time all pattern with term and all patterns with unit have been processed. 
-					//The only patterns left are the ones that have a number and timestamp
-				} // end if Target -- should always be the case in Relations					
+						// INFO:  at this time all pattern with term and all patterns with unit have been processed. 
+						//The only patterns left are the ones that have a number and timestamp
+					} // end if Target -- should always be the case in Relations		
+				}
+				else if (currRelation.getTarget() instanceof PotentialBp) {
+				// mark first number as systolic and second number as diastolic
+				} else if (currRelation.getTarget() instanceof Range) {
+				// Mark all items in the range the same
+				}
 			} // there is no target. If this is ever a case, the pattern is useless and will be skipped.
+
 			else {
 				log.error("Check pattern without target: " + currRelation);
 			}
+
 		}// end of while loop
 	}
 
@@ -470,7 +479,7 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 		}
 		Matcher measureMatcher = bpPattern.matcher(text);
 		if (measureMatcher.find()) {
-		return false;
+			return false;
 		}
 
 		Matcher digitMatcher = singleNumber.matcher(text);

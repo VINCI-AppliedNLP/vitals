@@ -12,7 +12,7 @@
 \b\d+:\d+:\d+\b
 
 # 09-09-09
- \b\d+-\d+-\d+\b 
+# \b\d+-\d+-\d+\b 
 
 
 \n *\d+\. 
@@ -21,9 +21,13 @@
 
 <gov.va.vinci.vitals.types.Numeric/> *-? *y\w*
 <gov.va.vinci.vitals.types.Numeric/> *IV
-<gov.va.vinci.vitals.types.Numeric/> *(mcg|mg|spray|lpm|cc)
-reading\s+<gov.va.vinci.vitals.types.Numeric/>
+<gov.va.vinci.vitals.types.Numeric/> *(mcg|mg|spray|lpm|cc|units|minutes?|sec(onds?)?)
+(reading|#|CVP|MAP|i.o|MOFH)\s*<gov.va.vinci.vitals.types.Numeric/>
+(jan\w*|feb\w*|mar\w*|apr\w*|may\w*|jun\w*|jul\w*|aug\w*|sep\w*|oct\w*|nov\w*|dec\w*) +<gov.va.vinci.vitals.types.Numeric/>
 
 \b\d/\d+\b
-\d\d\d+-\d\d+-\d\d\d+
+# The idea was to disregard dates and socials. but this is too common of a pattern for vital signs
+#\d\d\d+-\d\d+-\d\d\d+
+
+mofh\s+0-72
 
