@@ -179,7 +179,7 @@ configuration {
 
 	"Weight" {
 		expressions = [
-			'\\bWeight',
+			'weight',
 			'\\bwt\\b',
 			'\\bw\\b',
 			'\\bw(?<=\\d{2,3}\\b)',
@@ -219,7 +219,9 @@ configuration {
 			"\\bA/P\\b",
 			"\\bS/P\\b",
 			"\\bml/hr\\b",
-			"\\bunits/hr"
+			"\\bunits/hr",
+			'\\bpasp\\b',
+			'FIO2'
 			
 			
 		]

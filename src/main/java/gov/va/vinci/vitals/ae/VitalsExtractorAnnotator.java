@@ -28,7 +28,7 @@ import org.apache.uima.jcas.tcas.Annotation;
  * @author olga.patterson@utah.edu
  * 
  */
-public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
+public class VitalsExtractorAnnotator extends ProcessingStepAE {
 
 	public static enum vitalTypes {
 		Blood_Pressure, //1
@@ -177,9 +177,9 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 					} // end if Target -- should always be the case in Relations		
 				}
 				else if (currRelation.getTarget() instanceof PotentialBp) {
-				// mark first number as systolic and second number as diastolic
+					// mark first number as systolic and second number as diastolic
 				} else if (currRelation.getTarget() instanceof Range) {
-				// Mark all items in the range the same
+					// Mark all items in the range the same
 				}
 			} // there is no target. If this is ever a case, the pattern is useless and will be skipped.
 
@@ -598,77 +598,4 @@ public class VitalsExtractorAnnotator extends LeoBaseAnnotator {
 		}
 	}
 
-	private void createValueTypes(JCas aJCas) throws AnalysisEngineProcessException {
-		FSIterator<Annotation> iterNums = this.getAnnotationListForType(aJCas, Numeric.class.getCanonicalName());
-
-		while (iterNums.hasNext()) {
-			Numeric curNum = (Numeric) iterNums.next();
-			if (StringUtils.isNotBlank(curNum.getConcept())) {
-
-				if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
-					Bp_value newAnn = (Bp_value) this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas,
-					    curNum.getBegin(), curNum.getEnd());
-					newAnn.setSource(curNum.getSource());
-					newAnn.setUnit(curNum.getUnit());
-					newAnn.setTimestamp(curNum.getTimestamp());
-
-				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
-					Hr_value newAnn = (Hr_value) this.addOutputAnnotation(Hr_value.class.getCanonicalName(), aJCas,
-					    curNum.getBegin(), curNum.getEnd());
-					newAnn.setSource(curNum.getSource());
-					newAnn.setUnit(curNum.getUnit());
-					newAnn.setTimestamp(curNum.getTimestamp());
-
-				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Temperature.name())) {
-					T_value newAnn = (T_value) this.addOutputAnnotation(T_value.class.getCanonicalName(), aJCas,
-					    curNum.getBegin(), curNum.getEnd());
-					newAnn.setSource(curNum.getSource());
-					newAnn.setUnit(curNum.getUnit());
-					newAnn.setTimestamp(curNum.getTimestamp());
-				} ///////////////////////
-				else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Respiratory.name())) {
-					Resp_value newAnn = (Resp_value) this.addOutputAnnotation(Resp_value.class.getCanonicalName(),
-					    aJCas,
-					    curNum.getBegin(), curNum.getEnd());
-					newAnn.setSource(curNum.getSource());
-					newAnn.setUnit(curNum.getUnit());
-					newAnn.setTimestamp(curNum.getTimestamp());
-				}
-				else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Height.name())) {
-					Height_value newAnn = (Height_value) this.addOutputAnnotation(
-					    Height_value.class.getCanonicalName(), aJCas,
-					    curNum.getBegin(), curNum.getEnd());
-					newAnn.setSource(curNum.getSource());
-					newAnn.setUnit(curNum.getUnit());
-					newAnn.setTimestamp(curNum.getTimestamp());
-				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Weight.name())) {
-					Weight_value newAnn = (Weight_value) this.addOutputAnnotation(
-					    Weight_value.class.getCanonicalName(), aJCas,
-					    curNum.getBegin(), curNum.getEnd());
-					newAnn.setSource(curNum.getSource());
-					newAnn.setUnit(curNum.getUnit());
-					newAnn.setTimestamp(curNum.getTimestamp());
-				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.SO2.name())) {
-					So2_value newAnn = (So2_value) this.addOutputAnnotation(So2_value.class.getCanonicalName(), aJCas,
-					    curNum.getBegin(), curNum.getEnd());
-					newAnn.setSource(curNum.getSource());
-					newAnn.setUnit(curNum.getUnit());
-					newAnn.setTimestamp(curNum.getTimestamp());
-				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.BMI.name())) {
-					BMI_value newAnn = (BMI_value) this.addOutputAnnotation(BMI_value.class.getCanonicalName(), aJCas,
-					    curNum.getBegin(), curNum.getEnd());
-					newAnn.setSource(curNum.getSource());
-					newAnn.setUnit(curNum.getUnit());
-					newAnn.setTimestamp(curNum.getTimestamp());
-				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Pain.name())) {
-					Pain_value newAnn = (Pain_value) this.addOutputAnnotation(Pain_value.class.getCanonicalName(),
-					    aJCas,
-					    curNum.getBegin(), curNum.getEnd());
-					newAnn.setSource(curNum.getSource());
-					newAnn.setUnit(curNum.getUnit());
-					newAnn.setTimestamp(curNum.getTimestamp());
-				}
-			}
-		}
-	}
 }

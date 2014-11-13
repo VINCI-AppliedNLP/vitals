@@ -1,11 +1,13 @@
 package gov.va.vinci.vitals.listeners;
 
+import org.apache.log4j.Logger;
 import org.apache.uima.cas.*;
 import org.apache.uima.collection.EntityProcessStatus;
 import org.apache.uima.jcas.tcas.Annotation;
 
 import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.listener.BaseCsvListener;
+import gov.va.vinci.leo.tools.LeoUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,7 +26,7 @@ public class SimpleCompareListener extends BaseCsvListener {
 	 * The type name this annotation listener is limited to.
 	 */
 	protected HashMap<String, String> auSysMap;
-
+	private static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
 	/**
 	 * 
 	 * @param gold
@@ -48,11 +50,12 @@ public class SimpleCompareListener extends BaseCsvListener {
 	public void collectionProcessComplete(EntityProcessStatus aStatus) {
 		// TODO Auto-generated method stub
 		super.collectionProcessComplete(aStatus);
-		System.out.println("TP:	" + outputMap(tpCount_au));
-		System.out.println("TP:	" + outputMap(tpCount_sys));
-		System.out.println("FP:	" + outputMap(fpCount_sys));
-		System.out.println("FN:	" + outputMap(fnCount_au));
-		System.out.println("Totals: " + outputMap(totalCount));
+		log.info(", TP:	" + outputMap(tpCount_au));
+		log.info(", TP:	" + outputMap(tpCount_sys));
+		log.info(", FP:	" + outputMap(fpCount_sys));
+		log.info(", FN:	" + outputMap(fnCount_au));
+		log.info(", Totals: " + outputMap(totalCount));
+		
 	}
 
 	public static String outputMap(HashMap<String, Integer> map) {

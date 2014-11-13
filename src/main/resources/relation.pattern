@@ -1,7 +1,7 @@
-<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.|of|=)\s*)?<!target><gov.va.vinci.vitals.types.Numeric/><!target/>
+<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.|of|=||@)\s*)?<!target><gov.va.vinci.vitals.types.Numeric/><!target/>
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.|of|=)\s*)?<!target><gov.va.vinci.vitals.types.Numeric/><!target/> *\(<gov.va.vinci.vitals.types.Timestamp/> *\)
 
-<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.|of|=)\s*)?<!target><gov.va.vinci.vitals.types.Numeric/><!target/> *<gov.va.vinci.vitals.types.Unit/>
+<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.|of|=|@)\s*)?<!target><gov.va.vinci.vitals.types.Numeric/><!target/> *<gov.va.vinci.vitals.types.Unit/>
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.|of|=)\s*)?<!target><gov.va.vinci.vitals.types.Numeric/><!target/> *<gov.va.vinci.vitals.types.Unit/> *\(<gov.va.vinci.vitals.types.Timestamp/> *\)
 
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.|=)\s*)?<gov.va.vinci.vitals.types.Numeric/> *<gov.va.vinci.vitals.types.Unit/>\s*(\[|\() *<!target><gov.va.vinci.vitals.types.Numeric/><!target/> *<gov.va.vinci.vitals.types.Unit/> *(\]|\))
@@ -12,8 +12,8 @@
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.|=)\s*)?<gov.va.vinci.vitals.types.Numeric/> *<gov.va.vinci.vitals.types.Unit/>\s*(\[|\() *<!target><gov.va.vinci.vitals.types.Numeric/><!target/> *<gov.va.vinci.vitals.types.Unit/> *(\]|\)) *\(<gov.va.vinci.vitals.types.Timestamp/> *\)
 
 # saturation o2 stats are 98 percent
-<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*(is|are|was|were|of|=)\s*<!target><gov.va.vinci.vitals.types.Numeric/><!target/>
-<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*(is|are|was|were|of|=)\s*<!target><gov.va.vinci.vitals.types.Numeric/><!target/> *<gov.va.vinci.vitals.types.Unit/>
+<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*(is|are|was|were|of|=|@)\s*<!target><gov.va.vinci.vitals.types.Numeric/><!target/>
+<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*(is|are|was|were|of|=|@)\s*<!target><gov.va.vinci.vitals.types.Numeric/><!target/> *<gov.va.vinci.vitals.types.Unit/>
 
 
 <!target><gov.va.vinci.vitals.types.Numeric/><!target/> *<gov.va.vinci.vitals.types.Unit concept="Temperature"/>
@@ -24,5 +24,5 @@
 \n<gov.va.vinci.vitals.types.Timestamp/> +<gov.va.vinci.vitals.types.Numeric/> +<gov.va.vinci.vitals.types.Numeric/> +<gov.va.vinci.vitals.types.Numeric/> +<!target><gov.va.vinci.vitals.types.Numeric/><!target/>
 
 
-<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.|of|=)\s*)?<!target><gov.va.vinci.vitals.types.Range/><!target/>
-<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.|of|=)\s*)?<!target><gov.va.vinci.vitals.types.PotentialBp/><!target/>
+<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.|of|=|@)\s*)?<!target><gov.va.vinci.vitals.types.Range/><!target/>
+<!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.|of|=|@)\s*)?<!target><gov.va.vinci.vitals.types.PotentialBp/><!target/>

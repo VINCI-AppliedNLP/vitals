@@ -1,4 +1,5 @@
 <gov.va.vinci.vitals.types.Term/> *<gov.va.vinci.vitals.types.Term/> *<gov.va.vinci.vitals.types.Term/>
+<gov.va.vinci.vitals.types.DoubleNumber/> +<gov.va.vinci.vitals.types.IntegerNumber/> *<gov.va.vinci.vitals.types.IntegerNumber/> *<gov.va.vinci.vitals.types.PotentialBp/>
 vital signs
 \bvitals
 \bvs\b

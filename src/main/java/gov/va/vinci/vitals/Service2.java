@@ -321,28 +321,6 @@ public class Service2 {
 		    .setName("AnalyzeNumbersAE")
 		    .addTypeSystemDescription(types));
 
-		/**/
-		aggregate.addDelegate(new AnnotationPatternAnnotator()
-		    .getLeoAEDescriptor()
-		    .setName("RangePattern")
-		    .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
-		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceRange)
-		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), PipelineVariables.TYPE_RANGE)
-		    .addTypeSystemDescription(types));
-		/**/
-
-		aggregate.addDelegate(new NumericPatternAnnotator()
-		    .getLeoAEDescriptor()
-		    .setName("NumericPatternAnnotator")
-		    .addTypeSystemDescription(types));
-		aggregate.addDelegate(new AnnotationPatternAnnotator()
-		    .getLeoAEDescriptor()
-		    .setName("RangePattern")
-		    .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
-		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceBp)
-		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), PipelineVariables.TYPE_BP)
-		    .addTypeSystemDescription(types));
-		/**/
 		return aggregate;
 	}
 
@@ -408,6 +386,12 @@ public class Service2 {
 		    .setParameterSetting(WindowAnnotator.Param.INPUT_TYPE.getName(), new String[] { PipelineVariables.TYPE_INDICATOR })
 		    .setParameterSetting(WindowAnnotator.Param.ANCHOR_FEATURE.getName(), "Anchor")
 		    .setTypeSystemDescription(types));
+		aggregate.addDelegate(new WindowAnnotator().getLeoAEDescriptor()
+		    .setParameterSetting(WindowAnnotator.Param.OUTPUT_TYPE.getName(), "gov.va.vinci.vitals.types.LowerPrecisionWindow")
+		    .setParameterSetting(WindowAnnotator.Param.WINDOW_RT.getName(), new Integer(200))
+		    .setParameterSetting(WindowAnnotator.Param.INPUT_TYPE.getName(), new String[] { PipelineVariables.TYPE_INDICATOR })
+		    .setParameterSetting(WindowAnnotator.Param.ANCHOR_FEATURE.getName(), "Anchor")
+		    .setTypeSystemDescription(types));
 
 		aggregate.addDelegate(new WindowAnnotator().getLeoAEDescriptor()
 		    .setParameterSetting(WindowAnnotator.Param.OUTPUT_TYPE.getName(), "gov.va.vinci.vitals.types.ExcludeAllWindow")
@@ -437,7 +421,29 @@ public class Service2 {
 			    .setParameterSetting(AnnotationFilter.Param.REMOVE_OVERLAPPING.getName(), true)
 			    .addTypeSystemDescription(types));
 		}
+		///////////// INFO: Creating patterns
+		/**/
+		aggregate.addDelegate(new AnnotationPatternAnnotator()
+		    .getLeoAEDescriptor()
+		    .setName("RangePattern")
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceRange)
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), PipelineVariables.TYPE_RANGE)
+		    .addTypeSystemDescription(types));
+		/**/
 
+		aggregate.addDelegate(new NumericPatternAnnotator()
+		    .getLeoAEDescriptor()
+		    .setName("NumericPatternAnnotator")
+		    .addTypeSystemDescription(types));
+		aggregate.addDelegate(new AnnotationPatternAnnotator()
+		    .getLeoAEDescriptor()
+		    .setName("RangePattern")
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceBp)
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), PipelineVariables.TYPE_BP)
+		    .addTypeSystemDescription(types));
+		/**/
 		aggregate.addDelegate(new AnnotationPatternAnnotator()
 		    .getLeoAEDescriptor()
 		    .setName("RelationPatternAnnotator")
@@ -458,8 +464,15 @@ public class Service2 {
 		        .addTypeSystemDescription(types));
 
 		//	aggregate.addDelegate(new VitalsExtractorAnnotator().getLeoAEDescriptor()
-		aggregate.addDelegate(new VitalClassifier().getLeoAEDescriptor()
-		    .addTypeSystemDescription(types));
+		//aggregate.addDelegate(new VitalClassifier().getLeoAEDescriptor()
+		aggregate.addDelegate(new ExtractTemperatureAE().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractSo2AE().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractBloodPressureAE().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractRespiratoryAE().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractHeightAE().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractWeightAE().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractPainAE().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractHeartRateAE().getLeoAEDescriptor().addTypeSystemDescription(types));
 
 		// Remove overannotated    
 		for (String a : PipelineVariables.valueTypes) {
@@ -471,30 +484,31 @@ public class Service2 {
 		}
 
 		// FIXME: Add a feature vector AE - for all Hr_values
+		/**
+				aggregate.addDelegate(new HrVectorAnnotator()
+				    .getLeoAEDescriptor()
+				    .setName("HrVectorAnnotator")
+				    .addParameterSetting(HrVectorAnnotator.Param.OUTPUT_TYPE.getName(), false, false, "String",
+				        LearningVariables.TYPE_FeatureVector)
+				    .addParameterSetting(HrVectorAnnotator.Param.KEY_FEATURE_PARAM.getName(), false, false, "String",
+				        "keys")
+				    .addParameterSetting(HrVectorAnnotator.Param.VALUE_FEATURE_PARAM.getName(), false, false, "String",
+				        "values")
+				    .addTypeSystemDescription(types));
 
-		aggregate.addDelegate(new HrVectorAnnotator()
-		    .getLeoAEDescriptor()
-		    .setName("HrVectorAnnotator")
-		    .addParameterSetting(HrVectorAnnotator.Param.OUTPUT_TYPE.getName(), false, false, "String",
-		        LearningVariables.TYPE_FeatureVector)
-		    .addParameterSetting(HrVectorAnnotator.Param.KEY_FEATURE_PARAM.getName(), false, false, "String",
-		        "keys")
-		    .addParameterSetting(HrVectorAnnotator.Param.VALUE_FEATURE_PARAM.getName(), false, false, "String",
-		        "values")
-		    .addTypeSystemDescription(types));
+				if (GeneralSettings.ENVIRONMENT.equalsIgnoreCase("predict")) {
+					aggregate.addDelegate(LearningAnnotator.getLeoAEDescriptor(
+					    SvmVectorTranslator.class.getCanonicalName(),
+					    LearningVariables.TYPE_Prediction, "srcFVFeature", "prediction",
+					    LearningVariables.TYPE_FeatureVector,
+					    "keys", "values", LearningVariables.Hr_SvmModelPath).addTypeSystemDescription(types));
+					;
 
-		if (GeneralSettings.ENVIRONMENT.equalsIgnoreCase("predict")) {
-			aggregate.addDelegate(LearningAnnotator.getLeoAEDescriptor(
-			    SvmVectorTranslator.class.getCanonicalName(),
-			    LearningVariables.TYPE_Prediction, "srcFVFeature", "prediction",
-			    LearningVariables.TYPE_FeatureVector,
-			    "keys", "values", LearningVariables.Hr_SvmModelPath).addTypeSystemDescription(types));
-			;
-
-			aggregate.addDelegate(new FilterHeartRateAnnotator().getLeoAEDescriptor()
-			    .setName("FilterHeartRateAnnotator")
-			    .addTypeSystemDescription(types));
-		}
+					aggregate.addDelegate(new FilterHeartRateAnnotator().getLeoAEDescriptor()
+					    .setName("FilterHeartRateAnnotator")
+					    .addTypeSystemDescription(types));
+				}
+				/**/
 		return aggregate;
 	}
 

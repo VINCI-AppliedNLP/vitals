@@ -16,7 +16,7 @@ configuration {
 		expressions = [
 			'(?<!\\.)\\b\\d{1,3}\\b(?!\\.\\d)'			, 
 			"(?<=[rptb])\\d{2,3}\\b",
-			"(?<!\\.)\\b\\d{2,3}(?='?s\\b)"]
+			"(?<!\\.)\\b\\d{2,3}(?=('?s\\b|b))"]
 		concept_feature_value = "pressure, rates"
 		outputType = "gov.va.vinci.vitals.types.IntegerNumber" }
 	/**
@@ -27,7 +27,7 @@ configuration {
 	 /**/
 	"Decimal_number"{
 		expressions = [
-			'\\b\\d{2,3}\\.\\d\\b',
+			'\\b\\d{2,3}\\.\\d{1,2}\\b',
 			"(?<=t)\\d{2,3}\\.\\d+\\b",
 			"\\b\\d{2,3}\\.\\d+(?=f\\b)",
 			"\\b\\d{2,3}\\.\\d+(?=c\\b)"

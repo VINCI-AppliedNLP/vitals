@@ -34,9 +34,9 @@ runAsync = false
 generateTypes=false
 registerWithJam=false
 
-descriptorPath="P:\\ORD_Iwashyna_201108021D\\NLP\\desc";
+//descriptorPath="P:\\ORD_Iwashyna_201108021D\\NLP\\desc";
 //"src\\main\\desc";
-delete_on_exit=false;
+//delete_on_exit=false;
 /**
  * JAM variables
  */

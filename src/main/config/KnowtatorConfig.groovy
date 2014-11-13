@@ -2,7 +2,7 @@
 // Knowtator Variables
 
 backupknowtatorToUimaTypeMap = [
-	
+
 	// knowtatorAnnotation : UIMA annotation ,
 	"blood_pressure_term":"gov.va.vinci.kttr.types.RefTerm",
 	"blood_pressure_value":"gov.va.vinci.kttr.types.RefValue",
@@ -27,11 +27,10 @@ knowtatorXmlPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\Ref
 outputXmi = true
 
 knowtatorToUimaFeatureMap = [
-// knowtatorAnnotation : [ knowtatorAttribute : UIMA feature (all features are assumed to be string) ],
-
+	// knowtatorAnnotation : [ knowtatorAttribute : UIMA feature (all features are assumed to be string) ],
 ]
 
-knowtatorToUimaTypeMap = [	
+knowtatorToUimaTypeMap = [
 	// knowtatorAnnotation : UIMA annotation ,
 	"blood_pressure_term":"gov.va.vinci.kttr.types.BPTerm",
 	"blood_pressure_value":"gov.va.vinci.kttr.types.BPValue",
@@ -48,7 +47,7 @@ knowtatorToUimaTypeMap = [
 	"pain_value":"gov.va.vinci.kttr.types.PainValue",
 	"respiration_value":"gov.va.vinci.kttr.types.RespValue",
 	"time_value":"gov.va.vinci.kttr.types.TimeValue"
-	
+
 ]
 
 
