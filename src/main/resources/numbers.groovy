@@ -14,9 +14,9 @@ configuration {
 	/* An arbitrary name for this set of patterns/config. */
 	"Whole_number" {
 		expressions = [
-			'(?<!\\.)\\b\\d{1,3}\\b(?!\\.\\d)'			, 
+			"(?<!\\.)\\b\\d{1,3}\\b(?!\\.\\d)"			, 
 			"(?<=[rptb])\\d{2,3}\\b",
-			"(?<!\\.)\\b\\d{2,3}(?=('?s\\b|b))"]
+			"(?<!\\.)\\b\\d{2,3}(?=('?s\\b|\\b|b))"]
 		concept_feature_value = "pressure, rates"
 		outputType = "gov.va.vinci.vitals.types.IntegerNumber" }
 	/**

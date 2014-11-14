@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Thu Nov 13 18:15:33 CST 2014 */
+/* First created by JCasGen Fri Nov 14 17:06:49 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Thu Nov 13 18:15:33 CST 2014
- * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_288ae9a9-0712-4933-bd40-616bddc2d0ac5488971352770452129.xml
+ * Updated by JCasGen Fri Nov 14 17:06:49 CST 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_f4ab3cd8-8900-4294-a815-2c62885add957243376802218761608.xml
  * @generated */
 public class Output_Value extends Annotation {
   /** @generated
@@ -77,47 +77,47 @@ public class Output_Value extends Annotation {
  
     
   //*--------------*
-  //* Feature: value1
+  //* Feature: value
 
-  /** getter for value1 - gets 
+  /** getter for value - gets 
    * @generated
    * @return value of the feature 
    */
-  public String getValue1() {
-    if (Output_Value_Type.featOkTst && ((Output_Value_Type)jcasType).casFeat_value1 == null)
-      jcasType.jcas.throwFeatMissing("value1", "gov.va.vinci.vitals.types.Output_Value");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Output_Value_Type)jcasType).casFeatCode_value1);}
+  public String getValue() {
+    if (Output_Value_Type.featOkTst && ((Output_Value_Type)jcasType).casFeat_value == null)
+      jcasType.jcas.throwFeatMissing("value", "gov.va.vinci.vitals.types.Output_Value");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Output_Value_Type)jcasType).casFeatCode_value);}
     
-  /** setter for value1 - sets  
+  /** setter for value - sets  
    * @generated
    * @param v value to set into the feature 
    */
-  public void setValue1(String v) {
-    if (Output_Value_Type.featOkTst && ((Output_Value_Type)jcasType).casFeat_value1 == null)
-      jcasType.jcas.throwFeatMissing("value1", "gov.va.vinci.vitals.types.Output_Value");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Output_Value_Type)jcasType).casFeatCode_value1, v);}    
+  public void setValue(String v) {
+    if (Output_Value_Type.featOkTst && ((Output_Value_Type)jcasType).casFeat_value == null)
+      jcasType.jcas.throwFeatMissing("value", "gov.va.vinci.vitals.types.Output_Value");
+    jcasType.ll_cas.ll_setStringValue(addr, ((Output_Value_Type)jcasType).casFeatCode_value, v);}    
    
     
   //*--------------*
-  //* Feature: value2
+  //* Feature: valueAnnotation
 
-  /** getter for value2 - gets 
+  /** getter for valueAnnotation - gets 
    * @generated
    * @return value of the feature 
    */
-  public String getValue2() {
-    if (Output_Value_Type.featOkTst && ((Output_Value_Type)jcasType).casFeat_value2 == null)
-      jcasType.jcas.throwFeatMissing("value2", "gov.va.vinci.vitals.types.Output_Value");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Output_Value_Type)jcasType).casFeatCode_value2);}
+  public Annotation getValueAnnotation() {
+    if (Output_Value_Type.featOkTst && ((Output_Value_Type)jcasType).casFeat_valueAnnotation == null)
+      jcasType.jcas.throwFeatMissing("valueAnnotation", "gov.va.vinci.vitals.types.Output_Value");
+    return (Annotation)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Output_Value_Type)jcasType).casFeatCode_valueAnnotation)));}
     
-  /** setter for value2 - sets  
+  /** setter for valueAnnotation - sets  
    * @generated
    * @param v value to set into the feature 
    */
-  public void setValue2(String v) {
-    if (Output_Value_Type.featOkTst && ((Output_Value_Type)jcasType).casFeat_value2 == null)
-      jcasType.jcas.throwFeatMissing("value2", "gov.va.vinci.vitals.types.Output_Value");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Output_Value_Type)jcasType).casFeatCode_value2, v);}    
+  public void setValueAnnotation(Annotation v) {
+    if (Output_Value_Type.featOkTst && ((Output_Value_Type)jcasType).casFeat_valueAnnotation == null)
+      jcasType.jcas.throwFeatMissing("valueAnnotation", "gov.va.vinci.vitals.types.Output_Value");
+    jcasType.ll_cas.ll_setRefValue(addr, ((Output_Value_Type)jcasType).casFeatCode_valueAnnotation, jcasType.ll_cas.ll_getFSRef(v));}    
    
     
   //*--------------*

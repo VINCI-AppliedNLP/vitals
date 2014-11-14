@@ -127,11 +127,10 @@ public class Service2 {
 		}
 
 		static String TYPE_OUTPUT = "gov.va.vinci.vitals.types.Output_Value";
+		static String TYPE_Bp_value = "gov.va.vinci.vitals.types.Bp_value";
 		static String[] valueTypes = new String[] {
 		    "gov.va.vinci.vitals.types.Hr_value",
-		    "gov.va.vinci.vitals.types.Bp_value",
-		    "gov.va.vinci.vitals.types.Bp_Systolic_value",
-		    "gov.va.vinci.vitals.types.Bp_Diastolic_value",
+		    TYPE_Bp_value,
 		    "gov.va.vinci.vitals.types.T_value",
 		    "gov.va.vinci.vitals.types.Weight_value",
 		    "gov.va.vinci.vitals.types.Height_value",
@@ -140,6 +139,9 @@ public class Service2 {
 		    "gov.va.vinci.vitals.types.Pain_value",
 		    "gov.va.vinci.vitals.types.BMI_value"
 		};
+		static String[] valueBPTypes = new String[] {
+		    "gov.va.vinci.vitals.types.Bp_Systolic_value",
+		    "gov.va.vinci.vitals.types.Bp_Diastolic_value" };
 
 		static String TYPE_WINDOW = "gov.va.vinci.leo.window.types.Window";
 		static String[] TYPES_WINDOW = new String[] {
@@ -388,7 +390,7 @@ public class Service2 {
 		    .setTypeSystemDescription(types));
 		aggregate.addDelegate(new WindowAnnotator().getLeoAEDescriptor()
 		    .setParameterSetting(WindowAnnotator.Param.OUTPUT_TYPE.getName(), "gov.va.vinci.vitals.types.LowerPrecisionWindow")
-		    .setParameterSetting(WindowAnnotator.Param.WINDOW_RT.getName(), new Integer(200))
+		    .setParameterSetting(WindowAnnotator.Param.WINDOW_RT.getName(), new Integer(50))
 		    .setParameterSetting(WindowAnnotator.Param.INPUT_TYPE.getName(), new String[] { PipelineVariables.TYPE_INDICATOR })
 		    .setParameterSetting(WindowAnnotator.Param.ANCHOR_FEATURE.getName(), "Anchor")
 		    .setTypeSystemDescription(types));
@@ -470,6 +472,8 @@ public class Service2 {
 
 		//	aggregate.addDelegate(new VitalsExtractorAnnotator().getLeoAEDescriptor()
 		//aggregate.addDelegate(new VitalClassifier().getLeoAEDescriptor()
+
+		aggregate.addDelegate(new MarkNotItAE().getLeoAEDescriptor().addTypeSystemDescription(types));
 		aggregate.addDelegate(new ExtractTemperatureAE().getLeoAEDescriptor().addTypeSystemDescription(types));
 		aggregate.addDelegate(new ExtractSo2AE().getLeoAEDescriptor().addTypeSystemDescription(types));
 		aggregate.addDelegate(new ExtractBloodPressureAE().getLeoAEDescriptor().addTypeSystemDescription(types));
@@ -611,8 +615,8 @@ public class Service2 {
 
 		TypeDescription outType = new TypeDescription_impl(PipelineVariables.TYPE_OUTPUT, "",
 		    "uima.tcas.Annotation");
-		outType.addFeature("value1", "", "uima.cas.String");
-		outType.addFeature("value2", "", "uima.cas.String");
+		outType.addFeature("value", "", "uima.cas.String");
+		outType.addFeature("valueAnnotation", "", "uima.tcas.Annotation");
 		outType.addFeature("concept", "", "uima.cas.String");
 		outType.addFeature("unit", "", "uima.tcas.Annotation");
 		outType.addFeature("source", "", "uima.cas.String");
@@ -621,6 +625,10 @@ public class Service2 {
 
 		for (String a : PipelineVariables.valueTypes) {
 			types.addType(new TypeDescription_impl(a, "", PipelineVariables.TYPE_OUTPUT));
+		}
+
+		for (String a : PipelineVariables.valueBPTypes) {
+			types.addType(new TypeDescription_impl(a, "", PipelineVariables.TYPE_Bp_value));
 		}
 
 		types.addTypeSystemDescription(new WindowAnnotator().getLeoTypeSystemDescription());

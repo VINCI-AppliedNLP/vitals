@@ -115,8 +115,7 @@ public class SimpleCompareListener extends BaseCsvListener {
 
 			try {
 				ArrayList<Annotation> auAnns = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(cas.getJCas(), auType);
-				ArrayList<Annotation> toolAnns = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(cas.getJCas(),
-				    toolType);
+				ArrayList<Annotation> toolAnns = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(cas.getJCas(), toolType);
 				if (auAnns.size() == 0 && toolAnns.size() == 0) {
 					continue;
 				}

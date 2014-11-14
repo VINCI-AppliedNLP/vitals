@@ -46,7 +46,12 @@ public class ListenerLogic {
 					lineRow
 					    .put("Timestamp", ((Output_Value) a).getTimestamp().getCoveredText().replaceAll("\\s+", " "));
 				}
-
+				if (a instanceof Bp_Systolic_value) {
+					lineRow.put("Systolic", ((Output_Value) a).getValue());
+				} else if (a instanceof Bp_Diastolic_value) {
+					lineRow.put("Diastolic", ((Output_Value) a).getValue());
+				}
+				lineRow.put("Result", ((Output_Value) a).getValue());
 				lineRow.put("VitalType", singleType);
 				lineRow.put("ValueString", a.getCoveredText().replaceAll("\\s+", " "));
 				lineRow.put("SpanStart", "" + a.getBegin());

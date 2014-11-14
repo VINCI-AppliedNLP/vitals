@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Thu Nov 13 18:15:32 CST 2014 */
+/* First created by JCasGen Fri Nov 14 17:06:49 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -11,9 +11,9 @@ import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.cas.Type;
 
 /** 
- * Updated by JCasGen Thu Nov 13 18:15:32 CST 2014
+ * Updated by JCasGen Fri Nov 14 17:06:49 CST 2014
  * @generated */
-public class Bp_Diastolic_value_Type extends Output_Value_Type {
+public class Bp_Diastolic_value_Type extends Bp_value_Type {
   /** @generated 
    * @return the generator for this type
    */

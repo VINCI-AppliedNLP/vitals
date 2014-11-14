@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Thu Nov 13 18:15:32 CST 2014 */
+/* First created by JCasGen Fri Nov 14 17:06:49 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -12,7 +12,7 @@ import org.apache.uima.cas.Type;
 import gov.va.vinci.leo.window.types.Window_Type;
 
 /** 
- * Updated by JCasGen Thu Nov 13 18:15:32 CST 2014
+ * Updated by JCasGen Fri Nov 14 17:06:49 CST 2014
  * @generated */
 public class FVWindow_Type extends Window_Type {
   /** @generated 

@@ -115,7 +115,7 @@ configuration {
 			'\\bAF\\b',
 			'\\ba(.){0,3}fib\\b',
 			'atrial fib\\w*\\b',
-			'\\bap\\b',,
+			'\\bap\\b',
 			'\\bat fib\\b'
 		]
 		concept_feature_value = "Heart_Rate"
@@ -142,6 +142,7 @@ configuration {
 			'\\bresp\\b',
 			'\\brespir\\b',
 			'\\brr\\b',
+			'(?<!\\w)rr(?!\\w)',
 			'\\br\\b',
 			'respiration\\s*rate',
 			'respirations',
@@ -194,14 +195,12 @@ configuration {
 		concept_feature_value = "Age"
 		outputType = "gov.va.vinci.vitals.types.Age_Term"}
 
-	"NotVS" {
+	"NotIt_Term" {
 		expressions = [
 			"\\ba.c *r\\b",
-			"\\babp\\b",
 			"wbc",
 			"simv(\\s*rate)?",
-			"VENTILATOR\\s*rate" ,
-			"\\bap\\b",
+			"VENTILATOR\\s*rate" ,			
 			"\\balt\\b",
 			"\\bast\\b",
 			"\\bglucose\\b",
@@ -222,7 +221,16 @@ configuration {
 			"\\bml/hr\\b",
 			"\\bunits/hr",
 			'\\bpasp\\b',
-			'FIO2'
+			'FIO2',
+			'Atrial Rate',
+			'vac',
+			'ileo',
+			"uop",
+			"d5ns",
+			"\\buo\\b",
+			"esmolol",
+			"\\bmap\\b",
+			"\\bng\\b"
 		]
 		concept_feature_value = "NotIt_Term"
 		outputType = "gov.va.vinci.vitals.types.NotIt_Term" } }

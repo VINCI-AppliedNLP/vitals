@@ -47,7 +47,7 @@ public class ExtractPainAE extends ProcessingStepAE {
 						Annotation term = currRelation.getAnchor();
 						// check type
 						if (term instanceof Pain_Term) {
-							processValue(value, currentType, curUnit);
+							processValue(value, currentType, curUnit, true);
 						} else {
 							continue;
 						}
@@ -90,6 +90,26 @@ public class ExtractPainAE extends ProcessingStepAE {
 					((Numeric) ((Range) a).getValue1()).setUnit(u);
 					((Numeric) ((Range) a).getValue2()).setConcept(vital_type);
 					((Numeric) ((Range) a).getValue2()).setUnit(u);
+				} else {
+					if (markIt) {
+						((Numeric) ((Range) a).getValue1()).setConcept("Did not match on value: " + vital_type);
+						((Numeric) ((Range) a).getValue2()).setConcept("Did not match on value: " + vital_type);
+					}
+				}
+			}
+		} else if (a instanceof PotentialBp) {
+			if (StringUtils.isBlank(((Numeric) ((PotentialBp) a).getAnchor()).getConcept())) {
+				if (CheckRange.isPain(((Numeric) ((PotentialBp) a).getAnchor()).getValue()) &&
+				    ((Numeric) ((PotentialBp) a).getTarget()).getValue() == 10) {
+					// need to remove the second numeric
+					((Numeric) ((PotentialBp) a).getAnchor()).setConcept(vital_type);
+					((Numeric) ((PotentialBp) a).getAnchor()).setUnit(u);
+
+					//remove the denominator from index so that it is not confused with a value
+					Annotation ten = ((PotentialBp) a).getTarget();
+					((PotentialBp) a).setTarget(null);
+					ten.removeFromIndexes();
+
 				} else {
 					if (markIt) {
 						((Numeric) ((Range) a).getValue1()).setConcept("Did not match on value: " + vital_type);

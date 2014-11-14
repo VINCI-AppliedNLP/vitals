@@ -56,5 +56,10 @@ configuration {
 		expressions = ['per *cent', '%']
 		concept_feature_value = "SO2"
 	}
+
+	"NotIt_Term" {
+		expressions = ["ms", "mcg/min"]
+		concept_feature_value = "NotIt_Term"
+	}
 }
 

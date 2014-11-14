@@ -16,7 +16,7 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
 public class ExtractBloodPressureAE extends ProcessingStepAE {
-	static String currentType = vitalTypes.Blood_Pressure.name();
+	static String currentType = vitalTypes.Systolic.name();
 
 	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
@@ -87,7 +87,7 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 					if (term instanceof Bp_Term) {
 						String bpType = ((Bp_Term) term).getConcept();
 
-						processValue(value, currentType, curUnit, true);
+						processValue(value, bpType, curUnit, true);
 					} else {
 						continue;
 					}

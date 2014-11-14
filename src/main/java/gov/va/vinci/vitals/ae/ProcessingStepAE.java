@@ -16,6 +16,7 @@ public class ProcessingStepAE extends LeoBaseAnnotator {
 	public static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
 
 	public static enum vitalTypes {
+		NotIt_Term,
 		Blood_Pressure, //1
 		Heart_Rate,     //2
 		Systolic,
@@ -94,18 +95,24 @@ public class ProcessingStepAE extends LeoBaseAnnotator {
 			Numeric curNum = (Numeric) iterNums.next();
 			if (StringUtils.isNotBlank(curNum.getConcept())) {
 				if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Systolic.name())) {
-					Bp_Systolic_value newAnn = (Bp_Systolic_value) this.addOutputAnnotation(Bp_Systolic_value.class.getCanonicalName(), aJCas,
+					Bp_Systolic_value newAnn = (Bp_Systolic_value) this.addOutputAnnotation(Bp_Systolic_value.class.getCanonicalName(),
+					    aJCas,
 					    curNum.getBegin(), curNum.getEnd());
 					newAnn.setSource(curNum.getSource());
 					newAnn.setUnit(curNum.getUnit());
 					newAnn.setTimestamp(curNum.getTimestamp());
+					newAnn.setValue("" + curNum.getValue());
+					newAnn.setValueAnnotation(curNum);
 
 				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Diastolic.name())) {
-					Bp_Diastolic_value newAnn = (Bp_Diastolic_value) this.addOutputAnnotation(Bp_Diastolic_value.class.getCanonicalName(), aJCas,
+					Bp_Diastolic_value newAnn = (Bp_Diastolic_value) this.addOutputAnnotation(Bp_Diastolic_value.class.getCanonicalName(),
+					    aJCas,
 					    curNum.getBegin(), curNum.getEnd());
 					newAnn.setSource(curNum.getSource());
 					newAnn.setUnit(curNum.getUnit());
 					newAnn.setTimestamp(curNum.getTimestamp());
+					newAnn.setValue("" + curNum.getValue());
+					newAnn.setValueAnnotation(curNum);
 
 				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
 					Bp_value newAnn = (Bp_value) this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas,
@@ -113,6 +120,8 @@ public class ProcessingStepAE extends LeoBaseAnnotator {
 					newAnn.setSource(curNum.getSource());
 					newAnn.setUnit(curNum.getUnit());
 					newAnn.setTimestamp(curNum.getTimestamp());
+					newAnn.setValue("" + curNum.getValue());
+					newAnn.setValueAnnotation(curNum);
 
 				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
 					Hr_value newAnn = (Hr_value) this.addOutputAnnotation(Hr_value.class.getCanonicalName(), aJCas,
@@ -120,6 +129,8 @@ public class ProcessingStepAE extends LeoBaseAnnotator {
 					newAnn.setSource(curNum.getSource());
 					newAnn.setUnit(curNum.getUnit());
 					newAnn.setTimestamp(curNum.getTimestamp());
+					newAnn.setValue("" + curNum.getValue());
+					newAnn.setValueAnnotation(curNum);
 
 				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Temperature.name())) {
 					T_value newAnn = (T_value) this.addOutputAnnotation(T_value.class.getCanonicalName(), aJCas,
@@ -127,6 +138,8 @@ public class ProcessingStepAE extends LeoBaseAnnotator {
 					newAnn.setSource(curNum.getSource());
 					newAnn.setUnit(curNum.getUnit());
 					newAnn.setTimestamp(curNum.getTimestamp());
+					newAnn.setValue("" + curNum.getValue());
+					newAnn.setValueAnnotation(curNum);
 				} ///////////////////////
 				else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Respiratory.name())) {
 					Resp_value newAnn = (Resp_value) this.addOutputAnnotation(Resp_value.class.getCanonicalName(),
@@ -135,6 +148,8 @@ public class ProcessingStepAE extends LeoBaseAnnotator {
 					newAnn.setSource(curNum.getSource());
 					newAnn.setUnit(curNum.getUnit());
 					newAnn.setTimestamp(curNum.getTimestamp());
+					newAnn.setValue("" + curNum.getValue());
+					newAnn.setValueAnnotation(curNum);
 				}
 				else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Height.name())) {
 					Height_value newAnn = (Height_value) this.addOutputAnnotation(
@@ -143,6 +158,9 @@ public class ProcessingStepAE extends LeoBaseAnnotator {
 					newAnn.setSource(curNum.getSource());
 					newAnn.setUnit(curNum.getUnit());
 					newAnn.setTimestamp(curNum.getTimestamp());
+					newAnn.setValue("" + curNum.getValue());
+					newAnn.setValueAnnotation(curNum);
+
 				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Weight.name())) {
 					Weight_value newAnn = (Weight_value) this.addOutputAnnotation(
 					    Weight_value.class.getCanonicalName(), aJCas,
@@ -150,18 +168,27 @@ public class ProcessingStepAE extends LeoBaseAnnotator {
 					newAnn.setSource(curNum.getSource());
 					newAnn.setUnit(curNum.getUnit());
 					newAnn.setTimestamp(curNum.getTimestamp());
+					newAnn.setValue("" + curNum.getValue());
+					newAnn.setValueAnnotation(curNum);
+
 				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.SO2.name())) {
 					So2_value newAnn = (So2_value) this.addOutputAnnotation(So2_value.class.getCanonicalName(), aJCas,
 					    curNum.getBegin(), curNum.getEnd());
 					newAnn.setSource(curNum.getSource());
 					newAnn.setUnit(curNum.getUnit());
 					newAnn.setTimestamp(curNum.getTimestamp());
+					newAnn.setValue("" + curNum.getValue());
+					newAnn.setValueAnnotation(curNum);
+
 				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.BMI.name())) {
 					BMI_value newAnn = (BMI_value) this.addOutputAnnotation(BMI_value.class.getCanonicalName(), aJCas,
 					    curNum.getBegin(), curNum.getEnd());
 					newAnn.setSource(curNum.getSource());
 					newAnn.setUnit(curNum.getUnit());
 					newAnn.setTimestamp(curNum.getTimestamp());
+					newAnn.setValue("" + curNum.getValue());
+					newAnn.setValueAnnotation(curNum);
+
 				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Pain.name())) {
 					Pain_value newAnn = (Pain_value) this.addOutputAnnotation(Pain_value.class.getCanonicalName(),
 					    aJCas,
@@ -169,6 +196,8 @@ public class ProcessingStepAE extends LeoBaseAnnotator {
 					newAnn.setSource(curNum.getSource());
 					newAnn.setUnit(curNum.getUnit());
 					newAnn.setTimestamp(curNum.getTimestamp());
+					newAnn.setValue("" + curNum.getValue());
+					newAnn.setValueAnnotation(curNum);
 				}
 			}
 		}
