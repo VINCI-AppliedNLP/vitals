@@ -16,7 +16,6 @@ import gov.va.vinci.leo.model.DatabaseConnectionInformation;
 import gov.va.vinci.leo.tools.LeoUtils;
 import gov.va.vinci.leo.tools.TextFilter;
 import gov.va.vinci.svmlib.ml.SvmVectorTranslator;
-import gov.va.vinci.vitals.Service.LearningVariables;
 import gov.va.vinci.vitals.listeners.*;
 import gov.va.vinci.vitals.types.*;
 import groovy.util.ConfigObject;
@@ -298,15 +297,15 @@ public class Client {
 					HashMap<String, String> comparePairs = new HashMap<String, String>();
 					comparePairs.put(BPValue.class.getCanonicalName(), Bp_value.class.getCanonicalName());
 					comparePairs.put(TValue.class.getCanonicalName(), T_value.class.getCanonicalName());
-					comparePairs.put(HRValue.class.getCanonicalName(), Hr_value.class.getCanonicalName());
-					/**/
+					comparePairs.put(HRValue.class.getCanonicalName(), Hr_value.class.getCanonicalName());					/**/
 					comparePairs.put(BMIValue.class.getCanonicalName(), BMI_value.class.getCanonicalName());
 					comparePairs.put(HeightValue.class.getCanonicalName(), Height_value.class.getCanonicalName());
 					comparePairs.put(WeightValue.class.getCanonicalName(), Weight_value.class.getCanonicalName());
 					comparePairs.put(PainValue.class.getCanonicalName(), Pain_value.class.getCanonicalName());
 					comparePairs.put(RespValue.class.getCanonicalName(), Resp_value.class.getCanonicalName());
 					comparePairs.put(OxygenValue.class.getCanonicalName(), So2_value.class.getCanonicalName());
-					comparePairs.put(TimeValue.class.getCanonicalName(), Timestamp.class.getCanonicalName());
+					comparePairs.put(BPDiasValue.class.getCanonicalName(), Bp_Diastolic_value.class.getCanonicalName());
+					comparePairs.put(BPSysValue.class.getCanonicalName(), Bp_Systolic_value.class.getCanonicalName());
 					/**/
 					if (!(new File(csvPath).getParentFile().exists()))
 						new File(csvPath).getParentFile().mkdirs();

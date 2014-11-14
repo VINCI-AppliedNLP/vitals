@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Wed Nov 12 17:09:40 CST 2014 */
+/* First created by JCasGen Thu Nov 13 18:15:32 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -11,8 +11,8 @@ import gov.va.vinci.leo.window.types.Window;
 
 
 /** 
- * Updated by JCasGen Wed Nov 12 17:09:40 CST 2014
- * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_224a44ce-8255-4518-8ea0-2579e3b125352495252924581755509.xml
+ * Updated by JCasGen Thu Nov 13 18:15:32 CST 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_288ae9a9-0712-4933-bd40-616bddc2d0ac5488971352770452129.xml
  * @generated */
 public class HiPrecisionWindow extends Window {
   /** @generated

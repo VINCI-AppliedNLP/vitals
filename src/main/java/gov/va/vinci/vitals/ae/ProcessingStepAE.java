@@ -93,8 +93,21 @@ public class ProcessingStepAE extends LeoBaseAnnotator {
 		while (iterNums.hasNext()) {
 			Numeric curNum = (Numeric) iterNums.next();
 			if (StringUtils.isNotBlank(curNum.getConcept())) {
+				if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Systolic.name())) {
+					Bp_Systolic_value newAnn = (Bp_Systolic_value) this.addOutputAnnotation(Bp_Systolic_value.class.getCanonicalName(), aJCas,
+					    curNum.getBegin(), curNum.getEnd());
+					newAnn.setSource(curNum.getSource());
+					newAnn.setUnit(curNum.getUnit());
+					newAnn.setTimestamp(curNum.getTimestamp());
 
-				if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
+				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Diastolic.name())) {
+					Bp_Diastolic_value newAnn = (Bp_Diastolic_value) this.addOutputAnnotation(Bp_Diastolic_value.class.getCanonicalName(), aJCas,
+					    curNum.getBegin(), curNum.getEnd());
+					newAnn.setSource(curNum.getSource());
+					newAnn.setUnit(curNum.getUnit());
+					newAnn.setTimestamp(curNum.getTimestamp());
+
+				} else if (curNum.getConcept().equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
 					Bp_value newAnn = (Bp_value) this.addOutputAnnotation(Bp_value.class.getCanonicalName(), aJCas,
 					    curNum.getBegin(), curNum.getEnd());
 					newAnn.setSource(curNum.getSource());

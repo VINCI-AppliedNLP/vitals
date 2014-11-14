@@ -31,6 +31,7 @@ configuration {
 		]
 		concept_feature_value = "Temperature"
 		outputType = "gov.va.vinci.vitals.types.T_Term" }
+
 	"Systolic"{
 		expressions = [
 			'bp *systolic',
@@ -43,23 +44,24 @@ configuration {
 			'\\bbps\\b'
 		]
 		concept_feature_value = "Systolic"
-		outputType = "gov.va.vinci.vitals.types.Bp_Systolic_Term"}
+		outputType = "gov.va.vinci.vitals.types.Bp_Term"}
 
 	"Diastolic" {
-		expressions= ['(bp *)?diastolic( *bp)?', 'dias\\w*', '\\bdbp\\b']
+		expressions= [
+			"(bp *)?diastolic( *bp)?",
+			'diastolic',
+			'dias\\w*' ,
+			'\\bdbp\\b'
+		]
 		concept_feature_value = "Diastolic"
-		outputType = "gov.va.vinci.vitals.types.Bp_Diastolic_Term"}
+		outputType = "gov.va.vinci.vitals.types.Bp_Term"}
 
 
 	"Blood_Pressure" {
 		expressions = [
-			'diastolic',
 			'\\babp\\b',
 			'\\bsys *dias',
-			'bp *systolic',
-			'systolic',
-			'systolic *bp',
-			'sytolic',
+			'sbp *dbp\\b',
 			'\\bb(/|-|\\.)?p(\\.)?\\b',
 			'blood\\s*pressures?\\b',
 			'bp *lying',
@@ -72,7 +74,6 @@ configuration {
 			'\\bnbp\\b',
 			'repeat *bp\\b',
 			'rest *bp\\b',
-			'sbp *dbp\\b',
 			'sitting *blood *presure',
 			'sitting *bp',
 			'sitting p\\b',
@@ -222,8 +223,6 @@ configuration {
 			"\\bunits/hr",
 			'\\bpasp\\b',
 			'FIO2'
-			
-			
 		]
 		concept_feature_value = "NotIt_Term"
 		outputType = "gov.va.vinci.vitals.types.NotIt_Term" } }

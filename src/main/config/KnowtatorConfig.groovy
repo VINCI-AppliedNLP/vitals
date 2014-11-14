@@ -14,11 +14,11 @@ backupknowtatorToUimaTypeMap = [
 ]
 
 //knowtatorCorpusPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\ProblematicRefSt\\corpus\\"
-knowtatorCorpusPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\RefSt_20140923_Batch1_10\\corpus\\"
+knowtatorCorpusPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\RefSt_20140923_Batch1_10_updated\\corpus\\"
 //knowtatorCorpusPath="P:\\ORD_Iwashyna_201108021D\\NLP\\kttrTest\\corpus\\";
 
 
-knowtatorXmlPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\RefSt_20140923_Batch1_10\\saved\\"
+knowtatorXmlPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\RefSt_20140923_Batch1_10_updated\\saved\\"
 //"P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\RefSt_20140923_Batch1_10\\saved\\"
 //"P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\RefSt_20140522\\saved\\"
 //"P:\\ORD_Iwashyna_201108021D\\NLP\\kttrTest\\saved\\";
@@ -32,8 +32,10 @@ knowtatorToUimaFeatureMap = [
 
 knowtatorToUimaTypeMap = [
 	// knowtatorAnnotation : UIMA annotation ,
-	"blood_pressure_term":"gov.va.vinci.kttr.types.BPTerm",
+	"blood_pressure_term":"gov.va.vinci.kttr.types.BPTerm",	
 	"blood_pressure_value":"gov.va.vinci.kttr.types.BPValue",
+	"BP_systolic":"gov.va.vinci.kttr.types.BPSysValue",
+	"BP_diastolic":"gov.va.vinci.kttr.types.BPDiasValue",
 	"Indicator":"gov.va.vinci.kttr.types.Indicator",
 	"pulse_term":"gov.va.vinci.kttr.types.HRTerm",
 	"pulse_value":"gov.va.vinci.kttr.types.HRValue",
@@ -46,7 +48,12 @@ knowtatorToUimaTypeMap = [
 	"oxygen_value":"gov.va.vinci.kttr.types.OxygenValue",
 	"pain_value":"gov.va.vinci.kttr.types.PainValue",
 	"respiration_value":"gov.va.vinci.kttr.types.RespValue",
-	"time_value":"gov.va.vinci.kttr.types.TimeValue"
+	"time_value":"gov.va.vinci.kttr.types.TimeValue",
+	"pain_term":"gov.va.vinci.kttr.types.Other",
+	"bmi_term":"gov.va.vinci.kttr.types.Other",
+	"height_term":"gov.va.vinci.kttr.types.Other",
+	"weight_term":"gov.va.vinci.kttr.types.Other",
+	"oxygen_term":"gov.va.vinci.kttr.types.Other"
 
 ]
 

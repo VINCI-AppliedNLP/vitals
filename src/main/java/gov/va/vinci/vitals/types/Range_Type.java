@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Wed Nov 12 17:09:41 CST 2014 */
+/* First created by JCasGen Thu Nov 13 18:15:33 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -13,7 +13,7 @@ import org.apache.uima.cas.impl.FeatureImpl;
 import org.apache.uima.cas.Feature;
 
 /** 
- * Updated by JCasGen Wed Nov 12 17:09:41 CST 2014
+ * Updated by JCasGen Thu Nov 13 18:15:33 CST 2014
  * @generated */
 public class Range_Type extends Pattern_Type {
   /** @generated 

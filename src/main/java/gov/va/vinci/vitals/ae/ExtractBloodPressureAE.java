@@ -80,8 +80,13 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 				// Has term?
 				if (currRelation.getAnchor() != null) {
 					Annotation term = currRelation.getAnchor();
-					// check type
+					// check type 
+					// if systolic - test for systolic
+					// if diastolic -- test for diastolic
+					// if bp pattern -- split left and right
 					if (term instanceof Bp_Term) {
+						String bpType = ((Bp_Term) term).getConcept();
+
 						processValue(value, currentType, curUnit, true);
 					} else {
 						continue;
@@ -152,7 +157,7 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 				if (value1 instanceof IntegerNumber) {
 					if (StringUtils.isBlank(((Numeric) value1).getConcept())) {
 						if (CheckRange.isSystolicBp(((IntegerNumber) value1).getValue())) {
-							((IntegerNumber) value1).setConcept(vitalTypes.Blood_Pressure.name());
+							((IntegerNumber) value1).setConcept(vitalTypes.Systolic.name());
 						} else {
 							bothMatch = false;
 							((IntegerNumber) value1).setConcept("Mathched BP pattern but not value");
@@ -167,8 +172,8 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 						    && StringUtils.isBlank(((Numeric) rv2).getConcept())) {
 							if (CheckRange.isSystolicBp(((IntegerNumber) rv1).getValue())
 							    && CheckRange.isSystolicBp(((IntegerNumber) rv2).getValue())) {
-								((IntegerNumber) rv1).setConcept(vitalTypes.Blood_Pressure.name());
-								((IntegerNumber) rv2).setConcept(vitalTypes.Blood_Pressure.name());
+								((IntegerNumber) rv1).setConcept(vitalTypes.Systolic.name());
+								((IntegerNumber) rv2).setConcept(vitalTypes.Systolic.name());
 							}
 						}
 					}
@@ -181,7 +186,7 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 					if (value2 instanceof IntegerNumber) {
 						if (StringUtils.isBlank(((Numeric) value2).getConcept())) {
 							if (CheckRange.isDiastolicBp(((IntegerNumber) value2).getValue())) {
-								((IntegerNumber) value2).setConcept(vitalTypes.Blood_Pressure.name());
+								((IntegerNumber) value2).setConcept(vitalTypes.Diastolic.name());
 							} else {
 								bothMatch = false;
 								((IntegerNumber) value2).setConcept("Mathched BP pattern but not value");
@@ -197,8 +202,8 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 							    && StringUtils.isBlank(((Numeric) rv2).getConcept())) {
 								if (CheckRange.isDiastolicBp(((IntegerNumber) rv1).getValue())
 								    && CheckRange.isDiastolicBp(((IntegerNumber) rv2).getValue())) {
-									((IntegerNumber) rv1).setConcept(vitalTypes.Blood_Pressure.name());
-									((IntegerNumber) rv2).setConcept(vitalTypes.Blood_Pressure.name());
+									((IntegerNumber) rv1).setConcept(vitalTypes.Diastolic.name());
+									((IntegerNumber) rv2).setConcept(vitalTypes.Diastolic.name());
 								}
 							}
 						}
