@@ -443,6 +443,11 @@ public class Service2 {
 		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceBp)
 		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), PipelineVariables.TYPE_BP)
 		    .addTypeSystemDescription(types));
+
+		aggregate.addDelegate(new AdjustPotentialBpAE()
+		    .getLeoAEDescriptor()
+		    .setName("AdjustPotentialBpAE")
+		    .addTypeSystemDescription(types));
 		/**/
 		aggregate.addDelegate(new AnnotationPatternAnnotator()
 		    .getLeoAEDescriptor()
