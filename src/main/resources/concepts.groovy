@@ -96,7 +96,7 @@ configuration {
 		expressions = [
 			'\\bpulse\\b(\\srate)?',
 			'(max|mean|min)\\s+pulse',
-			'\\bhr\\b',
+			'\\bhr(?=(\\b|\\d))',
 			'\\bheart\\s*rate\\b',
 			'\\bp[uls]+e\\b',
 			'\\bp\\b',
@@ -142,7 +142,7 @@ configuration {
 			'\\bresp\\b',
 			'\\brespir\\b',
 			'\\brr\\b',
-			'(?<!\\w)rr(?!\\w)',
+			'(?<!\\w)rr(?=(\\b|\\d))',
 			'\\br\\b',
 			'respiration\\s*rate',
 			'respirations',

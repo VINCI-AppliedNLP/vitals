@@ -46,7 +46,7 @@ public class ProcessingStepAE extends LeoBaseAnnotator {
 		}
 
 		public static boolean isRespRate(Double num) {
-			if ((num > 8 && num < 35))
+			if ((num > 8 && num < 45))
 				return true;
 			else
 				return false;
