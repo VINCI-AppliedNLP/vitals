@@ -4,7 +4,7 @@ readerType = "knowtator"
 
 // Listener types is one or more of the following
 // simpleCsv|simplexmi|csv|xmi|aucompare|compare|database|chex
-listenerTypes = "compare"
+listenerTypes = "compare|xmi|csv"
 
 ///////////////////////////////////////////////////////////////////////////////
 sqlDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
@@ -76,15 +76,15 @@ csvFieldList = [
  *   If xmi files exist, they will be overwritten.
  *   If the path does not exist, it will be created.  
  *   
-	"gov.va.vinci.vitals.types.T_value",
-	"gov.va.vinci.vitals.types.Hr_value",
-	"gov.va.vinci.vitals.types.Bp_value",
-	"gov.va.vinci.kttr.types.BPValue",
-	"gov.va.vinci.kttr.types.HRValue",
-	"gov.va.vinci.kttr.types.TValue",
-	"gov.va.vinci.vitals.types.BMI_value",
-	"gov.va.vinci.vitals.types.Height_value",
-	"gov.va.vinci.vitals.types.Weight_value"*/
+ "gov.va.vinci.vitals.types.T_value",
+ "gov.va.vinci.vitals.types.Hr_value",
+ "gov.va.vinci.vitals.types.Bp_value",
+ "gov.va.vinci.kttr.types.BPValue",
+ "gov.va.vinci.kttr.types.HRValue",
+ "gov.va.vinci.kttr.types.TValue",
+ "gov.va.vinci.vitals.types.BMI_value",
+ "gov.va.vinci.vitals.types.Height_value",
+ "gov.va.vinci.vitals.types.Weight_value"*/
 xmiOutPath = mainOutPath + "xmi\\"
 xmiOutputTypeList =  []
 
@@ -147,8 +147,8 @@ auMap = [
 	"gov.va.vinci.kttr.types.OxygenValue":"gov.va.vinci.vitals.types.So2_value",
 	"gov.va.vinci.kttr.types.PainValue"  :"gov.va.vinci.vitals.types.Pain_value",
 	"gov.va.vinci.kttr.types.RespValue"  :"gov.va.vinci.vitals.types.Resp_value",
-	"gov.va.vinci.kttr.types.TimeValue"  :"gov.va.vinci.vitals.types.Timestamp" 
-	
+	"gov.va.vinci.kttr.types.TimeValue"  :"gov.va.vinci.vitals.types.Timestamp"
+
 ]
 
 // INFO: environments
@@ -161,7 +161,7 @@ environments {
 	}
 	compare{
 		readerType = "knowtator"
-		listenerTypes = "aucompare|csv|xmi"
+		listenerTypes = "aucompare|xmi"
 		envType = "compare"
 	}
 	dbOut{

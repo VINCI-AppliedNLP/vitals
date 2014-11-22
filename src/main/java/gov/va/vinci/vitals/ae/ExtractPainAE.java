@@ -98,24 +98,29 @@ public class ExtractPainAE extends ProcessingStepAE {
 				}
 			}
 		} else if (a instanceof PotentialBp) {
-			if (StringUtils.isBlank(((Numeric) ((PotentialBp) a).getAnchor()).getConcept())) {
-				if (CheckRange.isPain(((Numeric) ((PotentialBp) a).getAnchor()).getValue()) &&
-				    ((Numeric) ((PotentialBp) a).getTarget()).getValue() == 10) {
-					// need to remove the second numeric
-					((Numeric) ((PotentialBp) a).getAnchor()).setConcept(vital_type);
-					((Numeric) ((PotentialBp) a).getAnchor()).setUnit(u);
+			Annotation pb1 = ((PotentialBp) a).getAnchor();
+			Annotation pb2 = ((PotentialBp) a).getTarget();
+			if (pb2 instanceof Numeric) {
+				if (((Numeric) pb2).getValue() == 10) {
+					if (pb1 instanceof Numeric) {
+						if (StringUtils.isBlank(((Numeric) pb1).getConcept())) {
+							if (CheckRange.isPain(((Numeric) pb1).getValue())) {
+								((Numeric) pb1).setConcept(vital_type);
+								((Numeric) pb1).setUnit(u);
 
-					//remove the denominator from index so that it is not confused with a value
-					Annotation ten = ((PotentialBp) a).getTarget();
-					((PotentialBp) a).setTarget(null);
-					ten.removeFromIndexes();
-
-				} else {
-					if (markIt) {
-						((Numeric) ((Range) a).getValue1()).setConcept("Did not match on value: " + vital_type);
-						((Numeric) ((Range) a).getValue2()).setConcept("Did not match on value: " + vital_type);
+							}
+							if (markIt) {
+								((Numeric) pb1).setConcept("Did not match on value: " + vital_type);
+							}
+						}
 					}
 				}
+				//remove the denominator from index so that it is not confused with a value
+				Annotation ten = pb2;
+				((PotentialBp) a).setTarget(null);
+				ten.removeFromIndexes();
+			} else if (pb1 instanceof Range) {
+				log.error("Unhandled condition in line 107 in ExtractPainAE.java");
 			}
 		}
 

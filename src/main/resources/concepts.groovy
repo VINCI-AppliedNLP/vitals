@@ -190,17 +190,14 @@ configuration {
 		concept_feature_value = "Weight"
 		outputType = "gov.va.vinci.vitals.types.Weight_Term"}
 
-	"Age" {
-		expressions = ["\\bage\\b", "\\bdob\\b"]
-		concept_feature_value = "Age"
-		outputType = "gov.va.vinci.vitals.types.Age_Term"}
-
 	"NotIt_Term" {
 		expressions = [
+			"\\bage\\b",
+			"\\bdob\\b",
 			"\\ba.c *r\\b",
 			"wbc",
 			"simv(\\s*rate)?",
-			"VENTILATOR\\s*rate" ,			
+			"VENTILATOR\\s*rate" ,
 			"\\balt\\b",
 			"\\bast\\b",
 			"\\bglucose\\b",

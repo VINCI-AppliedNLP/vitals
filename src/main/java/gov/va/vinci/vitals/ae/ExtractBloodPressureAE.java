@@ -190,8 +190,22 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 							} else {
 								bothMatch = false;
 								((IntegerNumber) value2).setConcept("Mathched BP pattern but not value");
+								// if the second number fails, discard the first number as well
 								if (value1 != null)
-									((IntegerNumber) value1).setConcept("Mathched BP pattern but not value");
+								{
+									if (value1 instanceof IntegerNumber) {
+										((IntegerNumber) value1).setConcept("Mathched BP pattern but not value");
+									} else if (value1 instanceof Range) {
+										Annotation rv1 = ((Range) value1).getValue1();
+										Annotation rv2 = ((Range) value1).getValue2();
+										if (rv1 instanceof IntegerNumber && rv2 instanceof IntegerNumber) {
+
+											((IntegerNumber) rv1).setConcept("Mathched BP pattern but not value");
+											((IntegerNumber) rv2).setConcept("Mathched BP pattern but not value");
+										}
+
+									}
+								}
 							}
 						}
 					} else if (value2 instanceof Range) {
@@ -204,6 +218,26 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 								    && CheckRange.isDiastolicBp(((IntegerNumber) rv2).getValue())) {
 									((IntegerNumber) rv1).setConcept(vitalTypes.Diastolic.name());
 									((IntegerNumber) rv2).setConcept(vitalTypes.Diastolic.name());
+								}else {
+									bothMatch = false;
+									((IntegerNumber) rv1).setConcept("Mathched BP pattern but not value");
+									((IntegerNumber) rv2).setConcept("Mathched BP pattern but not value");
+									// if the second number fails, discard the first number as well
+									if (value1 != null)
+									{
+										if (value1 instanceof IntegerNumber) {
+											((IntegerNumber) value1).setConcept("Mathched BP pattern but not value");
+										} else if (value1 instanceof Range) {
+											Annotation rv1v1 = ((Range) value1).getValue1();
+											Annotation rv1v2 = ((Range) value1).getValue2();
+											if (rv1v1 instanceof IntegerNumber && rv1v2 instanceof IntegerNumber) {
+
+												((IntegerNumber) rv1v1).setConcept("Mathched BP pattern but not value");
+												((IntegerNumber) rv1v2).setConcept("Mathched BP pattern but not value");
+											}
+
+										}
+									}
 								}
 							}
 						}

@@ -4,11 +4,11 @@
 /**************************************************************/
 /**  Change for each project or each run   */
 /**************************************************************/
-processingOnVinci = false
+processingOnVinci = true
 serviceQueueName = "VitalsForSepsis"
 
 // SVM model
-svmModelPath="src/main/resources/hr_model_500_2.svm"
+svmModelPath="src/main/resources/hr_model_5k_Service2.svm"
 
 casPoolSize=10
 

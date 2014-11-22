@@ -26,16 +26,14 @@ public class FilterHeartRateAnnotator extends LeoBaseAnnotator {
 		// TODO Auto-generated method stub
 		super.process(aJCas);
 		ArrayList<Annotation> predictionList = (ArrayList<Annotation>) AnnotationLibrarian
-		    .getAllAnnotationsOfType(aJCas,
-		        Hr_Prediction.type);
+		    .getAllAnnotationsOfType(aJCas, Hr_Prediction.type);
 		for (Annotation a : predictionList) {
 			Hr_Prediction p = (Hr_Prediction) a;
 			try {
 				if ("0.0".equalsIgnoreCase(p.getPrediction())) {
 					ArrayList<Annotation> hrAnnotations;
 
-					hrAnnotations = (ArrayList<Annotation>) AnnotationLibrarian.getAllOverlappingAnnotationsOfType(p,
-					    Hr_value.type);
+					hrAnnotations = (ArrayList<Annotation>) AnnotationLibrarian.getAllOverlappingAnnotationsOfType(p, Hr_value.type);
 
 					for (Annotation hr : hrAnnotations) {
 						hr.removeFromIndexes(aJCas);

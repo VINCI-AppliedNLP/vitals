@@ -17,11 +17,13 @@ import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.ConfigurationParameter;
 
+import gov.va.vinci.kttr.types.*;
 import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.tools.ConfigurationParameterImpl;
 import gov.va.vinci.sherlock.ae.BaseFeatureVectorAnnotator;
 import gov.va.vinci.sherlock.ae.AmbientInputFeatureVectorAE.StringToken;
 import gov.va.vinci.vitals.types.*;
+import gov.va.vinci.vitals.types.Indicator;
 
 /**
  * 
@@ -44,9 +46,14 @@ public class HrVectorAnnotator extends BaseFeatureVectorAnnotator {
 
 	public static java.util.regex.Pattern singleNumber = java.util.regex.Pattern.compile("\\d+",
 	    java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
-	Pattern sentenceBoundary = Pattern.compile("[.!?]\\s+");
-	Pattern lineBreak = Pattern.compile("(\\r\\n|\\n)");
-	Pattern punctuation = Pattern.compile("(\\[|\\]|\\(|\\)|,|:|\\*|--+)");
+	Pattern sentenceBoundary = Pattern.compile("[.!?]\\s+",
+	    java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
+	Pattern lineBreak = Pattern.compile("\\n",
+	    java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
+	Pattern punctuation = Pattern.compile("(\\[|\\]|\\(|\\)|,|:|\\*|-)",
+	    java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);
+	public static java.util.regex.Pattern anyNumber = java.util.regex.Pattern.compile(
+	    "(\\d+\\.)?\\d+", java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.CASE_INSENSITIVE);;
 	char[] docText = null;
 
 	/**/
@@ -73,7 +80,7 @@ public class HrVectorAnnotator extends BaseFeatureVectorAnnotator {
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		// TODO Auto-generated method stub
 		super.process(aJCas);
-		int refStType = Hr_value.type;//HRValue.type;
+		int refStType = HRValue.type;//HRValue.type;
 		int sysType = Hr_value.type;
 
 		Collection<Annotation> systemTypes = AnnotationLibrarian.getAllAnnotationsOfType(aJCas, sysType);
@@ -115,35 +122,143 @@ public class HrVectorAnnotator extends BaseFeatureVectorAnnotator {
 
 		HashMap<String, String> vector = new HashMap<String, String>();
 		// Features:
-		// INFO: Distance to Indicator and indicator text
+		// 1 : value of the annotation
+		getValue(aJCas, vector, currAnnotation);
+
+		//  is indicator present	and distance to the indicator
+
+		getTermsAndDistances(aJCas, vector, currAnnotation);
+		Annotation closestIndicator = getIndicatorAndDistance(aJCas, vector, currAnnotation);
+		// 3. Number of other annotations between the currentAnnotation and the indicator
+		if (closestIndicator != null) {
+			ArrayList<Annotation> tList = (ArrayList<Annotation>) AnnotationLibrarian
+			    .getAllCoveredAnnotationsOfType(closestIndicator.getBegin(), currAnnotation.getBegin(), aJCas,
+			        T_value.type);
+			vector.put("tCount", Integer.toString(tList.size()));
+
+			ArrayList<Annotation> intList = (ArrayList<Annotation>) AnnotationLibrarian
+			    .getAllCoveredAnnotationsOfType(closestIndicator.getBegin(), currAnnotation.getBegin(), aJCas,
+			        IntegerNumber.type);
+			vector.put("intCount", Integer.toString(intList.size()));
+
+			ArrayList<Annotation> doubleList = (ArrayList<Annotation>) AnnotationLibrarian
+			    .getAllCoveredAnnotationsOfType(closestIndicator.getBegin(), currAnnotation.getBegin(), aJCas,
+			        DoubleNumber.type);
+			vector.put("doubleCount", Integer.toString(doubleList.size()));
+
+			ArrayList<Annotation> pbpList = (ArrayList<Annotation>) AnnotationLibrarian
+			    .getAllCoveredAnnotationsOfType(closestIndicator.getBegin(), currAnnotation.getBegin(), aJCas,
+			        PotentialBp.type);
+			vector.put("pbpCount", Integer.toString(pbpList.size()));
+
+			// 4. Number of Temperature annotations between the currentAnnotation and the indicator
+
+			ArrayList<Annotation> bList = (ArrayList<Annotation>) AnnotationLibrarian
+			    .getAllCoveredAnnotationsOfType(closestIndicator.getBegin(), currAnnotation.getBegin(), aJCas,
+			        Bp_value.type);
+			vector.put("BpCount", Integer.toString(bList.size()));
+
+			// INFO:  Number of Temperature annotations between the currentAnnotation and the indicator
+
+			ArrayList<Annotation> hList = (ArrayList<Annotation>) AnnotationLibrarian
+			    .getAllCoveredAnnotationsOfType(closestIndicator.getBegin(), currAnnotation.getBegin(), aJCas,
+			        Hr_value.type);
+			vector.put("HrCount", Integer.toString(hList.size()));
+
+			String spanText = aJCas.getDocumentText().substring(closestIndicator.getBegin(), currAnnotation.getBegin());
+
+			//Find the number of sentence boundaries in the span        
+			Matcher sentenceMatcher = sentenceBoundary.matcher(spanText);
+			int sentenceBoundaries = 0;
+			while (sentenceMatcher.find()) {
+				sentenceBoundaries++;
+			}
+			vector.put("sentenceBoundaries", Integer.toString(sentenceBoundaries));
+
+			//Find the number of line breaks       
+			Matcher lineMatcher = lineBreak.matcher(spanText);
+			int lineBreaks = 0;
+			while (lineMatcher.find()) {
+				lineBreaks++;
+			}
+			vector.put("lineBreaks", Integer.toString(lineBreaks));
+			//Find the number of punctuation        
+			Matcher puncMatcher = punctuation.matcher(spanText);
+			int puncs = 0;
+			while (puncMatcher.find()) {
+				puncs++;
+			}
+			vector.put("punctuation", Integer.toString(puncs));
+		}
+
+		// tokens around the annotation
+		int windowSize = 500;
+		int begin = currAnnotation.getBegin() - windowSize;
+		int end = currAnnotation.getBegin() + windowSize;
+		if (begin < 0)
+			begin = 0;
+		if (end > aJCas.getDocumentText().length())
+			end = aJCas.getDocumentText().length();
+
+		String window = aJCas.getDocumentText().substring(begin, end);
+		ArrayList<StringToken> tokens = tokenize(window.trim().toLowerCase());
+		for (StringToken st : tokens) {
+			if (st.type == TK_WORD || st.type == TK_NUMBER) {
+				vector.put(st.token.toString().toLowerCase().trim(), "1");
+			}
+		}//for
+
+		return vector;
+	}//getFeatureVector method
+
+	private Annotation getIndicatorAndDistance(JCas aJCas, HashMap<String, String> vector, Annotation currAnnotation)
+	    throws CASException, AnalysisEngineProcessException {
 		ArrayList<Annotation> indicatorList = (ArrayList<Annotation>) AnnotationLibrarian
 		    .getPreviousAnnotationsOfType(currAnnotation, Indicator.type, 1);
 		Annotation closestIndicator = null;
 		if (indicatorList.size() > 0) {
+			vector.put("indicator_present", "1");
 			closestIndicator = indicatorList.get(0);
-			vector.put("indicator_Distance",
-			    Integer.toString(currAnnotation.getBegin() - closestIndicator.getEnd()));
+			// 3: Distance to Indicator 
+			vector.put("indicator_Distance", Integer.toString(currAnnotation.getBegin() - closestIndicator.getEnd()));
 
-			// tokenize indicator covered text
+			// 4: Tokens of the indicator covered text as a bag of workds
 			ArrayList<StringToken> tokens = tokenize(closestIndicator.getCoveredText().trim().toLowerCase());
 			for (StringToken st : tokens) {
 				if (st.type == TK_WORD || st.type == TK_NUMBER) {
 					vector.put("i_" + st.token.toString().toLowerCase().trim(), "1");
 				}
 			}//for
-
+		} else {
+			vector.put("indicator_present", "0");
 		}
+		return closestIndicator;
+	}
 
-		// INFO: Distance to Indicator and indicator text
-		ArrayList<Annotation> termList = (ArrayList<Annotation>) AnnotationLibrarian
-		    .getPreviousAnnotationsOfType(currAnnotation, Term.type, 1);
+	private void getValue(JCas aJCas, HashMap<String, String> vector, Annotation currAnnotation) {
+		if (currAnnotation instanceof Hr_value) {
+			vector.put("value", ((Hr_value) currAnnotation).getValue());
+		} else if (currAnnotation instanceof HRValue) {
+			String value = currAnnotation.getCoveredText().trim();
+			Matcher numMatcher = anyNumber.matcher(value);
+			if (numMatcher.find()) {
+				double vD = Double.parseDouble(value.substring(numMatcher.start(), numMatcher.end()));
+				vector.put("value", value.substring(numMatcher.start(), numMatcher.end()));
+			}
+		}
+	}
+
+	private Annotation getTermsAndDistances(JCas aJCas, HashMap<String, String> vector, Annotation currAnnotation)
+	    throws CASException,
+	    AnalysisEngineProcessException {
+		// INFO: Distance to term and term text
+		ArrayList<Annotation> termList = (ArrayList<Annotation>) AnnotationLibrarian.getPreviousAnnotationsOfType(currAnnotation,
+		    Term.type, 1);
 		Annotation closestTerm = null;
 
 		int closestNonHrTerm = 99999;
 		for (Annotation t : termList) {
-			if ((currAnnotation.getBegin() - t.getEnd()) < closestNonHrTerm) {
-				closestNonHrTerm = currAnnotation.getBegin() - t.getEnd();
-			}
+
 			if ("Heart_rate".equalsIgnoreCase(((Term) t).getConcept())) {
 				closestTerm = t;
 				vector.put("term_hr_Distance", Integer.toString(currAnnotation.getBegin() - closestTerm.getEnd()));
@@ -157,7 +272,9 @@ public class HrVectorAnnotator extends BaseFeatureVectorAnnotator {
 				}//for
 
 			} else {
-
+				if ((currAnnotation.getBegin() - t.getEnd()) < closestNonHrTerm) {
+					closestNonHrTerm = currAnnotation.getBegin() - t.getEnd();
+				}
 				ArrayList<StringToken> tokens = tokenize(t.getCoveredText().trim().toLowerCase());
 				for (StringToken st : tokens) {
 					if (st.type == TK_WORD || st.type == TK_NUMBER) {
@@ -166,88 +283,11 @@ public class HrVectorAnnotator extends BaseFeatureVectorAnnotator {
 				}//for				
 			}
 		}
+		if (closestNonHrTerm < 200)
+			vector.put("closestNonHrTerm", Integer.toString(closestNonHrTerm));
+		return closestTerm;
 
-		// INFO: Numeric value and covered text.
-		String numberString = currAnnotation.getCoveredText();
-		vector.put("text", numberString);
-		Matcher digitMatcher = singleNumber.matcher(numberString);
-		if (digitMatcher.find()) {
-			String n = numberString.substring(digitMatcher.start(), digitMatcher.end());
-			n = n.trim();
-			try {
-				int num = Integer.parseInt(n);
-				vector.put("value", Integer.toString(num));
-			} catch (Exception e) {
-				// the number did not parse. Let's skip it for now.
-			}
-		} else {
-			// there are no numbers found. Let's skip it for now.
-		}
-
-		// 3. Number of Temperature annotations between the currentAnnotation and the indicator
-		if (closestIndicator != null) {
-			ArrayList<Annotation> tList = (ArrayList<Annotation>) AnnotationLibrarian
-			    .getAllCoveredAnnotationsOfType(closestIndicator.getBegin(), currAnnotation.getBegin(), aJCas,
-			        T_value.type);
-			vector.put("tCount", Integer.toString(tList.size()));
-		
-
-		// 4. Number of Temperature annotations between the currentAnnotation and the indicator
-		
-			ArrayList<Annotation> bList = (ArrayList<Annotation>) AnnotationLibrarian
-			    .getAllCoveredAnnotationsOfType(closestIndicator.getBegin(), currAnnotation.getBegin(), aJCas,
-			        Bp_value.type);
-			vector.put("BpCount", Integer.toString(bList.size()));
-		
-
-		// INFO:  Number of Temperature annotations between the currentAnnotation and the indicator
-		
-			ArrayList<Annotation> hList = (ArrayList<Annotation>) AnnotationLibrarian
-			    .getAllCoveredAnnotationsOfType(closestIndicator.getBegin(), currAnnotation.getBegin(), aJCas,
-			        Hr_value.type);
-			vector.put("HrCount", Integer.toString(hList.size()));
-
-			String spanText = aJCas.getDocumentText().substring(
-			    closestIndicator.getBegin(), currAnnotation.getBegin());
-			//Find the number of sentence boundaries in the span        
-			Matcher sentenceMatcher = sentenceBoundary.matcher(spanText);
-			int sentenceBoundaries = 0;
-			while (sentenceMatcher.find())
-				sentenceBoundaries++;
-			vector.put("sentenceBoundaries", Integer.toString(sentenceBoundaries));
-
-			//Find the number of line breaks       
-			Matcher lineMatcher = lineBreak.matcher(spanText);
-			int lineBreaks = 0;
-			while (lineMatcher.find())
-				lineBreaks++;
-			vector.put("lineBreaks", Integer.toString(lineBreaks));
-			//Find the number of punctuation        
-			Matcher puncMatcher = punctuation.matcher(spanText);
-			int puncs = 0;
-			while (puncMatcher.find()) {
-				puncs++;
-			}
-			vector.put("punctuation", Integer.toString(puncs));
-			}
-			
-		// tokens around the annotation
-		int begin = currAnnotation.getBegin()-1000;
-		int end = currAnnotation.getBegin() + 1000;
-		if(begin < 0) begin = 0;
-		if(end > aJCas.getDocumentText().length()) end = aJCas.getDocumentText().length();
-		
-		String window = aJCas.getDocumentText().substring(begin, end);
-		ArrayList<StringToken> tokens = tokenize(window.trim().toLowerCase());
-		for (StringToken st : tokens) {
-			if (st.type == TK_WORD || st.type == TK_NUMBER) {
-				vector.put(st.token.toString().toLowerCase().trim(), "1");
-			}
-		}//for
-		
-			
-		return vector;
-	}//getFeatureVector method
+	}
 
 	/**
 	 * Add the vector annotation and return a reference to the annotation added
