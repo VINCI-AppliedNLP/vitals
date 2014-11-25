@@ -38,6 +38,7 @@ public class AnnotationFilter extends LeoBaseAnnotator {
 	protected String[] typesToKeep = null;
 	protected String[] typesToDelete = null;
 	protected Boolean removeOverlapping = false;
+	protected Boolean removeChildren = false;
 
 	/**
 	 * 
@@ -53,6 +54,9 @@ public class AnnotationFilter extends LeoBaseAnnotator {
 		if (aContext.getConfigParameterValue(Param.REMOVE_OVERLAPPING.getName()) != null) {
 			removeOverlapping = (Boolean) aContext.getConfigParameterValue(Param.REMOVE_OVERLAPPING.getName());
 		}
+		if (aContext.getConfigParameterValue(Param.REMOVE_CHILDREN.getName()) != null) {
+			removeChildren = (Boolean) aContext.getConfigParameterValue(Param.REMOVE_CHILDREN.getName());
+		}
 	}
 
 	@Override
@@ -60,7 +64,7 @@ public class AnnotationFilter extends LeoBaseAnnotator {
 		super.process(aJCas);
 		for (String type1 : typesToKeep) {
 			if (typesToDelete == null)
-				removeCoveredAnnotations(aJCas, type1);
+				removeCoveredAnnotations(aJCas, type1, removeChildren);
 			else {
 				for (String type2 : typesToDelete) {
 					if (removeOverlapping)
@@ -82,20 +86,24 @@ public class AnnotationFilter extends LeoBaseAnnotator {
 		return null;
 	}
 
-	public static void removeCoveredAnnotations(final JCas jcas,
-	    final String type) throws AnalysisEngineProcessException {
-		if (jcas == null)
+	public static void removeCoveredAnnotations(final JCas aJCas, final String type, boolean removeChildren)
+	    throws AnalysisEngineProcessException {
+		if (aJCas == null)
 			throw new IllegalArgumentException("Missing jcas parameter!", null);
 		if (StringUtils.isBlank(type))
 			throw new IllegalArgumentException("Missing type name parameter!", null);
-		Type typeObj = null;
-		try {
-			typeObj = jcas.getRequiredType(type);
-		} catch (CASException e) {
-			throw new AnalysisEngineProcessException(e);
+		if (removeChildren) {
+			Type typeObj = null;
+			try {
+				typeObj = aJCas.getRequiredType(type);
+			} catch (CASException e) {
+				throw new AnalysisEngineProcessException(e);
+			}
+			ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(aJCas, typeObj);
+			removeCoveredFromList(list, type);
+		} else {
+			AnnotationLibrarian.removeCoveredAnnotations(aJCas, type);
 		}
-		ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, typeObj);
-		removeCoveredFromList(list, type);
 	}//removeCoveredAnnotations method
 
 	public static void removeCoveredFromList(final List<Annotation> annotations,
@@ -141,5 +149,10 @@ public class AnnotationFilter extends LeoBaseAnnotator {
 		    "removeOverlapping",
 		    "Set true to remove overlapping, otherwise, remove completely covered only", "Boolean", false, false,
 		    new String[0]);
+		public static ConfigurationParameter REMOVE_CHILDREN = new ConfigurationParameterImpl(
+		    "removeChildren",
+		    "Set true to remove overlapping, otherwise, remove completely covered only", "Boolean", false, false,
+		    new String[0]);
+
 	}
 }

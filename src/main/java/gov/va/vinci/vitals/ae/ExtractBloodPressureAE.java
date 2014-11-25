@@ -145,28 +145,47 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 		}
 	}
 
+	public static void discardSystolic(Annotation systolicAnnotation) {
+		if (systolicAnnotation != null) {
+			if (systolicAnnotation instanceof IntegerNumber) {
+				((IntegerNumber) systolicAnnotation).setConcept("Mathched BP pattern but not value");
+			} else if (systolicAnnotation instanceof Range) {
+				Annotation rv1 = ((Range) systolicAnnotation).getValue1();
+				Annotation rv2 = ((Range) systolicAnnotation).getValue2();
+				if (rv1 instanceof IntegerNumber && rv2 instanceof IntegerNumber) {
+
+					((IntegerNumber) rv1).setConcept("Mathched BP pattern but not value");
+					((IntegerNumber) rv2).setConcept("Mathched BP pattern but not value");
+				}
+
+			}
+		}
+	}
+
 	public static void processPotentialBp(PotentialBp currBp) {
 		try {
 			// Anchor is Systolic
 			// Target is Diastolic
-			Annotation value1 = null;
-			Annotation value2 = null;
+			// if diastolic fails then systolic should be changed as well.
+			Annotation systolicAnnotation = null;
+			Annotation diastolicAnnotation = null;
+
 			boolean bothMatch = true;
 			if (currBp.getAnchor() != null) {
-				value1 = currBp.getAnchor();
-				if (value1 instanceof IntegerNumber) {
-					if (StringUtils.isBlank(((Numeric) value1).getConcept())) {
-						if (CheckRange.isSystolicBp(((IntegerNumber) value1).getValue())) {
-							((IntegerNumber) value1).setConcept(vitalTypes.Systolic.name());
+				systolicAnnotation = currBp.getAnchor();
+				// The first annotation can be either an integer or a range
+				if (systolicAnnotation instanceof IntegerNumber) {
+					if (StringUtils.isBlank(((Numeric) systolicAnnotation).getConcept())) {
+						if (CheckRange.isSystolicBp(((IntegerNumber) systolicAnnotation).getValue())) {
+							((IntegerNumber) systolicAnnotation).setConcept(vitalTypes.Systolic.name());
 						} else {
 							bothMatch = false;
-							((IntegerNumber) value1).setConcept("Mathched BP pattern but not value");
-
+							((IntegerNumber) systolicAnnotation).setConcept("Mathched BP pattern but not value");
 						}
 					}
-				} else if (value1 instanceof Range) {
-					Annotation rv1 = ((Range) value1).getValue1();
-					Annotation rv2 = ((Range) value1).getValue2();
+				} else if (systolicAnnotation instanceof Range) {
+					Annotation rv1 = ((Range) systolicAnnotation).getValue1();
+					Annotation rv2 = ((Range) systolicAnnotation).getValue2();
 					if (rv1 instanceof IntegerNumber && rv2 instanceof IntegerNumber) {
 						if (StringUtils.isBlank(((Numeric) rv1).getConcept())
 						    && StringUtils.isBlank(((Numeric) rv2).getConcept())) {
@@ -179,70 +198,42 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 					}
 				} // end if Range
 			} // end if Anchor
+			/**/
 			if (bothMatch) {
 				if (currBp.getTarget() != null) {
-					value2 = currBp.getTarget();
+					diastolicAnnotation = currBp.getTarget();
 
-					if (value2 instanceof IntegerNumber) {
-						if (StringUtils.isBlank(((Numeric) value2).getConcept())) {
-							if (CheckRange.isDiastolicBp(((IntegerNumber) value2).getValue())) {
-								((IntegerNumber) value2).setConcept(vitalTypes.Diastolic.name());
+					if (diastolicAnnotation instanceof IntegerNumber) {
+						if (StringUtils.isBlank(((Numeric) diastolicAnnotation).getConcept())) {
+							if (CheckRange.isDiastolicBp(((IntegerNumber) diastolicAnnotation).getValue())) {
+								((IntegerNumber) diastolicAnnotation).setConcept(vitalTypes.Diastolic.name());
 							} else {
 								bothMatch = false;
-								((IntegerNumber) value2).setConcept("Mathched BP pattern but not value");
+								((IntegerNumber) diastolicAnnotation).setConcept("Mathched BP pattern but not value");
 								// if the second number fails, discard the first number as well
-								if (value1 != null)
-								{
-									if (value1 instanceof IntegerNumber) {
-										((IntegerNumber) value1).setConcept("Mathched BP pattern but not value");
-									} else if (value1 instanceof Range) {
-										Annotation rv1 = ((Range) value1).getValue1();
-										Annotation rv2 = ((Range) value1).getValue2();
-										if (rv1 instanceof IntegerNumber && rv2 instanceof IntegerNumber) {
-
-											((IntegerNumber) rv1).setConcept("Mathched BP pattern but not value");
-											((IntegerNumber) rv2).setConcept("Mathched BP pattern but not value");
-										}
-
+								discardSystolic(systolicAnnotation);
+							}
+						} else if (diastolicAnnotation instanceof Range) {
+							Annotation diastolicRange1 = ((Range) diastolicAnnotation).getValue1();
+							Annotation diastolicRange2 = ((Range) diastolicAnnotation).getValue2();
+							if (diastolicRange1 instanceof IntegerNumber && diastolicRange2 instanceof IntegerNumber) {
+								if (StringUtils.isBlank(((Numeric) diastolicRange1).getConcept())
+								    && StringUtils.isBlank(((Numeric) diastolicRange2).getConcept())) {
+									if (CheckRange.isDiastolicBp(((IntegerNumber) diastolicRange1).getValue())
+									    && CheckRange.isDiastolicBp(((IntegerNumber) diastolicRange2).getValue())) {
+										((IntegerNumber) diastolicRange1).setConcept(vitalTypes.Diastolic.name());
+										((IntegerNumber) diastolicRange2).setConcept(vitalTypes.Diastolic.name());
+									} else {
+										bothMatch = false;
+										((IntegerNumber) diastolicRange1).setConcept("Mathched BP pattern but not value");
+										((IntegerNumber) diastolicRange2).setConcept("Mathched BP pattern but not value");
+										discardSystolic(systolicAnnotation);
 									}
 								}
 							}
-						}
-					} else if (value2 instanceof Range) {
-						Annotation rv1 = ((Range) value2).getValue1();
-						Annotation rv2 = ((Range) value2).getValue2();
-						if (rv1 instanceof IntegerNumber && rv2 instanceof IntegerNumber) {
-							if (StringUtils.isBlank(((Numeric) rv1).getConcept())
-							    && StringUtils.isBlank(((Numeric) rv2).getConcept())) {
-								if (CheckRange.isDiastolicBp(((IntegerNumber) rv1).getValue())
-								    && CheckRange.isDiastolicBp(((IntegerNumber) rv2).getValue())) {
-									((IntegerNumber) rv1).setConcept(vitalTypes.Diastolic.name());
-									((IntegerNumber) rv2).setConcept(vitalTypes.Diastolic.name());
-								}else {
-									bothMatch = false;
-									((IntegerNumber) rv1).setConcept("Mathched BP pattern but not value");
-									((IntegerNumber) rv2).setConcept("Mathched BP pattern but not value");
-									// if the second number fails, discard the first number as well
-									if (value1 != null)
-									{
-										if (value1 instanceof IntegerNumber) {
-											((IntegerNumber) value1).setConcept("Mathched BP pattern but not value");
-										} else if (value1 instanceof Range) {
-											Annotation rv1v1 = ((Range) value1).getValue1();
-											Annotation rv1v2 = ((Range) value1).getValue2();
-											if (rv1v1 instanceof IntegerNumber && rv1v2 instanceof IntegerNumber) {
-
-												((IntegerNumber) rv1v1).setConcept("Mathched BP pattern but not value");
-												((IntegerNumber) rv1v2).setConcept("Mathched BP pattern but not value");
-											}
-
-										}
-									}
-								}
-							}
-						}
-					} // end if Range
-				}
+						} // end if Range
+					}
+				} /**/
 			}
 		} catch (Exception ex) {
 			// TODO Auto-generated catch block

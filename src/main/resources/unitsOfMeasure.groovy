@@ -34,7 +34,7 @@ configuration {
 	}
 
 	"Heart_Rate" {
-		expressions = ['beats per minute', '\\bbpm\\b', '/min\\b', '/mt']
+		expressions = ['beats per minute', '\\bbpm\\b', '/min\\b', '/mt\\b']
 		concept_feature_value = "Heart_Rate"
 	}
 	"Height" {
@@ -58,7 +58,7 @@ configuration {
 	}
 
 	"NotIt_Term" {
-		expressions = ["ms", "mcg/min"]
+		expressions = ["ms", "mcg/min",  "ml/hr"]
 		concept_feature_value = "NotIt_Term"
 	}
 }
