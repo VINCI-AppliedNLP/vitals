@@ -28,12 +28,6 @@ public class AnalyzeNumbersAE extends LeoBaseAnnotator {
 	public void process(JCas aJCas) {
 		try {
 			super.process(aJCas);
-			// Remove Numerics if overlap with time
-
-			AnnotationLibrarian.removeOverlappingAnnotations(aJCas, NumericExclude.class.getCanonicalName(), Numeric.class.getCanonicalName());
-			AnnotationLibrarian.removeOverlappingAnnotations(aJCas, NumericExclude.class.getCanonicalName(), IntegerNumber.class.getCanonicalName());
-			AnnotationLibrarian.removeOverlappingAnnotations(aJCas, NumericExclude.class.getCanonicalName(), DoubleNumber.class.getCanonicalName());
-
 			FSIterator<Annotation> iter = this.getAnnotationListForType(aJCas, Numeric.class.getCanonicalName());
 
 			while (iter.hasNext()) {

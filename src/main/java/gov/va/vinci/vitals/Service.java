@@ -381,7 +381,7 @@ public class Service {
 			    .addTypeSystemDescription(types));
 		}
 
-		// FIXME: Add a feature vector AE - for all Hr_values
+		// FIXME: Add a feature vector AE - for all Hr_values and HRValues
 
 		aggregate.addDelegate(new HrVectorAnnotator()
 		    .getLeoAEDescriptor()

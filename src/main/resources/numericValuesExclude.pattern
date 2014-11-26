@@ -22,7 +22,9 @@
 <gov.va.vinci.vitals.types.Numeric/> *-? *y\w*
 <gov.va.vinci.vitals.types.Numeric/> *IV
 <gov.va.vinci.vitals.types.Numeric/> *(mcg|mg|spray|lpm|cc|units|minutes?|sec(onds?)?)
-(reading|#|CVP|MAP|i.o|MOFH)\s*<gov.va.vinci.vitals.types.Numeric/>
+(reading|#|CVP|MAP|\bi.o)\s*<gov.va.vinci.vitals.types.Numeric/>
+(reading|#|CVP|MAP|\bi.o)\s*<gov.va.vinci.vitals.types.Numeric/>-<gov.va.vinci.vitals.types.Numeric/>
+
 (jan\w*|feb\w*|mar\w*|apr\w*|may\w*|jun\w*|jul\w*|aug\w*|sep\w*|oct\w*|nov\w*|dec\w*) +<gov.va.vinci.vitals.types.Numeric/>
 
 \b\d/\d+\b

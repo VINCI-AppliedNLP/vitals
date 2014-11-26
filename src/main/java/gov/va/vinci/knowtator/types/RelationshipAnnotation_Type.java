@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Fri Nov 14 17:40:10 CST 2014 */
+/* First created by JCasGen Tue Nov 25 15:55:04 CST 2014 */
 package gov.va.vinci.knowtator.types;
 
 import org.apache.uima.jcas.JCas;
@@ -11,7 +11,7 @@ import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.cas.Type;
 
 /** 
- * Updated by JCasGen Fri Nov 14 17:40:10 CST 2014
+ * Updated by JCasGen Tue Nov 25 15:55:04 CST 2014
  * @generated */
 public class RelationshipAnnotation_Type extends gov.va.vinci.leo.types.RelationshipAnnotation_Type {
   /** @generated 

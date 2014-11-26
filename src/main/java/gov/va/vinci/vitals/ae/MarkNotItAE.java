@@ -92,8 +92,10 @@ public class MarkNotItAE extends ProcessingStepAE {
 				((Numeric) ((Range) a).getValue1()).setUnit(u);
 				((Numeric) ((Range) a).getValue2()).setConcept(vital_type);
 				((Numeric) ((Range) a).getValue2()).setUnit(u);
-
 			}
+		} else if (a instanceof PotentialBp) {
+			// FIXMIE: add logic when term is NotIt_Term and value in the pattern is PotentialBp
+
 		}
 	}
 }

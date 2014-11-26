@@ -104,7 +104,12 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 	}
 
 	public void processValue(Annotation a, String vital_type, Annotation u) {
-		processValue(a, vital_type, u, false);
+		try {
+			processValue(a, vital_type, u, false);
+		} catch (CASException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
 	}
 
 	/**
@@ -112,10 +117,14 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 	 * @param a
 	 * @param vital_type
 	 * @param u
+	 * @throws CASException 
 	 */
-	public void processValue(Annotation a, String vital_type, Annotation u, boolean markIt) {
+	public void processValue(Annotation a, String vital_type, Annotation u, boolean markIt) throws CASException {
 		if (a instanceof Numeric) {
 			if (StringUtils.isBlank(((Numeric) a).getConcept())) {
+				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(a, PotentialBp.class.getCanonicalName()).size() > 0) {
+					return;
+				}
 				if (CheckRange.isSystolicBp(((Numeric) a).getValue())) {
 					((Numeric) a).setConcept(vital_type);
 					((Numeric) a).setUnit(u);
@@ -126,6 +135,9 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 				}
 			}
 		} else if (a instanceof Range) {
+			if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(a, PotentialBp.class.getCanonicalName()).size() > 0) {
+				return;
+			}
 			if (StringUtils.isBlank(((Numeric) ((Range) a).getValue1()).getConcept())) {
 				if (CheckRange.isSystolicBp(((Numeric) ((Range) a).getValue1()).getValue())
 				    && CheckRange.isSystolicBp(((Numeric) ((Range) a).getValue2()).getValue())) {
@@ -213,28 +225,29 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 								// if the second number fails, discard the first number as well
 								discardSystolic(systolicAnnotation);
 							}
-						} else if (diastolicAnnotation instanceof Range) {
-							Annotation diastolicRange1 = ((Range) diastolicAnnotation).getValue1();
-							Annotation diastolicRange2 = ((Range) diastolicAnnotation).getValue2();
-							if (diastolicRange1 instanceof IntegerNumber && diastolicRange2 instanceof IntegerNumber) {
-								if (StringUtils.isBlank(((Numeric) diastolicRange1).getConcept())
-								    && StringUtils.isBlank(((Numeric) diastolicRange2).getConcept())) {
-									if (CheckRange.isDiastolicBp(((IntegerNumber) diastolicRange1).getValue())
-									    && CheckRange.isDiastolicBp(((IntegerNumber) diastolicRange2).getValue())) {
-										((IntegerNumber) diastolicRange1).setConcept(vitalTypes.Diastolic.name());
-										((IntegerNumber) diastolicRange2).setConcept(vitalTypes.Diastolic.name());
-									} else {
-										bothMatch = false;
-										((IntegerNumber) diastolicRange1).setConcept("Mathched BP pattern but not value");
-										((IntegerNumber) diastolicRange2).setConcept("Mathched BP pattern but not value");
-										discardSystolic(systolicAnnotation);
-									}
+						}
+					} else if (diastolicAnnotation instanceof Range) {
+						Annotation diastolicRange1 = ((Range) diastolicAnnotation).getValue1();
+						Annotation diastolicRange2 = ((Range) diastolicAnnotation).getValue2();
+						if (diastolicRange1 instanceof IntegerNumber && diastolicRange2 instanceof IntegerNumber) {
+							if (StringUtils.isBlank(((Numeric) diastolicRange1).getConcept())
+							    && StringUtils.isBlank(((Numeric) diastolicRange2).getConcept())) {
+								if (CheckRange.isDiastolicBp(((IntegerNumber) diastolicRange1).getValue())
+								    && CheckRange.isDiastolicBp(((IntegerNumber) diastolicRange2).getValue())) {
+									((IntegerNumber) diastolicRange1).setConcept(vitalTypes.Diastolic.name());
+									((IntegerNumber) diastolicRange2).setConcept(vitalTypes.Diastolic.name());
+								} else {
+									bothMatch = false;
+									((IntegerNumber) diastolicRange1).setConcept("Mathched BP pattern but not value");
+									((IntegerNumber) diastolicRange2).setConcept("Mathched BP pattern but not value");
+									discardSystolic(systolicAnnotation);
 								}
 							}
-						} // end if Range
-					}
-				} /**/
-			}
+						}
+					} // end if Range
+				}
+			} /**/
+
 		} catch (Exception ex) {
 			// TODO Auto-generated catch block
 			ex.printStackTrace();

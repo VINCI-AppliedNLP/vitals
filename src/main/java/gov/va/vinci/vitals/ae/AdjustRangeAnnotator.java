@@ -5,11 +5,12 @@ import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
+import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.ae.LeoBaseAnnotator;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.vitals.types.*;
 
-public class NumericPatternAnnotator extends LeoBaseAnnotator {
+public class AdjustRangeAnnotator extends LeoBaseAnnotator {
 	@Override
 	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
 		// TODO Auto-generated method stub
@@ -20,6 +21,7 @@ public class NumericPatternAnnotator extends LeoBaseAnnotator {
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		// TODO Auto-generated method stub
 		super.process(aJCas);
+		AnnotationLibrarian.removeCoveredAnnotations(aJCas, Range.class.getCanonicalName());
 		FSIterator<Annotation> rangeIter = this.getAnnotationListForType(aJCas, Range.class.getCanonicalName());
 
 		while (rangeIter.hasNext()) {

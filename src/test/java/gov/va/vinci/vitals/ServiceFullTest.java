@@ -58,7 +58,6 @@ public class ServiceFullTest {
 		return FileUtils.file2String(new File(inputDir + filename));
 	}
 
-	
 	@Test
 	public void testWithoutAssert() throws ResourceInitializationException, IOException,
 	    AnalysisEngineProcessException {
@@ -96,10 +95,21 @@ public class ServiceFullTest {
 		System.out.println(ListenerLogic.getRows(jcas.getCas()));
 		ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas,
 		    Bp_value.type);
-
 		System.out.println("BP count : " + list.size());
 		for (Annotation a : list) {
 			System.out.println("BP:" + a.getCoveredText());
+		}
+
+		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Bp_Systolic_value.type);
+		System.out.println("Systolic count : " + list.size());
+		for (Annotation a : list) {
+			System.out.println("Systolic:" + a.getCoveredText());
+		}
+
+		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Bp_Diastolic_value.type);
+		System.out.println("Diastolic count : " + list.size());
+		for (Annotation a : list) {
+			System.out.println("Diastolic:" + a.getCoveredText());
 		}
 
 		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_value.type);
@@ -123,12 +133,25 @@ public class ServiceFullTest {
 		ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas,
 		    Bp_value.type);
 
-		System.out.println("BP count : " +  bpCount + " vs " + list.size() );
+		System.out.println("BP count : " + bpCount + " vs " + list.size());
 		for (Annotation a : list) {
 			System.out.println("BP:" + a.getCoveredText());
 		}
+
+		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Bp_Systolic_value.type);
+		System.out.println("BP Systolic count : " + bpCount + " vs " + list.size());
+		for (Annotation a : list) {
+			System.out.println("Systolic:" + a.getCoveredText());
+		}
+
+		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Bp_Diastolic_value.type);
+
+		System.out.println("BP count : " + bpCount + " vs " + list.size());
+		for (Annotation a : list) {
+			System.out.println("Diastolic:" + a.getCoveredText());
+		}
 		System.out.println("Assering " + filename + " BP refst=" + bpCount + " , but was sys=" + list.size());
-	 	Assert.assertTrue(list.size() == bpCount);
+		Assert.assertTrue(list.size() == bpCount);
 
 		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_value.type);
 		System.out.println("T count : " + list.size() + " vs " + tCount);

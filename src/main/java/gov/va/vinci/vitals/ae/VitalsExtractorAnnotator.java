@@ -424,12 +424,12 @@ public class VitalsExtractorAnnotator extends ProcessingStepAE {
 		Matcher decimalMatcher = anyDecmalNumber.matcher(text);
 		if (decimalMatcher.find()) {
 			/**/
-			if (text.endsWith(".0")) { // FIXME: checking if it helps  -- does not change anything.
+			if (text.endsWith(".0")) { // INFO: checking if it helps  -- does not change anything.
 			} else
 				/**/
 				return false;
 		}
-		if (isStrict) { // FIXME: check if it helps
+		if (isStrict) { // INFO: check if it helps
 			Matcher measureMatcher = bpPattern.matcher(text);
 			if (measureMatcher.find()) {
 				String m = text.substring(measureMatcher.start(), measureMatcher.end());
@@ -471,7 +471,7 @@ public class VitalsExtractorAnnotator extends ProcessingStepAE {
 	private boolean isHeartRate(String text) {
 		Matcher decimalMatcher = anyDecmalNumber.matcher(text);
 		if (decimalMatcher.find()) {
-			/** if (text.endsWith(".0")) { // FIXME: checking if it helps -- it actually hurts
+			/** if (text.endsWith(".0")) { // INFO: checking if it helps -- it actually hurts
 			} else
 			/**/
 			return false;

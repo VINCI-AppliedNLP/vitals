@@ -347,8 +347,7 @@ public class Client {
 				}
 
 				if (type.equalsIgnoreCase(LISTENERS.training.name())) {
-					// FIXME  Add training listener
-
+					// INFO:  Add training listener
 					ListenerVariables.useTrainingListener = true;
 					ListenerVariables.hrValidationMap = (String) config.get("client.listener.learning.rValidationMap");
 					if (config.get("svmModelPath") != null) {

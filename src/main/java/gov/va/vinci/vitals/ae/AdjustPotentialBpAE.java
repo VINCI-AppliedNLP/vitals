@@ -1,10 +1,7 @@
 package gov.va.vinci.vitals.ae;
 
-import java.util.ArrayList;
-
 import org.apache.log4j.Logger;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
@@ -28,8 +25,7 @@ public class AdjustPotentialBpAE extends LeoBaseAnnotator {
 	public void process(JCas aJCas) {
 		try {
 			super.process(aJCas);
-			// Remove Numerics if overlap with time
-
+			
 			AnnotationLibrarian.removeCoveredAnnotations(aJCas, PotentialBp.class.getCanonicalName());
 
 			FSIterator<Annotation> iter = this.getAnnotationListForType(aJCas, PotentialBp.class.getCanonicalName());
