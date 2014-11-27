@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import gov.va.vinci.leo.AnnotationLibrarian;
-import gov.va.vinci.vitals.ae.ProcessingStepAE.CheckRange;
-import gov.va.vinci.vitals.ae.ProcessingStepAE.vitalTypes;
+import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.vitals.types.*;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,20 +14,21 @@ import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
-public class ExtractTemperatureAE extends ProcessingStepAE {
+public class ExtractTemperatureAE extends BaseVitalExtractorAE {
+	public static String currentType = "Temperature";
+	public static String outputValue = T_value.class.getCanonicalName();
+	public static double[][] typeRanges = { { 34.0, 44.0 }, { 94.0, 107.0 } };
 
 	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
-		// TODO Auto-generated method stub
 		super.process(aJCas);
-
 		try {
 
 			analyzePatterns(aJCas);
-			createValueTypes(aJCas);
-			analyzeDoubles(aJCas);
+			createValueTypes(aJCas, currentType, outputValue);
 
-			createValueTypes(aJCas);
+			analyzeDoubles(aJCas);
+			createValueTypes(aJCas, currentType, outputValue);
 		} catch (CASException ex) {
 			// TODO Auto-generated catch block
 			ex.printStackTrace();
@@ -60,13 +60,13 @@ public class ExtractTemperatureAE extends ProcessingStepAE {
 					Annotation term = currRelation.getAnchor();
 					// check type
 					if (term instanceof T_Term) {
-						processValue(value, vitalTypes.Temperature.name(), curUnit, true);
+						processValue(value, currentType, curUnit, true, typeRanges);
 					} else {
 						continue;
 					}
 				} else if (curUnit != null) {
-					if ((curUnit.getConcept().equalsIgnoreCase(vitalTypes.Temperature.name()))) {
-						processValue(value, vitalTypes.Temperature.name(), curUnit, true);
+					if ((curUnit.getConcept().equalsIgnoreCase(currentType))) {
+						processValue(value, currentType, curUnit, true, typeRanges);
 					} else {
 						continue;
 					}
@@ -90,50 +90,16 @@ public class ExtractTemperatureAE extends ProcessingStepAE {
 				ArrayList<Annotation> coverWindow = (ArrayList<Annotation>) AnnotationLibrarian.getAllContainingAnnotationsOfType(d,
 				    HiPrecisionWindow.type);
 				if (coverWindow.size() > 0) {
-					processValue(d, vitalTypes.Temperature.name(), currUnit, false);
+					processValue(d, currentType, currUnit, false, typeRanges);
 				}
 			} // end of double number loop
 		}
 	}
 
-	public void processValue(Annotation a, String vital_type, Annotation u) {
-		processValue(a, vital_type, u, false);
+	@Override
+	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	/**
-	 * 
-	 * @param a
-	 * @param vital_type
-	 * @param u
-	 */
-	public void processValue(Annotation a, String vital_type, Annotation u, boolean markIt) {
-		if (a instanceof Numeric) {
-			if (StringUtils.isBlank(((Numeric) a).getConcept())) {
-				if (CheckRange.isTemperature(((Numeric) a).getValue())) {
-					((Numeric) a).setConcept(vital_type);
-					((Numeric) a).setUnit(u);
-				} else {
-					if (markIt) {
-						((Numeric) a).setConcept("Did not match on value: " + vital_type);
-					}
-				}
-			}
-		} else if (a instanceof Range) {
-			if (StringUtils.isBlank(((Numeric) ((Range) a).getValue1()).getConcept())) {
-				if (CheckRange.isTemperature(((Numeric) ((Range) a).getValue1()).getValue())
-				    && CheckRange.isTemperature(((Numeric) ((Range) a).getValue2()).getValue())) {
-					((Numeric) ((Range) a).getValue1()).setConcept(vital_type);
-					((Numeric) ((Range) a).getValue1()).setUnit(u);
-					((Numeric) ((Range) a).getValue2()).setConcept(vital_type);
-					((Numeric) ((Range) a).getValue2()).setUnit(u);
-				} else {
-					if (markIt) {
-						((Numeric) ((Range) a).getValue1()).setConcept("Did not match on value: " + vital_type);
-						((Numeric) ((Range) a).getValue2()).setConcept("Did not match on value: " + vital_type);
-
-					}
-				}
-			}
-		}
-	}
 }

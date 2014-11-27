@@ -12,15 +12,13 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
 import gov.va.vinci.leo.AnnotationLibrarian;
-import gov.va.vinci.vitals.ae.ProcessingStepAE.CheckRange;
 import gov.va.vinci.vitals.types.*;
 
-public class VitalClassifier extends ProcessingStepAE {
+public class VitalClassifier {
 
-	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 
-		super.process(aJCas);
+		//super.process(aJCas);
 		// According to Makoto:
 		// Step 1 - look at decimal --> Temperature
 		// Step 2 - look at potentia bp --> bp
@@ -30,7 +28,7 @@ public class VitalClassifier extends ProcessingStepAE {
 		try {
 
 			analyzePatterns(aJCas);
-			createValueTypes(aJCas);
+			//createValueTypes(aJCas);
 			/**	
 				analyzeDoubles(aJCas);
 				createValueTypes(aJCas);
@@ -52,130 +50,132 @@ public class VitalClassifier extends ProcessingStepAE {
 	}
 
 	public void analyzePatterns(JCas aJCas) throws CASException {
+		/**
+				FSIterator<Annotation> iter = this.getAnnotationListForType(aJCas, Relation.class.getCanonicalName());
+				while (iter.hasNext()) {
+					Relation currRelation = (Relation) iter.next();
 
-		FSIterator<Annotation> iter = this.getAnnotationListForType(aJCas, Relation.class.getCanonicalName());
-		while (iter.hasNext()) {
-			Relation currRelation = (Relation) iter.next();
+					// INFO: Target stands for Numeric.
+					if (currRelation.getTarget() != null) {
+						if (currRelation.getTarget() instanceof Numeric) {
+							Numeric number = (Numeric) currRelation.getTarget();
+							if (StringUtils.isEmpty(number.getConcept())) {  // make sure the concept is not set already
 
-			// INFO: Target stands for Numeric.
-			if (currRelation.getTarget() != null) {
-				if (currRelation.getTarget() instanceof Numeric) {
-					Numeric number = (Numeric) currRelation.getTarget();
-					if (StringUtils.isEmpty(number.getConcept())) {  // make sure the concept is not set already
+								Unit curUnit = null;
 
-						Unit curUnit = null;
-
-						if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type).size() > 0) {
-							curUnit = (Unit) ((ArrayList<Annotation>) AnnotationLibrarian
-							    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type)).get(0); // get the first unit in the pattern
-							number.setUnit(curUnit);
-						}
-						// INFO: adding timestamp
-						ArrayList<Annotation> times = (ArrayList<Annotation>) AnnotationLibrarian
-						    .getAllOverlappingAnnotationsOfType(currRelation, Timestamp.type);
-						if (times.size() > 0) {
-							number.setTimestamp(times.get(0));
-						} else {
-							times = (ArrayList<Annotation>) AnnotationLibrarian.getPreviousAnnotationsOfType(number,
-							    Timestamp.type, 1);
-							if (times.size() > 0) {
-								if (times.get(0).getEnd() - number.getBegin() < 30) {
+								if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type).size() > 0) {
+									curUnit = (Unit) ((ArrayList<Annotation>) AnnotationLibrarian
+									    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type)).get(0); // get the first unit in the pattern
+									number.setUnit(curUnit);
+								}
+								// INFO: adding timestamp
+								ArrayList<Annotation> times = (ArrayList<Annotation>) AnnotationLibrarian
+								    .getAllOverlappingAnnotationsOfType(currRelation, Timestamp.type);
+								if (times.size() > 0) {
 									number.setTimestamp(times.get(0));
+								} else {
+									times = (ArrayList<Annotation>) AnnotationLibrarian.getPreviousAnnotationsOfType(number,
+									    Timestamp.type, 1);
+									if (times.size() > 0) {
+										if (times.get(0).getEnd() - number.getBegin() < 30) {
+											number.setTimestamp(times.get(0));
+										}
+									}
 								}
-							}
+								// INFO: Anchor stands for Term with pattern
+								if (currRelation.getAnchor() != null) {
+									Annotation term = currRelation.getAnchor();
+									String termConcept = ((Term) term).getConcept();
+
+									// check if termConcept is set  
+									if (StringUtils.isNotBlank(termConcept)) {
+
+										if (termConcept.equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
+											//if (!this.isBloodPressure(number.getVnumber.getCoveredText(), false)) {
+											if (!CheckRange.isSystolicBp(number.getValue())) {
+												number.setConcept("Matched term " + termConcept + " but missed value");
+											}
+										} else if (termConcept.equalsIgnoreCase(vitalTypes.Temperature.name())) {
+											if (!CheckRange.isTemperature(number.getValue())) {//number.getCoveredText(), false)) {
+												number.setConcept("Matched term " + termConcept + " but missed value");
+
+											}
+										} else if (termConcept.equalsIgnoreCase(vitalTypes.Respiratory.name())) {
+											if (!CheckRange.isRespRate(number.getValue())) {//(number.getCoveredText())) {
+												number.setConcept("Matched term " + termConcept + " but missed value");
+											}
+										} else if (termConcept.equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
+											if (!CheckRange.isHeartRate(number.getValue())) {//(number.getCoveredText())) {
+												number.setConcept("Matched term " + termConcept + " but missed value");
+											}
+										}
+
+										// there is a term in the pattern and it not discarded 
+										if (StringUtils.isBlank(number.getConcept())) {
+											number.setConcept(termConcept);
+										}
+										number.setSource("Term pattern");
+									} // number gets concept as term concept
+								} else // No term. Check if there is a unit
+
+								if (curUnit != null) {
+									String unitConcept = curUnit.getConcept();
+
+									if (unitConcept.equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
+										if (!CheckRange.isSystolicBp(number.getValue())) {//if (!this.isBloodPressure(number.getCoveredText(), false)) {
+											number.setConcept("Matched term " + unitConcept + " but missed value");
+										} else {
+											number.setConcept(unitConcept);
+										}
+									} else if (unitConcept.equalsIgnoreCase(vitalTypes.Temperature.name())) {
+										if (!CheckRange.isTemperature(number.getValue())) {//(number.getCoveredText(), false)) {
+											number.setConcept("Matched term " + unitConcept + " but missed value");
+										} else {
+											number.setConcept(unitConcept);
+										}
+									} else if (unitConcept.equalsIgnoreCase(vitalTypes.Respiratory.name())) {
+										if (!CheckRange.isRespRate(number.getValue())) {//(number.getCoveredText())) {
+											number.setConcept("Matched term " + unitConcept + " but missed value");
+										}
+									} else if (unitConcept.equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
+										if (!CheckRange.isHeartRate(number.getValue())) {//(number.getCoveredText())) {
+											number.setConcept("Matched term " + unitConcept + " but missed value");
+										} else {
+											number.setConcept(unitConcept);
+										}
+									}
+
+									if (unitConcept.equalsIgnoreCase(vitalTypes.Weight.name())) {
+										number.setConcept(unitConcept);
+									}
+
+									if (StringUtils.isBlank(number.getConcept())) {
+										number.setConcept("possible: " + unitConcept);
+									}
+									number.setSource("Unit pattern");
+								}
+								// INFO:  at this time all pattern with term and all patterns with unit have been processed. 
+								//The only patterns left are the ones that have a number and timestamp
+							} // end if Target -- should always be the case in Relations		
 						}
-						// INFO: Anchor stands for Term with pattern
-						if (currRelation.getAnchor() != null) {
-							Annotation term = currRelation.getAnchor();
-							String termConcept = ((Term) term).getConcept();
-
-							// check if termConcept is set  
-							if (StringUtils.isNotBlank(termConcept)) {
-
-								if (termConcept.equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
-									//if (!this.isBloodPressure(number.getVnumber.getCoveredText(), false)) {
-									if (!CheckRange.isSystolicBp(number.getValue())) {
-										number.setConcept("Matched term " + termConcept + " but missed value");
-									}
-								} else if (termConcept.equalsIgnoreCase(vitalTypes.Temperature.name())) {
-									if (!CheckRange.isTemperature(number.getValue())) {//number.getCoveredText(), false)) {
-										number.setConcept("Matched term " + termConcept + " but missed value");
-
-									}
-								} else if (termConcept.equalsIgnoreCase(vitalTypes.Respiratory.name())) {
-									if (!CheckRange.isRespRate(number.getValue())) {//(number.getCoveredText())) {
-										number.setConcept("Matched term " + termConcept + " but missed value");
-									}
-								} else if (termConcept.equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
-									if (!CheckRange.isHeartRate(number.getValue())) {//(number.getCoveredText())) {
-										number.setConcept("Matched term " + termConcept + " but missed value");
-									}
-								}
-
-								// there is a term in the pattern and it not discarded 
-								if (StringUtils.isBlank(number.getConcept())) {
-									number.setConcept(termConcept);
-								}
-								number.setSource("Term pattern");
-							} // number gets concept as term concept
-						} else // No term. Check if there is a unit
-
-						if (curUnit != null) {
-							String unitConcept = curUnit.getConcept();
-
-							if (unitConcept.equalsIgnoreCase(vitalTypes.Blood_Pressure.name())) {
-								if (!CheckRange.isSystolicBp(number.getValue())) {//if (!this.isBloodPressure(number.getCoveredText(), false)) {
-									number.setConcept("Matched term " + unitConcept + " but missed value");
-								} else {
-									number.setConcept(unitConcept);
-								}
-							} else if (unitConcept.equalsIgnoreCase(vitalTypes.Temperature.name())) {
-								if (!CheckRange.isTemperature(number.getValue())) {//(number.getCoveredText(), false)) {
-									number.setConcept("Matched term " + unitConcept + " but missed value");
-								} else {
-									number.setConcept(unitConcept);
-								}
-							} else if (unitConcept.equalsIgnoreCase(vitalTypes.Respiratory.name())) {
-								if (!CheckRange.isRespRate(number.getValue())) {//(number.getCoveredText())) {
-									number.setConcept("Matched term " + unitConcept + " but missed value");
-								}
-							} else if (unitConcept.equalsIgnoreCase(vitalTypes.Heart_Rate.name())) {
-								if (!CheckRange.isHeartRate(number.getValue())) {//(number.getCoveredText())) {
-									number.setConcept("Matched term " + unitConcept + " but missed value");
-								} else {
-									number.setConcept(unitConcept);
-								}
-							}
-
-							if (unitConcept.equalsIgnoreCase(vitalTypes.Weight.name())) {
-								number.setConcept(unitConcept);
-							}
-
-							if (StringUtils.isBlank(number.getConcept())) {
-								number.setConcept("possible: " + unitConcept);
-							}
-							number.setSource("Unit pattern");
+						else if (currRelation.getTarget() instanceof PotentialBp) {
+							// mark first number as systolic and second number as diastolic
+							processPotentialBp((PotentialBp) currRelation.getTarget());
+						} else if (currRelation.getTarget() instanceof Range) {
+							// Mark all items in the range the same
 						}
-						// INFO:  at this time all pattern with term and all patterns with unit have been processed. 
-						//The only patterns left are the ones that have a number and timestamp
-					} // end if Target -- should always be the case in Relations		
-				}
-				else if (currRelation.getTarget() instanceof PotentialBp) {
-					// mark first number as systolic and second number as diastolic
-					processPotentialBp((PotentialBp) currRelation.getTarget());
-				} else if (currRelation.getTarget() instanceof Range) {
-					// Mark all items in the range the same
-				}
-			} // there is no target. If this is ever a case, the pattern is useless and will be skipped.
+					} // there is no target. If this is ever a case, the pattern is useless and will be skipped.
 
-			else {
-				log.error("Check pattern without target: " + currRelation);
-			}
+					else {
+						log.error("Check pattern without target: " + currRelation);
+					}
+				}// end of while loop
+				/**/
 
-		}// end of while loop
 	}
 
 	public static void analyzeSpecialPatterns(JCas aJCas) throws CASException {
+		/**
 		Iterator<Annotation> integers = (Iterator<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(aJCas,
 		    IntegerNumber.class.getCanonicalName()).iterator();
 		while (integers.hasNext()) {
@@ -190,6 +190,8 @@ public class VitalClassifier extends ProcessingStepAE {
 				}
 			}
 		}
+		/**/
+
 	}
 
 	/**
@@ -211,7 +213,7 @@ public class VitalClassifier extends ProcessingStepAE {
 	 * @throws CASException
 	 */
 	public static void analyzeDoubles(JCas aJCas) throws CASException {
-
+		/**
 		Iterator<Annotation> doubles = (Iterator<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(aJCas,
 		    DoubleNumber.class.getCanonicalName()).iterator();
 		while (doubles.hasNext()) {
@@ -313,9 +315,13 @@ public class VitalClassifier extends ProcessingStepAE {
 
 			}// the number is already claimed. So it should be skipped
 		} // end of double number loop
+		/**/
+
 	}
 
 	public static void analyzePotentialBp(JCas aJCas) throws CASException {
+		/**
+
 		Iterator<Annotation> pbps = (Iterator<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(aJCas,
 		    PotentialBp.class.getCanonicalName()).iterator();
 		while (pbps.hasNext()) {
@@ -388,9 +394,9 @@ public class VitalClassifier extends ProcessingStepAE {
 			}
 		} // make sure it is in a relation
 
-	}
+		}
 
-	public static void processPotentialBp(PotentialBp currBp) {
+		public static void processPotentialBp(PotentialBp currBp) {
 		try {
 			if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currBp, Relation.type).size() > 0 ||
 			    AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currBp, HiPrecisionWindow.type).size() > 0) {
@@ -462,10 +468,12 @@ public class VitalClassifier extends ProcessingStepAE {
 			// TODO Auto-generated catch block
 			ex.printStackTrace();
 		}
+		/**/
+
 	}
 
 	public static void analyzeIntegers(JCas aJCas) throws CASException {
-
+		/**
 		Iterator<Annotation> integers = (Iterator<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(aJCas,
 		    IntegerNumber.class.getCanonicalName()).iterator();
 		while (integers.hasNext()) {
@@ -600,6 +608,7 @@ public class VitalClassifier extends ProcessingStepAE {
 				}
 			}// the number is already claimed. So it should be skipped
 		} // end of double number loop
+		/**/
 	}
 
 }

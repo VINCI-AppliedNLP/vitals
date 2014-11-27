@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import gov.va.vinci.leo.AnnotationLibrarian;
-import gov.va.vinci.vitals.ae.ProcessingStepAE.CheckRange;
+import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.vitals.types.*;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,22 +14,23 @@ import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
-public class ExtractRespiratoryAE extends ProcessingStepAE {
-	static String currentType = vitalTypes.Respiratory.name();
+public class ExtractRespiratoryAE extends BaseVitalExtractorAE {
+	public static String currentType = "Respiratory";
+	public static String outputType = Resp_value.class.getCanonicalName();
+	public static double[][] typeRanges = { { 8, 45 } };
 
 	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
-		// TODO Auto-generated method stub
 		super.process(aJCas);
 		try {
 			analyzePatterns(aJCas);
-			createValueTypes(aJCas);
-			//processed potential bps within the lowerprecision
+			createValueTypes(aJCas, currentType, outputType);
 
 			analyzeHiPWindow(aJCas);
-			createValueTypes(aJCas);
+			createValueTypes(aJCas, currentType, outputType);
+
 		} catch (CASException ex) {
-			// TODO Auto-generated catch block
+
 			ex.printStackTrace();
 		}
 
@@ -47,12 +48,13 @@ public class ExtractRespiratoryAE extends ProcessingStepAE {
 			ArrayList<Annotation> potentialBps = (ArrayList<Annotation>) AnnotationLibrarian.getAllContainingAnnotationsOfType(value,
 			    PotentialBp.type);
 
-			// FIXME
+			// INFO: if there are more than 4 numbers in a high precision window 
+			// and there are more than 4 numbers, check if any of those numbers are in the range
 			Unit curUnit = null;
 			if (coverWindow.size() > 0 && potentialBps.size() == 0) {
 				Annotation currWindow = (coverWindow.get(0));
 				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currWindow, Numeric.type).size() > 4) {
-					processValue(value, currentType, curUnit);
+					processValue(value, currentType, curUnit, false, typeRanges);
 				}
 			} // end of double number loop
 		}
@@ -85,13 +87,13 @@ public class ExtractRespiratoryAE extends ProcessingStepAE {
 					Annotation term = currRelation.getAnchor();
 					// check type
 					if (term instanceof Resp_Term) {
-						processValue(value, currentType, curUnit, true);
+						processValue(value, currentType, curUnit, true, typeRanges);
 					} else {
 						continue;
 					}
 				} else if (curUnit != null) {
 					if ((curUnit.getConcept().equalsIgnoreCase(currentType))) {
-						processValue(value, currentType, curUnit, true);
+						processValue(value, currentType, curUnit, true, typeRanges);
 					} else {
 						continue;
 					}
@@ -101,43 +103,10 @@ public class ExtractRespiratoryAE extends ProcessingStepAE {
 
 	}
 
-	public void processValue(Annotation a, String vital_type, Annotation u) {
-		processValue(a, vital_type, u, false);
+	@Override
+	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	/**
-	 * 
-	 * @param a
-	 * @param vital_type
-	 * @param u
-	 */
-	public void processValue(Annotation a, String vital_type, Annotation u, boolean markIt) {
-		if (a instanceof Numeric) {
-			if (StringUtils.isBlank(((Numeric) a).getConcept())) {
-				if (CheckRange.isRespRate(((Numeric) a).getValue())) {
-					((Numeric) a).setConcept(vital_type);
-					((Numeric) a).setUnit(u);
-				} else {
-					if (markIt) {
-						((Numeric) a).setConcept("Did not match on value: " + vital_type);
-					}
-				}
-			}
-		} else if (a instanceof Range) {
-			if (StringUtils.isBlank(((Numeric) ((Range) a).getValue1()).getConcept())) {
-				if (CheckRange.isRespRate(((Numeric) ((Range) a).getValue1()).getValue())
-				    && CheckRange.isRespRate(((Numeric) ((Range) a).getValue2()).getValue())) {
-					((Numeric) ((Range) a).getValue1()).setConcept(vital_type);
-					((Numeric) ((Range) a).getValue1()).setUnit(u);
-					((Numeric) ((Range) a).getValue2()).setConcept(vital_type);
-					((Numeric) ((Range) a).getValue2()).setUnit(u);
-				} else {
-					if (markIt) {
-						((Numeric) ((Range) a).getValue1()).setConcept("Did not match on value: " + vital_type);
-						((Numeric) ((Range) a).getValue2()).setConcept("Did not match on value: " + vital_type);
-					}
-				}
-			}
-		}
-	}
 }

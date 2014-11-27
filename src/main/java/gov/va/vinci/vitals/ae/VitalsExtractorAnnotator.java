@@ -28,7 +28,7 @@ import org.apache.uima.jcas.tcas.Annotation;
  * @author olga.patterson@utah.edu
  * 
  */
-public class VitalsExtractorAnnotator extends ProcessingStepAE {
+public class VitalsExtractorAnnotator extends BaseVitalExtractorAE {
 
 	public static enum vitalTypes {
 		Blood_Pressure, //1
@@ -547,27 +547,27 @@ public class VitalsExtractorAnnotator extends ProcessingStepAE {
 			 * 
 			 */
 			analyzePatterns(aJCas);
-			createValueTypes(aJCas);
+			
 
 			/**/
 			/**
 			 * INFO: advancedHeuristics : Numerics between Indicator+RightWindow for BP and T
 			 */
 			advancedHeuristics(aJCas);
-			createValueTypes(aJCas);
+		
 			/**/
 			/**
 			 * INFO: advancedHeuristics_Time: Numeric-Timestamp pattern after Indicator+RightWindow+1000 for BP and T
 			 */
 			advancedHeuristics_Time(aJCas);
-			createValueTypes(aJCas);
+		
 			/**/
 
 			/**
 			 * INFO: advancedHeuristics_Hr: Numbers between Indicator+rightWindow for HR if BP or T are present
 			 */
 			advancedHeuristics_Hr(aJCas);
-			createValueTypes(aJCas);
+			
 			/**/
 			// Clear timestamps
 			filterOutUnusedTimestamps(aJCas);

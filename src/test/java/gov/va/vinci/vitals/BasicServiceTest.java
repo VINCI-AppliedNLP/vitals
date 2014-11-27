@@ -48,6 +48,7 @@ public class BasicServiceTest {
 		aggregate = ds.createNumericPipeline(types);
 		aggregate.addDelegate(ds.createTermAndIndicatorPipeline(types));
 		aggregate.addDelegate(ds.createPatternsPipeline(types));
+		aggregate.addDelegate(ds.createVitalRulesPipeline(types));
 
 		File o = new File(outputDir);
 		if (!o.exists()) {
@@ -77,6 +78,12 @@ public class BasicServiceTest {
 		    "Pain:  5 (12/10/2005 08:35)\n" + 
 		    "SpO2:  PULSE OXIMETRY (MOST RECENT IN LAST YEAR): \n" + 
 		    "  96 (DEC 10, 2005@08:35:21)\n" + 
+		    "\n\n" +
+		    "TF at 85/hr\n" + 
+		    "IVF at 150/hr\n" + 
+		    "Tm 37.4 c37.2 hr 80-100s  bp 80-140/40-70\n" + 
+		    "gen: intubated, sedated not following commands\n" + 
+		    "lungs: cta on vent\n" + 
 		    "";
 
 	}

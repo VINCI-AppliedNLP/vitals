@@ -436,8 +436,9 @@ public class Service2 {
 		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceExBp)
 		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), PipelineVariables.TYPE_EX_POTENTIAL_BP)
 		    .addTypeSystemDescription(types));
-		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor().setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(),
-		        new String[] { PipelineVariables.TYPE_EX_POTENTIAL_BP })
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor().setParameterSetting(
+		    AnnotationFilter.Param.TYPES_TO_KEEP.getName(),
+		    new String[] { PipelineVariables.TYPE_EX_POTENTIAL_BP })
 		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_DELETE.getName(),
 		        new String[] { PipelineVariables.TYPE_POTENTIAL_BP })
 		    .addTypeSystemDescription(types));
@@ -464,8 +465,7 @@ public class Service2 {
 		// FIXME: create a special AE that filters out overlapping patterns that have the same Numeric as target.
 		//  create annotator that removes Relation if the target is a part of Range or PotentialBp
 		// This has to be done because overannotations cause multiple problems
-		aggregate.addDelegate(new FilterRelationsAE().getLeoAEDescriptor()
-		    .setName("FilterRelationsAE").addTypeSystemDescription(types));
+		//	aggregate.addDelegate(new FilterRelationsAE().getLeoAEDescriptor().setName("FilterRelationsAE").addTypeSystemDescription(types));
 
 		return aggregate;
 	}
@@ -476,6 +476,7 @@ public class Service2 {
 		aggregate.addDelegate(new MarkNotItAE().getLeoAEDescriptor().addTypeSystemDescription(types));
 		aggregate.addDelegate(new ExtractTemperatureAE().getLeoAEDescriptor().addTypeSystemDescription(types));
 		aggregate.addDelegate(new ExtractSo2AE().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractBmi().getLeoAEDescriptor().addTypeSystemDescription(types));
 		aggregate.addDelegate(new ExtractBloodPressureAE().getLeoAEDescriptor().addTypeSystemDescription(types));
 		aggregate.addDelegate(new ExtractRespiratoryAE().getLeoAEDescriptor().addTypeSystemDescription(types));
 		aggregate.addDelegate(new ExtractHeightAE().getLeoAEDescriptor().addTypeSystemDescription(types));

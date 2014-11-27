@@ -3,26 +3,26 @@ package gov.va.vinci.vitals.ae;
 import java.util.ArrayList;
 
 import gov.va.vinci.leo.AnnotationLibrarian;
-import gov.va.vinci.vitals.ae.ProcessingStepAE.CheckRange;
+import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.vitals.types.*;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
-public class ExtractSo2AE extends ProcessingStepAE {
-	static String currentType = vitalTypes.SO2.name();
+public class ExtractSo2AE extends BaseVitalExtractorAE {
+	public static String currentType = "SO2";
+	public static String outputValue = So2_value.class.getCanonicalName();
 
+	public static double[][] typeRanges = { { 50, 100 } };
 	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
-		// TODO Auto-generated method stub
 		super.process(aJCas);
 
 		analyzePatterns(aJCas);
-		createValueTypes(aJCas);
+		createValueTypes(aJCas, currentType, outputValue);
 	}
 
 	/** 
@@ -52,13 +52,13 @@ public class ExtractSo2AE extends ProcessingStepAE {
 						Annotation term = currRelation.getAnchor();
 						// check type
 						if (term instanceof So2_Term) {
-							processValue(value, currentType, curUnit, true);
+							processValue(value, currentType, curUnit, true,typeRanges);
 						} else {
 							continue;
 						}
 					} else if (curUnit != null) {
 						if ((curUnit.getConcept().equalsIgnoreCase(currentType))) {
-							processValue(value, currentType, curUnit, true);
+							processValue(value, currentType, curUnit, true,typeRanges);
 						} else {
 							continue;
 						}
@@ -66,47 +66,15 @@ public class ExtractSo2AE extends ProcessingStepAE {
 				}
 			}
 		} catch (CASException ex) {
-			// TODO Auto-generated catch block
 			ex.printStackTrace();
 		}
 	}
 
-	public void processValue(Annotation a, String vital_type, Annotation u) {
-		processValue(a, vital_type, u, false);
-	}
+	@Override
+  public LeoTypeSystemDescription getLeoTypeSystemDescription() {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
 
-	/**
-	 * 
-	 * @param a
-	 * @param vital_type
-	 * @param u
-	 */
-	public void processValue(Annotation a, String vital_type, Annotation u, boolean markIt) {
-		if (a instanceof Numeric) {
-			if (StringUtils.isBlank(((Numeric) a).getConcept())) {
-				if (CheckRange.isSo2(((Numeric) a).getValue())) {
-					((Numeric) a).setConcept(vital_type);
-					((Numeric) a).setUnit(u);
-				} else {
-					if (markIt) {
-						((Numeric) a).setConcept("Did not match on value: " + vital_type);
-					}
-				}
-			} else if (a instanceof Range) {
-				if (StringUtils.isBlank(((Numeric) ((Range) a).getValue1()).getConcept())) {
-					if (CheckRange.isSo2(((Numeric) ((Range) a).getValue1()).getValue())
-					    && CheckRange.isSo2(((Numeric) ((Range) a).getValue2()).getValue())) {
-						((Numeric) ((Range) a).getValue1()).setConcept(vital_type);
-						((Numeric) ((Range) a).getValue1()).setUnit(u);
-						((Numeric) ((Range) a).getValue2()).setConcept(vital_type);
-						((Numeric) ((Range) a).getValue2()).setUnit(u);
-					} else {
-						if (markIt) {
-							((Numeric) a).setConcept("Did not match on value: " + vital_type);
-						}
-					}
-				}
-			}
-		}
-	}
+	
 }

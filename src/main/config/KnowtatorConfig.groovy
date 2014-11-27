@@ -33,7 +33,7 @@ knowtatorToUimaFeatureMap = [
 
 knowtatorToUimaTypeMap = [
 	// knowtatorAnnotation : UIMA annotation ,
-	"blood_pressure_term":"gov.va.vinci.kttr.types.BPTerm",	
+	"blood_pressure_term":"gov.va.vinci.kttr.types.BPTerm",
 	"blood_pressure_value":"gov.va.vinci.kttr.types.BPValue",
 	"BP_systolic":"gov.va.vinci.kttr.types.BPSysValue",
 	"BP_diastolic":"gov.va.vinci.kttr.types.BPDiasValue",

@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import gov.va.vinci.leo.AnnotationLibrarian;
-import gov.va.vinci.vitals.ae.ProcessingStepAE.CheckRange;
-import gov.va.vinci.vitals.ae.ProcessingStepAE.vitalTypes;
+import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.vitals.types.*;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,12 +14,14 @@ import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
-public class ExtractBloodPressureAE extends ProcessingStepAE {
-	static String currentType = vitalTypes.Systolic.name();
+public class ExtractBloodPressureAE extends BaseVitalExtractorAE {
+	static String currentType = "Systolic";
+	public static double[][] typeRangesSystolic = { { 50, 100 } };
+	public static double[][] typeDiastolicRanges = { { 50, 100 } };
 
 	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
-		// TODO Auto-generated method stub
+
 		super.process(aJCas);
 		try {
 			analyzePatterns(aJCas);
@@ -31,7 +32,7 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 			createValueTypes(aJCas);
 
 		} catch (CASException ex) {
-			// TODO Auto-generated catch block
+
 			ex.printStackTrace();
 		}
 	}
@@ -121,6 +122,11 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 	 */
 	public void processValue(Annotation a, String vital_type, Annotation u, boolean markIt) throws CASException {
 		if (a instanceof Numeric) {
+			if (AnnotationLibrarian.getAllContainingAnnotationsOfType(a, Range.type).size() > 0) {
+				return;
+			} else if (AnnotationLibrarian.getAllContainingAnnotationsOfType(a, PotentialBp.type).size() > 0) {
+				return;
+			}
 			if (StringUtils.isBlank(((Numeric) a).getConcept())) {
 				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(a, PotentialBp.class.getCanonicalName()).size() > 0) {
 					return;
@@ -189,7 +195,7 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 				if (systolicAnnotation instanceof IntegerNumber) {
 					if (StringUtils.isBlank(((Numeric) systolicAnnotation).getConcept())) {
 						if (CheckRange.isSystolicBp(((IntegerNumber) systolicAnnotation).getValue())) {
-							((IntegerNumber) systolicAnnotation).setConcept(vitalTypes.Systolic.name());
+							((IntegerNumber) systolicAnnotation).setConcept("Systolic");
 						} else {
 							bothMatch = false;
 							((IntegerNumber) systolicAnnotation).setConcept("Mathched BP pattern but not value");
@@ -203,8 +209,8 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 						    && StringUtils.isBlank(((Numeric) rv2).getConcept())) {
 							if (CheckRange.isSystolicBp(((IntegerNumber) rv1).getValue())
 							    && CheckRange.isSystolicBp(((IntegerNumber) rv2).getValue())) {
-								((IntegerNumber) rv1).setConcept(vitalTypes.Systolic.name());
-								((IntegerNumber) rv2).setConcept(vitalTypes.Systolic.name());
+								((IntegerNumber) rv1).setConcept("Systolic");
+								((IntegerNumber) rv2).setConcept("Systolic");
 							}
 						}
 					}
@@ -218,7 +224,7 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 					if (diastolicAnnotation instanceof IntegerNumber) {
 						if (StringUtils.isBlank(((Numeric) diastolicAnnotation).getConcept())) {
 							if (CheckRange.isDiastolicBp(((IntegerNumber) diastolicAnnotation).getValue())) {
-								((IntegerNumber) diastolicAnnotation).setConcept(vitalTypes.Diastolic.name());
+								((IntegerNumber) diastolicAnnotation).setConcept("Diastolic");
 							} else {
 								bothMatch = false;
 								((IntegerNumber) diastolicAnnotation).setConcept("Mathched BP pattern but not value");
@@ -234,8 +240,8 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 							    && StringUtils.isBlank(((Numeric) diastolicRange2).getConcept())) {
 								if (CheckRange.isDiastolicBp(((IntegerNumber) diastolicRange1).getValue())
 								    && CheckRange.isDiastolicBp(((IntegerNumber) diastolicRange2).getValue())) {
-									((IntegerNumber) diastolicRange1).setConcept(vitalTypes.Diastolic.name());
-									((IntegerNumber) diastolicRange2).setConcept(vitalTypes.Diastolic.name());
+									((IntegerNumber) diastolicRange1).setConcept("Diastolic");
+									((IntegerNumber) diastolicRange2).setConcept("Diastolic");
 								} else {
 									bothMatch = false;
 									((IntegerNumber) diastolicRange1).setConcept("Mathched BP pattern but not value");
@@ -251,6 +257,36 @@ public class ExtractBloodPressureAE extends ProcessingStepAE {
 		} catch (Exception ex) {
 			// TODO Auto-generated catch block
 			ex.printStackTrace();
+		}
+	}
+
+	public void createValueTypes(JCas aJCas) throws AnalysisEngineProcessException {
+		createValueTypes(aJCas, "Systolic", Bp_Systolic_value.class.getCanonicalName());
+		createValueTypes(aJCas, "Diastolic", Bp_Diastolic_value.class.getCanonicalName());
+		createValueTypes(aJCas, "Blood_Pressure", Bp_value.class.getCanonicalName());
+
+	}
+
+	@Override
+	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	static class CheckRange {
+
+		public static boolean isSystolicBp(Double num) {
+			if (num > 29 && num < 220)
+				return true;
+			else
+				return false;
+		}
+
+		public static boolean isDiastolicBp(Double num) {
+			if (num > 14 && num < 200)
+				return true;
+			else
+				return false;
 		}
 	}
 }

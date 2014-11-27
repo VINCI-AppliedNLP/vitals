@@ -1,20 +1,19 @@
 package gov.va.vinci.vitals.ae;
 
-import java.util.ArrayList;
-
-import gov.va.vinci.leo.AnnotationLibrarian;
-import gov.va.vinci.vitals.ae.ProcessingStepAE.CheckRange;
+import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.vitals.types.*;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
-public class ExtractPainAE extends ProcessingStepAE {
-	static String currentType = vitalTypes.Pain.name();
+public class ExtractPainAE extends BaseVitalExtractorAE {
+	static String currentType = "Pain";
+	public static double[][] typeRanges = { { 0, 10 } };
+	public static double[][] typeRangesMax = { { 10, 10 } };
+	public static String outputValue = Pain_value.class.getCanonicalName();
 
 	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
@@ -22,7 +21,7 @@ public class ExtractPainAE extends ProcessingStepAE {
 		super.process(aJCas);
 
 		analyzePatterns(aJCas);
-		createValueTypes(aJCas);
+		createValueTypes(aJCas, currentType, outputValue);
 	}
 
 	/** 
@@ -33,35 +32,32 @@ public class ExtractPainAE extends ProcessingStepAE {
 	 */
 	public void analyzePatterns(JCas aJCas) {
 
-		try {
-			FSIterator<Annotation> iter = this.getAnnotationListForType(aJCas, Relation.class.getCanonicalName());
-			while (iter.hasNext()) {
-				Relation currRelation = (Relation) iter.next();
-				if (currRelation.getTarget() != null) {
-					Annotation value = currRelation.getTarget();
+		FSIterator<Annotation> iter = this.getAnnotationListForType(aJCas, Relation.class.getCanonicalName());
+		while (iter.hasNext()) {
+			Relation currRelation = (Relation) iter.next();
+			if (currRelation.getTarget() != null) {
+				Annotation value = currRelation.getTarget();
 
-					Unit curUnit = null;
+				Unit curUnit = null;
 
-					// Has term?
-					if (currRelation.getAnchor() != null) {
-						Annotation term = currRelation.getAnchor();
-						// check type
-						if (term instanceof Pain_Term) {
-							processValue(value, currentType, curUnit, true);
-						} else {
-							continue;
-						}
+				// Has term?
+				if (currRelation.getAnchor() != null) {
+					Annotation term = currRelation.getAnchor();
+					// check type
+					if (term instanceof Pain_Term) {
+						processValue(value, currentType, curUnit, true, typeRanges);
+					} else {
+						continue;
 					}
 				}
 			}
-		} catch (Exception ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
 		}
+
 	}
 
-	public void processValue(Annotation a, String vital_type, Annotation u) {
-		processValue(a, vital_type, u, false);
+	@Override
+	public void processValue(Annotation a, String vital_type, Annotation u, double[][] range) {
+		processValue(a, vital_type, u, false, range);
 	}
 
 	/**
@@ -70,10 +66,11 @@ public class ExtractPainAE extends ProcessingStepAE {
 	 * @param vital_type
 	 * @param u
 	 */
-	public void processValue(Annotation a, String vital_type, Annotation u, boolean markIt) {
+	@Override
+	public void processValue(Annotation a, String vital_type, Annotation u, boolean markIt, double[][] range) {
 		if (a instanceof Numeric) {
 			if (StringUtils.isBlank(((Numeric) a).getConcept())) {
-				if (CheckRange.isPain(((Numeric) a).getValue())) {
+				if (isInRange((((Numeric) a).getValue()), range)) {
 					((Numeric) a).setConcept(vital_type);
 					((Numeric) a).setUnit(u);
 				} else {
@@ -84,8 +81,8 @@ public class ExtractPainAE extends ProcessingStepAE {
 			}
 		} else if (a instanceof Range) {
 			if (StringUtils.isBlank(((Numeric) ((Range) a).getValue1()).getConcept())) {
-				if (CheckRange.isPain(((Numeric) ((Range) a).getValue1()).getValue())
-				    && CheckRange.isPain(((Numeric) ((Range) a).getValue2()).getValue())) {
+				if (isInRange((((Numeric) ((Range) a).getValue1()).getValue()), range)
+				    && isInRange((((Numeric) ((Range) a).getValue2()).getValue()), range)) {
 					((Numeric) ((Range) a).getValue1()).setConcept(vital_type);
 					((Numeric) ((Range) a).getValue1()).setUnit(u);
 					((Numeric) ((Range) a).getValue2()).setConcept(vital_type);
@@ -97,14 +94,14 @@ public class ExtractPainAE extends ProcessingStepAE {
 					}
 				}
 			}
-		} else if (a instanceof PotentialBp) {
+		} else if (a instanceof PotentialBp) { // FIXME: come up with a way to deal with it
 			Annotation pb1 = ((PotentialBp) a).getAnchor();
 			Annotation pb2 = ((PotentialBp) a).getTarget();
 			if (pb2 instanceof Numeric) {
 				if (((Numeric) pb2).getValue() == 10) {
 					if (pb1 instanceof Numeric) {
 						if (StringUtils.isBlank(((Numeric) pb1).getConcept())) {
-							if (CheckRange.isPain(((Numeric) pb1).getValue())) {
+							if (isInRange(((Numeric) pb1).getValue(), range)) {
 								((Numeric) pb1).setConcept(vital_type);
 								((Numeric) pb1).setUnit(u);
 
@@ -123,6 +120,12 @@ public class ExtractPainAE extends ProcessingStepAE {
 				log.error("Unhandled condition in line 107 in ExtractPainAE.java");
 			}
 		}
-
 	}
+
+	@Override
+	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
