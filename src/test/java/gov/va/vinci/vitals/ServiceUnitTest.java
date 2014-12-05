@@ -42,9 +42,9 @@ public class ServiceUnitTest {
 
 	@Before
 	public void setup() throws Exception {
-		Service2 ds = new Service2();
+		Service ds = new Service();
 		// aggregate = ds.createPipeline(false);
-		Service2.GeneralSettings.ENVIRONMENT = "updateTypes";
+		Service.GeneralSettings.ENVIRONMENT = "updateTypes";
 		LeoTypeSystemDescription types = ds.createTypeSystem();
 		aggregate = ds.createPipeline(types);
 

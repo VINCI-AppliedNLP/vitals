@@ -42,9 +42,9 @@ public class ServiceVectorTest {
 
 	@Before
 	public void setup() throws Exception {
-		Service2 ds = new Service2();
+		Service ds = new Service();
 		// aggregate = ds.createPipeline(false);
-		Service2.GeneralSettings.ENVIRONMENT = "simple";
+		Service.GeneralSettings.ENVIRONMENT = "simple";
 		LeoTypeSystemDescription types = ds.createTypeSystem();
 		aggregate = ds.createPipeline(types);
 

@@ -3,7 +3,6 @@ package gov.va.vinci.vitals;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import gov.va.vinci.kttr.types.HRValue;
 import gov.va.vinci.leo.annotationpattern.ae.AnnotationPatternAnnotator;
@@ -14,6 +13,7 @@ import gov.va.vinci.leo.regex.ae.RegexAnnotator;
 import gov.va.vinci.leo.regex.ae.RegexAnnotator.Param;
 import gov.va.vinci.leo.tools.LeoUtils;
 import gov.va.vinci.leo.types.TypeLibrarian;
+import gov.va.vinci.leo.window.ae.WindowAnnotator;
 import gov.va.vinci.sherlock.ae.LearningAnnotator;
 import gov.va.vinci.svmlib.ml.SvmVectorTranslator;
 import gov.va.vinci.vitals.Client;
@@ -35,11 +35,10 @@ import org.apache.uima.resource.metadata.impl.TypeDescription_impl;
  */
 public class Service {
 
-	public static final Logger log = Logger.getLogger(LeoUtils
-	    .getRuntimeClass().toString());
+	public static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
 
 	public static class GeneralSettings {
-		static String ENVIRONMENT = "simple";
+		static String ENVIRONMENT = "simple"; // other environments are updateTypes, train, and predict
 		static int CAS_POOL_SIZE = 8;
 		static boolean START_CLIENT = false;
 		static boolean GENERATE_TYPES = false;
@@ -56,59 +55,98 @@ public class Service {
 	}
 
 	public static class PipelineVariables {
+
 		static String RESOURCE_PATH = "src/main/resources/";
 		static String PatternType = "gov.va.vinci.vitals.types.Pattern";
 		static String RegexType = "gov.va.vinci.leo.regex.types.RegularExpressionType";
-		static HashMap<String, String> regexResourceToType = new HashMap<String, String>();
+
 		static String TYPE_NUMERIC = "gov.va.vinci.vitals.types.Numeric";
+		static String[] TYPES_NUMERIC = new String[] {
+		    "gov.va.vinci.vitals.types.IntegerNumber",
+		    "gov.va.vinci.vitals.types.DoubleNumber"
+		};
+
 		static String resourceNumeric = "numericValues.regex";
+		static String resourceNumbers = "numbers.groovy";
 
 		static String TYPE_UNIT = "gov.va.vinci.vitals.types.Unit";
 		static String resourceUnit = "unitsOfMeasure.groovy";
 
 		static String TYPE_TERM = "gov.va.vinci.vitals.types.Term";
+		static String[] TYPES_TERM = new String[] {
+		    "gov.va.vinci.vitals.types.Bp_Term",
+		    "gov.va.vinci.vitals.types.Bp_Systolic_Term",
+		    "gov.va.vinci.vitals.types.Bp_Diastolic_Term",
+		    "gov.va.vinci.vitals.types.Resp_Term",
+		    "gov.va.vinci.vitals.types.Hr_Term",
+		    "gov.va.vinci.vitals.types.Pain_Term",
+		    "gov.va.vinci.vitals.types.T_Term",
+		    "gov.va.vinci.vitals.types.Weight_Term",
+		    "gov.va.vinci.vitals.types.Height_Term",
+		    "gov.va.vinci.vitals.types.So2_Term",
+		    "gov.va.vinci.vitals.types.Bmi_Term",
+		    "gov.va.vinci.vitals.types.Age_Term",
+		    "gov.va.vinci.vitals.types.NotIt_Term"
+
+		};
 		static String resourceTerm = "concepts.groovy";
-		static {
-			regexResourceToType.put("indicator.regex", "gov.va.vinci.vitals.types.Indicator");
-			regexResourceToType.put("date.regex", "gov.va.vinci.vitals.types.Timestamp");
-		}
 
-		static HashMap<String, String> apaResourceToType = new HashMap<String, String>();
-		static {
-			apaResourceToType.put("numericValuesExclude.pattern", "gov.va.vinci.vitals.types.NumericExclude");
-			apaResourceToType.put("termsExclude.pattern", "gov.va.vinci.vitals.types.TermExclude");
-			apaResourceToType.put("indicator.pattern", "gov.va.vinci.vitals.types.Indicator");
+		static String TYPE_INDICATOR = "gov.va.vinci.vitals.types.Indicator";
+		static String resourceIndicator = "indicator.pattern";
 
-		}
+		static String TYPE_TIMESTAMP = "gov.va.vinci.vitals.types.Timestamp";
+		static String resourceTumestamp = "date.regex";
+
+		static String TYPE_NUMEXCLUDE = "gov.va.vinci.vitals.types.NumericExclude";
+		static String resourceNumExclude = "numericValuesExclude.pattern";
+
+		static String TYPE_RANGE = "gov.va.vinci.vitals.types.Range";
+		static String resourceRange = "range.pattern";
+
+		static String TYPE_POTENTIAL_BP = "gov.va.vinci.vitals.types.PotentialBp";
+		static String TYPE_EX_POTENTIAL_BP = "gov.va.vinci.vitals.types.ExcludePotentialBp";
+		static String resourceBp = "bp.pattern";
+		static String resourceExBp = "bp_exclude.pattern";
+
+		static String TYPE_POTENTIAL_HEIGHT = "gov.va.vinci.vitals.types.PotentialHeight";
+		static String TYPE_EX_POTENTIAL_HEIGHT = "gov.va.vinci.vitals.types.ExcludePotentialHeight";
+		static String resourceHeight = "height.pattern";
+		static String resourceExHeight = "height_exclude.pattern";
+
+		static String TYPE_TERMEXCLUDE = "gov.va.vinci.vitals.types.TermExclude";
+		static String resourceSectionExclude = "excludeSectionHeader.pattern";
+
 		static String TYPE_RELATION = "gov.va.vinci.vitals.types.Relation";
 		static String RESOURCE_RELATION = "relation.pattern";
 
 		static String TYPE_RELATION_TIMESTAMP = "gov.va.vinci.vitals.types.Relation_Time";
 		static String RESOURCE_RELATION_TIMESTAMP = "relation_time.pattern";
 
-		static HashMap<String, String[]> filterTypes = new HashMap<String, String[]>();
-		static {
-			filterTypes.put("gov.va.vinci.vitals.types.Timestamp", new String[] { PipelineVariables.TYPE_NUMERIC });
-			filterTypes.put("gov.va.vinci.vitals.types.TermExclude", new String[] { PipelineVariables.TYPE_UNIT,
-			    PipelineVariables.TYPE_TERM });
-			filterTypes.put("gov.va.vinci.vitals.types.NumericExclude",
-			    new String[] { PipelineVariables.TYPE_NUMERIC });
-		}
-
-		static String TYPE_OUTPUT = "gov.va.vinci.vitals.types.OutputValue";
+		static String TYPE_OUTPUT = "gov.va.vinci.vitals.types.Output_Value";
+		static String TYPE_Bp_value = "gov.va.vinci.vitals.types.Bp_value";
 		static String[] valueTypes = new String[] {
 		    "gov.va.vinci.vitals.types.Hr_value",
-		    "gov.va.vinci.vitals.types.Bp_value",
-		    "gov.va.vinci.vitals.types.Bp_Systolic_value",
-		    "gov.va.vinci.vitals.types.Bp_Diastolic_value",
+		    //   TYPE_Bp_value,
 		    "gov.va.vinci.vitals.types.T_value",
 		    "gov.va.vinci.vitals.types.Weight_value",
 		    "gov.va.vinci.vitals.types.Height_value",
-		    "gov.va.vinci.vitals.types.SO2_value",
+		    "gov.va.vinci.vitals.types.So2_value",
 		    "gov.va.vinci.vitals.types.Resp_value",
 		    "gov.va.vinci.vitals.types.Pain_value",
 		    "gov.va.vinci.vitals.types.BMI_value"
 		};
+		static String[] valueBPTypes = new String[] {
+		    "gov.va.vinci.vitals.types.Bp_Systolic_value",
+		    "gov.va.vinci.vitals.types.Bp_Diastolic_value" };
+
+		static String TYPE_WINDOW = "gov.va.vinci.leo.window.types.Window";
+		static String[] TYPES_WINDOW = new String[] {
+		    "gov.va.vinci.vitals.types.HiPrecisionWindow",
+		    "gov.va.vinci.vitals.types.LowerPrecisionWindow",
+		    "gov.va.vinci.vitals.types.FVWindow",
+		    "gov.va.vinci.vitals.types.ExcludeAllWindow"
+		};
+
 	}
 
 	public static class LearningVariables {
@@ -143,15 +181,13 @@ public class Service {
 		log.info("Starting the server   " + this.getClass().getCanonicalName()
 		    + " at " + new Date(sw.getStartTime()));
 		ConfigObject config = Utils.loadConfigFile(GeneralSettings.ENVIRONMENT,
-		    "KnowtatorConfig.groovy", "CommonConfig.groovy",
-		    "ServerConfig.groovy");
+		    "KnowtatorConfig.groovy", "CommonConfig.groovy", "ServerConfig.groovy");
 
 		loadProperties(config);
 		// Create Service object
 		gov.va.vinci.leo.Service service = new gov.va.vinci.leo.Service();
 		service.setInputQueueName(GeneralSettings.SERVICE_NAME);
 		service.setBrokerURL(GeneralSettings.BROKER_URL);
-		//service.setCasPoolSize(GeneralSettings.CAS_POOL_SIZE);
 
 		if (GeneralSettings.REGISTER_WITH_JAM) {
 			service.setJamServerBaseUrl((String) config.get("jamURL"));
@@ -161,10 +197,10 @@ public class Service {
 		}
 
 		if (StringUtils.isNotBlank(GeneralSettings.DESCRIPTOR_PATH)) {
-			service.setDescriptorDirectory(GeneralSettings.DESCRIPTOR_PATH);//"P:\\ORD_Singh_201211012D\\nlp\\desc\\");				
-		}
-		if (GeneralSettings.DESCRIPTOR_DELETE_ON_EXIT != null) {
-			service.setDeleteOnExit(GeneralSettings.DESCRIPTOR_DELETE_ON_EXIT);
+			service.setDescriptorDirectory(GeneralSettings.DESCRIPTOR_PATH);
+			if (GeneralSettings.DESCRIPTOR_DELETE_ON_EXIT != null) {
+				service.setDeleteOnExit(GeneralSettings.DESCRIPTOR_DELETE_ON_EXIT);
+			}
 		}
 
 		// INFO: Deploy the Service
@@ -185,7 +221,7 @@ public class Service {
 		System.exit(0);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings("unchecked")
 	private void loadProperties(ConfigObject config) {
 		GeneralSettings.START_CLIENT = (Boolean) config.get("startClient");
 		GeneralSettings.GENERATE_TYPES = (Boolean) config.get("generateTypes");
@@ -253,6 +289,253 @@ public class Service {
 		}
 	}
 
+	protected LeoAEDescriptor createNumericPipeline(LeoTypeSystemDescription types) throws Exception {
+		LeoAEDescriptor aggregate = new LeoAEDescriptor();
+
+		aggregate.addDelegate(new LeoAEDescriptor().setName("NumericAnnotator")
+		    .setImplementationName(RegexAnnotator.class.getCanonicalName())
+		    .addParameterSetting(RegexAnnotator.Param.GROOVY_CONFIG_FILE.getName(), true, false, "String",
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceNumbers)
+		    .addTypeSystemDescription(types)
+		    );
+
+		// remove all numeric types ( Integer or DoubleNumber) if covered by another numeric
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor().setName("AnnotationFilter")
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), PipelineVariables.TYPES_NUMERIC)
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_DELETE.getName(), PipelineVariables.TYPES_NUMERIC)
+		    .addTypeSystemDescription(types));
+
+		aggregate.addDelegate(new LeoAEDescriptor().setName("TimestampAnnotator")
+		    .setImplementationName(RegexAnnotator.class.getCanonicalName())
+		    .addParameterSetting(RegexAnnotator.Param.RESOURCE.getName(), true, false, "String",
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceTumestamp)
+		    .addParameterSetting(RegexAnnotator.Param.OUTPUT_TYPE.getName(), true, false, "String", PipelineVariables.TYPE_TIMESTAMP)
+		    .addParameterSetting(Param.MATCHED_PATTERN_FEATURE_NAME.getName(), false, false, "String", "pattern")
+		    .addTypeSystemDescription(types));
+
+		aggregate.addDelegate(new AnnotationPatternAnnotator()
+		    .getLeoAEDescriptor().setName("ExcludeNumberPattern")
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceNumExclude)
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), PipelineVariables.TYPE_NUMEXCLUDE)
+		    .addTypeSystemDescription(types));
+
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor().setName("AnnotationFilter")
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { PipelineVariables.TYPE_NUMEXCLUDE })
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_DELETE.getName(), PipelineVariables.TYPES_NUMERIC)
+		    .addTypeSystemDescription(types));
+
+		aggregate.addDelegate(new AnalyzeNumbersAE().getLeoAEDescriptor().setName("AnalyzeNumbersAE")
+		    .addTypeSystemDescription(types));
+
+		return aggregate;
+	}
+
+	protected LeoAEDescriptor createTermAndIndicatorPipeline(LeoTypeSystemDescription types) throws Exception {
+		LeoAEDescriptor aggregate = new LeoAEDescriptor();
+		aggregate.addDelegate(new LeoAEDescriptor().setName("UnitsAnnotator")
+		    .setImplementationName(RegexAnnotator.class.getCanonicalName())
+		    .addParameterSetting(RegexAnnotator.Param.GROOVY_CONFIG_FILE.getName(), true, false, "String",
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceUnit)
+		    .addTypeSystemDescription(types));
+
+		aggregate.addDelegate(new LeoAEDescriptor().setName("TermAnnotator")
+		    .setImplementationName(RegexAnnotator.class.getCanonicalName())
+		    .addParameterSetting(RegexAnnotator.Param.GROOVY_CONFIG_FILE.getName(), true, false, "String",
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceTerm)
+		    .addTypeSystemDescription(types));
+
+		/** INFO: Filter unneeded annotations*/
+
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor().setName("AnnotationFilter")
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), PipelineVariables.TYPES_TERM)
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_DELETE.getName(), PipelineVariables.TYPES_TERM)
+		    .addTypeSystemDescription(types));
+
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor().setName("AnnotationFilter")
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { PipelineVariables.TYPE_UNIT })
+		    .addTypeSystemDescription(types));
+
+		// delete terms that are covered by units -- FIXME: exception "BPS"
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor().setName("AnnotationFilter")
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { PipelineVariables.TYPE_UNIT })
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_DELETE.getName(), PipelineVariables.TYPES_TERM)
+		    .addTypeSystemDescription(types));
+
+		aggregate.addDelegate(new AnnotationPatternAnnotator().getLeoAEDescriptor().setName("IndicatorPatternAnnotator")
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceIndicator)
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(),
+		        PipelineVariables.TYPE_INDICATOR)
+		    .addTypeSystemDescription(types));
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { PipelineVariables.TYPE_INDICATOR })
+		    .addTypeSystemDescription(types));
+		aggregate.addDelegate(new AnnotationPatternAnnotator().getLeoAEDescriptor()
+		    .setName("TermExcludePatternAnnotator")
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceSectionExclude)
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(),
+		        PipelineVariables.TYPE_TERMEXCLUDE)
+		    .addTypeSystemDescription(types));
+
+		return aggregate;
+	}
+
+	protected LeoAEDescriptor createWindowsPipeline(LeoTypeSystemDescription types) throws Exception {
+		LeoAEDescriptor aggregate = new LeoAEDescriptor();
+
+		aggregate.addDelegate(new WindowAnnotator().getLeoAEDescriptor()
+		    .setParameterSetting(WindowAnnotator.Param.OUTPUT_TYPE.getName(), "gov.va.vinci.vitals.types.HiPrecisionWindow")
+		    .setParameterSetting(WindowAnnotator.Param.WINDOW_RT.getName(), new Integer(20))
+		    .setParameterSetting(WindowAnnotator.Param.INPUT_TYPE.getName(), new String[] { PipelineVariables.TYPE_INDICATOR })
+		    .setParameterSetting(WindowAnnotator.Param.ANCHOR_FEATURE.getName(), "Anchor")
+
+		    .setTypeSystemDescription(types));
+		aggregate.addDelegate(new WindowAnnotator().getLeoAEDescriptor()
+		    .setParameterSetting(WindowAnnotator.Param.OUTPUT_TYPE.getName(), "gov.va.vinci.vitals.types.LowerPrecisionWindow")
+		    .setParameterSetting(WindowAnnotator.Param.WINDOW_RT.getName(), new Integer(50))
+		    .setParameterSetting(WindowAnnotator.Param.INPUT_TYPE.getName(), new String[] { PipelineVariables.TYPE_INDICATOR })
+		    .setParameterSetting(WindowAnnotator.Param.ANCHOR_FEATURE.getName(), "Anchor")
+		    .setTypeSystemDescription(types));
+
+		aggregate.addDelegate(new WindowAnnotator().getLeoAEDescriptor()
+		    .setParameterSetting(WindowAnnotator.Param.OUTPUT_TYPE.getName(), "gov.va.vinci.vitals.types.ExcludeAllWindow")
+		    .setParameterSetting(WindowAnnotator.Param.WINDOW_RT.getName(), new Integer(10))
+		    .setParameterSetting(WindowAnnotator.Param.INPUT_TYPE.getName(), new String[] { PipelineVariables.TYPE_TERMEXCLUDE })
+		    .setParameterSetting(WindowAnnotator.Param.ANCHOR_FEATURE.getName(), "Anchor")
+		    .setTypeSystemDescription(types));
+
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(),
+		        new String[] { "gov.va.vinci.vitals.types.ExcludeAllWindow" })
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_DELETE.getName(), new String[] { PipelineVariables.TYPE_NUMERIC })
+		    .setParameterSetting(AnnotationFilter.Param.REMOVE_OVERLAPPING.getName(), true)
+		    .setParameterSetting(AnnotationFilter.Param.REMOVE_CHILDREN.getName(), true)
+		    .addTypeSystemDescription(types));
+
+		return aggregate;
+	}
+
+	protected LeoAEDescriptor createPatternsPipeline(LeoTypeSystemDescription types) throws Exception {
+		LeoAEDescriptor aggregate = new LeoAEDescriptor();
+		///////////// INFO: Creating patterns
+		/**/
+		aggregate.addDelegate(new AnnotationPatternAnnotator().getLeoAEDescriptor().setName("RangePattern")
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceRange)
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), PipelineVariables.TYPE_RANGE)
+		    .addTypeSystemDescription(types));
+		/**/
+
+		aggregate.addDelegate(new AdjustRangeAnnotator().getLeoAEDescriptor().setName("AdjustRangeAnnotator")
+		    .addTypeSystemDescription(types));
+		aggregate.addDelegate(new AnnotationPatternAnnotator().getLeoAEDescriptor().setName("PotentialBpPattern")
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceBp)
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), PipelineVariables.TYPE_POTENTIAL_BP)
+		    .addTypeSystemDescription(types));
+
+		aggregate.addDelegate(new AnnotationPatternAnnotator().getLeoAEDescriptor().setName("PotentialHeightPattern")
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceHeight)
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), PipelineVariables.TYPE_POTENTIAL_HEIGHT)
+		    .addTypeSystemDescription(types));
+
+		aggregate.addDelegate(new AnnotationPatternAnnotator().getLeoAEDescriptor().setName("PotentialBpPattern")
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceExBp)
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), PipelineVariables.TYPE_EX_POTENTIAL_BP)
+		    .addTypeSystemDescription(types));
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor().setParameterSetting(
+		    AnnotationFilter.Param.TYPES_TO_KEEP.getName(),
+		    new String[] { PipelineVariables.TYPE_EX_POTENTIAL_BP })
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_DELETE.getName(),
+		        new String[] { PipelineVariables.TYPE_POTENTIAL_BP })
+		    .addTypeSystemDescription(types));
+		aggregate.addDelegate(new AdjustPotentialBpAE().getLeoAEDescriptor()
+		    .setName("AdjustPotentialBpAE").addTypeSystemDescription(types));
+		/**/
+		aggregate.addDelegate(new AnnotationPatternAnnotator()
+		    .getLeoAEDescriptor()
+		    .setName("RelationPatternAnnotator")
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.RESOURCE_RELATION)
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), PipelineVariables.TYPE_RELATION)
+		    .addTypeSystemDescription(types));
+
+		aggregate.addDelegate(new AnnotationPatternAnnotator().getLeoAEDescriptor()
+		    .setName("RelationWithTimePatternAnnotator")
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.RESOURCE_RELATION_TIMESTAMP)
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(),
+		        PipelineVariables.TYPE_RELATION_TIMESTAMP)
+		    .addTypeSystemDescription(types));
+
+		// cannot filter duplicate Patterns because some patterns overlap by design.
+		// FIXME: create a special AE that filters out overlapping patterns that have the same Numeric as target.
+		//  create annotator that removes Relation if the target is a part of Range or PotentialBp
+		// This has to be done because overannotations cause multiple problems
+		//	aggregate.addDelegate(new FilterRelationsAE().getLeoAEDescriptor().setName("FilterRelationsAE").addTypeSystemDescription(types));
+
+		return aggregate;
+	}
+
+	protected LeoAEDescriptor createVitalRulesPipeline(LeoTypeSystemDescription types) throws Exception {
+		LeoAEDescriptor aggregate = new LeoAEDescriptor();
+
+		aggregate.addDelegate(new MarkNotItAE().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractTemperatureAE().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractSo2AE().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractBmi().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractBloodPressureAE().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractRespiratoryAE().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractHeightAE().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractWeightAE().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractPainAE().getLeoAEDescriptor().addTypeSystemDescription(types));
+		aggregate.addDelegate(new ExtractHeartRateAE().getLeoAEDescriptor().addTypeSystemDescription(types));
+
+		// Remove overannotated    
+
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor().setName("AnnotationFilter")
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), PipelineVariables.valueTypes)
+		    .addTypeSystemDescription(types));
+
+		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor().setName("AnnotationFilter")
+		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), PipelineVariables.valueBPTypes)
+		    .addTypeSystemDescription(types));
+
+		return aggregate;
+	}
+
+	protected LeoAEDescriptor createML_Pipeline(LeoTypeSystemDescription types) throws Exception {
+		LeoAEDescriptor aggregate = new LeoAEDescriptor();
+		if (GeneralSettings.ENVIRONMENT.equalsIgnoreCase("predict") || GeneralSettings.ENVIRONMENT.equalsIgnoreCase("train")) {
+			aggregate.addDelegate(new HrVectorAnnotator().getLeoAEDescriptor().setName("HrVectorAnnotator")
+			    .addParameterSetting(HrVectorAnnotator.Param.INPUT_TYPE.getName(), false, true, "String",
+			        new String[] { Hr_value.class.getCanonicalName(), HRValue.class.getCanonicalName() })
+			    .addParameterSetting(HrVectorAnnotator.Param.OUTPUT_TYPE.getName(), false, false, "String",
+			        LearningVariables.TYPE_FeatureVector)
+			    .addParameterSetting(HrVectorAnnotator.Param.KEY_FEATURE_PARAM.getName(), false, false, "String", "keys")
+			    .addParameterSetting(HrVectorAnnotator.Param.VALUE_FEATURE_PARAM.getName(), false, false, "String", "values")
+			    .addTypeSystemDescription(types));
+
+			if (GeneralSettings.ENVIRONMENT.equalsIgnoreCase("predict")) {
+				aggregate.addDelegate(LearningAnnotator.getLeoAEDescriptor(
+				    SvmVectorTranslator.class.getCanonicalName(),
+				    LearningVariables.TYPE_Prediction, "srcFVFeature", "prediction",
+				    LearningVariables.TYPE_FeatureVector,
+				    "keys", "values", LearningVariables.Hr_SvmModelPath).addTypeSystemDescription(types));
+				;
+
+				aggregate.addDelegate(new FilterHeartRateAnnotator().getLeoAEDescriptor()
+				    .setName("FilterHeartRateAnnotator")
+				    .addTypeSystemDescription(types));
+			}
+		}
+		return aggregate;
+	}
+
 	/**
 	 * createPipeline defines all the parts of the pipeline
 	 * 
@@ -266,148 +549,16 @@ public class Service {
 	    throws Exception {
 		LeoAEDescriptor aggregate = new LeoAEDescriptor();
 
-		aggregate
-		    .addDelegate(new LeoAEDescriptor()
-		        .setName("NumericAnnotator")
-		        .setImplementationName(RegexAnnotator.class.getCanonicalName())
-		        .addParameterSetting(RegexAnnotator.Param.RESOURCE.getName(), true, false, "String",
-		            PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceNumeric)
-		        .addParameterSetting(RegexAnnotator.Param.OUTPUT_TYPE.getName(), true, false, "String",
-		            PipelineVariables.TYPE_NUMERIC)
-		        .addParameterSetting(Param.MATCHED_PATTERN_FEATURE_NAME.getName(), false, false, "String",
-		            "pattern"));
+		aggregate.addDelegate(createNumericPipeline(types));
 
-		aggregate
-		    .addDelegate(new LeoAEDescriptor()
-		        .setName("UnitsAnnotator")
-		        .setImplementationName(RegexAnnotator.class.getCanonicalName())
-		        .addParameterSetting(RegexAnnotator.Param.GROOVY_CONFIG_FILE.getName(), true, false, "String",
-		            PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceUnit)
-		        .addParameterSetting(Param.MATCHED_PATTERN_FEATURE_NAME.getName(), false, false, "String",
-		            "pattern"));
+		aggregate.addDelegate(createTermAndIndicatorPipeline(types));
 
-		aggregate
-		    .addDelegate(new LeoAEDescriptor()
-		        .setName("TermAnnotator")
-		        .setImplementationName(RegexAnnotator.class.getCanonicalName())
-		        .addParameterSetting(RegexAnnotator.Param.GROOVY_CONFIG_FILE.getName(), true, false, "String",
-		            PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceTerm)
-		        .addParameterSetting(Param.MATCHED_PATTERN_FEATURE_NAME.getName(), false, false, "String",
-		            "pattern"));
+		aggregate.addDelegate(createWindowsPipeline(types));
+		aggregate.addDelegate(createPatternsPipeline(types));
 
-		// INFO: Create initial annotations
-		int i = 0;
-		for (Entry<String, String> a : PipelineVariables.regexResourceToType.entrySet()) {
-			i++;
-			LeoAEDescriptor regexAnnotator = new LeoAEDescriptor()
-			    .setName("RegexAnnotator_" + i)
-			    .setImplementationName(RegexAnnotator.class.getCanonicalName())
-			    .addParameterSetting(RegexAnnotator.Param.RESOURCE.getName(), true, false, "String",
-			        PipelineVariables.RESOURCE_PATH + a.getKey())
-			    .addParameterSetting(RegexAnnotator.Param.OUTPUT_TYPE.getName(), true, false, "String",
-			        a.getValue())
-			    .addParameterSetting(Param.MATCHED_PATTERN_FEATURE_NAME.getName(), false, false, "String",
-			        "pattern");
+		aggregate.addDelegate(createVitalRulesPipeline(types));
 
-			aggregate.addDelegate(regexAnnotator);
-		}
-
-		aggregate.addDelegate(new AnnotationFilter()
-		    .getLeoAEDescriptor()
-		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(),
-		        new String[] { "gov.va.vinci.vitals.types.Term", "gov.va.vinci.vitals.types.Indicator" })
-		    .addTypeSystemDescription(types));
-
-		// INFO: Created annotators to find patterns.
-		i = 0;
-		for (Entry<String, String> a : PipelineVariables.apaResourceToType.entrySet()) {
-			i++;
-			// Pattern detection AnnotationPatternAnnotation -- context.pattern
-			// */
-			aggregate
-			    .addDelegate(new AnnotationPatternAnnotator()
-			        .getLeoAEDescriptor()
-			        .setName("PatternAnnotator" + i)
-			        .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
-			            PipelineVariables.RESOURCE_PATH + a.getKey())
-			        .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), a.getValue())
-			        .addTypeSystemDescription(types));
-		}
-		// INFO: Filter unneeded annotations*/
-		for (Entry<String, String[]> a : PipelineVariables.filterTypes.entrySet()) {
-			aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
-			    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { a.getKey() })
-			    .addTypeSystemDescription(types));
-			aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
-			    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), a.getValue())
-			    .addTypeSystemDescription(types));
-			aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
-			    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { a.getKey() })
-			    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_DELETE.getName(), a.getValue())
-			    .setParameterSetting(AnnotationFilter.Param.REMOVE_OVERLAPPING.getName(), true)
-			    .addTypeSystemDescription(types));
-		}
-
-		i++;
-		aggregate
-		    .addDelegate(new AnnotationPatternAnnotator()
-		        .getLeoAEDescriptor()
-		        .setName("PatternAnnotator" + i)
-		        .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
-		            PipelineVariables.RESOURCE_PATH + PipelineVariables.RESOURCE_RELATION)
-		        .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(),
-		            PipelineVariables.TYPE_RELATION)
-		        .addTypeSystemDescription(types));
-		i++;
-		aggregate
-		    .addDelegate(new AnnotationPatternAnnotator()
-		        .getLeoAEDescriptor()
-		        .setName("PatternAnnotator" + i)
-		        .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
-		            PipelineVariables.RESOURCE_PATH + PipelineVariables.RESOURCE_RELATION_TIMESTAMP)
-		        .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(),
-		            PipelineVariables.TYPE_RELATION_TIMESTAMP)
-		        .addTypeSystemDescription(types));
-
-		aggregate.addDelegate(new VitalsExtractorAnnotator().getLeoAEDescriptor()
-		    .addTypeSystemDescription(types));
-
-		// Remove overannotated    
-		for (String a : PipelineVariables.valueTypes) {
-			aggregate.addDelegate(new AnnotationFilter()
-			    .getLeoAEDescriptor()
-			    .setName("AnnotationFilter")
-			    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { a })
-			    .addTypeSystemDescription(types));
-		}
-
-		// FIXME: Add a feature vector AE - for all Hr_values and HRValues
-
-		aggregate.addDelegate(new HrVectorAnnotator()
-		    .getLeoAEDescriptor()
-		    .setName("HrVectorAnnotator")
-		    .addParameterSetting(HrVectorAnnotator.Param.INPUT_TYPE.getName(), false, true, "String",
-		        new String[] { Hr_value.class.getCanonicalName(), HRValue.class.getCanonicalName() })
-		    .addParameterSetting(HrVectorAnnotator.Param.OUTPUT_TYPE.getName(), false, false, "String",
-		        LearningVariables.TYPE_FeatureVector)
-		    .addParameterSetting(HrVectorAnnotator.Param.KEY_FEATURE_PARAM.getName(), false, false, "String",
-		        "keys")
-		    .addParameterSetting(HrVectorAnnotator.Param.VALUE_FEATURE_PARAM.getName(), false, false, "String",
-		        "values")
-		    .addTypeSystemDescription(types));
-
-		if (GeneralSettings.ENVIRONMENT.equalsIgnoreCase("predict")) {
-			aggregate.addDelegate(LearningAnnotator.getLeoAEDescriptor(
-			    SvmVectorTranslator.class.getCanonicalName(),
-			    LearningVariables.TYPE_Prediction, "srcFVFeature", "prediction",
-			    LearningVariables.TYPE_FeatureVector,
-			    "keys", "values", LearningVariables.Hr_SvmModelPath).addTypeSystemDescription(types));
-			;
-
-			aggregate.addDelegate(new FilterHeartRateAnnotator().getLeoAEDescriptor()
-			    .setName("FilterHeartRateAnnotator")
-			    .addTypeSystemDescription(types));
-		}
+		//	aggregate.addDelegate(createML_Pipeline(types));
 		return aggregate;
 	}
 
@@ -421,6 +572,7 @@ public class Service {
 		LeoTypeSystemDescription types = new LeoTypeSystemDescription();
 		types.addType(TypeLibrarian.getCSITypeSystemDescription());
 		// Adding all knowtator annotations to the type list
+		boolean addExtra = true;
 		for (String type : KnowtatorVariables.uimaTypeFeatureMap.keySet()) {
 			TypeDescription newType;
 			newType = new TypeDescription_impl(type, "", "uima.tcas.Annotation");
@@ -428,8 +580,12 @@ public class Service {
 			    .get(type)) {
 				newType.addFeature(feature, "", "uima.cas.String");
 			}
+			addExtra = false;
 			types.addType(newType);
 		}
+		if (addExtra)
+			types.addType("gov.va.vinci.kttr.types.HRValue", "", "uima.tcas.Annotation");
+
 		types.addType(TypeLibrarian.getRelationshipAnnotationTypeSystemDescription());
 		types.addType("gov.va.vinci.knowtator.types.RelationshipAnnotation",
 		    "", "gov.va.vinci.leo.types.RelationshipAnnotation");
@@ -439,21 +595,27 @@ public class Service {
 
 		TypeDescription numType = new TypeDescription_impl(PipelineVariables.TYPE_NUMERIC, "",
 		    PipelineVariables.RegexType);
-		// numType.addFeature("concept", "", "uima.cas.String");  -- already set 
-		numType.addFeature("value1", "", "uima.cas.String");
-		numType.addFeature("value2", "", "uima.cas.String");
-		//numType.addFeature("valueType", "", "uima.cas.String");
+		numType.addFeature("comment", "", "uima.cas.String");
+		numType.addFeature("value", "", "uima.cas.Double");
+		numType.addFeature("decimal", "", "uima.cas.Boolean");
+		numType.addFeature("integer", "", "uima.cas.Boolean");
+		numType.addFeature("zero_decimal", "", "uima.cas.Boolean");
 		numType.addFeature("unit", "", "uima.tcas.Annotation");
 		numType.addFeature("source", "", "uima.cas.String");
 		numType.addFeature("timestamp", "", "uima.tcas.Annotation");
+		types.addType(numType);
 
+		for (String a : PipelineVariables.TYPES_NUMERIC) {
+			types.addType(a, "", PipelineVariables.TYPE_NUMERIC);
+		}
+
+		//////////////////
 		types.addType(PipelineVariables.TYPE_UNIT, "", PipelineVariables.RegexType);
 		types.addType(PipelineVariables.TYPE_TERM, "", PipelineVariables.RegexType);
-		types.addType(numType);
-		for (Entry<String, String> a : PipelineVariables.regexResourceToType
-		    .entrySet()) {
-			types.addType(a.getValue(), "", PipelineVariables.RegexType);
+		for (String a : PipelineVariables.TYPES_TERM) {
+			types.addType(a, "", PipelineVariables.TYPE_TERM);
 		}
+		types.addType(PipelineVariables.TYPE_TIMESTAMP, "", PipelineVariables.RegexType);
 
 		// APA default type
 		TypeDescription newType = new TypeDescription_impl(PipelineVariables.PatternType, "",
@@ -464,16 +626,36 @@ public class Service {
 		newType.addFeature("anchorPattern", "", "uima.cas.String");
 		newType.addFeature("targetPattern", "", "uima.cas.String");
 		types.addType(newType);
-		for (Entry<String, String> a : PipelineVariables.apaResourceToType.entrySet()) {
-			types.addType(a.getValue(), "", PipelineVariables.PatternType);
-		}
+
+		types.addType(PipelineVariables.TYPE_INDICATOR, "", PipelineVariables.PatternType);
+		types.addType(PipelineVariables.TYPE_TERMEXCLUDE, "", PipelineVariables.PatternType);
+		types.addType(PipelineVariables.TYPE_NUMEXCLUDE, "", PipelineVariables.PatternType);
+
+		types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_RANGE, "", PipelineVariables.PatternType)
+		    .addFeature("value1", "", "uima.tcas.Annotation")
+		    .addFeature("value2", "", "uima.tcas.Annotation")
+		    .getTypeDescription());
+
+		types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_POTENTIAL_BP, "", PipelineVariables.PatternType)
+		    .addFeature("value1", "", "uima.tcas.Annotation")
+		    .addFeature("value2", "", "uima.tcas.Annotation")
+		    .getTypeDescription());
+		types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_EX_POTENTIAL_BP, "", PipelineVariables.PatternType)
+		    .getTypeDescription());
+
+		types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_POTENTIAL_HEIGHT, "", PipelineVariables.PatternType)
+		    .addFeature("value1", "", "uima.tcas.Annotation")
+		    .addFeature("value2", "", "uima.tcas.Annotation")
+		    .getTypeDescription());
+
+		types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_EX_POTENTIAL_HEIGHT, "", "uima.tcas.Annotation")
+		    .getTypeDescription());
 
 		types.addType(PipelineVariables.TYPE_RELATION, "", PipelineVariables.PatternType);
 		types.addType(PipelineVariables.TYPE_RELATION_TIMESTAMP, "", PipelineVariables.PatternType);
 
-		types.addType(TypeDescriptionBuilder
-		    .create(LearningVariables.TYPE_FeatureVector, "Type used to store the fearures and values",
-		        "uima.tcas.Annotation")
+		types.addType(TypeDescriptionBuilder.create(LearningVariables.TYPE_FeatureVector,
+		    "Type used to store the fearures and values", "uima.tcas.Annotation")
 		    .addFeature("keys", "", "uima.cas.StringArray")
 		    .addFeature("values", "", "uima.cas.StringArray")
 		    .addFeature("context", "", "uima.tcas.Annotation")
@@ -489,8 +671,8 @@ public class Service {
 
 		TypeDescription outType = new TypeDescription_impl(PipelineVariables.TYPE_OUTPUT, "",
 		    "uima.tcas.Annotation");
-		outType.addFeature("value1", "", "uima.cas.String");
-		outType.addFeature("value2", "", "uima.cas.String");
+		outType.addFeature("value", "", "uima.cas.String");
+		outType.addFeature("valueAnnotation", "", "uima.tcas.Annotation");
 		outType.addFeature("concept", "", "uima.cas.String");
 		outType.addFeature("unit", "", "uima.tcas.Annotation");
 		outType.addFeature("source", "", "uima.cas.String");
@@ -499,6 +681,16 @@ public class Service {
 
 		for (String a : PipelineVariables.valueTypes) {
 			types.addType(new TypeDescription_impl(a, "", PipelineVariables.TYPE_OUTPUT));
+		}
+		types.addType(new TypeDescription_impl(PipelineVariables.TYPE_Bp_value, "", PipelineVariables.TYPE_OUTPUT));
+
+		for (String a : PipelineVariables.valueBPTypes) {
+			types.addType(new TypeDescription_impl(a, "", PipelineVariables.TYPE_Bp_value));
+		}
+
+		types.addTypeSystemDescription(new WindowAnnotator().getLeoTypeSystemDescription());
+		for (String a : PipelineVariables.TYPES_WINDOW) {
+			types.addType(new TypeDescription_impl(a, "", PipelineVariables.TYPE_WINDOW));
 		}
 
 		/*****/

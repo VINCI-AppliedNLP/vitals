@@ -42,8 +42,8 @@ public class BasicServiceTest {
 
 	@Before
 	public void setup() throws Exception {
-		Service2 ds = new Service2();
-		Service2.GeneralSettings.ENVIRONMENT = "simple";
+		Service ds = new Service();
+		Service.GeneralSettings.ENVIRONMENT = "simple";
 		LeoTypeSystemDescription types = ds.createTypeSystem();
 		aggregate = ds.createNumericPipeline(types);
 		aggregate.addDelegate(ds.createTermAndIndicatorPipeline(types));

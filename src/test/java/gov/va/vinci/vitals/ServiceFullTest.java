@@ -42,9 +42,9 @@ public class ServiceFullTest {
 
 	@Before
 	public void setup() throws Exception {
-		Service2 ds = new Service2();
+		Service ds = new Service();
 		// aggregate = ds.createPipeline(false);
-		Service2.GeneralSettings.ENVIRONMENT = "predict";
+		Service.GeneralSettings.ENVIRONMENT = "predict";
 		LeoTypeSystemDescription types = ds.createTypeSystem();
 		aggregate = ds.createPipeline(types);
 
