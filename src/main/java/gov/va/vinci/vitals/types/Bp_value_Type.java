@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Tue Nov 25 15:55:05 CST 2014 */
+/* First created by JCasGen Fri Dec 05 00:31:13 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -11,7 +11,7 @@ import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.cas.Type;
 
 /** 
- * Updated by JCasGen Tue Nov 25 15:55:05 CST 2014
+ * Updated by JCasGen Fri Dec 05 00:31:13 CST 2014
  * @generated */
 public class Bp_value_Type extends Output_Value_Type {
   /** @generated 

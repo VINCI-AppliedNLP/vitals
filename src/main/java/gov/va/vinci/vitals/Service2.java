@@ -3,7 +3,6 @@ package gov.va.vinci.vitals;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import gov.va.vinci.kttr.types.HRValue;
 import gov.va.vinci.leo.annotationpattern.ae.AnnotationPatternAnnotator;
@@ -108,6 +107,11 @@ public class Service2 {
 		static String TYPE_EX_POTENTIAL_BP = "gov.va.vinci.vitals.types.ExcludePotentialBp";
 		static String resourceBp = "bp.pattern";
 		static String resourceExBp = "bp_exclude.pattern";
+
+		static String TYPE_POTENTIAL_HEIGHT = "gov.va.vinci.vitals.types.PotentialHeight";
+		static String TYPE_EX_POTENTIAL_HEIGHT = "gov.va.vinci.vitals.types.ExcludePotentialHeight";
+		static String resourceHeight = "height.pattern";
+		static String resourceExHeight = "height_exclude.pattern";
 
 		static String TYPE_TERMEXCLUDE = "gov.va.vinci.vitals.types.TermExclude";
 		static String resourceSectionExclude = "excludeSectionHeader.pattern";
@@ -431,6 +435,13 @@ public class Service2 {
 		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceBp)
 		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), PipelineVariables.TYPE_POTENTIAL_BP)
 		    .addTypeSystemDescription(types));
+
+		aggregate.addDelegate(new AnnotationPatternAnnotator().getLeoAEDescriptor().setName("PotentialHeightPattern")
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceHeight)
+		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), PipelineVariables.TYPE_POTENTIAL_HEIGHT)
+		    .addTypeSystemDescription(types));
+
 		aggregate.addDelegate(new AnnotationPatternAnnotator().getLeoAEDescriptor().setName("PotentialBpPattern")
 		    .setParameterSetting(AnnotationPatternAnnotator.Param.RESOURCE.getName(),
 		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceExBp)
@@ -629,7 +640,15 @@ public class Service2 {
 		    .addFeature("value1", "", "uima.tcas.Annotation")
 		    .addFeature("value2", "", "uima.tcas.Annotation")
 		    .getTypeDescription());
-		types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_EX_POTENTIAL_BP, "", PipelineVariables.TYPE_POTENTIAL_BP)
+		types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_EX_POTENTIAL_BP, "", PipelineVariables.PatternType)
+		    .getTypeDescription());
+
+		types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_POTENTIAL_HEIGHT, "", PipelineVariables.PatternType)
+		    .addFeature("value1", "", "uima.tcas.Annotation")
+		    .addFeature("value2", "", "uima.tcas.Annotation")
+		    .getTypeDescription());
+
+		types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_EX_POTENTIAL_HEIGHT, "", "uima.tcas.Annotation")
 		    .getTypeDescription());
 
 		types.addType(PipelineVariables.TYPE_RELATION, "", PipelineVariables.PatternType);

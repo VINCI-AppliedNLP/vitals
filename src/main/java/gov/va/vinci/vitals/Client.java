@@ -306,6 +306,7 @@ public class Client {
 					comparePairs.put(OxygenValue.class.getCanonicalName(), So2_value.class.getCanonicalName());
 					comparePairs.put(BPDiasValue.class.getCanonicalName(), Bp_Diastolic_value.class.getCanonicalName());
 					comparePairs.put(BPSysValue.class.getCanonicalName(), Bp_Systolic_value.class.getCanonicalName());
+					comparePairs.put(BMIValue.class.getCanonicalName(), BMI_value.class.getCanonicalName());
 					/**/
 					if (!(new File(csvPath).getParentFile().exists()))
 						new File(csvPath).getParentFile().mkdirs();

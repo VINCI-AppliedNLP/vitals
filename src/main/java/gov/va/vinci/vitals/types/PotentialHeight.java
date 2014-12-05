@@ -14,12 +14,12 @@ import org.apache.uima.jcas.tcas.Annotation;
  * Updated by JCasGen Fri Dec 05 00:31:14 CST 2014
  * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_838ce1f1-3764-412e-965a-87430202e7108032335724053080453.xml
  * @generated */
-public class Range extends Pattern {
+public class PotentialHeight extends Pattern {
   /** @generated
    * @ordered 
    */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = JCasRegistry.register(Range.class);
+  public final static int typeIndexID = JCasRegistry.register(PotentialHeight.class);
   /** @generated
    * @ordered 
    */
@@ -33,14 +33,14 @@ public class Range extends Pattern {
  
   /** Never called.  Disable default constructor
    * @generated */
-  protected Range() {/* intentionally empty block */}
+  protected PotentialHeight() {/* intentionally empty block */}
     
   /** Internal - constructor used by generator 
    * @generated
    * @param addr low level Feature Structure reference
    * @param type the type of this Feature Structure 
    */
-  public Range(int addr, TOP_Type type) {
+  public PotentialHeight(int addr, TOP_Type type) {
     super(addr, type);
     readObject();
   }
@@ -48,7 +48,7 @@ public class Range extends Pattern {
   /** @generated
    * @param jcas JCas to which this Feature Structure belongs 
    */
-  public Range(JCas jcas) {
+  public PotentialHeight(JCas jcas) {
     super(jcas);
     readObject();   
   } 
@@ -58,7 +58,7 @@ public class Range extends Pattern {
    * @param begin offset to the begin spot in the SofA
    * @param end offset to the end spot in the SofA 
   */  
-  public Range(JCas jcas, int begin, int end) {
+  public PotentialHeight(JCas jcas, int begin, int end) {
     super(jcas);
     setBegin(begin);
     setEnd(end);
@@ -84,18 +84,18 @@ public class Range extends Pattern {
    * @return value of the feature 
    */
   public Annotation getValue1() {
-    if (Range_Type.featOkTst && ((Range_Type)jcasType).casFeat_value1 == null)
-      jcasType.jcas.throwFeatMissing("value1", "gov.va.vinci.vitals.types.Range");
-    return (Annotation)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Range_Type)jcasType).casFeatCode_value1)));}
+    if (PotentialHeight_Type.featOkTst && ((PotentialHeight_Type)jcasType).casFeat_value1 == null)
+      jcasType.jcas.throwFeatMissing("value1", "gov.va.vinci.vitals.types.PotentialHeight");
+    return (Annotation)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((PotentialHeight_Type)jcasType).casFeatCode_value1)));}
     
   /** setter for value1 - sets  
    * @generated
    * @param v value to set into the feature 
    */
   public void setValue1(Annotation v) {
-    if (Range_Type.featOkTst && ((Range_Type)jcasType).casFeat_value1 == null)
-      jcasType.jcas.throwFeatMissing("value1", "gov.va.vinci.vitals.types.Range");
-    jcasType.ll_cas.ll_setRefValue(addr, ((Range_Type)jcasType).casFeatCode_value1, jcasType.ll_cas.ll_getFSRef(v));}    
+    if (PotentialHeight_Type.featOkTst && ((PotentialHeight_Type)jcasType).casFeat_value1 == null)
+      jcasType.jcas.throwFeatMissing("value1", "gov.va.vinci.vitals.types.PotentialHeight");
+    jcasType.ll_cas.ll_setRefValue(addr, ((PotentialHeight_Type)jcasType).casFeatCode_value1, jcasType.ll_cas.ll_getFSRef(v));}    
    
     
   //*--------------*
@@ -106,18 +106,18 @@ public class Range extends Pattern {
    * @return value of the feature 
    */
   public Annotation getValue2() {
-    if (Range_Type.featOkTst && ((Range_Type)jcasType).casFeat_value2 == null)
-      jcasType.jcas.throwFeatMissing("value2", "gov.va.vinci.vitals.types.Range");
-    return (Annotation)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Range_Type)jcasType).casFeatCode_value2)));}
+    if (PotentialHeight_Type.featOkTst && ((PotentialHeight_Type)jcasType).casFeat_value2 == null)
+      jcasType.jcas.throwFeatMissing("value2", "gov.va.vinci.vitals.types.PotentialHeight");
+    return (Annotation)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((PotentialHeight_Type)jcasType).casFeatCode_value2)));}
     
   /** setter for value2 - sets  
    * @generated
    * @param v value to set into the feature 
    */
   public void setValue2(Annotation v) {
-    if (Range_Type.featOkTst && ((Range_Type)jcasType).casFeat_value2 == null)
-      jcasType.jcas.throwFeatMissing("value2", "gov.va.vinci.vitals.types.Range");
-    jcasType.ll_cas.ll_setRefValue(addr, ((Range_Type)jcasType).casFeatCode_value2, jcasType.ll_cas.ll_getFSRef(v));}    
+    if (PotentialHeight_Type.featOkTst && ((PotentialHeight_Type)jcasType).casFeat_value2 == null)
+      jcasType.jcas.throwFeatMissing("value2", "gov.va.vinci.vitals.types.PotentialHeight");
+    jcasType.ll_cas.ll_setRefValue(addr, ((PotentialHeight_Type)jcasType).casFeatCode_value2, jcasType.ll_cas.ll_getFSRef(v));}    
   }
 
     

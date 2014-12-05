@@ -109,4 +109,33 @@ public class ExtractRespiratoryAE extends BaseVitalExtractorAE {
 		return null;
 	}
 
+	public void processValue(Annotation a, String vital_type, Annotation u, boolean markIt, double[][] types) {
+		if (a instanceof Numeric) {
+			if (StringUtils.isBlank(((Numeric) a).getConcept())) {
+				if (isInRange(((Numeric) a).getValue(), types)) {
+					((Numeric) a).setConcept(vital_type);
+					((Numeric) a).setUnit(u);
+				} else {
+					if (markIt) {
+						((Numeric) a).setConcept("Did not match on value: " + vital_type);
+					}
+				}
+			}
+		} else if (a instanceof Range) {
+			if (StringUtils.isBlank(((Numeric) ((Range) a).getValue1()).getConcept())) {
+				if (isInRange(((Numeric) ((Range) a).getValue1()).getValue(), types)
+				    && isInRange(((Numeric) ((Range) a).getValue2()).getValue(), types)) {
+					((Numeric) ((Range) a).getValue1()).setConcept(vital_type);
+					((Numeric) ((Range) a).getValue1()).setUnit(u);
+					((Numeric) ((Range) a).getValue2()).setConcept(vital_type);
+					((Numeric) ((Range) a).getValue2()).setUnit(u);
+				} else {
+					if (markIt) {
+						((Numeric) ((Range) a).getValue1()).setConcept("Did not match on value: " + vital_type);
+						((Numeric) ((Range) a).getValue2()).setConcept("Did not match on value: " + vital_type);
+					}
+				}
+			}
+		}
+	}
 }

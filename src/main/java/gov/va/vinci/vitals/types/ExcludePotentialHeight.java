@@ -1,7 +1,7 @@
 
 
 /* First created by JCasGen Fri Dec 05 00:31:13 CST 2014 */
-package gov.va.vinci.kttr.types;
+package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
 import org.apache.uima.jcas.JCasRegistry;
@@ -14,12 +14,12 @@ import org.apache.uima.jcas.tcas.Annotation;
  * Updated by JCasGen Fri Dec 05 00:31:13 CST 2014
  * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_838ce1f1-3764-412e-965a-87430202e7108032335724053080453.xml
  * @generated */
-public class TValue extends Annotation {
+public class ExcludePotentialHeight extends Annotation {
   /** @generated
    * @ordered 
    */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = JCasRegistry.register(TValue.class);
+  public final static int typeIndexID = JCasRegistry.register(ExcludePotentialHeight.class);
   /** @generated
    * @ordered 
    */
@@ -33,14 +33,14 @@ public class TValue extends Annotation {
  
   /** Never called.  Disable default constructor
    * @generated */
-  protected TValue() {/* intentionally empty block */}
+  protected ExcludePotentialHeight() {/* intentionally empty block */}
     
   /** Internal - constructor used by generator 
    * @generated
    * @param addr low level Feature Structure reference
    * @param type the type of this Feature Structure 
    */
-  public TValue(int addr, TOP_Type type) {
+  public ExcludePotentialHeight(int addr, TOP_Type type) {
     super(addr, type);
     readObject();
   }
@@ -48,7 +48,7 @@ public class TValue extends Annotation {
   /** @generated
    * @param jcas JCas to which this Feature Structure belongs 
    */
-  public TValue(JCas jcas) {
+  public ExcludePotentialHeight(JCas jcas) {
     super(jcas);
     readObject();   
   } 
@@ -58,7 +58,7 @@ public class TValue extends Annotation {
    * @param begin offset to the begin spot in the SofA
    * @param end offset to the end spot in the SofA 
   */  
-  public TValue(JCas jcas, int begin, int end) {
+  public ExcludePotentialHeight(JCas jcas, int begin, int end) {
     super(jcas);
     setBegin(begin);
     setEnd(end);

@@ -44,7 +44,9 @@ configuration {
 			'\\bm\\b',
 			'\\bcm\\b',
 			'\\binch\\b',
-			'\\binches'
+			'\\binches',
+			'\\bft\\b',
+			'\\bfeet\\b'
 		]
 		concept_feature_value = "Height"
 	}

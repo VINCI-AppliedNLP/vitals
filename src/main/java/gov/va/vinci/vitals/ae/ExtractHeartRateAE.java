@@ -7,6 +7,7 @@ import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.vitals.types.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.FSIterator;
@@ -104,4 +105,34 @@ public class ExtractHeartRateAE extends BaseVitalExtractorAE {
 		return null;
 	}
 
+	public void processValue(Annotation a, String vital_type, Annotation u, boolean markIt, double[][] ranges) {
+		if (a instanceof Numeric) {
+			if (StringUtils.isBlank(((Numeric) a).getConcept())) {
+				if (isInRange(((Numeric) a).getValue(), ranges)) {
+					((Numeric) a).setConcept(vital_type);
+					((Numeric) a).setUnit(u);
+				} else {
+					if (markIt) {
+						((Numeric) a).setConcept("Did not match on value: " + vital_type);
+					}
+				}
+			}
+
+		} else if (a instanceof Range) {
+			if (StringUtils.isBlank(((Numeric) ((Range) a).getValue1()).getConcept())) {
+				if (isInRange(((Numeric) ((Range) a).getValue1()).getValue(), ranges)
+				    && isInRange(((Numeric) ((Range) a).getValue2()).getValue(), ranges)) {
+					((Numeric) ((Range) a).getValue1()).setConcept(vital_type);
+					((Numeric) ((Range) a).getValue1()).setUnit(u);
+					((Numeric) ((Range) a).getValue2()).setConcept(vital_type);
+					((Numeric) ((Range) a).getValue2()).setUnit(u);
+				} else {
+					if (markIt) {
+						((Numeric) ((Range) a).getValue1()).setConcept("Did not match on value: " + vital_type);
+						((Numeric) ((Range) a).getValue2()).setConcept("Did not match on value: " + vital_type);
+					}
+				}
+			}
+		}
+	}
 }

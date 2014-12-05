@@ -1,6 +1,6 @@
 
 /* First created by JCasGen Fri Dec 05 00:31:13 CST 2014 */
-package gov.va.vinci.kttr.types;
+package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
@@ -14,7 +14,7 @@ import org.apache.uima.jcas.tcas.Annotation_Type;
 /** 
  * Updated by JCasGen Fri Dec 05 00:31:13 CST 2014
  * @generated */
-public class BPValue_Type extends Annotation_Type {
+public class ExcludePotentialHeight_Type extends Annotation_Type {
   /** @generated 
    * @return the generator for this type
    */
@@ -24,25 +24,25 @@ public class BPValue_Type extends Annotation_Type {
   private final FSGenerator fsGenerator = 
     new FSGenerator() {
       public FeatureStructure createFS(int addr, CASImpl cas) {
-  			 if (BPValue_Type.this.useExistingInstance) {
+  			 if (ExcludePotentialHeight_Type.this.useExistingInstance) {
   			   // Return eq fs instance if already created
-  		     FeatureStructure fs = BPValue_Type.this.jcas.getJfsFromCaddr(addr);
+  		     FeatureStructure fs = ExcludePotentialHeight_Type.this.jcas.getJfsFromCaddr(addr);
   		     if (null == fs) {
-  		       fs = new BPValue(addr, BPValue_Type.this);
-  			   BPValue_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  		       fs = new ExcludePotentialHeight(addr, ExcludePotentialHeight_Type.this);
+  			   ExcludePotentialHeight_Type.this.jcas.putJfsFromCaddr(addr, fs);
   			   return fs;
   		     }
   		     return fs;
-        } else return new BPValue(addr, BPValue_Type.this);
+        } else return new ExcludePotentialHeight(addr, ExcludePotentialHeight_Type.this);
   	  }
     };
   /** @generated */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = BPValue.typeIndexID;
+  public final static int typeIndexID = ExcludePotentialHeight.typeIndexID;
   /** @generated 
      @modifiable */
   @SuppressWarnings ("hiding")
-  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.kttr.types.BPValue");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.vitals.types.ExcludePotentialHeight");
 
 
 
@@ -51,7 +51,7 @@ public class BPValue_Type extends Annotation_Type {
 	 * @param jcas JCas
 	 * @param casType Type 
 	 */
-  public BPValue_Type(JCas jcas, Type casType) {
+  public ExcludePotentialHeight_Type(JCas jcas, Type casType) {
     super(jcas, casType);
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 

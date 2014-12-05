@@ -6,6 +6,7 @@ import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.vitals.types.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.FSIterator;
@@ -17,6 +18,7 @@ public class ExtractSo2AE extends BaseVitalExtractorAE {
 	public static String outputValue = So2_value.class.getCanonicalName();
 
 	public static double[][] typeRanges = { { 50, 100 } };
+
 	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		super.process(aJCas);
@@ -52,13 +54,13 @@ public class ExtractSo2AE extends BaseVitalExtractorAE {
 						Annotation term = currRelation.getAnchor();
 						// check type
 						if (term instanceof So2_Term) {
-							processValue(value, currentType, curUnit, true,typeRanges);
+							processValue(value, currentType, curUnit, true, typeRanges);
 						} else {
 							continue;
 						}
 					} else if (curUnit != null) {
 						if ((curUnit.getConcept().equalsIgnoreCase(currentType))) {
-							processValue(value, currentType, curUnit, true,typeRanges);
+							processValue(value, currentType, curUnit, true, typeRanges);
 						} else {
 							continue;
 						}
@@ -71,10 +73,10 @@ public class ExtractSo2AE extends BaseVitalExtractorAE {
 	}
 
 	@Override
-  public LeoTypeSystemDescription getLeoTypeSystemDescription() {
-	  // TODO Auto-generated method stub
-	  return null;
-  }
+	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	
 }

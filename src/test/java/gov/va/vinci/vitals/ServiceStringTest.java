@@ -50,24 +50,9 @@ public class ServiceStringTest {
 
 	public String getDocText() throws IOException {
 		return "\n" +
-		    "Neuro:\n" +
-		    "Intubated, follows commands, denies pain\n" +
-		    "meds:  dilaudid 0.2mg /ativan 1mg prn\n" +
-		    "\n" +
-		    "CV:\n" +
-		    "HR 40-110 (55 current)\n" +
-		    "BP 90-130/30-60 (98/51)\n" +
-		    "CVP 15-24\n" +
-		    "Temp 98.7 F\n" +
-		    "T: 39.4 C \n" +
-		    "Tmax:101.2F\n" +
-		    "Temperature -- 101.0-103.4F\n" +
-		    "Failing examples:" +
-		    "\n" +
-		    "Temp 198.7 F  \n" + 
-		    "	T: 139.4 C  \n" + 
-		    "	Tmax:51.2F  \n" + 
-		    "	Temperature -- 41.0-1003.4F \n";
+		     "LFTS 0.8 / 24 / 42 / 1.2\n" + 
+		     "\n" + 
+		     " \n";
 
 	}
 

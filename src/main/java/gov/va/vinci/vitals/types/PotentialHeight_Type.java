@@ -15,7 +15,7 @@ import org.apache.uima.cas.Feature;
 /** 
  * Updated by JCasGen Fri Dec 05 00:31:14 CST 2014
  * @generated */
-public class PotentialBp_Type extends Pattern_Type {
+public class PotentialHeight_Type extends Pattern_Type {
   /** @generated 
    * @return the generator for this type
    */
@@ -25,25 +25,25 @@ public class PotentialBp_Type extends Pattern_Type {
   private final FSGenerator fsGenerator = 
     new FSGenerator() {
       public FeatureStructure createFS(int addr, CASImpl cas) {
-  			 if (PotentialBp_Type.this.useExistingInstance) {
+  			 if (PotentialHeight_Type.this.useExistingInstance) {
   			   // Return eq fs instance if already created
-  		     FeatureStructure fs = PotentialBp_Type.this.jcas.getJfsFromCaddr(addr);
+  		     FeatureStructure fs = PotentialHeight_Type.this.jcas.getJfsFromCaddr(addr);
   		     if (null == fs) {
-  		       fs = new PotentialBp(addr, PotentialBp_Type.this);
-  			   PotentialBp_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  		       fs = new PotentialHeight(addr, PotentialHeight_Type.this);
+  			   PotentialHeight_Type.this.jcas.putJfsFromCaddr(addr, fs);
   			   return fs;
   		     }
   		     return fs;
-        } else return new PotentialBp(addr, PotentialBp_Type.this);
+        } else return new PotentialHeight(addr, PotentialHeight_Type.this);
   	  }
     };
   /** @generated */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = PotentialBp.typeIndexID;
+  public final static int typeIndexID = PotentialHeight.typeIndexID;
   /** @generated 
      @modifiable */
   @SuppressWarnings ("hiding")
-  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.vitals.types.PotentialBp");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("gov.va.vinci.vitals.types.PotentialHeight");
  
   /** @generated */
   final Feature casFeat_value1;
@@ -55,7 +55,7 @@ public class PotentialBp_Type extends Pattern_Type {
    */ 
   public int getValue1(int addr) {
         if (featOkTst && casFeat_value1 == null)
-      jcas.throwFeatMissing("value1", "gov.va.vinci.vitals.types.PotentialBp");
+      jcas.throwFeatMissing("value1", "gov.va.vinci.vitals.types.PotentialHeight");
     return ll_cas.ll_getRefValue(addr, casFeatCode_value1);
   }
   /** @generated
@@ -64,7 +64,7 @@ public class PotentialBp_Type extends Pattern_Type {
    */    
   public void setValue1(int addr, int v) {
         if (featOkTst && casFeat_value1 == null)
-      jcas.throwFeatMissing("value1", "gov.va.vinci.vitals.types.PotentialBp");
+      jcas.throwFeatMissing("value1", "gov.va.vinci.vitals.types.PotentialHeight");
     ll_cas.ll_setRefValue(addr, casFeatCode_value1, v);}
     
   
@@ -79,7 +79,7 @@ public class PotentialBp_Type extends Pattern_Type {
    */ 
   public int getValue2(int addr) {
         if (featOkTst && casFeat_value2 == null)
-      jcas.throwFeatMissing("value2", "gov.va.vinci.vitals.types.PotentialBp");
+      jcas.throwFeatMissing("value2", "gov.va.vinci.vitals.types.PotentialHeight");
     return ll_cas.ll_getRefValue(addr, casFeatCode_value2);
   }
   /** @generated
@@ -88,7 +88,7 @@ public class PotentialBp_Type extends Pattern_Type {
    */    
   public void setValue2(int addr, int v) {
         if (featOkTst && casFeat_value2 == null)
-      jcas.throwFeatMissing("value2", "gov.va.vinci.vitals.types.PotentialBp");
+      jcas.throwFeatMissing("value2", "gov.va.vinci.vitals.types.PotentialHeight");
     ll_cas.ll_setRefValue(addr, casFeatCode_value2, v);}
     
   
@@ -100,7 +100,7 @@ public class PotentialBp_Type extends Pattern_Type {
 	 * @param jcas JCas
 	 * @param casType Type 
 	 */
-  public PotentialBp_Type(JCas jcas, Type casType) {
+  public PotentialHeight_Type(JCas jcas, Type casType) {
     super(jcas, casType);
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 

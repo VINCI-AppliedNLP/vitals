@@ -161,7 +161,7 @@ environments {
 	}
 	compare{
 		readerType = "knowtator"
-		listenerTypes = "aucompare|xmi"
+		listenerTypes = "aucompare|xmi|csv"
 		envType = "compare"
 	}
 	dbOut{
