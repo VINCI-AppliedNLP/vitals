@@ -41,7 +41,7 @@ Pipeline
 
 - createVitalRulesPipeline
 	-- MarkNotItAE 
-	-- ExtractTemperatureAE
+	-- ExtractTemperatureAE 
 	-- ExtractSo2AE
 	-- ExtractBloodPressureAE
 	-- ExtractRespiratoryAE
