@@ -68,6 +68,7 @@ public class ExtractHeightAE extends BaseVitalExtractorAE {
 				newNumeric.addToIndexes(aJCas);
 				newNumeric.setConcept(currentType);
 				newNumeric.setValue(v);
+				
 
 			}
 		}

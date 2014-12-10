@@ -20,10 +20,10 @@
 <!target><gov.va.vinci.vitals.types.Range/><!target/> *<gov.va.vinci.vitals.types.Unit concept="SO2"/>
 
 
-\n<gov.va.vinci.vitals.types.Timestamp/> +<!target><gov.va.vinci.vitals.types.Numeric/><!target/> +<gov.va.vinci.vitals.types.Numeric/> +<gov.va.vinci.vitals.types.Numeric/> +<gov.va.vinci.vitals.types.Numeric/>
-\n<gov.va.vinci.vitals.types.Timestamp/> +<gov.va.vinci.vitals.types.Numeric/> +<!target><gov.va.vinci.vitals.types.Numeric/><!target/> +<gov.va.vinci.vitals.types.Numeric/> +<gov.va.vinci.vitals.types.Numeric/>
-\n<gov.va.vinci.vitals.types.Timestamp/> +<gov.va.vinci.vitals.types.Numeric/> +<gov.va.vinci.vitals.types.Numeric/> +<!target><gov.va.vinci.vitals.types.Numeric/><!target/> +<gov.va.vinci.vitals.types.Numeric/>
-\n<gov.va.vinci.vitals.types.Timestamp/> +<gov.va.vinci.vitals.types.Numeric/> +<gov.va.vinci.vitals.types.Numeric/> +<gov.va.vinci.vitals.types.Numeric/> +<!target><gov.va.vinci.vitals.types.Numeric/><!target/>
+\n *<gov.va.vinci.vitals.types.Timestamp/> +<!target><gov.va.vinci.vitals.types.Numeric/><!target/> +<gov.va.vinci.vitals.types.Numeric/> +<gov.va.vinci.vitals.types.Numeric/> +<gov.va.vinci.vitals.types.Numeric/>
+\n *<gov.va.vinci.vitals.types.Timestamp/> +<gov.va.vinci.vitals.types.Numeric/> +<!target><gov.va.vinci.vitals.types.Numeric/><!target/> +<gov.va.vinci.vitals.types.Numeric/> +<gov.va.vinci.vitals.types.Numeric/>
+\n *<gov.va.vinci.vitals.types.Timestamp/> +<gov.va.vinci.vitals.types.Numeric/> +<gov.va.vinci.vitals.types.Numeric/> +<!target><gov.va.vinci.vitals.types.Numeric/><!target/> +<gov.va.vinci.vitals.types.Numeric/>
+\n *<gov.va.vinci.vitals.types.Timestamp/> +<gov.va.vinci.vitals.types.Numeric/> +<gov.va.vinci.vitals.types.Numeric/> +<gov.va.vinci.vitals.types.Numeric/> +<!target><gov.va.vinci.vitals.types.Numeric/><!target/>
 
 
 <!anchor><gov.va.vinci.vitals.types.Term/><!anchor/>\s*((:|-|\.|of|=|@|at|is)\s*)?<!target><gov.va.vinci.vitals.types.Range/><!target/>

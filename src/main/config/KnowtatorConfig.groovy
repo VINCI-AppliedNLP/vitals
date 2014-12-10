@@ -14,12 +14,13 @@ backupknowtatorToUimaTypeMap = [
 ]
 
 //knowtatorCorpusPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\ProblematicRefSt\\corpus\\"
-knowtatorCorpusPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\RefSt_20140522\\corpus\\"
+knowtatorCorpusPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\FinalVal_20141210\\corpus\\"
 //knowtatorCorpusPath="P:\\ORD_Iwashyna_201108021D\\NLP\\kttrTest\\corpus\\";
 
 
-knowtatorXmlPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\RefSt_20140522\\saved\\"
+knowtatorXmlPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\FinalVal_20141210\\saved\\"
 //\DevSet_20141204
+//FinalVal_20141210
 //"P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\RefSt_20140923_Batch1_10_updated\\saved\\"
 //"P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\RefSt_20140923_Batch1_10\\saved\\"
 //"P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\RefSt_20140522\\saved\\"
@@ -56,7 +57,8 @@ knowtatorToUimaTypeMap = [
 	"height_term":"gov.va.vinci.kttr.types.Other",
 	"weight_term":"gov.va.vinci.kttr.types.Other",
 	"oxygen_term":"gov.va.vinci.kttr.types.Other",
-	"respiration_term":"gov.va.vinci.kttr.types.Other"
+	"respiration_term":"gov.va.vinci.kttr.types.Other",
+	"time_term":"gov.va.vinci.kttr.types.Other"
 
 ]
 

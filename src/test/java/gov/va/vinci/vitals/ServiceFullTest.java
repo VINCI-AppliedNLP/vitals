@@ -44,7 +44,7 @@ public class ServiceFullTest {
 	public void setup() throws Exception {
 		Service ds = new Service();
 		// aggregate = ds.createPipeline(false);
-		Service.GeneralSettings.ENVIRONMENT = "predict";
+		Service.GeneralSettings.ENVIRONMENT = "simple";
 		LeoTypeSystemDescription types = ds.createTypeSystem();
 		aggregate = ds.createPipeline(types);
 

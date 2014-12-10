@@ -60,7 +60,7 @@ configuration {
 	}
 
 	"NotIt_Term" {
-		expressions = ["ms", "mcg/min",  "ml/hr"]
+		expressions = ["ms", "mcg/min",  "ml/hr", "c/o"]
 		concept_feature_value = "NotIt_Term"
 	}
 }

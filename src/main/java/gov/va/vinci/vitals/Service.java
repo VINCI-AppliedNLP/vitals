@@ -483,7 +483,7 @@ public class Service {
 
 	protected LeoAEDescriptor createVitalRulesPipeline(LeoTypeSystemDescription types) throws Exception {
 		LeoAEDescriptor aggregate = new LeoAEDescriptor();
-
+		aggregate.addDelegate(new AssignUnitAndTimeAE().getLeoAEDescriptor().addTypeSystemDescription(types));
 		aggregate.addDelegate(new MarkNotItAE().getLeoAEDescriptor().addTypeSystemDescription(types));
 		aggregate.addDelegate(new ExtractTemperatureAE().getLeoAEDescriptor().addTypeSystemDescription(types));
 		aggregate.addDelegate(new ExtractSo2AE().getLeoAEDescriptor().addTypeSystemDescription(types));
@@ -504,6 +504,8 @@ public class Service {
 		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor().setName("AnnotationFilter")
 		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), PipelineVariables.valueBPTypes)
 		    .addTypeSystemDescription(types));
+		aggregate.addDelegate(new FilterTimestampAE().getLeoAEDescriptor().addTypeSystemDescription(types));
+
 
 		return aggregate;
 	}
