@@ -1,9 +1,10 @@
 package gov.va.vinci.vitals.listeners;
 
-
+import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.listener.BaseDatabaseListener;
 import gov.va.vinci.leo.model.DatabaseConnectionInformation;
 import gov.va.vinci.leo.tools.LeoUtils;
+import gov.va.vinci.leo.types.CSI;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,12 +15,15 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.uima.aae.client.UimaASProcessStatus;
 import org.apache.uima.cas.CAS;
+import org.apache.uima.cas.CASException;
+import org.apache.uima.jcas.tcas.Annotation;
 
 public class DbsListener extends BaseDatabaseListener {
 
 	private static final Logger log = Logger.getLogger(LeoUtils
-			.getRuntimeClass().toString());
+	    .getRuntimeClass().toString());
 	protected HashMap<String, Integer> fields = new HashMap<String, Integer>();
 	protected ArrayList<String> headers = new ArrayList<String>();
 
@@ -36,18 +40,18 @@ public class DbsListener extends BaseDatabaseListener {
 	 * @return
 	 */
 	public static DbsListener createNewListener(
-			DatabaseConnectionInformation databaseConnectionInformation,
-			String dbsName, String tableName, int batchSize,
-			ArrayList<ArrayList<String>> fieldList) {
+	    DatabaseConnectionInformation databaseConnectionInformation,
+	    String dbsName, String tableName, int batchSize,
+	    ArrayList<ArrayList<String>> fieldList) {
 
 		String createStatement = createCreateStatement(dbsName, tableName,
-				fieldList);
+		    fieldList);
 		String insertStatement = createInsertStatement(dbsName, tableName,
-				fieldList);
+		    fieldList);
 		boolean validateConnectionEachBatch = true;
 		return new DbsListener(databaseConnectionInformation, insertStatement,
-				batchSize, validateConnectionEachBatch, createStatement,
-				fieldList);
+		    batchSize, validateConnectionEachBatch, createStatement,
+		    fieldList);
 	}
 
 	/**
@@ -60,12 +64,12 @@ public class DbsListener extends BaseDatabaseListener {
 	 * @param createStatement
 	 */
 	public DbsListener(
-			DatabaseConnectionInformation databaseConnectionInformation,
-			String preparedStatementSQL, int batchSize,
-			boolean validateConnectionEachBatch, String createStatement,
-			ArrayList<ArrayList<String>> fieldList) {
+	    DatabaseConnectionInformation databaseConnectionInformation,
+	    String preparedStatementSQL, int batchSize,
+	    boolean validateConnectionEachBatch, String createStatement,
+	    ArrayList<ArrayList<String>> fieldList) {
 		super(databaseConnectionInformation, preparedStatementSQL, batchSize,
-				validateConnectionEachBatch);
+		    validateConnectionEachBatch);
 		this.createStatement = createStatement;
 		this.setHeaders(fieldList);
 	}
@@ -81,13 +85,13 @@ public class DbsListener extends BaseDatabaseListener {
 	 * @throws Exception
 	 */
 	public void createTable(DatabaseConnectionInformation dbConnectionInfo,
-			String createStatement, boolean dropFirst, String tableName)
-			throws Exception {
+	    String createStatement, boolean dropFirst, String tableName)
+	    throws Exception {
 		Class.forName(dbConnectionInfo.getDriver()).newInstance();
 		log.info("Creating a table for output \r\n" + createStatement);
 		Connection conn = DriverManager.getConnection(
-				dbConnectionInfo.getUrl(), dbConnectionInfo.getUsername(),
-				dbConnectionInfo.getPassword());
+		    dbConnectionInfo.getUrl(), dbConnectionInfo.getUsername(),
+		    dbConnectionInfo.getPassword());
 		if (dropFirst && StringUtils.isNotBlank(tableName)) {
 			conn.createStatement().execute("DROP TABLE " + tableName);
 		}// if
@@ -105,7 +109,7 @@ public class DbsListener extends BaseDatabaseListener {
 	 * @return
 	 */
 	public static String createInsertStatement(String dbsName,
-			String tableName, ArrayList<ArrayList<String>> fieldList) {
+	    String tableName, ArrayList<ArrayList<String>> fieldList) {
 		String statement = "INSERT INTO " + dbsName + "." + tableName + " ( ";
 		String values = "";
 		for (ArrayList<String> entry : fieldList) {
@@ -113,9 +117,9 @@ public class DbsListener extends BaseDatabaseListener {
 			values = values + " ?,";
 		}
 		statement = statement.substring(0, statement.length() - 2)
-				+ " ) VALUES ( " + values.substring(0, values.length() - 1)
-				+ " ) ;";
-log.info(statement);
+		    + " ) VALUES ( " + values.substring(0, values.length() - 1)
+		    + " ) ;";
+		log.info(statement);
 		return statement;
 	}
 
@@ -129,9 +133,9 @@ log.info(statement);
 	 * @return
 	 */
 	public static String createCreateStatement(String dbsName,
-			String tableName, ArrayList<ArrayList<String>> fieldList) {
+	    String tableName, ArrayList<ArrayList<String>> fieldList) {
 
-		String statement = "Drop table  " + dbsName + "." + tableName +"; CREATE TABLE " + dbsName + "." + tableName + " ( ";
+		String statement = "Drop table  " + dbsName + "." + tableName + "; CREATE TABLE " + dbsName + "." + tableName + " ( ";
 		for (ArrayList<String> entry : fieldList) {
 			statement = statement + entry.get(0) + " " + entry.get(2) + ", ";
 		}
@@ -172,8 +176,22 @@ log.info(statement);
 			}
 			rows.add(rowList.toArray(new String[rowList.size()]));
 		}
-			    	      
+
 		return rows;
+	}
+
+	@Override
+	public void onBeforeMessageSend(UimaASProcessStatus status) {
+		super.onBeforeMessageSend(status);
+		try {
+			ArrayList<Annotation> csis = (ArrayList) AnnotationLibrarian.getAllAnnotationsOfType(status.getCAS().getJCas(), CSI.class
+			    .getCanonicalName());
+			if (csis.size() > 0)
+				log.info("Processing " + ((CSI) csis.get(0)).getID());
+		} catch (CASException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
 	}
 
 	/**

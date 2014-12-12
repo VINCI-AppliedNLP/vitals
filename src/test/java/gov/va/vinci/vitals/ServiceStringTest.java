@@ -49,10 +49,23 @@ public class ServiceStringTest {
 	}// setup
 
 	public String getDocText() throws IOException {
-		return "\n" +
-		     "LFTS 0.8 / 24 / 42 / 1.2\n" + 
-		     "\n" + 
-		     " \n";
+		return "NURSING RE-ASSESSMENT FORM                  Jul 29,2006@10:40\n" + 
+				" (EQUIVALENT TO MOFH 0-72, SGOMN, JUL 00)\n" + 
+				"  Diagnosis: pancreatitis, ETOH abuse\n" + 
+				" VS 98.7-88-20 BP 131/69 O 2 SAT is 97% RA\n" + 
+				" \n" + 
+				"  \n" + 
+				"  Face to Face: from previous hsift and walking rounds completed\n" + 
+				" \n" + 
+				"  \n" + 
+				"  DISCHARGE PLANNING\n" + 
+				"   Plan: \n" + 
+				"    DC to appropriate level of care when stable\n" + 
+				"   DISCHARGE PLAN NEEDS REVIEWED WITH:\n" + 
+				"    Patient\n" + 
+				" r34 \n" +
+				"mofh 0-72\n" +
+				"jan ";
 
 	}
 
