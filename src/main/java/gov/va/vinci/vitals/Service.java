@@ -93,6 +93,7 @@ public class Service {
 
 		static String TYPE_INDICATOR = "gov.va.vinci.vitals.types.Indicator";
 		static String resourceIndicator = "indicator.pattern";
+		static String resourceIndicatorRegex = "indicator.regex";
 
 		static String TYPE_TIMESTAMP = "gov.va.vinci.vitals.types.Timestamp";
 		static String resourceTumestamp = "date.regex";
@@ -116,6 +117,7 @@ public class Service {
 
 		static String TYPE_TERMEXCLUDE = "gov.va.vinci.vitals.types.TermExclude";
 		static String resourceSectionExclude = "excludeSectionHeader.pattern";
+		static String resourceSectionExcludeRegex = "excludeSectionHeader.regex";
 
 		static String TYPE_RELATION = "gov.va.vinci.vitals.types.Relation";
 		static String RESOURCE_RELATION = "relation.pattern";
@@ -321,12 +323,11 @@ public class Service {
 		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), PipelineVariables.TYPE_NUMEXCLUDE)
 		    .addTypeSystemDescription(types));
 		
-		aggregate.addDelegate(new LeoAEDescriptor().setName("TimestampAnnotator")
+		aggregate.addDelegate(new LeoAEDescriptor().setName("ExcludeNumberPattern")
 		    .setImplementationName(RegexAnnotator.class.getCanonicalName())
 		    .addParameterSetting(RegexAnnotator.Param.RESOURCE.getName(), true, false, "String",
 		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceNumExcludeRegex)
 		    .addParameterSetting(RegexAnnotator.Param.OUTPUT_TYPE.getName(), true, false, "String", PipelineVariables.TYPE_NUMEXCLUDE)
-		    //.addParameterSetting(Param.MATCHED_PATTERN_FEATURE_NAME.getName(), false, false, "String", "pattern")
 		    .addTypeSystemDescription(types));
 
 
@@ -378,6 +379,14 @@ public class Service {
 		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(),
 		        PipelineVariables.TYPE_INDICATOR)
 		    .addTypeSystemDescription(types));
+		
+		aggregate.addDelegate(new LeoAEDescriptor().setName("IndicatorPatternAnnotator")
+		    .setImplementationName(RegexAnnotator.class.getCanonicalName())
+		    .addParameterSetting(RegexAnnotator.Param.RESOURCE.getName(), true, false, "String",
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceIndicatorRegex)
+		    .addParameterSetting(RegexAnnotator.Param.OUTPUT_TYPE.getName(), true, false, "String", PipelineVariables.TYPE_INDICATOR)
+		    .addTypeSystemDescription(types));
+		
 		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
 		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { PipelineVariables.TYPE_INDICATOR })
 		    .addTypeSystemDescription(types));
@@ -387,6 +396,12 @@ public class Service {
 		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceSectionExclude)
 		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(),
 		        PipelineVariables.TYPE_TERMEXCLUDE)
+		    .addTypeSystemDescription(types));
+		aggregate.addDelegate(new LeoAEDescriptor().setName("TermExcludePatternAnnotator")
+		    .setImplementationName(RegexAnnotator.class.getCanonicalName())
+		    .addParameterSetting(RegexAnnotator.Param.RESOURCE.getName(), true, false, "String",
+		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceSectionExcludeRegex)
+		    .addParameterSetting(RegexAnnotator.Param.OUTPUT_TYPE.getName(), true, false, "String", PipelineVariables.TYPE_TERMEXCLUDE)
 		    .addTypeSystemDescription(types));
 
 		return aggregate;
