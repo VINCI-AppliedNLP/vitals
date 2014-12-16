@@ -1,0 +1,25 @@
+# (801) 647-9999
+\( ?\d+ ?\) ?((\d+|\-|\*) ?)+
+
+
+# single digit number is ok for pain. Will have to reconsider when pain is included in the extraction
+#[^\.]\b\d\b
+
+# 09/09/1990
+\b\d+/\d+/\d+\b
+\b\d+:\d+:\d+\b
+
+# 09-09-09
+# \b\d+-\d+-\d+\b 
+
+\w+ *'\d\d\b
+\n *\d+\. 
+\n *\d+\)
+
+
+\b\d/\d+\b
+# The idea was to disregard dates and socials. but this is too common of a pattern for vital signs
+#\d\d\d+-\d\d+-\d\d\d+
+
+mofh\s+0-72
+
