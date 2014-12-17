@@ -186,8 +186,7 @@ public class DbsListener extends BaseDatabaseListener {
 		try {
 			ArrayList<Annotation> csis = (ArrayList) AnnotationLibrarian.getAllAnnotationsOfType(status.getCAS().getJCas(), CSI.class
 			    .getCanonicalName());
-			if (csis.size() > 0)
-				log.info("Processing " + ((CSI) csis.get(0)).getID());
+			//if (csis.size() > 0) 				log.info("Processing " + ((CSI) csis.get(0)).getID());
 		} catch (CASException ex) {
 			// TODO Auto-generated catch block
 			ex.printStackTrace();
