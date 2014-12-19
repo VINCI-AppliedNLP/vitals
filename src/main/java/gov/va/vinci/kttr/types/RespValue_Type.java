@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Fri Dec 05 00:31:13 CST 2014 */
+/* First created by JCasGen Thu Dec 18 11:32:20 CST 2014 */
 package gov.va.vinci.kttr.types;
 
 import org.apache.uima.jcas.JCas;
@@ -9,12 +9,11 @@ import org.apache.uima.cas.impl.FSGenerator;
 import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.cas.Type;
-import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Fri Dec 05 00:31:13 CST 2014
+ * Updated by JCasGen Thu Dec 18 11:32:20 CST 2014
  * @generated */
-public class RespValue_Type extends Annotation_Type {
+public class RespValue_Type extends RefValue_Type {
   /** @generated 
    * @return the generator for this type
    */

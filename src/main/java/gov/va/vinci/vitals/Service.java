@@ -322,14 +322,13 @@ public class Service {
 		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceNumExclude)
 		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(), PipelineVariables.TYPE_NUMEXCLUDE)
 		    .addTypeSystemDescription(types));
-		
+
 		aggregate.addDelegate(new LeoAEDescriptor().setName("ExcludeNumberPattern")
 		    .setImplementationName(RegexAnnotator.class.getCanonicalName())
 		    .addParameterSetting(RegexAnnotator.Param.RESOURCE.getName(), true, false, "String",
 		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceNumExcludeRegex)
 		    .addParameterSetting(RegexAnnotator.Param.OUTPUT_TYPE.getName(), true, false, "String", PipelineVariables.TYPE_NUMEXCLUDE)
 		    .addTypeSystemDescription(types));
-
 
 		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor().setName("AnnotationFilter")
 		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { PipelineVariables.TYPE_NUMEXCLUDE })
@@ -379,14 +378,14 @@ public class Service {
 		    .setParameterSetting(AnnotationPatternAnnotator.Param.OUTPUT_TYPE.getName(),
 		        PipelineVariables.TYPE_INDICATOR)
 		    .addTypeSystemDescription(types));
-		
+
 		aggregate.addDelegate(new LeoAEDescriptor().setName("IndicatorPatternAnnotator")
 		    .setImplementationName(RegexAnnotator.class.getCanonicalName())
 		    .addParameterSetting(RegexAnnotator.Param.RESOURCE.getName(), true, false, "String",
 		        PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceIndicatorRegex)
 		    .addParameterSetting(RegexAnnotator.Param.OUTPUT_TYPE.getName(), true, false, "String", PipelineVariables.TYPE_INDICATOR)
 		    .addTypeSystemDescription(types));
-		
+
 		aggregate.addDelegate(new AnnotationFilter().getLeoAEDescriptor()
 		    .setParameterSetting(AnnotationFilter.Param.TYPES_TO_KEEP.getName(), new String[] { PipelineVariables.TYPE_INDICATOR })
 		    .addTypeSystemDescription(types));
@@ -531,7 +530,6 @@ public class Service {
 		    .addTypeSystemDescription(types));
 		aggregate.addDelegate(new FilterTimestampAE().getLeoAEDescriptor().addTypeSystemDescription(types));
 
-
 		return aggregate;
 	}
 
@@ -596,27 +594,29 @@ public class Service {
 	 * @throws Exception
 	 */
 	protected LeoTypeSystemDescription createTypeSystem() throws Exception {
+		// INFO: Creating types
 		LeoTypeSystemDescription types = new LeoTypeSystemDescription();
 		types.addType(TypeLibrarian.getCSITypeSystemDescription());
 		// Adding all knowtator annotations to the type list
 		boolean addExtra = true;
+		TypeDescription kttrType;
+		String kttrStrType = "gov.va.vinci.kttr.types.RefValue";
+		kttrType = new TypeDescription_impl(kttrStrType, "", "uima.tcas.Annotation");
+//		kttrType.addFeature("value", "", "uima.cas.String");
+		types.addType(kttrType);
 		for (String type : KnowtatorVariables.uimaTypeFeatureMap.keySet()) {
 			TypeDescription newType;
-			newType = new TypeDescription_impl(type, "", "uima.tcas.Annotation");
-			for (String feature : KnowtatorVariables.uimaTypeFeatureMap
-			    .get(type)) {
+			newType = new TypeDescription_impl(type, "", kttrStrType);
+			for (String feature : KnowtatorVariables.uimaTypeFeatureMap.get(type)) {
 				newType.addFeature(feature, "", "uima.cas.String");
 			}
 			addExtra = false;
 			types.addType(newType);
 		}
 		if (addExtra)
-			types.addType("gov.va.vinci.kttr.types.HRValue", "", "uima.tcas.Annotation");
+			types.addType("gov.va.vinci.kttr.types.HRValue", "", kttrStrType);
 
-		types.addType(TypeLibrarian.getRelationshipAnnotationTypeSystemDescription());
-		types.addType("gov.va.vinci.knowtator.types.RelationshipAnnotation",
-		    "", "gov.va.vinci.leo.types.RelationshipAnnotation");
-
+		
 		// Regex default type
 		types.addTypeSystemDescription(new RegexAnnotator().getLeoTypeSystemDescription());
 

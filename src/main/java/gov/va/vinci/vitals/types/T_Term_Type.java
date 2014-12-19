@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Fri Dec 05 00:31:14 CST 2014 */
+/* First created by JCasGen Thu Dec 18 11:32:22 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -11,7 +11,7 @@ import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.cas.Type;
 
 /** 
- * Updated by JCasGen Fri Dec 05 00:31:14 CST 2014
+ * Updated by JCasGen Thu Dec 18 11:32:22 CST 2014
  * @generated */
 public class T_Term_Type extends Term_Type {
   /** @generated 

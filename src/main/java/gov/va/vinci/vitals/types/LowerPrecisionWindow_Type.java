@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Fri Dec 05 00:31:14 CST 2014 */
+/* First created by JCasGen Thu Dec 18 11:32:21 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -12,7 +12,7 @@ import org.apache.uima.cas.Type;
 import gov.va.vinci.leo.window.types.Window_Type;
 
 /** 
- * Updated by JCasGen Fri Dec 05 00:31:14 CST 2014
+ * Updated by JCasGen Thu Dec 18 11:32:21 CST 2014
  * @generated */
 public class LowerPrecisionWindow_Type extends Window_Type {
   /** @generated 

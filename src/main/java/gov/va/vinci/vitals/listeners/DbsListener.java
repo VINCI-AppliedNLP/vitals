@@ -15,10 +15,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.uima.aae.client.UimaASProcessStatus;
 import org.apache.uima.cas.CAS;
-import org.apache.uima.cas.CASException;
-import org.apache.uima.jcas.tcas.Annotation;
 
 public class DbsListener extends BaseDatabaseListener {
 
@@ -161,6 +158,7 @@ public class DbsListener extends BaseDatabaseListener {
 		// Specific fields - possible multiple rows
 
 		ArrayList<HashMap<String, String>> rowsMap = ListenerLogic.getRows(aCas);
+		//.getReferenceRows(aCas);
 
 		for (HashMap<String, String> rowMap : rowsMap) {
 			//Add common fields
@@ -178,19 +176,6 @@ public class DbsListener extends BaseDatabaseListener {
 		}
 
 		return rows;
-	}
-
-	@Override
-	public void onBeforeMessageSend(UimaASProcessStatus status) {
-		super.onBeforeMessageSend(status);
-		try {
-			ArrayList<Annotation> csis = (ArrayList) AnnotationLibrarian.getAllAnnotationsOfType(status.getCAS().getJCas(), CSI.class
-			    .getCanonicalName());
-			//if (csis.size() > 0) 				log.info("Processing " + ((CSI) csis.get(0)).getID());
-		} catch (CASException ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
-		}
 	}
 
 	/**

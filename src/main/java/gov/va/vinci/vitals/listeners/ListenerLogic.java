@@ -1,15 +1,7 @@
 package gov.va.vinci.vitals.listeners;
 
-import gov.va.vinci.kttr.types.BMIValue;
-import gov.va.vinci.kttr.types.BPDiasValue;
-import gov.va.vinci.kttr.types.BPSysValue;
-import gov.va.vinci.kttr.types.HRValue;
-import gov.va.vinci.kttr.types.HeightValue;
-import gov.va.vinci.kttr.types.OxygenValue;
-import gov.va.vinci.kttr.types.PainValue;
-import gov.va.vinci.kttr.types.RespValue;
-import gov.va.vinci.kttr.types.TValue;
-import gov.va.vinci.kttr.types.WeightValue;
+import gov.va.vinci.kttr.types.*;
+import gov.va.vinci.vitals.ae.AnalyzeNumbersAE;
 import gov.va.vinci.vitals.types.*;
 
 import java.util.ArrayList;
@@ -86,6 +78,67 @@ public class ListenerLogic {
 					end = aCas.getDocumentText().length() - 1;
 				}
 				lineRow.put("Snippets", aCas.getDocumentText().substring(start, end).replaceAll("\\s+", " ").trim());
+				allRows.add(lineRow);
+			}
+		}
+
+		///////////////////////////////////////////////////////////
+		return allRows;
+	}
+
+	// Using HashMap instead of String[] to allow arbitrary ordering of columns
+	public static ArrayList<HashMap<String, String>> getReferenceRows(CAS aCas) {
+		ArrayList<HashMap<String, String>> allRows = new ArrayList<HashMap<String, String>>();
+
+		///////////////////////////////////////////////////////////		
+		//  This is project specific!!!
+		///////////////////////////////////////////////////////////
+		// Output all refst annotations
+		String[] types = new String[] {
+		    BPValue.class.getCanonicalName(),
+		    TValue.class.getCanonicalName()
+		    , HRValue.class.getCanonicalName()
+		    , BMIValue.class.getCanonicalName()
+		    , HeightValue.class.getCanonicalName()
+		    , WeightValue.class.getCanonicalName()
+		    , PainValue.class.getCanonicalName()
+		    , RespValue.class.getCanonicalName()
+		    , OxygenValue.class.getCanonicalName()
+		    , BPDiasValue.class.getCanonicalName()
+		    , BPSysValue.class.getCanonicalName()
+		};
+		for (String singleType : types) {
+			Type type = aCas.getTypeSystem().getType(singleType);
+			FSIndex<?> index = aCas.getAnnotationIndex(type);
+			FSIterator<?> iterator = index.iterator();
+
+			while (iterator.hasNext()) {
+				recordID++;
+				HashMap<String, String> lineRow = new HashMap<String, String>();
+				Annotation a = (Annotation) iterator.next();
+				RefValue refValue = (RefValue) a;
+
+				String t = refValue.getCoveredText().trim().replaceAll("[a-z]","").replaceAll("[A-Z]","").replaceAll("(>|%|\'s)","").replaceAll("/$","").replaceAll("\\s+","");
+				String u = refValue.getCoveredText().trim().replaceAll("\\d+","").replaceAll("\\.","").replaceAll("\\s+","");
+				lineRow.put("Result", t);
+				lineRow.put("Unit", u);
+				lineRow.put("VitalType", singleType.replaceAll("gov.va.vinci.kttr.types.", ""));
+				lineRow.put("ValueString", a.getCoveredText().replaceAll("\\s+", " ").trim());
+				lineRow.put("SpanStart", "" + a.getBegin());
+				lineRow.put("SpanEnd", "" + a.getEnd());
+				lineRow.put("VitalSignID", "" + recordID);
+
+				int windowSize = 30;
+				int start = a.getBegin() - windowSize;
+				int end = a.getEnd() + windowSize;
+				if (start < 0) {
+					start = 0;
+				}
+				if (end > aCas.getDocumentText().length() - 1) {
+					end = aCas.getDocumentText().length() - 1;
+				}
+				lineRow.put("Snippets", aCas.getDocumentText().substring(start, end).replaceAll("\\s+", " ").trim());
+				
 				allRows.add(lineRow);
 			}
 		}

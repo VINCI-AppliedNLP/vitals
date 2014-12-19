@@ -2,7 +2,6 @@ package gov.va.vinci.vitals;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -106,7 +105,7 @@ public class Client {
 		System.exit(0);
 	}
 
-	@SuppressWarnings({ "unchecked", "null" })
+	@SuppressWarnings({ "unchecked" })
 	public void run(String environment) throws Exception {
 		StopWatch sw = new StopWatch();
 		sw.start();

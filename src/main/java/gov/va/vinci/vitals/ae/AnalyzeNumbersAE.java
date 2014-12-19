@@ -1,15 +1,12 @@
 package gov.va.vinci.vitals.ae;
 
-import java.util.ArrayList;
-
 import org.apache.log4j.Logger;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.CASException;
+
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
-import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.ae.LeoBaseAnnotator;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.leo.tools.LeoUtils;
@@ -20,7 +17,7 @@ public class AnalyzeNumbersAE extends LeoBaseAnnotator {
 
 	@Override
 	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 

@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Fri Dec 05 00:31:13 CST 2014 */
+/* First created by JCasGen Thu Dec 18 11:32:20 CST 2014 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -10,8 +10,8 @@ import org.apache.uima.jcas.cas.TOP_Type;
 
 
 /** 
- * Updated by JCasGen Fri Dec 05 00:31:13 CST 2014
- * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_838ce1f1-3764-412e-965a-87430202e7108032335724053080453.xml
+ * Updated by JCasGen Thu Dec 18 11:32:20 CST 2014
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_83b44565-4f86-4150-8567-106609a603911861409334091583479.xml
  * @generated */
 public class Bp_Diastolic_Term extends Term {
   /** @generated
