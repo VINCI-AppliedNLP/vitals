@@ -93,7 +93,7 @@ openViewerAfterProcessing =  false
 // if the list is empty, all files will be outputted
 
 // INFO: Database listener
-outTableName="[nlp].[output_Vitals_20141218]";
+outTableName="[nlp].[output_{suffix}]";
 
 
 
