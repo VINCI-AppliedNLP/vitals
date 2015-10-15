@@ -317,13 +317,6 @@ public class Client {
 
 					/**/
 
-					AuSummary aulistener = null;
-					HashMap<String, String> auMap = ((HashMap<String, String>) config.get("auMap"));
-					if (auMap == null) {
-						log.error("Error getting the mapping string for the gold compare listener, NOT initializing!");
-					}
-					aulistener = new AuSummary(auMap);
-					listenerList.add(aulistener);
 					//String csvPath1 = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp)		    + "_AuCompare.csv";
 					//AuCompareCSVListener listener2 = new AuCompareCSVListener(auMap, new File(csvPath1));
 					//listenerList.add(listener2);

@@ -102,7 +102,7 @@ public class FilterRelationsAE extends LeoBaseAnnotator {
 		} // end of relation loop
 	}
 
-	public LeoAEDescriptor getLeoAEDescriptor() throws Exception {
-		return getLeoAEDescriptor(this.getClass().getCanonicalName(), getAnnotatorParams());
+	public static class Param extends LeoBaseAnnotator.Param {
+		/** No additional parameters **/
 	}
 }

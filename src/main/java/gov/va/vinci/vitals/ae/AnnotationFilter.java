@@ -13,7 +13,16 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.ConfigurationParameter;
 
-/**  * The purpose of the AnnotationFilter is to remove overannotated instances.  * The parameters include   * typesToKeep - is a string array of anchor types   * typesToDelete - is a string array of types to remove  * removeOverlapping is set to true if overlap typesToDelete need to be overlapping with  *     instead of completely covered by the instances of typesToKeep.  *   * @author Olga Patterson  *  */
+/**
+ * The purpose of the AnnotationFilter is to remove overannotated instances.
+ * The parameters include
+ * typesToKeep - is a string array of anchor types
+ * typesToDelete - is a string array of types to remove
+ * removeOverlapping is set to true if overlap typesToDelete need to be overlapping with
+ *     instead of completely covered by the instances of typesToKeep.
+ *
+ * @author Olga Patterson
+ **/
 public class AnnotationFilter extends LeoBaseAnnotator {
 	private static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
 	protected String[] typesToKeep = null;
@@ -50,10 +59,6 @@ public class AnnotationFilter extends LeoBaseAnnotator {
 				}
 			}
 		}
-	}
-
-	public LeoAEDescriptor getLeoAEDescriptor() throws Exception {
-		return getLeoAEDescriptor(this.getClass().getCanonicalName(), getAnnotatorParams());
 	}
 
 	@Override
