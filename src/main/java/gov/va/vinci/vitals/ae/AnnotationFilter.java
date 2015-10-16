@@ -61,10 +61,10 @@ public class AnnotationFilter extends LeoBaseAnnotator {
 		}
 	}
 
-	@Override
-	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
-		return null;
-	}
+    @Override
+    public LeoAEDescriptor getLeoAEDescriptor() throws Exception {
+        return super.getLeoAEDescriptor();
+    }
 
 	public static class Param extends LeoBaseAnnotator.Param {
 		public static ConfigurationParameter TYPES_TO_KEEP = new ConfigurationParameterImpl("typesToKeep",

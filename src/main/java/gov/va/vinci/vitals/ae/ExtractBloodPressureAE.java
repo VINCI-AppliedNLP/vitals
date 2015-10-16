@@ -267,12 +267,6 @@ public class ExtractBloodPressureAE extends BaseVitalExtractorAE {
 
 	}
 
-	@Override
-	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	static class CheckRange {
 
 		public static boolean isSystolicBp(Double num) {
@@ -288,5 +282,9 @@ public class ExtractBloodPressureAE extends BaseVitalExtractorAE {
 			else
 				return false;
 		}
+	}
+
+	public static class Param extends BaseVitalExtractorAE.Param {
+		/** No addtional parameters **/
 	}
 }

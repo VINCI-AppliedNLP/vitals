@@ -58,7 +58,7 @@ public class ServiceUnitTest {
 		return FileUtils.file2String(new File(inputDir + filename));
 	}
 
-	@Test
+	//@Test
 	public void testSigleFile() throws ResourceInitializationException, IOException,
 	    AnalysisEngineProcessException {
 		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(aggregate.getAnalysisEngineDescription());
@@ -75,7 +75,7 @@ public class ServiceUnitTest {
 
 	}
 
-	@Test
+	//@Test
 	public void testWithoutAssert() throws ResourceInitializationException, IOException,
 	    AnalysisEngineProcessException {
 		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(aggregate.getAnalysisEngineDescription());
@@ -102,7 +102,7 @@ public class ServiceUnitTest {
 		}
 	}
 
-	@Test
+	//@Test
 	public void testXmi() throws Exception {
 
 		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(aggregate.getAnalysisEngineDescription());

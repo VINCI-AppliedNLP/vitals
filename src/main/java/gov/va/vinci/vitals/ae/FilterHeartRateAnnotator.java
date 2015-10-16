@@ -16,12 +16,6 @@ import gov.va.vinci.vitals.types.Hr_value;
 public class FilterHeartRateAnnotator extends LeoBaseAnnotator {
 
 	@Override
-	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
-
-		return null;
-	}
-
-	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		// TODO Auto-generated method stub
 		super.process(aJCas);
@@ -44,5 +38,9 @@ public class FilterHeartRateAnnotator extends LeoBaseAnnotator {
 				ex.printStackTrace();
 			}
 		}
+	}
+
+	public static class Param extends LeoBaseAnnotator.Param {
+		/** No additional parameters **/
 	}
 }

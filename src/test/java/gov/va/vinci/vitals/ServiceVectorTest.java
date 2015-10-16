@@ -58,7 +58,7 @@ public class ServiceVectorTest {
 		return FileUtils.file2String(new File(inputDir + filename));
 	}
 
-	@Test
+	//@Test
 	public void testWithoutAssert() throws ResourceInitializationException, IOException,
 	    AnalysisEngineProcessException {
 		AnalysisEngine ae = UIMAFramework.produceAnalysisEngine(aggregate.getAnalysisEngineDescription());

@@ -96,10 +96,8 @@ public class ExtractTemperatureAE extends BaseVitalExtractorAE {
 		}
 	}
 
-	@Override
-	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
-		// TODO Auto-generated method stub
-		return null;
+	public static class Param extends BaseVitalExtractorAE.Param {
+		/** No addtional parameters **/
 	}
 
 }

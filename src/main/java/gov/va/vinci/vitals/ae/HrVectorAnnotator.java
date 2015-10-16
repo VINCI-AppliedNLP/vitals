@@ -110,8 +110,6 @@ public class HrVectorAnnotator extends BaseFeatureVectorAnnotator {
 	 * vector has been extracted from the Annotation list.
 	 * @param aJCas 
 	 *
-	 * @param types
-	 * 		List of annotation types used to create the feature vector
 	 * @return
 	 * 		Feature Vector Annotation added to the CAS
 	 * @throws AnalysisEngineProcessException
@@ -426,4 +424,7 @@ public class HrVectorAnnotator extends BaseFeatureVectorAnnotator {
 		public StringBuilder token = new StringBuilder();
 	}//StringToken class
 
+	public static class Param extends BaseFeatureVectorAnnotator.Param {
+        /** No additional parameters **/
+    }
 }

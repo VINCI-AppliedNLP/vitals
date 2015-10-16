@@ -103,12 +103,6 @@ public class ExtractRespiratoryAE extends BaseVitalExtractorAE {
 
 	}
 
-	@Override
-	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public void processValue(Annotation a, String vital_type, Annotation u, boolean markIt, double[][] types) {
 		if (a instanceof Numeric) {
 			if (StringUtils.isBlank(((Numeric) a).getConcept())) {
@@ -137,5 +131,9 @@ public class ExtractRespiratoryAE extends BaseVitalExtractorAE {
 				}
 			}
 		}
+	}
+
+	public static class Param extends BaseVitalExtractorAE.Param {
+		/** No addtional parameters **/
 	}
 }

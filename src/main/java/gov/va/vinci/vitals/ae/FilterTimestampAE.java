@@ -15,12 +15,6 @@ import gov.va.vinci.vitals.types.*;
 public class FilterTimestampAE extends LeoBaseAnnotator {
 
 	@Override
-	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		// TODO Auto-generated method stub
 		super.process(aJCas);
@@ -49,6 +43,10 @@ public class FilterTimestampAE extends LeoBaseAnnotator {
 			}
 			t.removeFromIndexes(aJCas);
 		}
+	}
+
+	public static class Param extends LeoBaseAnnotator.Param {
+		/** No additional parameters **/
 	}
 
 }

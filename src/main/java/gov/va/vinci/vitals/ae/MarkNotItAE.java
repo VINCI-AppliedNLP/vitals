@@ -68,10 +68,8 @@ public class MarkNotItAE extends BaseVitalExtractorAE {
 		}
 	}
 
-	@Override
-	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
-		// TODO Auto-generated method stub
-		return null;
+	public static class Param extends BaseVitalExtractorAE.Param {
+		/** No additional parameters **/
 	}
 
 }

@@ -16,12 +16,6 @@ public class AnalyzeNumbersAE extends LeoBaseAnnotator {
 	private static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
 
 	@Override
-	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
-
-		return null;
-	}
-
-	@Override
 	public void process(JCas aJCas) {
 		try {
 			super.process(aJCas);
@@ -52,5 +46,9 @@ public class AnalyzeNumbersAE extends LeoBaseAnnotator {
 			log.error(ex.getStackTrace());
 		}
 
+	}
+
+	public static class Param extends LeoBaseAnnotator.Param {
+		/** No addtional parameters **/
 	}
 }

@@ -16,12 +16,6 @@ public class AssignUnitAndTimeAE extends LeoBaseAnnotator {
 	public static final String NEW_LINE = System.getProperty("line.separator");
 
 	@Override
-	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 
 		super.process(aJCas);
@@ -135,5 +129,9 @@ public class AssignUnitAndTimeAE extends LeoBaseAnnotator {
 			}
 		//	t.removeFromIndexes(aJCas);
 		}
+	}
+
+	public static class Param extends LeoBaseAnnotator.Param {
+		/** No addtional parameters **/
 	}
 }

@@ -34,12 +34,6 @@ public class FilterRelationsAE extends LeoBaseAnnotator {
 	}
 
 	@Override
-	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
-		// There are no new types created in this annotator
-		return null;
-	}
-
-	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		super.process(aJCas);
 

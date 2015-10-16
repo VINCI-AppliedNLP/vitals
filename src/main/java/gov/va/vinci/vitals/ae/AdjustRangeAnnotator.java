@@ -11,11 +11,6 @@ import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.vitals.types.*;
 
 public class AdjustRangeAnnotator extends LeoBaseAnnotator {
-	@Override
-	public LeoTypeSystemDescription getLeoTypeSystemDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
@@ -40,4 +35,7 @@ public class AdjustRangeAnnotator extends LeoBaseAnnotator {
 
 	}
 
+	public static class Param extends LeoBaseAnnotator.Param {
+		/** No addtional parameters **/
+	}
 }

@@ -109,5 +109,7 @@ public abstract class BaseVitalExtractorAE extends LeoBaseAnnotator {
 		}
 	}
 
-	
+	public static class Param extends LeoBaseAnnotator.Param {
+		/** No addtional parameters **/
+	}
 }
