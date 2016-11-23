@@ -9,14 +9,13 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.ae.LeoBaseAnnotator;
-import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.vitals.types.*;
 
 public class AssignUnitAndTimeAE extends LeoBaseAnnotator {
 	public static final String NEW_LINE = System.getProperty("line.separator");
 
 	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 
 		super.process(aJCas);
 		processTimestamp(aJCas);
@@ -24,16 +23,16 @@ public class AssignUnitAndTimeAE extends LeoBaseAnnotator {
 	}
 
 	public void processUnits(JCas aJCas) {
-		ArrayList<Annotation> unitList = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(aJCas, Unit.type);
+		ArrayList<Annotation> unitList = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(aJCas, Unit.type, false);
 
 		if (unitList.size() > 0) {
 			FSIterator<Annotation> iterNums = this.getAnnotationListForType(aJCas, Numeric.class.getCanonicalName());
 			try {
 				while (iterNums.hasNext()) {
 					Numeric currNum = (Numeric) iterNums.next();
-					if (AnnotationLibrarian.getAllContainingAnnotationsOfType(currNum, Relation.type).size() > 0) {
+					if (AnnotationLibrarian.getAllContainingAnnotationsOfType(currNum, Relation.type, false).size() > 0) {
 						Relation currRelation = (Relation) ((ArrayList) AnnotationLibrarian.getAllContainingAnnotationsOfType(currNum,
-						    Relation.type)).get(0);
+						    Relation.type, false)).get(0);
 						if (AnnotationLibrarian.getNextClosestAnnotations(currNum, unitList).size() > 0) {
 							Unit units = (Unit) ((ArrayList) AnnotationLibrarian.getNextClosestAnnotations(currNum, unitList)).get(0);
 							currNum.setUnit(units);
@@ -41,10 +40,10 @@ public class AssignUnitAndTimeAE extends LeoBaseAnnotator {
 					}
 
 					if (currNum.getUnit() == null) {
-						if (AnnotationLibrarian.getAllContainingAnnotationsOfType(currNum, Relation_Time.type).size() > 0) {
-							Relation_Time currRelation = (Relation_Time) ((ArrayList) AnnotationLibrarian.getAllContainingAnnotationsOfType(currNum, Relation_Time.type)).get(0);
-							if (AnnotationLibrarian.getAllCoveredAnnotationsOfType(currRelation, Unit.type).size() > 0) {
-								Unit units = (Unit) ((ArrayList) AnnotationLibrarian.getAllCoveredAnnotationsOfType(currRelation, Unit.type)).get(0);
+						if (AnnotationLibrarian.getAllContainingAnnotationsOfType(currNum, Relation_Time.type, false).size() > 0) {
+							Relation_Time currRelation = (Relation_Time) ((ArrayList) AnnotationLibrarian.getAllContainingAnnotationsOfType(currNum, Relation_Time.type, false)).get(0);
+							if (AnnotationLibrarian.getAllCoveredAnnotationsOfType(currRelation, Unit.type, false).size() > 0) {
+								Unit units = (Unit) ((ArrayList) AnnotationLibrarian.getAllCoveredAnnotationsOfType(currRelation, Unit.type, false)).get(0);
 								currNum.setUnit(units);
 							}
 						}
@@ -59,7 +58,7 @@ public class AssignUnitAndTimeAE extends LeoBaseAnnotator {
 	}
 
 	public void processTimestamp(JCas aJCas) {
-		ArrayList<Annotation> timeList = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(aJCas, Timestamp.type);
+		ArrayList<Annotation> timeList = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(aJCas, Timestamp.type, false);
 		ArrayList<Annotation> timesToKeep = new ArrayList<Annotation>();
 		if (timeList.size() > 0) {
 			FSIterator<Annotation> iterNums = this.getAnnotationListForType(aJCas, Numeric.class.getCanonicalName());
@@ -67,24 +66,24 @@ public class AssignUnitAndTimeAE extends LeoBaseAnnotator {
 				while (iterNums.hasNext()) {
 					Numeric currNum = (Numeric) iterNums.next();
 
-					if (AnnotationLibrarian.getAllContainingAnnotationsOfType(currNum, Relation.type).size() > 0) {
+					if (AnnotationLibrarian.getAllContainingAnnotationsOfType(currNum, Relation.type, false).size() > 0) {
 						Relation currRelation = (Relation) ((ArrayList) AnnotationLibrarian.getAllContainingAnnotationsOfType(
-						    currNum, Relation.type)).get(0);
-						if (AnnotationLibrarian.getAllCoveredAnnotationsOfType(currRelation, Timestamp.type).size() > 0) {
+						    currNum, Relation.type, false)).get(0);
+						if (AnnotationLibrarian.getAllCoveredAnnotationsOfType(currRelation, Timestamp.type, false).size() > 0) {
 							Timestamp stamp = (Timestamp) ((ArrayList) AnnotationLibrarian.getAllCoveredAnnotationsOfType(
-							    currRelation, Timestamp.type)).get(0);
+							    currRelation, Timestamp.type, false)).get(0);
 							currNum.setTimestamp(stamp);
 							timesToKeep.add(stamp);
 						}
 					}
 
 					if (currNum.getTimestamp() == null) {
-						if (AnnotationLibrarian.getAllContainingAnnotationsOfType(currNum, Relation_Time.type).size() > 0) {
+						if (AnnotationLibrarian.getAllContainingAnnotationsOfType(currNum, Relation_Time.type, false).size() > 0) {
 							Relation_Time currRelation = (Relation_Time) ((ArrayList) AnnotationLibrarian.getAllContainingAnnotationsOfType(
-							    currNum, Relation_Time.type)).get(0);
-							if (AnnotationLibrarian.getAllCoveredAnnotationsOfType(currRelation, Timestamp.type).size() > 0) {
+							    currNum, Relation_Time.type, false)).get(0);
+							if (AnnotationLibrarian.getAllCoveredAnnotationsOfType(currRelation, Timestamp.type, false).size() > 0) {
 								Timestamp stamp = (Timestamp) ((ArrayList) AnnotationLibrarian.getAllCoveredAnnotationsOfType(
-								    currRelation, Timestamp.type)).get(0);
+								    currRelation, Timestamp.type, false)).get(0);
 								currNum.setTimestamp(stamp);
 								timesToKeep.add(stamp);
 							}
@@ -131,7 +130,4 @@ public class AssignUnitAndTimeAE extends LeoBaseAnnotator {
 		}
 	}
 
-	public static class Param extends LeoBaseAnnotator.Param {
-		/** No addtional parameters **/
-	}
 }

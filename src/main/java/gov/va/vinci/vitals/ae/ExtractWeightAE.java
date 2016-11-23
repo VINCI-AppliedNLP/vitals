@@ -18,7 +18,7 @@ public class ExtractWeightAE extends BaseVitalExtractorAE {
 	public static double[][] typeRanges = { { 40.0, 600.0 } }; // combined kg and lbs
 
 	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 		super.process(aJCas);
 		try {
 			analyzePatterns(aJCas);
@@ -28,6 +28,7 @@ public class ExtractWeightAE extends BaseVitalExtractorAE {
 		}
 		createValueTypes(aJCas, currentType, outputValue);
 	}
+
 
 	/** 
 	 * If a document contains pattern, process that pattern
@@ -45,9 +46,9 @@ public class ExtractWeightAE extends BaseVitalExtractorAE {
 
 				Unit curUnit = null;
 
-				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type).size() > 0) {
+				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type, false).size() > 0) {
 					curUnit = (Unit) ((ArrayList<Annotation>) AnnotationLibrarian
-					    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type)).get(0); // get the first unit in the pattern
+					    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type, false)).get(0); // get the first unit in the pattern
 				}
 				// Has term?
 				if (currRelation.getAnchor() != null) {
@@ -68,10 +69,6 @@ public class ExtractWeightAE extends BaseVitalExtractorAE {
 			}
 		}
 
-	}
-
-	public static class Param extends BaseVitalExtractorAE.Param {
-		/** No addtional parameters **/
 	}
 
 }

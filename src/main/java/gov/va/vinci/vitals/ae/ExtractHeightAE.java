@@ -25,7 +25,7 @@ public class ExtractHeightAE extends BaseVitalExtractorAE {
 	public static double[][] typeRanges = { { 52.0, 84.0 }, { 132.0, 214.0 } };  // 4'6" - 7"
 
 	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 		super.process(aJCas);
 		try {
 			analyzePatterns(aJCas);
@@ -90,9 +90,9 @@ public class ExtractHeightAE extends BaseVitalExtractorAE {
 			if (currRelation.getTarget() != null) {
 				Annotation value = currRelation.getTarget();
 				Unit curUnit = null;
-				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type).size() > 0) {
+				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type, false).size() > 0) {
 					curUnit = (Unit) ((ArrayList<Annotation>) AnnotationLibrarian
-					    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type)).get(0); // get the first unit in the pattern
+					    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type, false)).get(0); // get the first unit in the pattern
 				}
 
 				// Has term?
@@ -116,9 +116,5 @@ public class ExtractHeightAE extends BaseVitalExtractorAE {
 		}
 
 	}
-
-    public static class Param extends BaseVitalExtractorAE.Param {
-        /** No addtional parameters **/
-    }
 
 }

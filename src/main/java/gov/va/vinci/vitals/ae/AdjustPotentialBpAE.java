@@ -16,11 +16,11 @@ public class AdjustPotentialBpAE extends LeoBaseAnnotator {
 	private static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
 
 	@Override
-	public void process(JCas aJCas) {
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 		try {
 			super.process(aJCas);
 			
-			AnnotationLibrarian.removeCoveredAnnotations(aJCas, PotentialBp.class.getCanonicalName());
+			AnnotationLibrarian.removeCoveredAnnotations(aJCas, PotentialBp.class.getCanonicalName(), false, null);
 
 			FSIterator<Annotation> iter = this.getAnnotationListForType(aJCas, PotentialBp.class.getCanonicalName());
 			while (iter.hasNext()) {
@@ -39,7 +39,4 @@ public class AdjustPotentialBpAE extends LeoBaseAnnotator {
 
 	}
 
-	public static class Param extends LeoBaseAnnotator.Param {
-		/** No addtional parameters **/
-	}
 }

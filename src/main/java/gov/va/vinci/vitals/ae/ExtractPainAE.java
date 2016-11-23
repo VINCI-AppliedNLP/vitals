@@ -16,7 +16,7 @@ public class ExtractPainAE extends BaseVitalExtractorAE {
 	public static String outputValue = Pain_value.class.getCanonicalName();
 
 	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 		// TODO Auto-generated method stub
 		super.process(aJCas);
 
@@ -121,9 +121,4 @@ public class ExtractPainAE extends BaseVitalExtractorAE {
 			}
 		}
 	}
-
-	public static class Param extends BaseVitalExtractorAE.Param {
-		/** No addtional parameters **/
-	}
-
 }

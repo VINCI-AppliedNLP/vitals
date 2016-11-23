@@ -12,11 +12,12 @@ import gov.va.vinci.vitals.types.*;
 
 public class AdjustRangeAnnotator extends LeoBaseAnnotator {
 
+
 	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 		// TODO Auto-generated method stub
 		super.process(aJCas);
-		AnnotationLibrarian.removeCoveredAnnotations(aJCas, Range.class.getCanonicalName());
+		AnnotationLibrarian.removeCoveredAnnotations(aJCas, Range.class.getCanonicalName(), false, null);
 		FSIterator<Annotation> rangeIter = this.getAnnotationListForType(aJCas, Range.class.getCanonicalName());
 
 		while (rangeIter.hasNext()) {
@@ -35,7 +36,4 @@ public class AdjustRangeAnnotator extends LeoBaseAnnotator {
 
 	}
 
-	public static class Param extends LeoBaseAnnotator.Param {
-		/** No addtional parameters **/
-	}
 }

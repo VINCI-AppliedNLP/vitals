@@ -3,6 +3,7 @@ package gov.va.vinci.vitals.ae;
 import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.ae.LeoBaseAnnotator;
 import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
+import gov.va.vinci.leo.descriptors.LeoConfigurationParameter;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.leo.tools.ConfigurationParameterImpl;
 import gov.va.vinci.leo.tools.LeoUtils;
@@ -25,36 +26,47 @@ import org.apache.uima.resource.metadata.ConfigurationParameter;
  **/
 public class AnnotationFilter extends LeoBaseAnnotator {
 	private static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
+	@LeoConfigurationParameter
 	protected String[] typesToKeep = null;
+
+	@LeoConfigurationParameter
 	protected String[] typesToDelete = null;
+
+	@LeoConfigurationParameter
 	protected Boolean removeOverlapping = false;
+
+
+	public AnnotationFilter() {
+		
+	}
+
+	public AnnotationFilter(String[] typesToKeep, String[] typesToDelete, Boolean removeOverlapping) {
+		this.typesToDelete = typesToDelete;
+		this.typesToKeep = typesToKeep;
+		this.removeOverlapping = removeOverlapping;
+	}
 
 	/**     *      * @param a     * @param punc     */
 	@Override
 	public void initialize(UimaContext aContext) throws ResourceInitializationException {
 		super.initialize(aContext);
-		typesToKeep = (String[]) aContext.getConfigParameterValue(Param.TYPES_TO_KEEP.getName());
-		typesToDelete = (String[]) aContext.getConfigParameterValue(Param.TYPES_TO_DELETE.getName());
-		if (aContext.getConfigParameterValue(Param.REMOVE_OVERLAPPING.getName()) != null) {
-			removeOverlapping = (Boolean) aContext.getConfigParameterValue(Param.REMOVE_OVERLAPPING.getName());
-		}
 	}
 
 	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 		super.process(aJCas);
 		for (String type1 : typesToKeep) {
 			if (typesToDelete == null)
-				AnnotationLibrarian.removeCoveredAnnotations(aJCas, type1);
+				AnnotationLibrarian.removeCoveredAnnotations(aJCas, type1, false, null);
 			else {
 				for (String type2 : typesToDelete) {
 					if (!type1.equalsIgnoreCase(type2)) {
 						if (removeOverlapping)
-							AnnotationLibrarian.removeOverlappingAnnotations(aJCas, type1, type2);
+							AnnotationLibrarian.removeOverlappingAnnotations(aJCas, type1, type2, true, false, null);
 						else
-							AnnotationLibrarian.removeCoveredAnnotations(aJCas, type1, type2);
+							AnnotationLibrarian.removeCoveredAnnotations(aJCas, type1, type2, true, false, null);
 					} else {
-						AnnotationLibrarian.removeCoveredAnnotations(aJCas, type1);
+						AnnotationLibrarian.removeCoveredAnnotations(aJCas, type1, false, null);
 					}
 				}
 			}
@@ -65,16 +77,4 @@ public class AnnotationFilter extends LeoBaseAnnotator {
     public LeoAEDescriptor getLeoAEDescriptor() throws Exception {
         return super.getLeoAEDescriptor();
     }
-
-	public static class Param extends LeoBaseAnnotator.Param {
-		public static ConfigurationParameter TYPES_TO_KEEP = new ConfigurationParameterImpl("typesToKeep",
-		    "The list of types to keep", "String", true, true, new String[0]);
-		public static ConfigurationParameter TYPES_TO_DELETE = new ConfigurationParameterImpl("typesToDelete",
-		    "The list of types to delete. If not specified, remove only annotations of the first type", "String", false, true,
-		    new String[0]);
-		public static ConfigurationParameter REMOVE_OVERLAPPING = new ConfigurationParameterImpl("removeOverlapping",
-		    "Set true to remove overlapping, otherwise, remove completely covered only", "Boolean", false, false, new String[0]);
-		public static ConfigurationParameter REMOVE_CHILDREN = new ConfigurationParameterImpl("removeOverlapping",
-		    "Set true to remove overlapping, otherwise, remove completely covered only", "Boolean", false, false, new String[0]);
-	}
 }

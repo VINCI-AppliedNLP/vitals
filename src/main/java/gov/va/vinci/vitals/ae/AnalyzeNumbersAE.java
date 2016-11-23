@@ -16,7 +16,8 @@ public class AnalyzeNumbersAE extends LeoBaseAnnotator {
 	private static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
 
 	@Override
-	public void process(JCas aJCas) {
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
+
 		try {
 			super.process(aJCas);
 			FSIterator<Annotation> iter = this.getAnnotationListForType(aJCas, Numeric.class.getCanonicalName());
@@ -48,7 +49,5 @@ public class AnalyzeNumbersAE extends LeoBaseAnnotator {
 
 	}
 
-	public static class Param extends LeoBaseAnnotator.Param {
-		/** No addtional parameters **/
-	}
+
 }

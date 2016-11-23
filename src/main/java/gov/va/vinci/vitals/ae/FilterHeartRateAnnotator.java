@@ -16,18 +16,18 @@ import gov.va.vinci.vitals.types.Hr_value;
 public class FilterHeartRateAnnotator extends LeoBaseAnnotator {
 
 	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 		// TODO Auto-generated method stub
 		super.process(aJCas);
 		ArrayList<Annotation> predictionList = (ArrayList<Annotation>) AnnotationLibrarian
-		    .getAllAnnotationsOfType(aJCas, Hr_Prediction.type);
+		    .getAllAnnotationsOfType(aJCas, Hr_Prediction.type, false);
 		for (Annotation a : predictionList) {
 			Hr_Prediction p = (Hr_Prediction) a;
 			try {
 				if ("0.0".equalsIgnoreCase(p.getPrediction())) {
 					ArrayList<Annotation> hrAnnotations;
 
-					hrAnnotations = (ArrayList<Annotation>) AnnotationLibrarian.getAllOverlappingAnnotationsOfType(p, Hr_value.type);
+					hrAnnotations = (ArrayList<Annotation>) AnnotationLibrarian.getAllOverlappingAnnotationsOfType(p, Hr_value.type, false);
 
 					for (Annotation hr : hrAnnotations) {
 						hr.removeFromIndexes(aJCas);
@@ -40,7 +40,4 @@ public class FilterHeartRateAnnotator extends LeoBaseAnnotator {
 		}
 	}
 
-	public static class Param extends LeoBaseAnnotator.Param {
-		/** No additional parameters **/
-	}
 }

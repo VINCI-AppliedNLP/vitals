@@ -17,7 +17,7 @@ public class MarkNotItAE extends BaseVitalExtractorAE {
 	public static double[][] typeRanges = { { 0, 10000 } };
 
 	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 		super.process(aJCas);
 		try {
 			analyzePatterns(aJCas);
@@ -36,16 +36,16 @@ public class MarkNotItAE extends BaseVitalExtractorAE {
 	 */
 	public void analyzePatterns(JCas aJCas) throws CASException {
 
-		Iterator<Annotation> iter = AnnotationLibrarian.getAllAnnotationsOfType(aJCas, Relation.class.getCanonicalName())
+		Iterator<Annotation> iter = AnnotationLibrarian.getAllAnnotationsOfType(aJCas, Relation.class.getCanonicalName(), false)
 		    .iterator();
 		while (iter.hasNext()) {
 			Relation currRelation = (Relation) iter.next();
 			if (currRelation.getTarget() != null) {
 				Annotation value = currRelation.getTarget();
 				Unit curUnit = null;
-				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type).size() > 0) {
+				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type, false).size() > 0) {
 					curUnit = (Unit) ((ArrayList<Annotation>) AnnotationLibrarian
-					    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type)).get(0); // get the first unit in the pattern
+					    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type, false)).get(0); // get the first unit in the pattern
 				}
 
 				// Has term?
@@ -68,8 +68,5 @@ public class MarkNotItAE extends BaseVitalExtractorAE {
 		}
 	}
 
-	public static class Param extends BaseVitalExtractorAE.Param {
-		/** No additional parameters **/
-	}
 
 }

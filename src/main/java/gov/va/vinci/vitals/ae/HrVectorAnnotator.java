@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import gov.va.vinci.leo.sherlock.ae.BaseFeatureVectorAnnotator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -15,13 +16,9 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.StringArray;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.apache.uima.resource.metadata.ConfigurationParameter;
 
 import gov.va.vinci.kttr.types.*;
 import gov.va.vinci.leo.AnnotationLibrarian;
-import gov.va.vinci.leo.tools.ConfigurationParameterImpl;
-import gov.va.vinci.sherlock.ae.BaseFeatureVectorAnnotator;
-import gov.va.vinci.sherlock.ae.AmbientInputFeatureVectorAE.StringToken;
 import gov.va.vinci.vitals.types.*;
 import gov.va.vinci.vitals.types.Indicator;
 
@@ -59,32 +56,18 @@ public class HrVectorAnnotator extends BaseFeatureVectorAnnotator {
 	/**/
 	@Override
 	public void initialize(UimaContext aContext) throws ResourceInitializationException {
-		// TODO Auto-generated method stub
-		try {
-			initialize(aContext, this.getAnnotatorParams());
-		} catch (Exception e) {
-			throw new ResourceInitializationException(e);
-		}
-
-		if (aContext.getConfigParameterValue(Param.KEY_FEATURE_PARAM.getName()) != null) {
-			keysFeature = (String) aContext.getConfigParameterValue(Param.KEY_FEATURE_PARAM.getName());
-		}//if
-
-		if (aContext.getConfigParameterValue(Param.VALUE_FEATURE_PARAM.getName()) != null) {
-			valuesFeature = (String) aContext.getConfigParameterValue(Param.VALUE_FEATURE_PARAM.getName());
-		}//if
+		super.initialize(aContext);
 	}
 
 	/**/
 	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
-		// TODO Auto-generated method stub
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 		super.process(aJCas);
 		int refStType = HRValue.type;//HRValue.type;
 		int sysType = Hr_value.type;
 
-		Collection<Annotation> systemTypes = AnnotationLibrarian.getAllAnnotationsOfType(aJCas, sysType);
-		Collection<Annotation> refStTypes = AnnotationLibrarian.getAllAnnotationsOfType(aJCas, refStType);
+		Collection<Annotation> systemTypes = AnnotationLibrarian.getAllAnnotationsOfType(aJCas, sysType, false);
+		Collection<Annotation> refStTypes = AnnotationLibrarian.getAllAnnotationsOfType(aJCas, refStType, false);
 		// All system annotations + all refst annotations not overlapping with system annotations.
 		try {
 			for (Annotation sys : systemTypes) {
@@ -104,6 +87,7 @@ public class HrVectorAnnotator extends BaseFeatureVectorAnnotator {
 			ex.printStackTrace();
 		}
 	}
+
 
 	/**
 	 * Add the Feature Vector annotation of the output type specified after the feature
@@ -131,36 +115,36 @@ public class HrVectorAnnotator extends BaseFeatureVectorAnnotator {
 		if (closestIndicator != null) {
 			ArrayList<Annotation> tList = (ArrayList<Annotation>) AnnotationLibrarian
 			    .getAllCoveredAnnotationsOfType(closestIndicator.getBegin(), currAnnotation.getBegin(), aJCas,
-			        T_value.type);
+			        T_value.type, false);
 			vector.put("tCount", Integer.toString(tList.size()));
 
 			ArrayList<Annotation> intList = (ArrayList<Annotation>) AnnotationLibrarian
 			    .getAllCoveredAnnotationsOfType(closestIndicator.getBegin(), currAnnotation.getBegin(), aJCas,
-			        IntegerNumber.type);
+			        IntegerNumber.type, false);
 			vector.put("intCount", Integer.toString(intList.size()));
 
 			ArrayList<Annotation> doubleList = (ArrayList<Annotation>) AnnotationLibrarian
 			    .getAllCoveredAnnotationsOfType(closestIndicator.getBegin(), currAnnotation.getBegin(), aJCas,
-			        DoubleNumber.type);
+			        DoubleNumber.type, false);
 			vector.put("doubleCount", Integer.toString(doubleList.size()));
 
 			ArrayList<Annotation> pbpList = (ArrayList<Annotation>) AnnotationLibrarian
 			    .getAllCoveredAnnotationsOfType(closestIndicator.getBegin(), currAnnotation.getBegin(), aJCas,
-			        PotentialBp.type);
+			        PotentialBp.type, false);
 			vector.put("pbpCount", Integer.toString(pbpList.size()));
 
 			// 4. Number of Temperature annotations between the currentAnnotation and the indicator
 
 			ArrayList<Annotation> bList = (ArrayList<Annotation>) AnnotationLibrarian
 			    .getAllCoveredAnnotationsOfType(closestIndicator.getBegin(), currAnnotation.getBegin(), aJCas,
-			        Bp_value.type);
+			        Bp_value.type, false);
 			vector.put("BpCount", Integer.toString(bList.size()));
 
 			// INFO:  Number of Temperature annotations between the currentAnnotation and the indicator
 
 			ArrayList<Annotation> hList = (ArrayList<Annotation>) AnnotationLibrarian
 			    .getAllCoveredAnnotationsOfType(closestIndicator.getBegin(), currAnnotation.getBegin(), aJCas,
-			        Hr_value.type);
+			        Hr_value.type, false);
 			vector.put("HrCount", Integer.toString(hList.size()));
 
 			String spanText = aJCas.getDocumentText().substring(closestIndicator.getBegin(), currAnnotation.getBegin());
@@ -212,7 +196,7 @@ public class HrVectorAnnotator extends BaseFeatureVectorAnnotator {
 	private Annotation getIndicatorAndDistance(JCas aJCas, HashMap<String, String> vector, Annotation currAnnotation)
 	    throws CASException, AnalysisEngineProcessException {
 		ArrayList<Annotation> indicatorList = (ArrayList<Annotation>) AnnotationLibrarian
-		    .getPreviousAnnotationsOfType(currAnnotation, Indicator.type, 1);
+		    .getPreviousAnnotationsOfType(currAnnotation, Indicator.type, 1, false);
 		Annotation closestIndicator = null;
 		if (indicatorList.size() > 0) {
 			vector.put("indicator_present", "1");
@@ -251,7 +235,7 @@ public class HrVectorAnnotator extends BaseFeatureVectorAnnotator {
 	    AnalysisEngineProcessException {
 		// INFO: Distance to term and term text
 		ArrayList<Annotation> termList = (ArrayList<Annotation>) AnnotationLibrarian.getPreviousAnnotationsOfType(currAnnotation,
-		    Term.type, 1);
+		    Term.type, 1, false);
 		Annotation closestTerm = null;
 
 		int closestNonHrTerm = 99999;
@@ -424,7 +408,4 @@ public class HrVectorAnnotator extends BaseFeatureVectorAnnotator {
 		public StringBuilder token = new StringBuilder();
 	}//StringToken class
 
-	public static class Param extends BaseFeatureVectorAnnotator.Param {
-        /** No additional parameters **/
-    }
 }

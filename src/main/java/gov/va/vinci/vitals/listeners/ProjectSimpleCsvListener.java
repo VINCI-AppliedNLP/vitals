@@ -51,6 +51,8 @@ public class ProjectSimpleCsvListener extends BaseCsvListener {
 	 */
 	protected List<String> typeNames;
 
+	private final static Logger LOG = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
+
 	/**
 	 * The output file to write to.
 	 */

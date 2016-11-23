@@ -15,10 +15,10 @@ import gov.va.vinci.vitals.types.*;
 public class FilterTimestampAE extends LeoBaseAnnotator {
 
 	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 		// TODO Auto-generated method stub
 		super.process(aJCas);
-		ArrayList<Annotation> timeList = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(aJCas, Timestamp.type);
+		ArrayList<Annotation> timeList = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(aJCas, Timestamp.type, false);
 		ArrayList<Annotation> timesToKeep = new ArrayList<Annotation>();
 		if (timeList.size() > 0) {
 			FSIterator<Annotation> iterNums = this.getAnnotationListForType(aJCas, Output_Value.class.getCanonicalName());
@@ -43,10 +43,6 @@ public class FilterTimestampAE extends LeoBaseAnnotator {
 			}
 			t.removeFromIndexes(aJCas);
 		}
-	}
-
-	public static class Param extends LeoBaseAnnotator.Param {
-		/** No additional parameters **/
 	}
 
 }

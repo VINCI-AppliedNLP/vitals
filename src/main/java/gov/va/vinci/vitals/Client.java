@@ -169,9 +169,7 @@ public class Client {
 		} else if (ReaderVariables.useFileReader) {
 			File inputDirectory = null;
 			boolean recurse = false;
-			TextFilter[] filterList = null;
-			reader = new FileCollectionReader(inputDirectory, recurse,
-			    filterList).produceCollectionReader();
+			reader = new FileCollectionReader(inputDirectory, recurse).produceCollectionReader();
 
 		} else if (ReaderVariables.useCustomReader) {
 			// TODO: Update this if ever needed
@@ -262,7 +260,8 @@ public class Client {
 						xmiPathFile.mkdirs();
 
 					Boolean openViewer = (Boolean) config.get("openViewerAfterProcessing");
-					listener = new SimpleXmiListener(xmiPathFile, openViewer);
+					listener = new SimpleXmiListener(xmiPathFile);
+					listener.setLaunchAnnotationViewer(openViewer);
 
 					ArrayList<String> annotationsOut = (ArrayList<String>) config.get("xmiOutputTypeList");
 					String[] annotationTypeFilter = new String[annotationsOut.size()];

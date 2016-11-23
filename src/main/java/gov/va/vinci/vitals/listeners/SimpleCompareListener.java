@@ -29,8 +29,8 @@ public class SimpleCompareListener extends BaseCsvListener {
 	private static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
 	/**
 	 * 
-	 * @param gold
-	 * @param sys
+	 * @param goldSysMap
+	 * @param file
 	 * @throws FileNotFoundException 
 	 */
 	public SimpleCompareListener(HashMap<String, String> goldSysMap, File file) throws FileNotFoundException {
@@ -114,8 +114,8 @@ public class SimpleCompareListener extends BaseCsvListener {
 			String toolType = auSysMap.get(auType);
 
 			try {
-				ArrayList<Annotation> auAnns = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(cas.getJCas(), auType);
-				ArrayList<Annotation> toolAnns = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(cas.getJCas(), toolType);
+				ArrayList<Annotation> auAnns = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(cas.getJCas(), auType, false);
+				ArrayList<Annotation> toolAnns = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(cas.getJCas(), toolType, false);
 				if (auAnns.size() == 0 && toolAnns.size() == 0) {
 					continue;
 				}
@@ -139,7 +139,7 @@ public class SimpleCompareListener extends BaseCsvListener {
 					if (auAnns.size() > 0) {
 						if (toolAnns.size() > 0) {
 							for (Annotation au : auAnns) {
-								if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(au, toolType).size() > 0) {
+								if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(au, toolType, false).size() > 0) {
 									rows.add(outTP(au, referenceID, auType));
 								} else {
 									// FN case.
@@ -147,7 +147,7 @@ public class SimpleCompareListener extends BaseCsvListener {
 								}
 							}
 							for (Annotation tool : toolAnns) {
-								if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(tool, auType).size() > 0) {
+								if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(tool, auType, false).size() > 0) {
 									// TP case.
 									rows.add(outTP(tool, referenceID, toolType));
 								} else {

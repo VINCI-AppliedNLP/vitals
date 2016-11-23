@@ -110,23 +110,23 @@ public class BasicServiceTest {
 	}
 
 	private void assertNumerics(JCas jcas) {
-		Assert.assertEquals(31, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Numeric.type)).size());
-		Assert.assertEquals(27, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, IntegerNumber.type)).size());
-		Assert.assertEquals(4, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, DoubleNumber.type)).size());
+		Assert.assertEquals(31, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Numeric.type, false)).size());
+		Assert.assertEquals(27, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, IntegerNumber.type, false)).size());
+		Assert.assertEquals(4, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, DoubleNumber.type, false)).size());
 	}
 	
 	private void assertNumericPatterns(JCas jcas) {
-		Assert.assertEquals(3, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Range.type)).size());
-		Assert.assertEquals(4, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, PotentialBp.type)).size());
-		Assert.assertEquals(13, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Relation.type)).size());
+		Assert.assertEquals(3, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Range.type, false)).size());
+		Assert.assertEquals(4, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, PotentialBp.type, false)).size());
+		Assert.assertEquals(13, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Relation.type, false)).size());
 	}
 
 	private void assertTerms(JCas jcas) {
-		Assert.assertEquals(3, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Bp_Term.type)).size());
-		Assert.assertEquals(3, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Hr_Term.type)).size());
-		Assert.assertEquals(2, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Resp_Term.type)).size());
-		Assert.assertEquals(2, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_Term.type)).size());
-		Assert.assertEquals(2, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, So2_Term.type)).size());
+		Assert.assertEquals(3, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Bp_Term.type, false)).size());
+		Assert.assertEquals(3, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Hr_Term.type, false)).size());
+		Assert.assertEquals(2, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Resp_Term.type, false)).size());
+		Assert.assertEquals(2, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_Term.type, false)).size());
+		Assert.assertEquals(2, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, So2_Term.type, false)).size());
 	}
 
 	public void outputXmi(String filename, JCas jcas) {
@@ -145,20 +145,20 @@ public class BasicServiceTest {
 
 		System.out.println(ListenerLogic.getRows(jcas.getCas()));
 		ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas,
-		    Bp_value.type);
+		    Bp_value.type, false);
 
 		System.out.println("BP count : " + list.size());
 		for (Annotation a : list) {
 			System.out.println("BP:" + a.getCoveredText());
 		}
 
-		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_value.type);
+		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_value.type, false);
 		System.out.println("T count : " + list.size());
 		for (Annotation a : list) {
 			System.out.println("T :" + a.getCoveredText());
 		}
 
-		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Hr_value.type);
+		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Hr_value.type, false);
 		System.out.println("HR count : " + list.size());
 		for (Annotation a : list) {
 			System.out.println("HR:" + a.getCoveredText());
@@ -171,7 +171,7 @@ public class BasicServiceTest {
 		System.out.println(filename);
 		System.out.println(ListenerLogic.getRows(jcas.getCas()));
 		ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas,
-		    Bp_value.type);
+		    Bp_value.type, false);
 
 		System.out.println("BP count : " + bpCount + " vs " + list.size());
 		for (Annotation a : list) {
@@ -180,14 +180,14 @@ public class BasicServiceTest {
 		System.out.println("Assering " + filename + " BP refst=" + bpCount + " , but was sys=" + list.size());
 		Assert.assertTrue(list.size() == bpCount);
 
-		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_value.type);
+		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_value.type, false);
 		System.out.println("T count : " + list.size() + " vs " + tCount);
 		for (Annotation a : list) {
 			System.out.println("T :" + a.getCoveredText());
 		}
 		Assert.assertTrue(list.size() == tCount);
 
-		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Hr_value.type);
+		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Hr_value.type, false);
 		System.out.println("HR count : " + list.size() + " vs " + hrCount);
 		for (Annotation a : list) {
 			System.out.println("HR:" + a.getCoveredText());

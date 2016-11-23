@@ -65,8 +65,9 @@ public class DbsListener extends BaseDatabaseListener {
 	    String preparedStatementSQL, int batchSize,
 	    boolean validateConnectionEachBatch, String createStatement,
 	    ArrayList<ArrayList<String>> fieldList) {
-		super(databaseConnectionInformation, preparedStatementSQL, batchSize,
-		    validateConnectionEachBatch);
+		super(databaseConnectionInformation, preparedStatementSQL);
+		this.setBatchSize(batchSize);
+		this.setValidateConnectionEachBatch(validateConnectionEachBatch);
 		this.createStatement = createStatement;
 		this.setHeaders(fieldList);
 	}

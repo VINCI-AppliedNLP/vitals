@@ -34,7 +34,7 @@ public class FilterRelationsAE extends LeoBaseAnnotator {
 	}
 
 	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 		super.process(aJCas);
 
 		// Iterate through all Relations
@@ -55,9 +55,9 @@ public class FilterRelationsAE extends LeoBaseAnnotator {
 
 				// if more than one relation overlaps with the annotation which is the target of the currRelation.
 				try {
-					if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(value, Relation.type).size() > 1) {
+					if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(value, Relation.type, false).size() > 1) {
 						ArrayList<Annotation> overlappingRelations = (ArrayList<Annotation>) AnnotationLibrarian
-						    .getAllOverlappingAnnotationsOfType(value, Relation.type);
+						    .getAllOverlappingAnnotationsOfType(value, Relation.type, false);
 						
 						overlapLoop:
 						for (Annotation or : overlappingRelations) {
@@ -96,7 +96,4 @@ public class FilterRelationsAE extends LeoBaseAnnotator {
 		} // end of relation loop
 	}
 
-	public static class Param extends LeoBaseAnnotator.Param {
-		/** No additional parameters **/
-	}
 }

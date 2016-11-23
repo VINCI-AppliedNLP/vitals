@@ -3,6 +3,8 @@ package gov.va.vinci.vitals.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
+import gov.va.vinci.leo.sherlock.listeners.LearningListener;
+import gov.va.vinci.leo.sherlock.tools.SherlockVector;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.StringArray;
@@ -10,8 +12,6 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 import gov.va.vinci.kttr.types.HRValue;
 import gov.va.vinci.leo.AnnotationLibrarian;
-import gov.va.vinci.sherlock.listeners.LearningListener;
-import gov.va.vinci.sherlock.tools.SherlockVector;
 import gov.va.vinci.vitals.types.Hr_Vector;
 
 public class HrLearningListener extends LearningListener {
@@ -27,7 +27,7 @@ public class HrLearningListener extends LearningListener {
 		ArrayList<SherlockVector> vectors = new ArrayList<SherlockVector>();
 
 		ArrayList<Annotation> vAnnotationList = (ArrayList<Annotation>) AnnotationLibrarian
-		    .getAllAnnotationsOfType(jcas, Hr_Vector.type);
+		    .getAllAnnotationsOfType(jcas, Hr_Vector.type, false);
 		for (Annotation v : vAnnotationList) {
 			StringArray keys = null;
 			StringArray values = null;
@@ -37,7 +37,7 @@ public class HrLearningListener extends LearningListener {
 				LOG.warn("Error getting prediction annotation, feature value empty!");
 				continue;
 			}
-			if ((AnnotationLibrarian.getAllOverlappingAnnotationsOfType(v, HRValue.type)).size() > 0) {
+			if ((AnnotationLibrarian.getAllOverlappingAnnotationsOfType(v, HRValue.type, false)).size() > 0) {
 				prediction = "hr";
 			} else {
 				prediction = "other";

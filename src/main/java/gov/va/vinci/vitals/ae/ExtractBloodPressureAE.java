@@ -16,11 +16,11 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 public class ExtractBloodPressureAE extends BaseVitalExtractorAE {
 	static String currentType = "Systolic";
-	public static double[][] typeRangesSystolic = { { 50, 100 } };
-	public static double[][] typeDiastolicRanges = { { 50, 100 } };
+	public static double[][] typeRangesSystolic = {{50, 100}};
+	public static double[][] typeDiastolicRanges = {{50, 100}};
 
 	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 
 		super.process(aJCas);
 		try {
@@ -40,12 +40,12 @@ public class ExtractBloodPressureAE extends BaseVitalExtractorAE {
 	public void analyzeLowerPWindow(JCas aJCas) throws CASException {
 
 		Iterator<Annotation> pbps = (Iterator<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(aJCas,
-		    PotentialBp.class.getCanonicalName()).iterator();
+				PotentialBp.class.getCanonicalName(), false).iterator();
 		while (pbps.hasNext()) {
 			PotentialBp d = (PotentialBp) pbps.next();
 
 			ArrayList<Annotation> coverWindow = (ArrayList<Annotation>) AnnotationLibrarian.getAllContainingAnnotationsOfType(d,
-			    LowerPrecisionWindow.type);
+					LowerPrecisionWindow.type, false);
 
 			// FIXME
 
@@ -56,12 +56,12 @@ public class ExtractBloodPressureAE extends BaseVitalExtractorAE {
 		} // end of double number loop
 	}
 
-	/** 
+	/**
 	 * If a document contains pattern, process that pattern
 	 * variables to change -- vital name
-	 * 
+	 *
 	 * @param aJCas
-	 * @throws CASException 
+	 * @throws CASException
 	 */
 	public void analyzePatterns(JCas aJCas) throws CASException {
 
@@ -73,9 +73,9 @@ public class ExtractBloodPressureAE extends BaseVitalExtractorAE {
 
 				Unit curUnit = null;
 
-				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type).size() > 0) {
+				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type, false).size() > 0) {
 					curUnit = (Unit) ((ArrayList<Annotation>) AnnotationLibrarian
-					    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type)).get(0); // get the first unit in the pattern
+							.getAllOverlappingAnnotationsOfType(currRelation, Unit.type, false)).get(0); // get the first unit in the pattern
 				}
 
 				// Has term?
@@ -114,21 +114,20 @@ public class ExtractBloodPressureAE extends BaseVitalExtractorAE {
 	}
 
 	/**
-	 * 
 	 * @param a
 	 * @param vital_type
 	 * @param u
-	 * @throws CASException 
+	 * @throws CASException
 	 */
 	public void processValue(Annotation a, String vital_type, Annotation u, boolean markIt) throws CASException {
 		if (a instanceof Numeric) {
-			if (AnnotationLibrarian.getAllContainingAnnotationsOfType(a, Range.type).size() > 0) {
+			if (AnnotationLibrarian.getAllContainingAnnotationsOfType(a, Range.type, false).size() > 0) {
 				return;
-			} else if (AnnotationLibrarian.getAllContainingAnnotationsOfType(a, PotentialBp.type).size() > 0) {
+			} else if (AnnotationLibrarian.getAllContainingAnnotationsOfType(a, PotentialBp.type, false).size() > 0) {
 				return;
 			}
 			if (StringUtils.isBlank(((Numeric) a).getConcept())) {
-				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(a, PotentialBp.class.getCanonicalName()).size() > 0) {
+				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(a, PotentialBp.class.getCanonicalName(), false).size() > 0) {
 					return;
 				}
 				if (CheckRange.isSystolicBp(((Numeric) a).getValue())) {
@@ -141,12 +140,12 @@ public class ExtractBloodPressureAE extends BaseVitalExtractorAE {
 				}
 			}
 		} else if (a instanceof Range) {
-			if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(a, PotentialBp.class.getCanonicalName()).size() > 0) {
+			if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(a, PotentialBp.class.getCanonicalName(), false).size() > 0) {
 				return;
 			}
 			if (StringUtils.isBlank(((Numeric) ((Range) a).getValue1()).getConcept())) {
 				if (CheckRange.isSystolicBp(((Numeric) ((Range) a).getValue1()).getValue())
-				    && CheckRange.isSystolicBp(((Numeric) ((Range) a).getValue2()).getValue())) {
+						&& CheckRange.isSystolicBp(((Numeric) ((Range) a).getValue2()).getValue())) {
 					((Numeric) ((Range) a).getValue1()).setConcept(vital_type);
 					((Numeric) ((Range) a).getValue1()).setUnit(u);
 					((Numeric) ((Range) a).getValue2()).setConcept(vital_type);
@@ -206,9 +205,9 @@ public class ExtractBloodPressureAE extends BaseVitalExtractorAE {
 					Annotation rv2 = ((Range) systolicAnnotation).getValue2();
 					if (rv1 instanceof IntegerNumber && rv2 instanceof IntegerNumber) {
 						if (StringUtils.isBlank(((Numeric) rv1).getConcept())
-						    && StringUtils.isBlank(((Numeric) rv2).getConcept())) {
+								&& StringUtils.isBlank(((Numeric) rv2).getConcept())) {
 							if (CheckRange.isSystolicBp(((IntegerNumber) rv1).getValue())
-							    && CheckRange.isSystolicBp(((IntegerNumber) rv2).getValue())) {
+									&& CheckRange.isSystolicBp(((IntegerNumber) rv2).getValue())) {
 								((IntegerNumber) rv1).setConcept("Systolic");
 								((IntegerNumber) rv2).setConcept("Systolic");
 							}
@@ -237,9 +236,9 @@ public class ExtractBloodPressureAE extends BaseVitalExtractorAE {
 						Annotation diastolicRange2 = ((Range) diastolicAnnotation).getValue2();
 						if (diastolicRange1 instanceof IntegerNumber && diastolicRange2 instanceof IntegerNumber) {
 							if (StringUtils.isBlank(((Numeric) diastolicRange1).getConcept())
-							    && StringUtils.isBlank(((Numeric) diastolicRange2).getConcept())) {
+									&& StringUtils.isBlank(((Numeric) diastolicRange2).getConcept())) {
 								if (CheckRange.isDiastolicBp(((IntegerNumber) diastolicRange1).getValue())
-								    && CheckRange.isDiastolicBp(((IntegerNumber) diastolicRange2).getValue())) {
+										&& CheckRange.isDiastolicBp(((IntegerNumber) diastolicRange2).getValue())) {
 									((IntegerNumber) diastolicRange1).setConcept("Diastolic");
 									((IntegerNumber) diastolicRange2).setConcept("Diastolic");
 								} else {
@@ -282,9 +281,5 @@ public class ExtractBloodPressureAE extends BaseVitalExtractorAE {
 			else
 				return false;
 		}
-	}
-
-	public static class Param extends BaseVitalExtractorAE.Param {
-		/** No addtional parameters **/
 	}
 }

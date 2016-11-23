@@ -41,10 +41,10 @@ public abstract class BaseVitalExtractorAE extends LeoBaseAnnotator {
 	public void processValue(Annotation a, String vital_type, Annotation u, boolean markIt, double[][] ranges)
 	    throws CASException {
 		if (a instanceof Numeric) {
-			if (AnnotationLibrarian.getAllContainingAnnotationsOfType(a, Range.type).size() > 0) {
+			if (AnnotationLibrarian.getAllContainingAnnotationsOfType(a, Range.type, false).size() > 0) {
 				return;
 			}
-			if (AnnotationLibrarian.getAllContainingAnnotationsOfType(a, PotentialBp.type).size() > 0) {
+			if (AnnotationLibrarian.getAllContainingAnnotationsOfType(a, PotentialBp.type, false).size() > 0) {
 				return;
 			}
 			if (StringUtils.isBlank(((Numeric) a).getConcept())) {
@@ -58,7 +58,7 @@ public abstract class BaseVitalExtractorAE extends LeoBaseAnnotator {
 				}
 			}
 		} else if (a instanceof Range) {
-			if (AnnotationLibrarian.getAllContainingAnnotationsOfType(a, PotentialBp.type).size() > 0) {
+			if (AnnotationLibrarian.getAllContainingAnnotationsOfType(a, PotentialBp.type, false).size() > 0) {
 				return;
 			}
 			if (StringUtils.isBlank(((Numeric) ((Range) a).getValue1()).getConcept())) {
@@ -107,9 +107,5 @@ public abstract class BaseVitalExtractorAE extends LeoBaseAnnotator {
 				}
 			}
 		}
-	}
-
-	public static class Param extends LeoBaseAnnotator.Param {
-		/** No addtional parameters **/
 	}
 }

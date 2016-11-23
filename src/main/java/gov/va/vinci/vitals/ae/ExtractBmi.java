@@ -16,7 +16,7 @@ public class ExtractBmi extends BaseVitalExtractorAE {
 	public static String outputType = BMI_value.class.getCanonicalName();
 
 	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 
 		super.process(aJCas);
 		try {
@@ -52,10 +52,6 @@ public class ExtractBmi extends BaseVitalExtractorAE {
 			}
 		}
 
-	}
-
-	public static class Param extends BaseVitalExtractorAE.Param {
-		/** No addtional parameters **/
 	}
 
 }

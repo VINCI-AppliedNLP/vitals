@@ -91,20 +91,20 @@ public class ServiceVectorTest {
 		System.out.println(filename);
 		System.out.println(ListenerLogic.getRows(jcas.getCas()));
 		ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas,
-		    Bp_value.type);
+		    Bp_value.type, false);
 
 		System.out.println("BP count : " + list.size());
 		for (Annotation a : list) {
 			System.out.println("BP:" + a.getCoveredText());
 		}
 
-		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_value.type);
+		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_value.type, false);
 		System.out.println("T count : " + list.size());
 		for (Annotation a : list) {
 			System.out.println("T :" + a.getCoveredText());
 		}
 
-		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Hr_value.type);
+		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Hr_value.type, false);
 		System.out.println("HR count : " + list.size());
 		for (Annotation a : list) {
 			System.out.println("HR:" + a.getCoveredText());
@@ -117,7 +117,7 @@ public class ServiceVectorTest {
 		System.out.println(filename);
 		System.out.println(ListenerLogic.getRows(jcas.getCas()));
 		ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas,
-		    Bp_value.type);
+		    Bp_value.type, false);
 
 		System.out.println("BP count : " + bpCount + " vs " + list.size());
 		for (Annotation a : list) {
@@ -126,14 +126,14 @@ public class ServiceVectorTest {
 		System.out.println("Assering " + filename + " BP refst=" + bpCount + " , but was sys=" + list.size());
 		Assert.assertTrue(list.size() == bpCount);
 
-		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_value.type);
+		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_value.type, false);
 		System.out.println("T count : " + list.size() + " vs " + tCount);
 		for (Annotation a : list) {
 			System.out.println("T :" + a.getCoveredText());
 		}
 		Assert.assertTrue(list.size() == tCount);
 
-		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Hr_value.type);
+		list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Hr_value.type, false);
 		System.out.println("HR count : " + list.size() + " vs " + hrCount);
 		for (Annotation a : list) {
 			System.out.println("HR:" + a.getCoveredText());

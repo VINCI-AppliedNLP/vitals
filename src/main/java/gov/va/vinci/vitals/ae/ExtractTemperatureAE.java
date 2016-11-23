@@ -20,7 +20,7 @@ public class ExtractTemperatureAE extends BaseVitalExtractorAE {
 	public static double[][] typeRanges = { { 34.0, 44.0 }, { 94.0, 107.0 } };
 
 	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 		super.process(aJCas);
 		try {
 
@@ -50,9 +50,9 @@ public class ExtractTemperatureAE extends BaseVitalExtractorAE {
 
 				Unit curUnit = null;
 
-				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type).size() > 0) {
+				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type, false).size() > 0) {
 					curUnit = (Unit) ((ArrayList<Annotation>) AnnotationLibrarian
-					    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type)).get(0); // get the first unit in the pattern
+					    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type, false)).get(0); // get the first unit in the pattern
 				}
 
 				// Has term?
@@ -79,7 +79,7 @@ public class ExtractTemperatureAE extends BaseVitalExtractorAE {
 	public void analyzeDoubles(JCas aJCas) throws CASException {
 
 		Iterator<Annotation> doubles = (Iterator<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(aJCas,
-		    DoubleNumber.class.getCanonicalName()).iterator();
+		    DoubleNumber.class.getCanonicalName(), false).iterator();
 		while (doubles.hasNext()) {
 			DoubleNumber d = (DoubleNumber) doubles.next();
 
@@ -88,16 +88,12 @@ public class ExtractTemperatureAE extends BaseVitalExtractorAE {
 				Unit currUnit = null;
 
 				ArrayList<Annotation> coverWindow = (ArrayList<Annotation>) AnnotationLibrarian.getAllContainingAnnotationsOfType(d,
-				    HiPrecisionWindow.type);
+				    HiPrecisionWindow.type, false);
 				if (coverWindow.size() > 0) {
 					processValue(d, currentType, currUnit, false, typeRanges);
 				}
 			} // end of double number loop
 		}
-	}
-
-	public static class Param extends BaseVitalExtractorAE.Param {
-		/** No addtional parameters **/
 	}
 
 }

@@ -20,7 +20,7 @@ public class ExtractHeartRateAE extends BaseVitalExtractorAE {
 	public static double[][] typeRanges = { { 30, 150 } };
 
 	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 		super.process(aJCas);
 		try {
 			analyzePatterns(aJCas);
@@ -37,20 +37,20 @@ public class ExtractHeartRateAE extends BaseVitalExtractorAE {
 	public void analyzeHiPWindow(JCas aJCas) throws CASException {
 
 		Iterator<Annotation> pbps = (Iterator<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(aJCas,
-		    IntegerNumber.class.getCanonicalName()).iterator();
+		    IntegerNumber.class.getCanonicalName(), false).iterator();
 		while (pbps.hasNext()) {
 			IntegerNumber value = (IntegerNumber) pbps.next();
 
 			ArrayList<Annotation> coverWindow = (ArrayList<Annotation>) AnnotationLibrarian.getAllContainingAnnotationsOfType(value,
-			    HiPrecisionWindow.type);
+			    HiPrecisionWindow.type, false);
 			ArrayList<Annotation> potentialBps = (ArrayList<Annotation>) AnnotationLibrarian.getAllContainingAnnotationsOfType(value,
-			    PotentialBp.type);
+			    PotentialBp.type, false);
 
 			// FIXME
 			Unit curUnit = null;
 			if (coverWindow.size() > 0 && potentialBps.size() == 0) {
 				Annotation currWindow = (coverWindow.get(0));
-				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currWindow, Numeric.type).size() > 4) {
+				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currWindow, Numeric.type, false).size() > 4) {
 					processValue(value, currentType, curUnit, false, typeRanges);
 				}
 			} // end of double number loop
@@ -74,9 +74,9 @@ public class ExtractHeartRateAE extends BaseVitalExtractorAE {
 
 				Unit curUnit = null;
 
-				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type).size() > 0) {
+				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type, false).size() > 0) {
 					curUnit = (Unit) ((ArrayList<Annotation>) AnnotationLibrarian
-					    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type)).get(0); // get the first unit in the pattern
+					    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type, false)).get(0); // get the first unit in the pattern
 				}
 
 				// Has term?
@@ -128,9 +128,5 @@ public class ExtractHeartRateAE extends BaseVitalExtractorAE {
 				}
 			}
 		}
-	}
-
-	public static class Param extends BaseVitalExtractorAE.Param {
-		/** No addtional parameters **/
 	}
 }
