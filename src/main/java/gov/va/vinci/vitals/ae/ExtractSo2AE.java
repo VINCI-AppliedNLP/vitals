@@ -21,7 +21,6 @@ public class ExtractSo2AE extends BaseVitalExtractorAE {
 
 	@Override
 	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
-		super.process(aJCas);
 
 		analyzePatterns(aJCas);
 		createValueTypes(aJCas, currentType, outputValue);

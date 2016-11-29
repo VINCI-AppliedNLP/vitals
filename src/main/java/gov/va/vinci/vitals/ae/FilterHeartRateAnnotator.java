@@ -17,8 +17,7 @@ public class FilterHeartRateAnnotator extends LeoBaseAnnotator {
 
 	@Override
 	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
-		// TODO Auto-generated method stub
-		super.process(aJCas);
+
 		ArrayList<Annotation> predictionList = (ArrayList<Annotation>) AnnotationLibrarian
 		    .getAllAnnotationsOfType(aJCas, Hr_Prediction.type, false);
 		for (Annotation a : predictionList) {

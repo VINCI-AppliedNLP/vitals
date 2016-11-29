@@ -17,7 +17,6 @@ public class AssignUnitAndTimeAE extends LeoBaseAnnotator {
 	@Override
 	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 
-		super.process(aJCas);
 		processTimestamp(aJCas);
 		processUnits(aJCas);
 	}

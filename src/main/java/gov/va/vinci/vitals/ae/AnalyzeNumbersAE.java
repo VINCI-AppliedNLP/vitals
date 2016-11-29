@@ -18,33 +18,26 @@ public class AnalyzeNumbersAE extends LeoBaseAnnotator {
 	@Override
 	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 
-		try {
-			super.process(aJCas);
-			FSIterator<Annotation> iter = this.getAnnotationListForType(aJCas, Numeric.class.getCanonicalName());
+		FSIterator<Annotation> iter = this.getAnnotationListForType(aJCas, Numeric.class.getCanonicalName());
 
-			while (iter.hasNext()) {
+		while (iter.hasNext()) {
 
-				Numeric currNum = (Numeric) iter.next();
-				String numberString = currNum.getCoveredText().trim().toLowerCase();
+			Numeric currNum = (Numeric) iter.next();
+			String numberString = currNum.getCoveredText().trim().toLowerCase();
 
-				if (currNum instanceof IntegerNumber) {
-					currNum.setZero_decimal(false);
-					currNum.setDecimal(false);
-					currNum.setInteger(true);
-					currNum.setValue(Integer.parseInt(numberString));
-				}
-				else if (currNum instanceof DoubleNumber) {
-					currNum.setZero_decimal(false);
-					currNum.setDecimal(true);
-					currNum.setInteger(false);
-					currNum.setValue(Double.parseDouble(numberString));
-
-				}
+			if (currNum instanceof IntegerNumber) {
+				currNum.setZero_decimal(false);
+				currNum.setDecimal(false);
+				currNum.setInteger(true);
+				currNum.setValue(Integer.parseInt(numberString));
 			}
+			else if (currNum instanceof DoubleNumber) {
+				currNum.setZero_decimal(false);
+				currNum.setDecimal(true);
+				currNum.setInteger(false);
+				currNum.setValue(Double.parseDouble(numberString));
 
-		} catch (AnalysisEngineProcessException ex) {
-			// TODO Auto-generated catch block
-			log.error(ex.getStackTrace());
+			}
 		}
 
 	}

@@ -18,7 +18,6 @@ public class AdjustPotentialBpAE extends LeoBaseAnnotator {
 	@Override
 	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 		try {
-			super.process(aJCas);
 			
 			AnnotationLibrarian.removeCoveredAnnotations(aJCas, PotentialBp.class.getCanonicalName(), false, null);
 

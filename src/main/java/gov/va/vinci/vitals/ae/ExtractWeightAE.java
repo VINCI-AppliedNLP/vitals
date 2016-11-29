@@ -19,7 +19,7 @@ public class ExtractWeightAE extends BaseVitalExtractorAE {
 
 	@Override
 	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
-		super.process(aJCas);
+
 		try {
 			analyzePatterns(aJCas);
 		} catch (CASException ex) {

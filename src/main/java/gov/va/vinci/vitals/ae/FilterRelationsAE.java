@@ -35,7 +35,6 @@ public class FilterRelationsAE extends LeoBaseAnnotator {
 
 	@Override
 	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
-		super.process(aJCas);
 
 		// Iterate through all Relations
 		// if the first target overlaps with the other target do:

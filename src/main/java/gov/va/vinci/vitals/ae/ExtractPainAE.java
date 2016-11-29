@@ -17,8 +17,6 @@ public class ExtractPainAE extends BaseVitalExtractorAE {
 
 	@Override
 	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
-		// TODO Auto-generated method stub
-		super.process(aJCas);
 
 		analyzePatterns(aJCas);
 		createValueTypes(aJCas, currentType, outputValue);

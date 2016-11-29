@@ -62,7 +62,7 @@ public class HrVectorAnnotator extends BaseFeatureVectorAnnotator {
 	/**/
 	@Override
 	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
-		super.process(aJCas);
+
 		int refStType = HRValue.type;//HRValue.type;
 		int sysType = Hr_value.type;
 

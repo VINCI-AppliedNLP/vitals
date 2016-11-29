@@ -15,8 +15,7 @@ public class AdjustRangeAnnotator extends LeoBaseAnnotator {
 
 	@Override
 	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
-		// TODO Auto-generated method stub
-		super.process(aJCas);
+
 		AnnotationLibrarian.removeCoveredAnnotations(aJCas, Range.class.getCanonicalName(), false, null);
 		FSIterator<Annotation> rangeIter = this.getAnnotationListForType(aJCas, Range.class.getCanonicalName());
 

@@ -16,8 +16,7 @@ public class FilterTimestampAE extends LeoBaseAnnotator {
 
 	@Override
 	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
-		// TODO Auto-generated method stub
-		super.process(aJCas);
+
 		ArrayList<Annotation> timeList = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(aJCas, Timestamp.type, false);
 		ArrayList<Annotation> timesToKeep = new ArrayList<Annotation>();
 		if (timeList.size() > 0) {
