@@ -1,6 +1,7 @@
 package gov.va.vinci.vitals.ae;
 
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
@@ -10,6 +11,8 @@ import gov.va.vinci.leo.ae.LeoBaseAnnotator;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.vitals.types.*;
 
+import java.util.Collection;
+
 public class AdjustRangeAnnotator extends LeoBaseAnnotator {
 
 
@@ -17,10 +20,17 @@ public class AdjustRangeAnnotator extends LeoBaseAnnotator {
 	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 
 		AnnotationLibrarian.removeCoveredAnnotations(aJCas, Range.class.getCanonicalName(), false, null);
-		FSIterator<Annotation> rangeIter = this.getAnnotationListForType(aJCas, Range.class.getCanonicalName());
 
-		while (rangeIter.hasNext()) {
-			Range r = (Range) rangeIter.next();
+		Collection<Annotation> rangeIter = null;
+		try {
+			rangeIter = AnnotationLibrarian.getAllAnnotationsOfType(aJCas, Range.class.getCanonicalName(), false);
+		} catch (CASException e) {
+			throw new AnalysisEngineProcessException(e);
+		}
+
+
+		for (Annotation a: rangeIter) {
+			Range r = (Range) a;
 			Annotation v1 = r.getAnchor();
 			Annotation v2 = r.getTarget();
 			if (v1 != null) {
