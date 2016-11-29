@@ -54,7 +54,6 @@ public class AnnotationFilter extends LeoBaseAnnotator {
 
 	@Override
 	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
-		super.process(aJCas);
 		for (String type1 : typesToKeep) {
 			if (typesToDelete == null)
 				AnnotationLibrarian.removeCoveredAnnotations(aJCas, type1, false, null);
