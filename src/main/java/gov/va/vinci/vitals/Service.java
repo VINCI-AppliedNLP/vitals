@@ -311,6 +311,7 @@ public class Service {
 					.addTypeSystemDescription(types));
 
 		aggregate.addDelegate(new AnnotationPatternAnnotator()
+									.setIncludeChildAnnotations(true)
                                     .setResource(PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceNumExclude)
                                     .setOutputType(PipelineVariables.TYPE_NUMEXCLUDE)
 		                        .getLeoAEDescriptor().setName("ExcludeNumberPattern")
@@ -366,6 +367,7 @@ public class Service {
 		                        .addTypeSystemDescription(types));
 
 		aggregate.addDelegate(new AnnotationPatternAnnotator()
+								.setIncludeChildAnnotations(true)
                                 .setResource(PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceIndicator)
                                 .setOutputType(PipelineVariables.TYPE_INDICATOR)
                         .getLeoAEDescriptor().setName("IndicatorPatternAnnotator")
@@ -383,6 +385,7 @@ public class Service {
                         .addTypeSystemDescription(types));
 
 		aggregate.addDelegate(new AnnotationPatternAnnotator()
+									.setIncludeChildAnnotations(true)
                                     .setResource(PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceSectionExclude)
                                     .setOutputType(PipelineVariables.TYPE_TERMEXCLUDE)
                         .getLeoAEDescriptor()
@@ -431,6 +434,7 @@ public class Service {
 		///////////// INFO: Creating patterns
 		/**/
 		aggregate.addDelegate(new AnnotationPatternAnnotator()
+									.setIncludeChildAnnotations(true)
                                     .setResource(PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceRange)
                                     .setOutputType(PipelineVariables.TYPE_RANGE)
                         .getLeoAEDescriptor()
@@ -442,6 +446,7 @@ public class Service {
 		    .addTypeSystemDescription(types));
 
 		aggregate.addDelegate(new AnnotationPatternAnnotator()
+								.setIncludeChildAnnotations(true)
                                 .setResource(PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceBp)
                                 .setOutputType(PipelineVariables.TYPE_POTENTIAL_BP)
                 .getLeoAEDescriptor()
@@ -449,6 +454,7 @@ public class Service {
 		        .addTypeSystemDescription(types));
 
 		aggregate.addDelegate(new AnnotationPatternAnnotator()
+						.setIncludeChildAnnotations(true)
                         .setResource(PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceHeight)
                         .setOutputType(PipelineVariables.TYPE_POTENTIAL_HEIGHT)
                 .getLeoAEDescriptor()
@@ -456,6 +462,7 @@ public class Service {
 		        .addTypeSystemDescription(types));
 
 		aggregate.addDelegate(new AnnotationPatternAnnotator()
+						.setIncludeChildAnnotations(true)
                         .setResource(PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceExBp)
                         .setOutputType(PipelineVariables.TYPE_EX_POTENTIAL_BP)
                 .getLeoAEDescriptor()
@@ -470,6 +477,7 @@ public class Service {
                 .addTypeSystemDescription(types));
 		/**/
 		aggregate.addDelegate(new AnnotationPatternAnnotator()
+							.setIncludeChildAnnotations(true)
                             .setResource(PipelineVariables.RESOURCE_PATH + PipelineVariables.RESOURCE_RELATION)
                             .setOutputType(PipelineVariables.TYPE_RELATION)
                 .getLeoAEDescriptor()
@@ -477,6 +485,7 @@ public class Service {
                 .addTypeSystemDescription(types));
 
 		aggregate.addDelegate(new AnnotationPatternAnnotator()
+							.setIncludeChildAnnotations(true)
                             .setResource(PipelineVariables.RESOURCE_PATH + PipelineVariables.RESOURCE_RELATION_TIMESTAMP)
                             .setOutputType(PipelineVariables.TYPE_RELATION_TIMESTAMP)
                 .getLeoAEDescriptor()

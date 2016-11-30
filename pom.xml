@@ -68,7 +68,7 @@
 		<dependency>
 			<groupId>gov.va.vinci</groupId>
 			<artifactId>leo-annotation-pattern</artifactId>
-			<version>2016.05.1</version>
+			<version>2016.11.0</version>
 		</dependency>
 		<dependency>
 			<groupId>gov.va.vinci</groupId>
