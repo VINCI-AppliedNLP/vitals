@@ -356,6 +356,8 @@ public class Client {
 			}
 		}
 
+		TypeCountListener typeCountListener = new TypeCountListener();
+		listenerList.add(typeCountListener);
 		BaseListener[] listeners = new BaseListener[listenerList.size()];
 		listenerList.toArray(listeners);
 		for (BaseListener a : listeners) {
@@ -387,6 +389,7 @@ public class Client {
 		log.info("Processing time: " + sw.toString() + "\n"
 		    + "Processing ended at: "
 		    + new Date(System.currentTimeMillis()));
+		typeCountListener.printTypeMap();
 
 	}
 
