@@ -7,12 +7,16 @@ import gov.va.vinci.leo.descriptors.LeoConfigurationParameter;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.leo.tools.ConfigurationParameterImpl;
 import gov.va.vinci.leo.tools.LeoUtils;
+import gov.va.vinci.vitals.types.Bp_value;
 import org.apache.log4j.Logger;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.metadata.ConfigurationParameter;
+
+import java.util.Arrays;
 
 /**
  * The purpose of the AnnotationFilter is to remove overannotated instances.
@@ -55,15 +59,18 @@ public class AnnotationFilter extends LeoBaseAnnotator {
 	@Override
 	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
 		for (String type1 : typesToKeep) {
-			if (typesToDelete == null)
+			if (typesToDelete == null || typesToDelete.length == 0) {
 				AnnotationLibrarian.removeCoveredAnnotations(aJCas, type1, false, null);
+			}
 			else {
 				for (String type2 : typesToDelete) {
 					if (!type1.equalsIgnoreCase(type2)) {
-						if (removeOverlapping)
+						if (removeOverlapping) {
 							AnnotationLibrarian.removeOverlappingAnnotations(aJCas, type1, type2, true, false, null);
-						else
+						}
+						else {
 							AnnotationLibrarian.removeCoveredAnnotations(aJCas, type1, type2, true, false, null);
+						}
 					} else {
 						AnnotationLibrarian.removeCoveredAnnotations(aJCas, type1, false, null);
 					}
