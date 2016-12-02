@@ -53,7 +53,7 @@ public class ExtractRespiratoryAE extends BaseVitalExtractorAE {
 			Unit curUnit = null;
 			if (coverWindow.size() > 0 && potentialBps.size() == 0) {
 				Annotation currWindow = (coverWindow.get(0));
-				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currWindow, Numeric.type, false).size() > 4) {
+				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currWindow, Numeric.type, true).size() > 4) {
 					processValue(value, currentType, curUnit, false, typeRanges);
 				}
 			} // end of double number loop
