@@ -1,6 +1,10 @@
 
 name = "ConceptsAndTermsAnnotation"
 configuration {
+	global_settings {
+		performance_monitoring = true
+	}
+
 	/* All configuration for this annotator. */
 	defaults {
 		/* Global for all configurations below if a property specified here is not overridden in a section below. */

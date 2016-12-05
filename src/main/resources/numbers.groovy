@@ -2,6 +2,11 @@
 name = "NumbersAnnotation"
 configuration {
 	/* All configuration for this annotator. */
+
+	global_settings {
+		performance_monitoring = true
+	}
+
 	defaults {
 		/* Global for all configurations below if a property specified here is not overridden in a section below. */
 		outputType = "gov.va.vinci.vitals.types.Numeric"

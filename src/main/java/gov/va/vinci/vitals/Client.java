@@ -357,6 +357,7 @@ public class Client {
 		}
 
 		TypeCountListener typeCountListener = new TypeCountListener();
+		listenerList.clear();;
 		listenerList.add(typeCountListener);
 		BaseListener[] listeners = new BaseListener[listenerList.size()];
 		listenerList.toArray(listeners);

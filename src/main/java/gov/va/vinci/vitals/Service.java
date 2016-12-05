@@ -63,7 +63,6 @@ public class Service {
 		    "gov.va.vinci.vitals.types.DoubleNumber"
 		};
 
-		static String resourceNumeric = "numericValues.regex";
 		static String resourceNumbers = "numbers.groovy";
 
 		static String TYPE_UNIT = "gov.va.vinci.vitals.types.Unit";
@@ -93,11 +92,11 @@ public class Service {
 		static String resourceIndicatorRegex = "indicator.regex";
 
 		static String TYPE_TIMESTAMP = "gov.va.vinci.vitals.types.Timestamp";
-		static String resourceTumestamp = "date.regex";
+		static String resourceTimestamp = "dates.groovy";
 
 		static String TYPE_NUMEXCLUDE = "gov.va.vinci.vitals.types.NumericExclude";
 		static String resourceNumExclude = "numericValuesExclude.pattern";
-		static String resourceNumExcludeRegex = "numericValuesExclude.regex";
+		static String resourceNumExcludeRegex = "numericValuesExclude.groovy";
 
 		static String TYPE_RANGE = "gov.va.vinci.vitals.types.Range";
 		static String resourceRange = "range.pattern";
@@ -114,7 +113,7 @@ public class Service {
 
 		static String TYPE_TERMEXCLUDE = "gov.va.vinci.vitals.types.TermExclude";
 		static String resourceSectionExclude = "excludeSectionHeader.pattern";
-		static String resourceSectionExcludeRegex = "excludeSectionHeader.regex";
+		static String resourceSectionExcludeRegex = "excludeSectionHeader.groovy";
 
 		static String TYPE_RELATION = "gov.va.vinci.vitals.types.Relation";
 		static String RESOURCE_RELATION = "relation.pattern";
@@ -304,9 +303,7 @@ public class Service {
 
 		aggregate.addDelegate(
 				new RegexAnnotator()
-                        .setMatchedPatternFeatureName("pattern")
-						.setResource(PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceTumestamp)
-						.setOutputType(PipelineVariables.TYPE_TIMESTAMP)
+						.setGroovyConfigFile(PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceTimestamp)
 					.getLeoAEDescriptor()
 					.addTypeSystemDescription(types));
 
@@ -318,8 +315,7 @@ public class Service {
                                 .addTypeSystemDescription(types));
 
 		aggregate.addDelegate(new RegexAnnotator()
-                                .setResource(PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceNumExcludeRegex)
-                                .setOutputType(PipelineVariables.TYPE_NUMEXCLUDE)
+                                .setGroovyConfigFile(PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceNumExcludeRegex)
                     .getLeoAEDescriptor()
                     .setName("ExcludeNumberPattern")
 		            .addTypeSystemDescription(types));
@@ -393,8 +389,8 @@ public class Service {
                         .addTypeSystemDescription(types));
 
 		aggregate.addDelegate(new RegexAnnotator()
-                                    .setResource(PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceSectionExcludeRegex)
-                                    .setOutputType(PipelineVariables.TYPE_TERMEXCLUDE)
+                                    .setGroovyConfigFile(PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceSectionExcludeRegex)
+
                     .getLeoAEDescriptor()
                     .setName("TermExcludePatternAnnotator")
 		            .addTypeSystemDescription(types));

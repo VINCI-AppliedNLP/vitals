@@ -22,11 +22,14 @@ package gov.va.vinci.vitals.listeners;
 
 import gov.va.vinci.leo.listener.BaseListener;
 import org.apache.uima.cas.*;
+import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.collection.EntityProcessStatus;
+import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -41,6 +44,8 @@ import java.util.*;
 public class TypeCountListener extends BaseListener {
 
 	protected Map<String, Integer> typeCountMap = new HashMap<String, Integer>();
+	File outputFile = new File("H:/git/derma/vitals-optim/new-output.txt");
+	FileOutputStream writer;
 
 	public void printTypeMap() {
 		Set<String> keys = typeCountMap.keySet();
@@ -66,16 +71,56 @@ public class TypeCountListener extends BaseListener {
 	@Override
 	public void entityProcessComplete(CAS aCas, EntityProcessStatus aStatus) {
 		super.entityProcessComplete(aCas, aStatus);
-
+		if (writer == null) {
+			try {
+				if (!outputFile.exists()) {
+					outputFile.createNewFile();
+				}
+				writer = new FileOutputStream(outputFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		Iterator<Type> typeInterator = aCas.getTypeSystem().getTypeIterator();
 
 		while (typeInterator.hasNext()) {
-			Type type = typeInterator.next();
-			int typeCount = aCas.getAnnotationIndex(type).size();
-			if (typeCountMap.containsKey(type.getName())) {
-				typeCount += typeCountMap.get(type.getName());
+			try {
+				Type type = typeInterator.next();
+				int typeCount = aCas.getAnnotationIndex(type).size();
+
+				FSIterator<AnnotationFS> index = aCas.getAnnotationIndex(type).iterator();
+				while (index.hasNext()) {
+					Annotation a = (Annotation) index.next();
+					int start = a.getBegin() - 50;
+					int end = a.getEnd() + 50;
+					if (start < 0) {
+						start = 0;
+					}
+					if (end > aCas.getDocumentText().length()) {
+						end = aCas.getDocumentText().length() - 1;
+					}
+
+					writer.write((this.getReferenceLocation(aCas.getJCas()) + ":" + type.getName() + ":" + a.getBegin() + ":" + a.getEnd() + "\n").getBytes() );
+				}
+
+				if (typeCountMap.containsKey(type.getName())) {
+					typeCount += typeCountMap.get(type.getName());
+				}
+				typeCountMap.put(type.getName(), typeCount);
+			} catch (Exception e) {
+				// do op.
+			//	System.out.println(e);
 			}
-			typeCountMap.put(type.getName(), typeCount);
+		}
+	}
+
+	@Override
+	public void collectionProcessComplete(EntityProcessStatus aStatus) {
+		try {
+			writer.flush();
+			writer.close();
+		} catch (Exception e) {
+			LOG.warn("Error closing writer: " + e);
 		}
 	}
 
