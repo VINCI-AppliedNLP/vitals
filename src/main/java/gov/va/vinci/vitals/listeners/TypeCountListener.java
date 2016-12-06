@@ -21,6 +21,7 @@ package gov.va.vinci.vitals.listeners;
  */
 
 import gov.va.vinci.leo.listener.BaseListener;
+import gov.va.vinci.vitals.types.Pattern;
 import org.apache.uima.cas.*;
 import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.collection.EntityProcessStatus;
@@ -100,8 +101,10 @@ public class TypeCountListener extends BaseListener {
 						end = aCas.getDocumentText().length() - 1;
 					}
 
-					writer.write((this.getReferenceLocation(aCas.getJCas()) + ":" + type.getName() + ":" + a.getBegin() + ":" + a.getEnd() + "\n").getBytes() );
+			//		writer.write((this.getReferenceLocation(aCas.getJCas()) + ":" + type.getName() + ":" + a.getBegin() + ":" + a.getEnd() + "\n").getBytes() );
 				}
+
+
 
 				if (typeCountMap.containsKey(type.getName())) {
 					typeCount += typeCountMap.get(type.getName());

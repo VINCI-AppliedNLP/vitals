@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import etm.core.configuration.BasicEtmConfigurator;
+import etm.core.configuration.EtmManager;
+import etm.core.monitor.EtmMonitor;
+import etm.core.renderer.SimpleTextRenderer;
 import gov.va.vinci.kttr.types.HRValue;
 import gov.va.vinci.leo.annotationpattern.ae.AnnotationPatternAnnotator;
 import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
@@ -16,6 +20,7 @@ import gov.va.vinci.leo.types.TypeLibrarian;
 import gov.va.vinci.leo.window.ae.WindowAnnotator;
 import gov.va.vinci.svmlib.ml.SvmVectorTranslator;
 import gov.va.vinci.vitals.ae.*;
+import gov.va.vinci.vitals.optimization.JetmRenderer;
 import gov.va.vinci.vitals.types.*;
 import groovy.util.ConfigObject;
 
@@ -203,6 +208,10 @@ public class Service {
 
 		// INFO: Deploy the Service
 
+		BasicEtmConfigurator.configure();
+		EtmMonitor monitor = EtmManager.getEtmMonitor();
+		monitor.start();
+
 		LeoTypeSystemDescription types = createTypeSystem();
 		service.deploy(createPipeline(types));
 		log.info("Aggregate descriptor: " + service.getAggregateDescriptorFile());
@@ -216,6 +225,11 @@ public class Service {
 		log.info("\nAggregate descriptor file is located at: \n" + service.getAggregateDescriptorFile());
 		System.out.println("\nService running, press enter in this console to stop.");
 		System.in.read();
+
+		monitor.stop();
+
+		// visualize results
+		monitor.render(new JetmRenderer());
 		System.exit(0);
 	}
 
