@@ -217,15 +217,15 @@ import java.util.TreeMap;
 
                 while (nameIt.hasNext()) {
                     ((ColumnEntry) nameIt.next()).write(writer, nameColumn.currentMaxSize);
-                    writer.write(',');
+                    //writer.write(',');
                     ((ColumnEntry) numberIt.next()).write(writer, numberColumn.currentMaxSize);
-                    writer.write(',');
+                    //writer.write(',');
                     ((ColumnEntry) avgIt.next()).write(writer, avgColumn.currentMaxSize);
-                    writer.write(',');
+                    //writer.write(',');
                     ((ColumnEntry) minIt.next()).write(writer, minColumn.currentMaxSize);
-                    writer.write(',');
+                    //writer.write(',');
                     ((ColumnEntry) maxIt.next()).write(writer, maxColumn.currentMaxSize);
-                    writer.write(',');
+                    //writer.write(',');
                     ((ColumnEntry) totalIt.next()).write(writer, totalColumn.currentMaxSize);
                     writer.write(separator);
                 }
@@ -240,9 +240,9 @@ import java.util.TreeMap;
 
             public Column(String aHeadLine) {
                 entries = new ArrayList();
-                addEntry(new SeparatorEntry());
+           //     addEntry(new SeparatorEntry());
                 addEntry(new CenteredEntry(aHeadLine));
-                addEntry(new SeparatorEntry());
+           //     addEntry(new SeparatorEntry());
             }
 
             public void addEntry(ColumnEntry entry) {
@@ -263,7 +263,7 @@ import java.util.TreeMap;
 
             public NestedEntry(int aNestingLevel, String aText) {
                 nestingLevel = aNestingLevel;
-                text = aText;
+                text = aText.replaceAll("\n","\\n");
             }
 
 
