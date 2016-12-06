@@ -89,7 +89,7 @@ public class Service {
 
 		static String TYPE_INDICATOR = "gov.va.vinci.vitals.types.Indicator";
 		static String resourceIndicator = "indicator.pattern";
-		static String resourceIndicatorRegex = "indicator.regex";
+		static String resourceIndicatorRegex = "indicator.groovy";
 
 		static String TYPE_TIMESTAMP = "gov.va.vinci.vitals.types.Timestamp";
 		static String resourceTimestamp = "dates.groovy";
@@ -369,12 +369,26 @@ public class Service {
                         .getLeoAEDescriptor().setName("IndicatorPatternAnnotator")
                         .addTypeSystemDescription(types));
 
+
+		/**
+		 *
+		 aggregate.addDelegate(new LeoAEDescriptor().setName("IndicatorPatternAnnotator")
+		 .setImplementationName(RegexAnnotator.class.getCanonicalName())
+		 .addParameterSetting(RegexAnnotator.Param.RESOURCE.getName(), true, false, "String",
+		 PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceIndicatorRegex)
+		 .addParameterSetting(RegexAnnotator.Param.OUTPUT_TYPE.getName(), true, false, "String", PipelineVariables.TYPE_INDICATOR)
+		 .addTypeSystemDescription(types));
+
+		 */
 		aggregate.addDelegate(new RegexAnnotator()
-                                    .setResource(PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceIndicatorRegex)
-                                    .setOutputType(PipelineVariables.TYPE_INDICATOR)
+                                    .setGroovyConfigFile(PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceIndicatorRegex)
+
                         .getLeoAEDescriptor()
-                        .setName("IndicatorPatternAnnotator")
+                        .setName("IndicatorRegexAnnotator")
                         .addTypeSystemDescription(types));
+
+
+
 
 		aggregate.addDelegate(new AnnotationFilter(new String[] { PipelineVariables.TYPE_INDICATOR }, null, false)
                         .getLeoAEDescriptor()
