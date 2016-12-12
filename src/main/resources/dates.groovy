@@ -12,8 +12,14 @@ configuration {
 		matchedPatternFeatureName = "pattern"
 		case_sensitive = false
 	}
-
-
+/**
+	"month" {
+		expressions = [
+				"[\\n\\r ](jan(uary)?|feb(ruary)?|mar(ch)?|apr(il)?|may|jun(e)?|jul(y)?|aug(ust)?|sep(tember)?|oct(ober)?|nov(ember)?|dec(ember)?) +"
+		]
+		outputType = "gov.va.vinci.vitals.types.Month"
+	}
+**/
 	/* An arbitrary name for this set of patterns/config. */
 	"Timestamps" {
 		expressions = [

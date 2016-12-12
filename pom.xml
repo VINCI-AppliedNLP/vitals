@@ -31,11 +31,18 @@
 
 	<!-- Dependencies -->
 	<dependencies>
+		<dependency>
+			<groupId>dk.brics.automaton</groupId>
+			<artifactId>automaton</artifactId>
+			<version>1.11-8</version>
+		</dependency>
+
+
 		<!-- Leo Dependencies -->
 		<dependency>
 			<groupId>gov.va.vinci.leo</groupId>
 			<artifactId>leo-base</artifactId>
-			<version>2016.10.0</version>
+			<version>2016.12.0</version>
 			<type>pom</type>
 		</dependency>
 

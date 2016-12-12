@@ -10,9 +10,6 @@ configuration {
 	defaults {
 		/* Global for all configurations below if a property specified here is not overridden in a section below. */
 		outputType = "gov.va.vinci.vitals.types.Numeric"
-		concept_feature_name = "comment"
-		matchedPatternFeatureName = "pattern"
-		groupFeatureName="group"
 		case_sensitive = false }
 
 
@@ -25,6 +22,10 @@ configuration {
 			"(?<!\\.)\\b\\d{2,3}(?=('?s\\b|\\b|b))"
 		]
 		concept_feature_value = "pressure, rates"
+		concept_feature_name = "comment"
+		matchedPatternFeatureName = "pattern"
+		groupFeatureName="group"
+
 		outputType = "gov.va.vinci.vitals.types.IntegerNumber" }
 	/**
 	 "ZeroDigit_number" {
@@ -40,4 +41,17 @@ configuration {
 			"\\b\\d{2,3}\\.\\d+(?=c\\b)"
 		]
 		concept_feature_value = "temperature, weight"
-		outputType = "gov.va.vinci.vitals.types.DoubleNumber"} }
+		concept_feature_name = "comment"
+		matchedPatternFeatureName = "pattern"
+		groupFeatureName="group"
+		outputType = "gov.va.vinci.vitals.types.DoubleNumber"
+	}
+
+	/** A prefix to numbers we annotate for exclusion in the numericValuesExclude.pattern file. **/
+	"ExcludePrefix" {
+		expressions = [
+		        "(reading|#|CVP|MAP|\\bi.o)\\s*"
+		]
+		outputType = "gov.va.vinci.vitals.types.ExcludePrefix"
+	}
+}

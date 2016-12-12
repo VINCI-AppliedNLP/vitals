@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Thu Dec 18 11:32:21 CST 2014 */
+/* First created by JCasGen Wed Dec 07 13:28:01 CST 2016 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -13,7 +13,7 @@ import org.apache.uima.cas.impl.FeatureImpl;
 import org.apache.uima.cas.Feature;
 
 /** 
- * Updated by JCasGen Thu Dec 18 11:32:21 CST 2014
+ * Updated by JCasGen Wed Dec 07 13:28:01 CST 2016
  * @generated */
 public class PotentialHeight_Type extends Pattern_Type {
   /** @generated 

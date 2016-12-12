@@ -126,239 +126,242 @@ public class Client {
 		myClient.setBrokerURL(GeneralSettings.BROKER_URL);
 		myClient.setCasPoolSize(1);
 
-		// INFO: Creating reader
-		String readerType = (String) config.get("readerType");
-		if (readerType.equalsIgnoreCase(READERS.knowtator.name())) {
-			ReaderVariables.useKnowtatorReader = true;
-		} else if (readerType.equalsIgnoreCase(READERS.database.name())) {
-			ReaderVariables.useDatabaseReader = true;
-		} else if (readerType.equalsIgnoreCase(READERS.knowtator.name())) {
-			ReaderVariables.useFileReader = true;
-		} else {
-			log.fatal("Reader was not selected. Reader type is " + readerType);
+		CollectionReader reader = (CollectionReader) config.get("collectionReader");
+		if ( reader == null) {
+			// INFO: Creating reader
+			String readerType = (String) config.get("readerType");
+			if (readerType.equalsIgnoreCase(READERS.knowtator.name())) {
+				ReaderVariables.useKnowtatorReader = true;
+			} else if (readerType.equalsIgnoreCase(READERS.database.name())) {
+				ReaderVariables.useDatabaseReader = true;
+			} else if (readerType.equalsIgnoreCase(READERS.knowtator.name())) {
+				ReaderVariables.useFileReader = true;
+			} else {
+				log.fatal("Reader was not selected. Reader type is " + readerType);
+			}
+
+			if (ReaderVariables.useKnowtatorReader) {
+				String kttrCorpus = (String) config.get("knowtatorCorpusPath");
+				String kttrSaved = (String) config.get("knowtatorXmlPath");
+				createKnowtatorToUimaMap(config);
+				reader = (CollectionReader) new KnowtatorCollectionReader(new File(
+					kttrCorpus), new File(kttrSaved),
+					KnowtatorVariables.knowtatorToUimaMap, true)
+					.produceCollectionReader();
+
+			} else if (ReaderVariables.useDatabaseReader) {
+				String driver = (String) config.get("sqlDriver");
+				String server = (String) config.get("projectServer");
+				String dbsName = (String) config.get("projectDbsName");
+				String username = "";
+				String password = "";
+				String query = (String) config.get("query");
+				String idColumn = (String) config.get("idIndex");
+				String noteColumn = (String) config.get("noteIndex");
+				int minRecordNumber = (Integer) config.get("startId");
+				int maxRecordNumber = (Integer) config.get("endId");
+				int batchSize = (Integer) config.get("readBatchSize");
+				;
+				String url = "jdbc:sqlserver://" + server + ":1433;databasename="
+					+ dbsName + ";integratedSecurity=true";
+				reader = new BatchDatabaseCollectionReader(driver, url, username,
+					password, query, idColumn, noteColumn, minRecordNumber,
+					maxRecordNumber, batchSize).produceCollectionReader();
+
+			} else if (ReaderVariables.useFileReader) {
+				File inputDirectory = null;
+				boolean recurse = false;
+				reader = new FileCollectionReader(inputDirectory, recurse).produceCollectionReader();
+
+			} else if (ReaderVariables.useCustomReader) {
+				// TODO: Update this if ever needed
+			} // / End Reader selection
 		}
-		CollectionReader reader = null;
-		if (ReaderVariables.useKnowtatorReader) {
-			String kttrCorpus = (String) config.get("knowtatorCorpusPath");
-			String kttrSaved = (String) config.get("knowtatorXmlPath");
-			createKnowtatorToUimaMap(config);
-			reader = (CollectionReader) new KnowtatorCollectionReader(new File(
-			    kttrCorpus), new File(kttrSaved),
-			    KnowtatorVariables.knowtatorToUimaMap, true)
-			    .produceCollectionReader();
-
-		} else if (ReaderVariables.useDatabaseReader) {
-			String driver = (String) config.get("sqlDriver");
-			String server = (String) config.get("projectServer");
-			String dbsName = (String) config.get("projectDbsName");
-			String username = "";
-			String password = "";
-			String query = (String) config.get("query");
-			String idColumn = (String) config.get("idIndex");
-			String noteColumn = (String) config.get("noteIndex");
-			int minRecordNumber = (Integer) config.get("startId");
-			int maxRecordNumber = (Integer) config.get("endId");
-			int batchSize = (Integer) config.get("readBatchSize");
-			;
-			String url = "jdbc:sqlserver://" + server + ":1433;databasename="
-			    + dbsName + ";integratedSecurity=true";
-			reader = new BatchDatabaseCollectionReader(driver, url, username,
-			    password, query, idColumn, noteColumn, minRecordNumber,
-			    maxRecordNumber, batchSize).produceCollectionReader();
-
-		} else if (ReaderVariables.useFileReader) {
-			File inputDirectory = null;
-			boolean recurse = false;
-			reader = new FileCollectionReader(inputDirectory, recurse).produceCollectionReader();
-
-		} else if (ReaderVariables.useCustomReader) {
-			// TODO: Update this if ever needed
-		} // / End Reader selection
 
 		if (reader != null) {
 			myClient.setLeoCollectionReader((LeoCollectionReaderInterface) reader);
 		} else {
-			log.fatal("Reader was not set! Reader type is " + readerType);
+			log.fatal("Reader was not set! ");
 			System.exit(0);
 		}
 
 		// INFO: Creating listeners
 
-		ArrayList<BaseListener> listenerList = new ArrayList<BaseListener>();
+		ArrayList<BaseListener> listenerList = (ArrayList<BaseListener>) config.get("listeners");
+		if (listenerList == null) {
+			listenerList = new ArrayList<BaseListener>();
 
-		String strListenerTypes = (String) config.get("listenerTypes");
-		String[] listenerTypes = null;
-		if (StringUtils.isNotBlank(strListenerTypes))
-			listenerTypes = strListenerTypes.split("\\|");
-		HrLearningListener learningListener = null;
+			String strListenerTypes = (String) config.get("listenerTypes");
+			String[] listenerTypes = null;
+			if (StringUtils.isNotBlank(strListenerTypes))
+				listenerTypes = strListenerTypes.split("\\|");
+			HrLearningListener learningListener = null;
 
-		if (listenerTypes != null) {
-			for (String type : listenerTypes) {
-				if (type.equalsIgnoreCase(LISTENERS.knowtator.name())) {
-				}
-				if (type.equalsIgnoreCase(LISTENERS.database.name())) {
-					String driver = (String) config.get("sqlDriver");
-					String url = (String) config.get("connectionURL");
-					String dbUser = "";
-					String dbPwd = "";
-					DatabaseConnectionInformation dbi = new DatabaseConnectionInformation(
-					    driver, url, dbUser, dbPwd);
+			if (listenerTypes != null) {
+				for (String type : listenerTypes) {
+					if (type.equalsIgnoreCase(LISTENERS.knowtator.name())) {
+					}
+					if (type.equalsIgnoreCase(LISTENERS.database.name())) {
+						String driver = (String) config.get("sqlDriver");
+						String url = (String) config.get("connectionURL");
+						String dbUser = "";
+						String dbPwd = "";
+						DatabaseConnectionInformation dbi = new DatabaseConnectionInformation(
+								driver, url, dbUser, dbPwd);
 
-					String dbsName = (String) config.get("projectDbsName");
-					String tableName = (String) config.get("outTableName");
-					int batchSize = (Integer) config.get("outBatchSize");
+						String dbsName = (String) config.get("projectDbsName");
+						String tableName = (String) config.get("outTableName");
+						int batchSize = (Integer) config.get("outBatchSize");
 
-					ArrayList<ArrayList<String>> fieldList = (ArrayList<ArrayList<String>>) config.get("dbFieldList");
+						ArrayList<ArrayList<String>> fieldList = (ArrayList<ArrayList<String>>) config.get("dbFieldList");
 
-					DbsListener listener = DbsListener.createNewListener(dbi, dbsName, tableName, batchSize, fieldList);
-					listener.createTable(dbi, listener.createStatement, false, tableName);
-					log.info(listener.createStatement);
-					listenerList.add(listener);
-				}
-				// INFO:  Chex Listener
-				if (type.equalsIgnoreCase(LISTENERS.chex.name())) {
-					String driver = (String) config.get("sqlDriver");
-					String url = (String) config.get("connectionURL");
-					String dbUser = "";
-					String dbPwd = "";
-					DatabaseConnectionInformation dbi = new DatabaseConnectionInformation(
-					    driver, url, dbUser, dbPwd);
+						DbsListener listener = DbsListener.createNewListener(dbi, dbsName, tableName, batchSize, fieldList);
+						listener.createTable(dbi, listener.createStatement, false, tableName);
+						log.info(listener.createStatement);
+						listenerList.add(listener);
+					}
+					// INFO:  Chex Listener
+					if (type.equalsIgnoreCase(LISTENERS.chex.name())) {
+						String driver = (String) config.get("sqlDriver");
+						String url = (String) config.get("connectionURL");
+						String dbUser = "";
+						String dbPwd = "";
+						DatabaseConnectionInformation dbi = new DatabaseConnectionInformation(
+								driver, url, dbUser, dbPwd);
 
-					ArrayList<String> tempList = (ArrayList<String>) config.get("chexTypes");
+						ArrayList<String> tempList = (ArrayList<String>) config.get("chexTypes");
 
-					String[] typeList = (String[]) tempList.toArray(new String[tempList.size()]);
+						String[] typeList = (String[]) tempList.toArray(new String[tempList.size()]);
 
-					String documentTextSelectQuery = (String) config.get("chexDocumentTextSelectQuery");
-					String schema = (String) config.get("chexSchema");
-					String tableSuffix = (String) config.get("chexSuffix");
-					String columnPrefix = (String) config.get("chexColumnPrefix");
-					String columnSuffix = (String) config.get("chexColumnSuffix");
-					int chexBatchSize = (Integer) config.get("chexBatchSize");
-					;
-					boolean deleteIfExists = (Boolean) config.get("chexOverwrite");
-					;
-					ChexSimanDataSourceConfiguration simanDataSourceConfiguration = new ChexSimanDataSourceConfiguration(
-					    dbi,
-					    documentTextSelectQuery,
-					    schema, tableSuffix, columnPrefix, columnSuffix);
+						String documentTextSelectQuery = (String) config.get("chexDocumentTextSelectQuery");
+						String schema = (String) config.get("chexSchema");
+						String tableSuffix = (String) config.get("chexSuffix");
+						String columnPrefix = (String) config.get("chexColumnPrefix");
+						String columnSuffix = (String) config.get("chexColumnSuffix");
+						int chexBatchSize = (Integer) config.get("chexBatchSize");
+						;
+						boolean deleteIfExists = (Boolean) config.get("chexOverwrite");
+						;
+						ChexSimanDataSourceConfiguration simanDataSourceConfiguration = new ChexSimanDataSourceConfiguration(
+								dbi,
+								documentTextSelectQuery,
+								schema, tableSuffix, columnPrefix, columnSuffix);
 
-					ChexListener listener = new ChexListener(simanDataSourceConfiguration,
-					    (String[]) typeList, chexBatchSize, deleteIfExists);
-					//listener.createTable(dbi, listener.createStatement, false, tableName);
-					listenerList.add(listener);
-				}
+						ChexListener listener = new ChexListener(simanDataSourceConfiguration,
+								(String[]) typeList, chexBatchSize, deleteIfExists);
+						//listener.createTable(dbi, listener.createStatement, false, tableName);
+						listenerList.add(listener);
+					}
 
-				// INFO: XMI Listener
+					// INFO: XMI Listener
 
-				if (type.equalsIgnoreCase(LISTENERS.xmi.name())) {
-					SimpleXmiListener listener = null;
+					if (type.equalsIgnoreCase(LISTENERS.xmi.name())) {
+						SimpleXmiListener listener = null;
 
-					String xmiPath = ((String) config.get("xmiOutPath"))
-					    .replaceAll("\\{suffix\\}", timeStamp);
-					File xmiPathFile = new File(xmiPath);
-					if (!xmiPathFile.exists())
-						xmiPathFile.mkdirs();
+						String xmiPath = ((String) config.get("xmiOutPath"))
+								.replaceAll("\\{suffix\\}", timeStamp);
+						File xmiPathFile = new File(xmiPath);
+						if (!xmiPathFile.exists())
+							xmiPathFile.mkdirs();
 
-					Boolean openViewer = (Boolean) config.get("openViewerAfterProcessing");
-					listener = new SimpleXmiListener(xmiPathFile);
-					listener.setLaunchAnnotationViewer(openViewer);
+						Boolean openViewer = (Boolean) config.get("openViewerAfterProcessing");
+						listener = new SimpleXmiListener(xmiPathFile);
+						listener.setLaunchAnnotationViewer(openViewer);
 
-					ArrayList<String> annotationsOut = (ArrayList<String>) config.get("xmiOutputTypeList");
-					String[] annotationTypeFilter = new String[annotationsOut.size()];
-					annotationsOut.toArray(annotationTypeFilter);
-					if (annotationTypeFilter != null) {
-						if (annotationTypeFilter.length != 0) {
-							listener.setAnnotationTypeFilter(annotationTypeFilter);
+						ArrayList<String> annotationsOut = (ArrayList<String>) config.get("xmiOutputTypeList");
+						String[] annotationTypeFilter = new String[annotationsOut.size()];
+						annotationsOut.toArray(annotationTypeFilter);
+						if (annotationTypeFilter != null) {
+							if (annotationTypeFilter.length != 0) {
+								listener.setAnnotationTypeFilter(annotationTypeFilter);
+							}
+						}
+						listenerList.add(listener);
+					}
+
+					// INFO: Adding CSV listeners
+					if (type.equalsIgnoreCase(LISTENERS.csv.name())) {
+						CsvListener listener = null;
+						String csvPath = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp);
+						ArrayList<ArrayList<String>> fieldList = (ArrayList<ArrayList<String>>) config.get("csvFieldList");
+						if (!(new File(csvPath).getParentFile().exists()))
+							new File(csvPath).getParentFile().mkdirs();
+						listener = new CsvListener(new File(csvPath), fieldList);
+						listener.writeHeaders();
+						listenerList.add(listener);
+					}
+
+					if (type.equalsIgnoreCase(LISTENERS.compare.name())) {
+					}
+					// TODO: AuCompare
+					if (type.equalsIgnoreCase(LISTENERS.aucompare.name())) {
+						SimpleCompareListener listener = null;
+						String csvPath = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp)
+								+ "_Compare.csv";
+						HashMap<String, String> comparePairs = new HashMap<String, String>();
+						comparePairs.put(BPValue.class.getCanonicalName(), Bp_value.class.getCanonicalName());
+						comparePairs.put(TValue.class.getCanonicalName(), T_value.class.getCanonicalName());
+						comparePairs.put(HRValue.class.getCanonicalName(), Hr_value.class.getCanonicalName()); /**/
+						comparePairs.put(BMIValue.class.getCanonicalName(), BMI_value.class.getCanonicalName());
+						comparePairs.put(HeightValue.class.getCanonicalName(), Height_value.class.getCanonicalName());
+						comparePairs.put(WeightValue.class.getCanonicalName(), Weight_value.class.getCanonicalName());
+						comparePairs.put(PainValue.class.getCanonicalName(), Pain_value.class.getCanonicalName());
+						comparePairs.put(RespValue.class.getCanonicalName(), Resp_value.class.getCanonicalName());
+						comparePairs.put(OxygenValue.class.getCanonicalName(), So2_value.class.getCanonicalName());
+						comparePairs.put(BPDiasValue.class.getCanonicalName(), Bp_Diastolic_value.class.getCanonicalName());
+						comparePairs.put(BPSysValue.class.getCanonicalName(), Bp_Systolic_value.class.getCanonicalName());
+						comparePairs.put(TimeValue.class.getCanonicalName(), Timestamp.class.getCanonicalName());
+
+						/**/
+						if (!(new File(csvPath).getParentFile().exists()))
+							new File(csvPath).getParentFile().mkdirs();
+						listener = new SimpleCompareListener(comparePairs, new File(csvPath));
+						log.info("Adding CompareListener for : " + comparePairs + "\n output to " + csvPath);
+						listenerList.add(listener);
+
+						/**/
+
+						//String csvPath1 = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp)		    + "_AuCompare.csv";
+						//AuCompareCSVListener listener2 = new AuCompareCSVListener(auMap, new File(csvPath1));
+						//listenerList.add(listener2);
+						/**/
+					}
+					// INFO: SimpleCSV
+					if (type.equalsIgnoreCase(LISTENERS.simpleCsv.name())) {
+						SimpleListener listener = null;
+						HashMap<String, ArrayList<String>> simpleListenerTypes = (HashMap<String, ArrayList<String>>) config
+								.get("simpleCsvOutTypes");
+						String csvDirPath = ((String) config.get("csvOutPath")).replaceAll("\\{suffix\\}", timeStamp);
+						if (!(new File(csvDirPath).exists()))
+							new File(csvDirPath).mkdirs();
+						if (simpleListenerTypes != null) {
+							for (String outFileName : simpleListenerTypes.keySet()) {
+								String filePathString = csvDirPath + "\\" + outFileName;
+
+								String[] listenerOutTypes = new String[simpleListenerTypes.get(outFileName).size()];
+								listenerOutTypes = simpleListenerTypes.get(outFileName).toArray(listenerOutTypes);
+								listener = new SimpleListener(new File(filePathString), true, listenerOutTypes);
+								listenerList.add(listener);
+							}
 						}
 					}
-					listenerList.add(listener);
-				}
 
-				// INFO: Adding CSV listeners
-				if (type.equalsIgnoreCase(LISTENERS.csv.name())) {
-					CsvListener listener = null;
-					String csvPath = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp);
-					ArrayList<ArrayList<String>> fieldList = (ArrayList<ArrayList<String>>) config.get("csvFieldList");
-					if (!(new File(csvPath).getParentFile().exists()))
-						new File(csvPath).getParentFile().mkdirs();
-					listener = new CsvListener(new File(csvPath), fieldList);
-					listener.writeHeaders();
-					listenerList.add(listener);
-				}
-
-				if (type.equalsIgnoreCase(LISTENERS.compare.name())) {
-				}
-				// TODO: AuCompare
-				if (type.equalsIgnoreCase(LISTENERS.aucompare.name())) {
-					SimpleCompareListener listener = null;
-					String csvPath = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp)
-					    + "_Compare.csv";
-					HashMap<String, String> comparePairs = new HashMap<String, String>();
-					comparePairs.put(BPValue.class.getCanonicalName(), Bp_value.class.getCanonicalName());
-					comparePairs.put(TValue.class.getCanonicalName(), T_value.class.getCanonicalName());
-					comparePairs.put(HRValue.class.getCanonicalName(), Hr_value.class.getCanonicalName()); /**/
-					comparePairs.put(BMIValue.class.getCanonicalName(), BMI_value.class.getCanonicalName());
-					comparePairs.put(HeightValue.class.getCanonicalName(), Height_value.class.getCanonicalName());
-					comparePairs.put(WeightValue.class.getCanonicalName(), Weight_value.class.getCanonicalName());
-					comparePairs.put(PainValue.class.getCanonicalName(), Pain_value.class.getCanonicalName());
-					comparePairs.put(RespValue.class.getCanonicalName(), Resp_value.class.getCanonicalName());
-					comparePairs.put(OxygenValue.class.getCanonicalName(), So2_value.class.getCanonicalName());
-					comparePairs.put(BPDiasValue.class.getCanonicalName(), Bp_Diastolic_value.class.getCanonicalName());
-					comparePairs.put(BPSysValue.class.getCanonicalName(), Bp_Systolic_value.class.getCanonicalName());		
-					comparePairs.put(TimeValue.class.getCanonicalName(), Timestamp.class.getCanonicalName());
-
-					/**/
-					if (!(new File(csvPath).getParentFile().exists()))
-						new File(csvPath).getParentFile().mkdirs();
-					listener = new SimpleCompareListener(comparePairs, new File(csvPath));
-					log.info("Adding CompareListener for : " + comparePairs + "\n output to " + csvPath);
-					listenerList.add(listener);
-
-					/**/
-
-					//String csvPath1 = ((String) config.get("csvFileName")).replaceAll("\\{suffix\\}", timeStamp)		    + "_AuCompare.csv";
-					//AuCompareCSVListener listener2 = new AuCompareCSVListener(auMap, new File(csvPath1));
-					//listenerList.add(listener2);
-					/**/
-				}
-				// INFO: SimpleCSV
-				if (type.equalsIgnoreCase(LISTENERS.simpleCsv.name())) {
-					SimpleListener listener = null;
-					HashMap<String, ArrayList<String>> simpleListenerTypes = (HashMap<String, ArrayList<String>>) config
-					    .get("simpleCsvOutTypes");
-					String csvDirPath = ((String) config.get("csvOutPath")).replaceAll("\\{suffix\\}", timeStamp);
-					if (!(new File(csvDirPath).exists()))
-						new File(csvDirPath).mkdirs();
-					if (simpleListenerTypes != null) {
-						for (String outFileName : simpleListenerTypes.keySet()) {
-							String filePathString = csvDirPath + "\\" + outFileName;
-
-							String[] listenerOutTypes = new String[simpleListenerTypes.get(outFileName).size()];
-							listenerOutTypes = simpleListenerTypes.get(outFileName).toArray(listenerOutTypes);
-							listener = new SimpleListener(new File(filePathString), true, listenerOutTypes);
-							listenerList.add(listener);
+					if (type.equalsIgnoreCase(LISTENERS.training.name())) {
+						// INFO:  Add training listener
+						ListenerVariables.useTrainingListener = true;
+						ListenerVariables.hrValidationMap = (String) config.get("client.listener.learning.rValidationMap");
+						if (config.get("svmModelPath") != null) {
+							ListenerVariables.hrSvmModelPath = (String) config.get("svmModelPath");
 						}
-					}
-				}
 
-				if (type.equalsIgnoreCase(LISTENERS.training.name())) {
-					// INFO:  Add training listener
-					ListenerVariables.useTrainingListener = true;
-					ListenerVariables.hrValidationMap = (String) config.get("client.listener.learning.rValidationMap");
-					if (config.get("svmModelPath") != null) {
-						ListenerVariables.hrSvmModelPath = (String) config.get("svmModelPath");
+						learningListener = new HrLearningListener("{\"other\":\"0.0\",\"hr\":\"1.0\"}", true, new String[]{
+								Hr_Vector.class.getCanonicalName()});
+						listenerList.add(learningListener);
 					}
-
-					learningListener = new HrLearningListener("{\"other\":\"0.0\",\"hr\":\"1.0\"}", true, new String[] {
-					    Hr_Vector.class.getCanonicalName() });
-					listenerList.add(learningListener);
 				}
 			}
 		}
 
-		TypeCountListener typeCountListener = new TypeCountListener();
-		listenerList.clear();;
-		listenerList.add(typeCountListener);
 		BaseListener[] listeners = new BaseListener[listenerList.size()];
 		listenerList.toArray(listeners);
 		for (BaseListener a : listeners) {
@@ -367,8 +370,8 @@ public class Client {
 		// Running the client
 		myClient.run(listeners);
 
+		/**
 		if (ListenerVariables.useTrainingListener) {
-			/**             * Relative Validation             */
 			//Perform validation and training of SVM model            
 			StopWatch clock = new StopWatch();
 			log.info("Validate and serialize SVMLib model...");
@@ -384,13 +387,12 @@ public class Client {
 
 			log.info("Validation and serialization complete, " + clock.toString());
 			log.info("Relative Validation Accuracy, SVM: " + rSvmAccuracy);
-		}
+		}**/
 
 		// Client run is completed
 		log.info("Processing time: " + sw.toString() + "\n"
 		    + "Processing ended at: "
 		    + new Date(System.currentTimeMillis()));
-		typeCountListener.printTypeMap();
 
 	}
 

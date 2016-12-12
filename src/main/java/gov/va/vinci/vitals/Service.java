@@ -312,8 +312,13 @@ public class Service {
 
 		// remove all numeric types ( Integer or DoubleNumber) if covered by another numeric
 		aggregate.addDelegate(new AnnotationFilter(PipelineVariables.TYPES_NUMERIC, PipelineVariables.TYPES_NUMERIC, false)
-						.getLeoAEDescriptor().setName("AnnotationFilter")
+						.getLeoAEDescriptor().setName("AnnotationFilterKeepTypesNumberRemoveTypesNumber")
 		    			.addTypeSystemDescription(types));
+		aggregate.addDelegate(
+				new AutomatonRegexAnnotator()
+						.setGroovyConfigFile(PipelineVariables.RESOURCE_PATH + "months.groovy")
+						.getLeoAEDescriptor()
+						.addTypeSystemDescription(types));
 
 		aggregate.addDelegate(
 				new RegexAnnotator()
@@ -335,7 +340,7 @@ public class Service {
 		            .addTypeSystemDescription(types));
 
 		aggregate.addDelegate(new AnnotationFilter(new String[] { PipelineVariables.TYPE_NUMEXCLUDE }, PipelineVariables.TYPES_NUMERIC, false)
-				.getLeoAEDescriptor().setName("AnnotationFilter")
+				.getLeoAEDescriptor().setName("AnnotationFilterKeepNumExcludeRemoveNumeric")
 		    	.addTypeSystemDescription(types));
 
 		aggregate.addDelegate(new AnalyzeNumbersAE().getLeoAEDescriptor().setName("AnalyzeNumbersAE")
@@ -362,18 +367,18 @@ public class Service {
 
 		aggregate.addDelegate(new AnnotationFilter(PipelineVariables.TYPES_TERM, PipelineVariables.TYPES_TERM, false)
                                 .getLeoAEDescriptor()
-                                .setName("AnnotationFilter")
+                                .setName("AnnotationFilterKeepTermRemoveTerm")
                                 .addTypeSystemDescription(types));
 
 		aggregate.addDelegate(new AnnotationFilter(new String[] { PipelineVariables.TYPE_UNIT }, null, false)
                                 .getLeoAEDescriptor()
-                                .setName("AnnotationFilter")
+                                .setName("AnnotationFilterKeepUnit")
                                 .addTypeSystemDescription(types));
 
 		// delete terms that are covered by units -- FIXME: exception "BPS"
 		aggregate.addDelegate(new AnnotationFilter( new String[] { PipelineVariables.TYPE_UNIT }, PipelineVariables.TYPES_TERM, false)
                                 .getLeoAEDescriptor()
-                                .setName("AnnotationFilter")
+                                .setName("AnnotationFilterKeepUnitRemoveTerm")
 		                        .addTypeSystemDescription(types));
 
 		aggregate.addDelegate(new AnnotationPatternAnnotator()
@@ -406,6 +411,7 @@ public class Service {
 
 		aggregate.addDelegate(new AnnotationFilter(new String[] { PipelineVariables.TYPE_INDICATOR }, null, false)
                         .getLeoAEDescriptor()
+						.setName("AnnotationFilterKeepTypeIndication")
                         .addTypeSystemDescription(types));
 
 		aggregate.addDelegate(new AnnotationPatternAnnotator()
@@ -448,6 +454,7 @@ public class Service {
 
 		aggregate.addDelegate(new AnnotationFilter(new String[] { "gov.va.vinci.vitals.types.ExcludeAllWindow" }, new String[] { PipelineVariables.TYPE_NUMERIC }, true)
 										.getLeoAEDescriptor()
+										.setName("AnnotationFilterKeepExcludeAllWindowRemoveNumeric")
 		    							.addTypeSystemDescription(types));
 
 		return aggregate;
@@ -494,6 +501,7 @@ public class Service {
 		        .addTypeSystemDescription(types));
 		aggregate.addDelegate(new AnnotationFilter(new String[] { PipelineVariables.TYPE_EX_POTENTIAL_BP }, new String[] { PipelineVariables.TYPE_POTENTIAL_BP }, false)
                         .getLeoAEDescriptor()
+						.setName("AnnotationFilterKeepExPotentialBPRemovePotentialBP")
 		                .addTypeSystemDescription(types));
 		aggregate.addDelegate(new AdjustPotentialBpAE()
                 .getLeoAEDescriptor()
@@ -542,11 +550,11 @@ public class Service {
 		// Remove overannotated    
 
 		aggregate.addDelegate(new AnnotationFilter(PipelineVariables.valueTypes, new String[] {}, false)
-				.getLeoAEDescriptor().setName("AnnotationFilter")
+				.getLeoAEDescriptor().setName("AnnotationFilterKeepValueTypes")
 		    	.addTypeSystemDescription(types));
 
 		aggregate.addDelegate(new AnnotationFilter(PipelineVariables.valueBPTypes, new String[]{}, false)
-				.getLeoAEDescriptor().setName("AnnotationFilter")
+				.getLeoAEDescriptor().setName("AnnotationFilterKeepValueBPTypes")
 		    	.addTypeSystemDescription(types));
 		aggregate.addDelegate(new FilterTimestampAE().getLeoAEDescriptor().addTypeSystemDescription(types));
 
@@ -738,6 +746,10 @@ public class Service {
 		}
 
 		/*****/
+		types.addType(new TypeDescription_impl("gov.va.vinci.vitals.types.Month", "", PipelineVariables.RegexType));
+
+		types.addType(new TypeDescription_impl("gov.va.vinci.vitals.types.ExcludePrefix", "", PipelineVariables.RegexType));
+
 
 		if (GeneralSettings.GENERATE_TYPES) {
 			log.info("Generating types! ");

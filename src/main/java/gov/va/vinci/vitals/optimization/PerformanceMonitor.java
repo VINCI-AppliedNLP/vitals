@@ -3,6 +3,8 @@ package gov.va.vinci.vitals.optimization;
 import etm.core.configuration.EtmManager;
 import etm.core.monitor.EtmMonitor;
 import etm.core.monitor.EtmPoint;
+import gov.va.vinci.leo.ae.LeoAnnotator;
+import gov.va.vinci.leo.ae.LeoBaseAnnotator;
 import gov.va.vinci.leo.annotationpattern.AnnotationPatternService;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -20,7 +22,7 @@ public class PerformanceMonitor {
 
     @Around("call(* annotate(..))")
     public Object around(ProceedingJoinPoint point) throws Throwable {
-        EtmPoint etmPoint = etmMonitor.createPoint(point.getTarget().getClass().getCanonicalName());
+        EtmPoint etmPoint = etmMonitor.createPoint( point.getTarget().getClass().getCanonicalName());
         Object result = point.proceed();
         etmPoint.collect();
         return result;

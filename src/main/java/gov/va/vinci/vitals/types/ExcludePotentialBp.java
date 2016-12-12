@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Thu Dec 18 11:32:21 CST 2014 */
+/* First created by JCasGen Wed Dec 07 13:28:00 CST 2016 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -10,8 +10,8 @@ import org.apache.uima.jcas.cas.TOP_Type;
 
 
 /** 
- * Updated by JCasGen Thu Dec 18 11:32:21 CST 2014
- * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/3/leoTypeDescription_83b44565-4f86-4150-8567-106609a603911861409334091583479.xml
+ * Updated by JCasGen Wed Dec 07 13:28:00 CST 2016
+ * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/2/leoTypeDescription_a7e39e42-6fbf-4217-9d38-e8c5b6b2154f4103637063506643695.xml
  * @generated */
 public class ExcludePotentialBp extends Pattern {
   /** @generated

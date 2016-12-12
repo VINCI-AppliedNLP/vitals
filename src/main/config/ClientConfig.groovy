@@ -1,3 +1,10 @@
+import gov.va.vinci.knowtator.cr.KnowtatorCollectionReader
+import gov.va.vinci.knowtator.model.KnowtatorToUimaTypeMap
+import gov.va.vinci.leo.model.DatabaseConnectionInformation
+import gov.va.vinci.vitals.listeners.CsvListener
+import gov.va.vinci.vitals.listeners.DbsListener
+import gov.va.vinci.vitals.listeners.TypeCountListener
+
 // Reader type is one of the following:
 // knowtator or database or file
 readerType = "knowtator"
@@ -13,8 +20,8 @@ projectServer  = "vhacdwrb02"
 
 connectionURL = "jdbc:sqlserver://"+projectServer+":1433;databasename="+projectDbsName+";integratedSecurity=true"
 
-mainPath       = "P:\\ORD_Iwashyna_201108021D\\NLP"
-mainOutPath    = mainPath + "\\output\\{suffix}\\"
+mainPath       = "P:\\ORD_Iwashyna_201108021D\\NLP\\ryan"
+mainOutPath    = mainPath + "\\ryan-test\\output\\{suffix}\\"
 mainInPath     = mainPath + "\\input\\"
 
 getFilesFromSubdirectories=false
@@ -156,14 +163,168 @@ auMap = [
 
 // INFO: environments
 environments {
+	local {
+		KnowtatorToUimaTypeMap map = new KnowtatorToUimaTypeMap();
+		map.addAnnotationTypeMap("blood_pressure_term","gov.va.vinci.kttr.types.BPTerm");
+		map.addAnnotationTypeMap("blood_pressure_value","gov.va.vinci.kttr.types.BPValue");
+		map.addAnnotationTypeMap("BP_systolic","gov.va.vinci.kttr.types.BPSysValue");
+		map.addAnnotationTypeMap("BP_diastolic","gov.va.vinci.kttr.types.BPDiasValue");
+		map.addAnnotationTypeMap("Indicator","gov.va.vinci.kttr.types.Indicator");
+		map.addAnnotationTypeMap("pulse_term","gov.va.vinci.kttr.types.HRTerm");
+		map.addAnnotationTypeMap("pulse_value","gov.va.vinci.kttr.types.HRValue");
+		map.addAnnotationTypeMap("temperature_term","gov.va.vinci.kttr.types.TTerm");
+		map.addAnnotationTypeMap("temperature_value","gov.va.vinci.kttr.types.TValue");
+		map.addAnnotationTypeMap("Document_reviewed","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("bmi_value","gov.va.vinci.kttr.types.BMIValue");
+		map.addAnnotationTypeMap("height_value","gov.va.vinci.kttr.types.HeightValue");
+		map.addAnnotationTypeMap("weight_value","gov.va.vinci.kttr.types.WeightValue");
+		map.addAnnotationTypeMap("oxygen_value","gov.va.vinci.kttr.types.OxygenValue");
+		map.addAnnotationTypeMap("pain_value","gov.va.vinci.kttr.types.PainValue");
+		map.addAnnotationTypeMap("respiration_value","gov.va.vinci.kttr.types.RespValue");
+		map.addAnnotationTypeMap("time_value","gov.va.vinci.kttr.types.TimeValue");
+		map.addAnnotationTypeMap("pain_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("bmi_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("height_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("weight_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("oxygen_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("respiration_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("time_term","gov.va.vinci.kttr.types.Other");
+
+		collectionReader = new KnowtatorCollectionReader(new File(
+				"P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\FinalVal_20141210\\corpus\\"),
+				new File	("P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\FinalVal_20141210\\saved\\"),
+				map, true).produceCollectionReader()
+
+		listeners = [
+				new TypeCountListener()
+		]
+	}
+
+
+	dbReaderCsvListener {
+
+
+
+
+        CsvListener listener = new CsvListener(new File("P:\\ORD_Iwashyna_201108021D\\NLP\\ryan\\ryan-test\\output\\outputTable_1.csv"),
+                ["VitalSignID", "-1", "int"],
+                ["Sta3n", "4", "varchar(10)"],
+                ["TIUDocumentSID", "0", "bigint"],
+                ["Term", "-1", "varchar(1000)"],
+                ["VitalType", "-1", "varchar(1000)"],
+                ["Result", "-1", "varchar(1000)"],
+                ["Systolic", "-1", "varchar(1000)"],
+                ["Diastolic", "-1", "varchar(1000)"],
+                ["ValueString", "-1", "varchar(1000)"],
+                ["Assessment", "-1", "varchar(1000)"],
+                ["Unit", "-1", "varchar(1000)"],
+                ["Timestamp", "-1", "varchar(1000)"],
+                ["Snippets", "-1", "varchar(2000)"],
+                ["SpanStart", "-1", "int"],
+                ["SpanEnd", "-1", "int"]);
+
+        listeners = [ listener ]
+    }
+
+	dbReaderDbListener {
+
+
+
+		DatabaseConnectionInformation databaseConnectionInformation = new DatabaseConnectionInformation(
+											"com.microsoft.sqlserver.jdbc.SQLServerDriver",
+											"jdbc:sqlserver://myserver:1433;databasename=project1;integratedSecurity=true",
+											"myUsername", "myPassword");
+		DbsListener listener = DbsListener.createNewListener(databaseConnectionInformation, "outputdatabase", "output_table", 1000,
+                ["VitalSignID", "-1", "int"],
+                ["Sta3n", "4", "varchar(10)"],
+                //["TIUDocumentSID", "0", "varchar(30)"],//
+                ["TIUDocumentSID", "0", "bigint"],
+                ["ReferenceDateTime", "3", "datetime"],
+                ["Term", "-1", "varchar(1000)"],
+                ["VitalType", "-1", "varchar(1000)"],
+                ["Result", "-1", "varchar(1000)"],
+                ["Systolic", "-1", "varchar(1000)"],
+                ["Diastolic", "-1", "varchar(1000)"],
+                ["ValueString", "-1", "varchar(1000)"],
+                ["Assessment", "-1", "varchar(1000)"],
+                ["Unit", "-1", "varchar(1000)"],
+                ["Timestamp", "-1", "varchar(1000)"],
+                ["Snippets", "-1", "varchar(2000)"],
+                ["SpanStart", "-1", "int"],
+                ["SpanEnd", "-1", "int"]);
+		listeners = [listener];
+	}
+
 	simple{ envType = "simple" }
+
 	kttrToCsv{
-		readerType = "knowtator"
+		KnowtatorToUimaTypeMap map = new KnowtatorToUimaTypeMap();
+		map.addAnnotationTypeMap("blood_pressure_term","gov.va.vinci.kttr.types.BPTerm");
+		map.addAnnotationTypeMap("blood_pressure_value","gov.va.vinci.kttr.types.BPValue");
+		map.addAnnotationTypeMap("BP_systolic","gov.va.vinci.kttr.types.BPSysValue");
+		map.addAnnotationTypeMap("BP_diastolic","gov.va.vinci.kttr.types.BPDiasValue");
+		map.addAnnotationTypeMap("Indicator","gov.va.vinci.kttr.types.Indicator");
+		map.addAnnotationTypeMap("pulse_term","gov.va.vinci.kttr.types.HRTerm");
+		map.addAnnotationTypeMap("pulse_value","gov.va.vinci.kttr.types.HRValue");
+		map.addAnnotationTypeMap("temperature_term","gov.va.vinci.kttr.types.TTerm");
+		map.addAnnotationTypeMap("temperature_value","gov.va.vinci.kttr.types.TValue");
+		map.addAnnotationTypeMap("Document_reviewed","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("bmi_value","gov.va.vinci.kttr.types.BMIValue");
+		map.addAnnotationTypeMap("height_value","gov.va.vinci.kttr.types.HeightValue");
+		map.addAnnotationTypeMap("weight_value","gov.va.vinci.kttr.types.WeightValue");
+		map.addAnnotationTypeMap("oxygen_value","gov.va.vinci.kttr.types.OxygenValue");
+		map.addAnnotationTypeMap("pain_value","gov.va.vinci.kttr.types.PainValue");
+		map.addAnnotationTypeMap("respiration_value","gov.va.vinci.kttr.types.RespValue");
+		map.addAnnotationTypeMap("time_value","gov.va.vinci.kttr.types.TimeValue");
+		map.addAnnotationTypeMap("pain_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("bmi_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("height_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("weight_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("oxygen_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("respiration_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("time_term","gov.va.vinci.kttr.types.Other");
+
+		collectionReader = new KnowtatorCollectionReader(new File(
+				"P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\FinalVal_20141210\\corpus\\"),
+				new File	("P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\FinalVal_20141210\\saved\\"),
+				map, true)
+				.produceCollectionReader()
+
 		listenerTypes = "csv|xmi"
 		envType = "kttrToCsv"
 	}
 	compare{
-		readerType = "knowtator"
+		KnowtatorToUimaTypeMap map = new KnowtatorToUimaTypeMap();
+		map.addAnnotationTypeMap("blood_pressure_term","gov.va.vinci.kttr.types.BPTerm");
+		map.addAnnotationTypeMap("blood_pressure_value","gov.va.vinci.kttr.types.BPValue");
+		map.addAnnotationTypeMap("BP_systolic","gov.va.vinci.kttr.types.BPSysValue");
+		map.addAnnotationTypeMap("BP_diastolic","gov.va.vinci.kttr.types.BPDiasValue");
+		map.addAnnotationTypeMap("Indicator","gov.va.vinci.kttr.types.Indicator");
+		map.addAnnotationTypeMap("pulse_term","gov.va.vinci.kttr.types.HRTerm");
+		map.addAnnotationTypeMap("pulse_value","gov.va.vinci.kttr.types.HRValue");
+		map.addAnnotationTypeMap("temperature_term","gov.va.vinci.kttr.types.TTerm");
+		map.addAnnotationTypeMap("temperature_value","gov.va.vinci.kttr.types.TValue");
+		map.addAnnotationTypeMap("Document_reviewed","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("bmi_value","gov.va.vinci.kttr.types.BMIValue");
+		map.addAnnotationTypeMap("height_value","gov.va.vinci.kttr.types.HeightValue");
+		map.addAnnotationTypeMap("weight_value","gov.va.vinci.kttr.types.WeightValue");
+		map.addAnnotationTypeMap("oxygen_value","gov.va.vinci.kttr.types.OxygenValue");
+		map.addAnnotationTypeMap("pain_value","gov.va.vinci.kttr.types.PainValue");
+		map.addAnnotationTypeMap("respiration_value","gov.va.vinci.kttr.types.RespValue");
+		map.addAnnotationTypeMap("time_value","gov.va.vinci.kttr.types.TimeValue");
+		map.addAnnotationTypeMap("pain_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("bmi_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("height_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("weight_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("oxygen_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("respiration_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("time_term","gov.va.vinci.kttr.types.Other");
+
+		collectionReader = new KnowtatorCollectionReader(new File(
+				"P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\FinalVal_20141210\\corpus\\"), new File	("P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\FinalVal_20141210\\saved\\"),
+				map, true)
+				.produceCollectionReader()
+
 		listenerTypes = "aucompare|xmi|csv"
 		envType = "compare"
 	}
@@ -174,7 +335,37 @@ environments {
 	}
 	
 	refDbOut{
-		readerType = "knowtator"
+		KnowtatorToUimaTypeMap map = new KnowtatorToUimaTypeMap();
+		map.addAnnotationTypeMap("blood_pressure_term","gov.va.vinci.kttr.types.BPTerm");
+		map.addAnnotationTypeMap("blood_pressure_value","gov.va.vinci.kttr.types.BPValue");
+		map.addAnnotationTypeMap("BP_systolic","gov.va.vinci.kttr.types.BPSysValue");
+		map.addAnnotationTypeMap("BP_diastolic","gov.va.vinci.kttr.types.BPDiasValue");
+		map.addAnnotationTypeMap("Indicator","gov.va.vinci.kttr.types.Indicator");
+		map.addAnnotationTypeMap("pulse_term","gov.va.vinci.kttr.types.HRTerm");
+		map.addAnnotationTypeMap("pulse_value","gov.va.vinci.kttr.types.HRValue");
+		map.addAnnotationTypeMap("temperature_term","gov.va.vinci.kttr.types.TTerm");
+		map.addAnnotationTypeMap("temperature_value","gov.va.vinci.kttr.types.TValue");
+		map.addAnnotationTypeMap("Document_reviewed","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("bmi_value","gov.va.vinci.kttr.types.BMIValue");
+		map.addAnnotationTypeMap("height_value","gov.va.vinci.kttr.types.HeightValue");
+		map.addAnnotationTypeMap("weight_value","gov.va.vinci.kttr.types.WeightValue");
+		map.addAnnotationTypeMap("oxygen_value","gov.va.vinci.kttr.types.OxygenValue");
+		map.addAnnotationTypeMap("pain_value","gov.va.vinci.kttr.types.PainValue");
+		map.addAnnotationTypeMap("respiration_value","gov.va.vinci.kttr.types.RespValue");
+		map.addAnnotationTypeMap("time_value","gov.va.vinci.kttr.types.TimeValue");
+		map.addAnnotationTypeMap("pain_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("bmi_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("height_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("weight_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("oxygen_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("respiration_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("time_term","gov.va.vinci.kttr.types.Other");
+
+		collectionReader = new KnowtatorCollectionReader(new File(
+				"P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\FinalVal_20141210\\corpus\\"), new File	("P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\FinalVal_20141210\\saved\\"),
+				map, true)
+				.produceCollectionReader()
+
 		listenerTypes = "database"
 		envType = "dbOut"
 	}
@@ -185,7 +376,37 @@ environments {
 		envType = "chex"
 	}
 	training{
-		readerType = "knowtator"
+		KnowtatorToUimaTypeMap map = new KnowtatorToUimaTypeMap();
+		map.addAnnotationTypeMap("blood_pressure_term","gov.va.vinci.kttr.types.BPTerm");
+		map.addAnnotationTypeMap("blood_pressure_value","gov.va.vinci.kttr.types.BPValue");
+		map.addAnnotationTypeMap("BP_systolic","gov.va.vinci.kttr.types.BPSysValue");
+		map.addAnnotationTypeMap("BP_diastolic","gov.va.vinci.kttr.types.BPDiasValue");
+		map.addAnnotationTypeMap("Indicator","gov.va.vinci.kttr.types.Indicator");
+		map.addAnnotationTypeMap("pulse_term","gov.va.vinci.kttr.types.HRTerm");
+		map.addAnnotationTypeMap("pulse_value","gov.va.vinci.kttr.types.HRValue");
+		map.addAnnotationTypeMap("temperature_term","gov.va.vinci.kttr.types.TTerm");
+		map.addAnnotationTypeMap("temperature_value","gov.va.vinci.kttr.types.TValue");
+		map.addAnnotationTypeMap("Document_reviewed","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("bmi_value","gov.va.vinci.kttr.types.BMIValue");
+		map.addAnnotationTypeMap("height_value","gov.va.vinci.kttr.types.HeightValue");
+		map.addAnnotationTypeMap("weight_value","gov.va.vinci.kttr.types.WeightValue");
+		map.addAnnotationTypeMap("oxygen_value","gov.va.vinci.kttr.types.OxygenValue");
+		map.addAnnotationTypeMap("pain_value","gov.va.vinci.kttr.types.PainValue");
+		map.addAnnotationTypeMap("respiration_value","gov.va.vinci.kttr.types.RespValue");
+		map.addAnnotationTypeMap("time_value","gov.va.vinci.kttr.types.TimeValue");
+		map.addAnnotationTypeMap("pain_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("bmi_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("height_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("weight_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("oxygen_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("respiration_term","gov.va.vinci.kttr.types.Other");
+		map.addAnnotationTypeMap("time_term","gov.va.vinci.kttr.types.Other");
+
+		collectionReader = new KnowtatorCollectionReader(new File(
+				"P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\FinalVal_20141210\\corpus\\"), new File	("P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\FinalVal_20141210\\saved\\"),
+				map, true)
+				.produceCollectionReader()
+
 		listenerTypes = "training"
 		envType = "training"
 	}

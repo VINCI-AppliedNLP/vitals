@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Thu Dec 18 11:32:21 CST 2014 */
+/* First created by JCasGen Wed Dec 07 13:28:00 CST 2016 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
@@ -12,7 +12,7 @@ import org.apache.uima.cas.Type;
 import gov.va.vinci.leo.window.types.Window_Type;
 
 /** 
- * Updated by JCasGen Thu Dec 18 11:32:21 CST 2014
+ * Updated by JCasGen Wed Dec 07 13:28:00 CST 2016
  * @generated */
 public class ExcludeAllWindow_Type extends Window_Type {
   /** @generated 

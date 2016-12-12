@@ -65,7 +65,7 @@ public class ServiceStringTest {
 				"    Patient\n" + 
 				" r34 \n" +
 				"mofh 0-72\n" +
-				"jan ";
+				"jan \n" + "    1/2/10";
 
 	}
 

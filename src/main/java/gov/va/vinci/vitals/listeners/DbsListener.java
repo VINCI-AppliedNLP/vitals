@@ -1,10 +1,8 @@
 package gov.va.vinci.vitals.listeners;
 
-import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.listener.BaseDatabaseListener;
 import gov.va.vinci.leo.model.DatabaseConnectionInformation;
 import gov.va.vinci.leo.tools.LeoUtils;
-import gov.va.vinci.leo.types.CSI;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

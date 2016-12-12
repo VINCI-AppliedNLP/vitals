@@ -13,12 +13,14 @@ backupknowtatorToUimaTypeMap = [
 	"temperature_value":"gov.va.vinci.kttr.types.RefValue"
 ]
 
-//knowtatorCorpusPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\ProblematicRefSt\\corpus\\"
+//Original
 knowtatorCorpusPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\FinalVal_20141210\\corpus\\"
-//knowtatorCorpusPath="P:\\ORD_Iwashyna_201108021D\\NLP\\kttrTest\\corpus\\";
-
-
 knowtatorXmlPath="P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\FinalVal_20141210\\saved\\"
+
+//knowtatorCorpusPath="P:\\ORD_Iwashyna_201108021D\\NLP\\testCases\\ryan\\"
+//knowtatorXmlPath="P:\\ORD_Iwashyna_201108021D\\NLP\\testCases\\ryan\\saved\\"
+
+
 //\DevSet_20141204
 //FinalVal_20141210
 //"P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\RefSt_20140923_Batch1_10_updated\\saved\\"
@@ -61,18 +63,6 @@ knowtatorToUimaTypeMap = [
 	"time_term":"gov.va.vinci.kttr.types.Other"
 
 ]
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

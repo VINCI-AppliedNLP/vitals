@@ -45,8 +45,8 @@ import java.util.*;
 public class TypeCountListener extends BaseListener {
 
 	protected Map<String, Integer> typeCountMap = new HashMap<String, Integer>();
-	File outputFile = new File("H:/git/derma/vitals-optim/new-output.txt");
-	FileOutputStream writer;
+//	File outputFile = new File("H:/git/derma/vitals-optim/new-output.txt");
+//	FileOutputStream writer;
 
 	public void printTypeMap() {
 		Set<String> keys = typeCountMap.keySet();
@@ -71,7 +71,9 @@ public class TypeCountListener extends BaseListener {
 	 */
 	@Override
 	public void entityProcessComplete(CAS aCas, EntityProcessStatus aStatus) {
+
 		super.entityProcessComplete(aCas, aStatus);
+/**
 		if (writer == null) {
 			try {
 				if (!outputFile.exists()) {
@@ -82,6 +84,7 @@ public class TypeCountListener extends BaseListener {
 				e.printStackTrace();
 			}
 		}
+	**/
 		Iterator<Type> typeInterator = aCas.getTypeSystem().getTypeIterator();
 
 		while (typeInterator.hasNext()) {
@@ -92,8 +95,8 @@ public class TypeCountListener extends BaseListener {
 				FSIterator<AnnotationFS> index = aCas.getAnnotationIndex(type).iterator();
 				while (index.hasNext()) {
 					Annotation a = (Annotation) index.next();
-					int start = a.getBegin() - 50;
-					int end = a.getEnd() + 50;
+					int start = a.getBegin() -10;
+					int end = a.getEnd() + 10;
 					if (start < 0) {
 						start = 0;
 					}
@@ -101,7 +104,9 @@ public class TypeCountListener extends BaseListener {
 						end = aCas.getDocumentText().length() - 1;
 					}
 
-			//		writer.write((this.getReferenceLocation(aCas.getJCas()) + ":" + type.getName() + ":" + a.getBegin() + ":" + a.getEnd() + "\n").getBytes() );
+				//	if (type.getName().endsWith("Month")) {
+			//			System.out.println("Month:" + aCas.getDocumentText().substring(start, end));
+			//		}
 				}
 
 
@@ -119,9 +124,10 @@ public class TypeCountListener extends BaseListener {
 
 	@Override
 	public void collectionProcessComplete(EntityProcessStatus aStatus) {
+		this.printTypeMap();
 		try {
-			writer.flush();
-			writer.close();
+		//	writer.flush();
+		//	writer.close();
 		} catch (Exception e) {
 			LOG.warn("Error closing writer: " + e);
 		}
