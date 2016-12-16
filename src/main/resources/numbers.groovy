@@ -47,11 +47,4 @@ configuration {
 		outputType = "gov.va.vinci.vitals.types.DoubleNumber"
 	}
 
-	/** A prefix to numbers we annotate for exclusion in the numericValuesExclude.pattern file. **/
-	"ExcludePrefix" {
-		expressions = [
-		        "(reading|#|CVP|MAP|\\bi.o)\\s*"
-		]
-		outputType = "gov.va.vinci.vitals.types.ExcludePrefix"
-	}
 }

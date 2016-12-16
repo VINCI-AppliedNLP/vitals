@@ -21,7 +21,9 @@ package gov.va.vinci.vitals.listeners;
  */
 
 import gov.va.vinci.leo.listener.BaseListener;
+import gov.va.vinci.vitals.types.ExcludePrefix;
 import gov.va.vinci.vitals.types.Pattern;
+import gov.va.vinci.vitals.types.Term;
 import org.apache.uima.cas.*;
 import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.collection.EntityProcessStatus;
@@ -103,10 +105,11 @@ public class TypeCountListener extends BaseListener {
 					if (end > aCas.getDocumentText().length()) {
 						end = aCas.getDocumentText().length() - 1;
 					}
-
-				//	if (type.getName().endsWith("Month")) {
-			//			System.out.println("Month:" + aCas.getDocumentText().substring(start, end));
-			//		}
+					/**
+					if (type.getName().endsWith("ExcludePrefix")) {
+ 						ExcludePrefix term = (ExcludePrefix)a;
+						System.out.println("Pattern[" + term.getPattern() + "] ExcludePrefix[" + aCas.getDocumentText().substring(start, end).replaceAll("\n","").replaceAll("\r", "") + "]");
+					}**/
 				}
 
 

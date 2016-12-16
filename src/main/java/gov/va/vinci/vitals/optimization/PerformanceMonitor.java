@@ -22,7 +22,11 @@ public class PerformanceMonitor {
 
     @Around("call(* annotate(..))")
     public Object around(ProceedingJoinPoint point) throws Throwable {
-        EtmPoint etmPoint = etmMonitor.createPoint( point.getTarget().getClass().getCanonicalName());
+        String name="";
+        if (point.getTarget() instanceof LeoBaseAnnotator) {
+            name=((LeoBaseAnnotator)point.getTarget()).getName();
+        }
+        EtmPoint etmPoint = etmMonitor.createPoint( name + ":" + point.getTarget().getClass().getCanonicalName());
         Object result = point.proceed();
         etmPoint.collect();
         return result;

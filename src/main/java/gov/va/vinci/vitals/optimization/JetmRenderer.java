@@ -263,7 +263,7 @@ import java.util.TreeMap;
 
             public NestedEntry(int aNestingLevel, String aText) {
                 nestingLevel = aNestingLevel;
-                text = aText.replaceAll("\n","\\n");
+                text = aText.replaceAll("\n","\\n").replaceAll("\r","\\r");
             }
 
 

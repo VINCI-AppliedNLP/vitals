@@ -7,9 +7,9 @@ import java.util.HashMap;
 import etm.core.configuration.BasicEtmConfigurator;
 import etm.core.configuration.EtmManager;
 import etm.core.monitor.EtmMonitor;
-import etm.core.renderer.SimpleTextRenderer;
 import gov.va.vinci.kttr.types.HRValue;
 import gov.va.vinci.leo.annotationpattern.ae.AnnotationPatternAnnotator;
+import gov.va.vinci.leo.automatonRegex.ae.AutomatonRegexAnnotator;
 import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.leo.descriptors.TypeDescriptionBuilder;
@@ -316,7 +316,7 @@ public class Service {
 		    			.addTypeSystemDescription(types));
 		aggregate.addDelegate(
 				new AutomatonRegexAnnotator()
-						.setGroovyConfigFile(PipelineVariables.RESOURCE_PATH + "months.groovy")
+						.setGroovyConfigFile(PipelineVariables.RESOURCE_PATH + "automaton.groovy")
 						.getLeoAEDescriptor()
 						.addTypeSystemDescription(types));
 
