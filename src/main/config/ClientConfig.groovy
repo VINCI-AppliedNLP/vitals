@@ -3,6 +3,7 @@ import gov.va.vinci.knowtator.model.KnowtatorToUimaTypeMap
 import gov.va.vinci.leo.model.DatabaseConnectionInformation
 import gov.va.vinci.vitals.listeners.CsvListener
 import gov.va.vinci.vitals.listeners.DbsListener
+import gov.va.vinci.vitals.listeners.RegexListener
 import gov.va.vinci.vitals.listeners.TypeCountListener
 
 // Reader type is one of the following:
@@ -196,7 +197,7 @@ environments {
 				map, true).produceCollectionReader()
 
 		listeners = [
-				new TypeCountListener()
+				new RegexListener()
 		]
 	}
 

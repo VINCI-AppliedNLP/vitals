@@ -21,6 +21,7 @@ package gov.va.vinci.vitals.listeners;
  */
 
 import gov.va.vinci.leo.listener.BaseListener;
+import gov.va.vinci.vitals.types.ExcludePrefix;
 import gov.va.vinci.vitals.types.Term;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.uima.cas.CAS;
@@ -54,7 +55,7 @@ public class RegexListener extends BaseListener {
 
 		System.out.println("Pattern Summary:" );
 		for (String key : patternSummary.keySet()) {
-			System.out.println(StringUtils.rightPad(key, 30, " ") + "\t\t" + patternSummary.get(key));
+			System.out.println(StringUtils.rightPad("'" + key + "'", 40, " ") + "\t\t" + patternSummary.get(key));
 		}
 
 		System.out.println("\n\n");
@@ -65,8 +66,10 @@ public class RegexListener extends BaseListener {
 						Collectors.groupingBy(item->item.getMatch(), Collectors.counting()
 						)
 				);
-		for (String key : matchSummary.keySet()) {
-			System.out.println(StringUtils.rightPad(key, 30, " ") + "\t\t" + matchSummary.get(key));
+		List<String> matchList = new ArrayList<>(matchSummary.keySet());
+		Collections.sort(matchList, (String s1, String s2) -> s1.compareToIgnoreCase(s2) );
+		for (String key : matchList) {
+			System.out.println(StringUtils.rightPad("'" + key +  "'", 40, " ") + "\t\t" + matchSummary.get(key));
 		}
 
 		System.out.println("\n\n");
@@ -112,9 +115,15 @@ public class RegexListener extends BaseListener {
 					} **/
 
 
-					if (type.getName().endsWith(".Term")) {
- 						Term term = (Term) a;
- 						results.add(new DetailRow(term.getPattern(), a.getCoveredText()));
+					if (type.getName().endsWith(".ExcludePrefix")) {
+						ExcludePrefix term = (ExcludePrefix) a;
+						if (term.getPattern() == null) {
+							System.out.println("Null pattern.");
+							results.add(new DetailRow("ct:" + a.getCoveredText(), a.getCoveredText()));
+						} else {
+							results.add(new DetailRow(term.getPattern().replaceAll("\n", "<n>").replaceAll("\r", "<r>"), a.getCoveredText().replaceAll("\n", "<n>").replaceAll("\r", "<r>")));
+						}
+
 					}
 				}
 
