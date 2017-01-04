@@ -148,24 +148,6 @@ public class Client {
 		// Running the client
 		myClient.run(listeners);
 
-		/**
-		if (ListenerVariables.useTrainingListener) {
-			//Perform validation and training of SVM model            
-			StopWatch clock = new StopWatch();
-			log.info("Validate and serialize SVMLib model...");
-			clock.start();
-			SvmVectorTranslator svt = new SvmVectorTranslator();
-			learningListener.addMap(ListenerVariables.hrValidationMap);
-			double rSvmAccuracy = learningListener.validate(svt, 10);
-			if (StringUtils.isNotBlank(ListenerVariables.hrSvmModelPath)) {
-				svt.setModelPath(ListenerVariables.hrSvmModelPath);
-				learningListener.train(svt);
-			}
-			clock.stop();
-
-			log.info("Validation and serialization complete, " + clock.toString());
-			log.info("Relative Validation Accuracy, SVM: " + rSvmAccuracy);
-		}**/
 
 		// Client run is completed
 		log.info("Processing time: " + sw.toString() + "\n"

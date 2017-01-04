@@ -198,6 +198,7 @@ environments {
 
 		listeners = [
 				new RegexListener()
+			//	new TypeCountListener()
 		]
 	}
 

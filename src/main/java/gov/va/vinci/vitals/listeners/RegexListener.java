@@ -22,6 +22,7 @@ package gov.va.vinci.vitals.listeners;
 
 import gov.va.vinci.leo.listener.BaseListener;
 import gov.va.vinci.vitals.types.ExcludePrefix;
+import gov.va.vinci.vitals.types.NumericExclude;
 import gov.va.vinci.vitals.types.Term;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.uima.cas.CAS;
@@ -115,8 +116,8 @@ public class RegexListener extends BaseListener {
 					} **/
 
 
-					if (type.getName().endsWith(".ExcludePrefix")) {
-						ExcludePrefix term = (ExcludePrefix) a;
+					if (type.getName().endsWith(".NumericExclude")) {
+						NumericExclude term = (NumericExclude) a;
 						if (term.getPattern() == null) {
 							System.out.println("Null pattern.");
 							results.add(new DetailRow("ct:" + a.getCoveredText(), a.getCoveredText()));
@@ -129,7 +130,7 @@ public class RegexListener extends BaseListener {
 
 			} catch (Exception e) {
 				// do op.
-			//	System.out.println(e);
+				//System.out.println(e);
 			}
 		}
 	}
