@@ -32,10 +32,10 @@ public class ServiceVectorTest {
 
 	protected LeoAEDescriptor aggregate = null;
 	protected LeoTypeSystemDescription types = null;
-	protected String outputDir = "P:\\ORD_Iwashyna_201108021D\\NLP\\testCases\\output\\xmi";
+	protected String outputDir = "output/xmi";
 	// "src/test/resources/output/xmi";
 
-	protected String inputDir = "P:\\ORD_Iwashyna_201108021D\\NLP\\testCases\\input\\";
+	protected String inputDir = "testCases/input/";
 	//"src/test/resources/input/";
 
 	protected boolean launchView = true;

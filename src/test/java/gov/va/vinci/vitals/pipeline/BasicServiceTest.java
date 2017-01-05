@@ -38,7 +38,7 @@ public class BasicServiceTest {
 
 	protected LeoAEDescriptor aggregate = null;
 	protected LeoTypeSystemDescription types = null;
-	protected String outputDir = "P:\\ORD_Iwashyna_201108021D\\NLP\\testCases\\output\\xmi";
+	protected String outputDir = "output/xmi";
 	protected String aggXmi = "aggregateDesc";
 
 	@Before
