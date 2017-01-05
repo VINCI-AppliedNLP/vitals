@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>gov.va.vinci.leo</groupId>
 			<artifactId>leo-base</artifactId>
-			<version>2016.12.0</version>
+			<version>2017.01.2</version>
 			<type>pom</type>
 		</dependency>
 
@@ -118,13 +118,13 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>src/main/desc/</directory>
+				<directory>desc/</directory>
 			</resource>
 			<resource>
-				<directory>src/main/resources/</directory>
+				<directory>resources/</directory>
 			</resource>
 			<resource>
-				<directory>src/main/config/</directory>
+				<directory>config/</directory>
 			</resource>
 		</resources>
 		<plugins>

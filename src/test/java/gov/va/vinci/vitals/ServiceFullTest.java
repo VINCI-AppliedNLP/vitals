@@ -5,6 +5,7 @@ import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.leo.types.CSI;
 import gov.va.vinci.vitals.listeners.ListenerLogic;
+import gov.va.vinci.vitals.pipeline.VitalsPipeline;
 import gov.va.vinci.vitals.types.*;
 
 import java.io.File;
@@ -43,10 +44,10 @@ public class ServiceFullTest {
 	@Before
 	public void setup() throws Exception {
 		Service ds = new Service();
-		// aggregate = ds.createPipeline(false);
-		Service.GeneralSettings.ENVIRONMENT = "simple";
-		LeoTypeSystemDescription types = ds.createTypeSystem();
-		aggregate = ds.createPipeline(types);
+		VitalsPipeline pipeline = new VitalsPipeline();
+		LeoTypeSystemDescription types = pipeline.getLeoTypeSystemDescription();
+		aggregate = pipeline.getPipeline();
+
 
 		File o = new File(outputDir);
 		if (!o.exists()) {

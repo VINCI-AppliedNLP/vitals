@@ -1,10 +1,11 @@
-package gov.va.vinci.vitals;
+package gov.va.vinci.vitals.pipeline;
 
 import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.leo.types.CSI;
 import gov.va.vinci.vitals.listeners.ListenerLogic;
+import gov.va.vinci.vitals.pipeline.VitalsPipeline;
 import gov.va.vinci.vitals.types.*;
 
 import java.io.File;
@@ -42,13 +43,13 @@ public class BasicServiceTest {
 
 	@Before
 	public void setup() throws Exception {
-		Service ds = new Service();
-		Service.GeneralSettings.ENVIRONMENT = "simple";
-		LeoTypeSystemDescription types = ds.createTypeSystem();
-		aggregate = ds.createNumericPipeline(types);
-		aggregate.addDelegate(ds.createTermAndIndicatorPipeline(types));
-		aggregate.addDelegate(ds.createPatternsPipeline(types));
-		aggregate.addDelegate(ds.createVitalRulesPipeline(types));
+		VitalsPipeline pipeline = new VitalsPipeline();
+		LeoTypeSystemDescription types = pipeline.getLeoTypeSystemDescription();
+
+		aggregate = pipeline.createNumericPipeline(types);
+		aggregate.addDelegate(pipeline.createTermAndIndicatorPipeline(types));
+		aggregate.addDelegate(pipeline.createPatternsPipeline(types));
+		aggregate.addDelegate(pipeline.createVitalRulesPipeline(types));
 
 		File o = new File(outputDir);
 		if (!o.exists()) {
@@ -103,10 +104,6 @@ public class BasicServiceTest {
 		outputXmi(filename, jcas);
 
 		justPrint(jcas, filename);
-		//assertNumerics(jcas);
-		//assertTerms(jcas);
-		//assertNumericPatterns(jcas);
-
 	}
 
 	private void assertNumerics(JCas jcas) {

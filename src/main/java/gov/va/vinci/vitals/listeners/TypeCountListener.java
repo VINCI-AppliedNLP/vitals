@@ -21,9 +21,6 @@ package gov.va.vinci.vitals.listeners;
  */
 
 import gov.va.vinci.leo.listener.BaseListener;
-import gov.va.vinci.vitals.types.ExcludePrefix;
-import gov.va.vinci.vitals.types.Pattern;
-import gov.va.vinci.vitals.types.Term;
 import org.apache.uima.cas.*;
 import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.collection.EntityProcessStatus;
