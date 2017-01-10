@@ -1,6 +1,6 @@
 import gov.va.vinci.vitals.listeners.CsvListener
 
-listener = new CsvListener(new File("P:\\ORD_Iwashyna_201108021D\\NLP\\ryan\\ryan-test\\output\\outputTable_1.csv"),
+listener = new CsvListener(new File("c:\\my_dir\\output\\outputTable_1.csv"),
         ["VitalSignID", "-1", "int"],
         ["Sta3n", "4", "varchar(10)"],
         ["TIUDocumentSID", "0", "bigint"],

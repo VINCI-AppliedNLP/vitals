@@ -1,6 +1,6 @@
 import gov.va.vinci.leo.cr.BatchDatabaseCollectionReader
 
-String url = "jdbc:sqlserver://vhacdwrb02:1433;databasename=ORD_Iwashyna_201108021D;integratedSecurity=true";
+String url = "jdbc:sqlserver://myserver:1433;databasename=myDB;integratedSecurity=true";
 String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
 String username = "";
 String password = "";

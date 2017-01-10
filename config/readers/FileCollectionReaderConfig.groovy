@@ -1,5 +1,5 @@
 import gov.va.vinci.leo.cr.FileCollectionReader;
-String pathToFiles = "/Users/ryancornia/git/examples/public-example-data/"
+String pathToFiles = "input/"
 
 boolean recurse = false
 

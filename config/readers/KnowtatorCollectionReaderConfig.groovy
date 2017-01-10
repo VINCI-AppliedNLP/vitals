@@ -2,8 +2,8 @@
 import gov.va.vinci.knowtator.cr.KnowtatorCollectionReader
 import gov.va.vinci.knowtator.model.KnowtatorToUimaTypeMap;
 
-knowtatorCorpusPath = "P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\FinalVal_20141210\\corpus\\";
-knowtatorXmlPath = "P:\\ORD_Iwashyna_201108021D\\Annotations\\AnnotationAdmin\\FinalVal_20141210\\saved\\"
+knowtatorCorpusPath = "c:\\my-dir\\corpus\\";
+knowtatorXmlPath = "c:\\my-dir\\saved\\"
 
 KnowtatorToUimaTypeMap map = new KnowtatorToUimaTypeMap();
 map.addAnnotationTypeMap("blood_pressure_term","gov.va.vinci.kttr.types.BPTerm");
