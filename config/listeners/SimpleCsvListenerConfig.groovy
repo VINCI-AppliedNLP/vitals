@@ -1,6 +1,10 @@
 import gov.va.vinci.vitals.listeners.SimpleListener
 import gov.va.vinci.vitals.types.Height_Term
 import gov.va.vinci.vitals.types.Hr_Term
+import gov.va.vinci.vitals.types.So2_Term
+import gov.va.vinci.vitals.types.So2_value
+import gov.va.vinci.vitals.types.Weight_Term
+import gov.va.vinci.vitals.types.Weight_value
 
 String csvDirPath = "output/";
 
@@ -10,7 +14,11 @@ if (!(new File(csvDirPath).exists()))
     new File(csvDirPath).mkdirs();
 
 listener = new SimpleListener(new File(csvDirPath + "/" + csvFile), true,
+
         [
-                Hr_Term.canonicalName,
-                gov.va.vinci.vitals.types.Age_Term.canonicalName
+
+                So2_Term.canonicalName,
+                So2_value.canonicalName,
+                Weight_Term.canonicalName,
+                Weight_value.canonicalName
         ] as String[]);
