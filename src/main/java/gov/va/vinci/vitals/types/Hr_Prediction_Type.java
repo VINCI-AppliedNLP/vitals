@@ -1,12 +1,9 @@
 
-/* First created by JCasGen Wed Dec 07 13:28:00 CST 2016 */
+/* First created by JCasGen Tue Apr 07 22:29:27 MDT 2020 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
-import org.apache.uima.cas.impl.CASImpl;
-import org.apache.uima.cas.impl.FSGenerator;
-import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.cas.Type;
 import org.apache.uima.cas.impl.FeatureImpl;
@@ -14,30 +11,9 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** Type used to output predictions
- * Updated by JCasGen Wed Dec 07 13:28:00 CST 2016
+ * Updated by JCasGen Tue Apr 07 22:29:27 MDT 2020
  * @generated */
 public class Hr_Prediction_Type extends Annotation_Type {
-  /** @generated 
-   * @return the generator for this type
-   */
-  @Override
-  protected FSGenerator getFSGenerator() {return fsGenerator;}
-  /** @generated */
-  private final FSGenerator fsGenerator = 
-    new FSGenerator() {
-      public FeatureStructure createFS(int addr, CASImpl cas) {
-  			 if (Hr_Prediction_Type.this.useExistingInstance) {
-  			   // Return eq fs instance if already created
-  		     FeatureStructure fs = Hr_Prediction_Type.this.jcas.getJfsFromCaddr(addr);
-  		     if (null == fs) {
-  		       fs = new Hr_Prediction(addr, Hr_Prediction_Type.this);
-  			   Hr_Prediction_Type.this.jcas.putJfsFromCaddr(addr, fs);
-  			   return fs;
-  		     }
-  		     return fs;
-        } else return new Hr_Prediction(addr, Hr_Prediction_Type.this);
-  	  }
-    };
   /** @generated */
   @SuppressWarnings ("hiding")
   public final static int typeIndexID = Hr_Prediction.typeIndexID;

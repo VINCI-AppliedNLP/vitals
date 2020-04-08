@@ -1,40 +1,16 @@
 
-/* First created by JCasGen Wed Dec 07 13:27:59 CST 2016 */
+/* First created by JCasGen Tue Apr 07 22:29:27 MDT 2020 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
-import org.apache.uima.cas.impl.CASImpl;
-import org.apache.uima.cas.impl.FSGenerator;
-import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.cas.Type;
 
 /** 
- * Updated by JCasGen Wed Dec 07 13:27:59 CST 2016
+ * Updated by JCasGen Tue Apr 07 22:29:27 MDT 2020
  * @generated */
 public class BMI_value_Type extends Output_Value_Type {
-  /** @generated 
-   * @return the generator for this type
-   */
-  @Override
-  protected FSGenerator getFSGenerator() {return fsGenerator;}
-  /** @generated */
-  private final FSGenerator fsGenerator = 
-    new FSGenerator() {
-      public FeatureStructure createFS(int addr, CASImpl cas) {
-  			 if (BMI_value_Type.this.useExistingInstance) {
-  			   // Return eq fs instance if already created
-  		     FeatureStructure fs = BMI_value_Type.this.jcas.getJfsFromCaddr(addr);
-  		     if (null == fs) {
-  		       fs = new BMI_value(addr, BMI_value_Type.this);
-  			   BMI_value_Type.this.jcas.putJfsFromCaddr(addr, fs);
-  			   return fs;
-  		     }
-  		     return fs;
-        } else return new BMI_value(addr, BMI_value_Type.this);
-  	  }
-    };
   /** @generated */
   @SuppressWarnings ("hiding")
   public final static int typeIndexID = BMI_value.typeIndexID;

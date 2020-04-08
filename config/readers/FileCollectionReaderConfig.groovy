@@ -1,5 +1,5 @@
 import gov.va.vinci.leo.cr.FileCollectionReader;
-String pathToFiles = "input/"
+String pathToFiles = "src/test/resources/input/"
 
 boolean recurse = false
 

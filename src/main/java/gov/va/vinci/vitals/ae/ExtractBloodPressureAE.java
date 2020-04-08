@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import gov.va.vinci.leo.AnnotationLibrarian;
-import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.vitals.types.*;
 
 import org.apache.commons.lang3.StringUtils;

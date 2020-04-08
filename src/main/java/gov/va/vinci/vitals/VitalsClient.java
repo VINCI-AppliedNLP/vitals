@@ -55,6 +55,6 @@ public class VitalsClient extends CommandLineClient {
 	}
 
 	public String[] defaultListenerConfig() {
-		return  new String[] {"config/listeners/DatabaseListenerConfig.groovy"};
+		return  new String[] {"config/listeners/SimpleXmiListenerConfig.groovy"};
 	}
 }

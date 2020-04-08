@@ -1,42 +1,18 @@
 
-/* First created by JCasGen Wed Dec 07 13:28:01 CST 2016 */
+/* First created by JCasGen Tue Apr 07 22:29:27 MDT 2020 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
-import org.apache.uima.cas.impl.CASImpl;
-import org.apache.uima.cas.impl.FSGenerator;
-import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.cas.Type;
 import org.apache.uima.cas.impl.FeatureImpl;
 import org.apache.uima.cas.Feature;
 
 /** 
- * Updated by JCasGen Wed Dec 07 13:28:01 CST 2016
+ * Updated by JCasGen Tue Apr 07 22:29:27 MDT 2020
  * @generated */
 public class PotentialBp_Type extends Pattern_Type {
-  /** @generated 
-   * @return the generator for this type
-   */
-  @Override
-  protected FSGenerator getFSGenerator() {return fsGenerator;}
-  /** @generated */
-  private final FSGenerator fsGenerator = 
-    new FSGenerator() {
-      public FeatureStructure createFS(int addr, CASImpl cas) {
-  			 if (PotentialBp_Type.this.useExistingInstance) {
-  			   // Return eq fs instance if already created
-  		     FeatureStructure fs = PotentialBp_Type.this.jcas.getJfsFromCaddr(addr);
-  		     if (null == fs) {
-  		       fs = new PotentialBp(addr, PotentialBp_Type.this);
-  			   PotentialBp_Type.this.jcas.putJfsFromCaddr(addr, fs);
-  			   return fs;
-  		     }
-  		     return fs;
-        } else return new PotentialBp(addr, PotentialBp_Type.this);
-  	  }
-    };
   /** @generated */
   @SuppressWarnings ("hiding")
   public final static int typeIndexID = PotentialBp.typeIndexID;

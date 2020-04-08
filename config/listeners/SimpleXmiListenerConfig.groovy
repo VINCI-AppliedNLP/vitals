@@ -1,14 +1,16 @@
 import gov.va.vinci.leo.listener.SimpleXmiListener
 
-String xmiPath = "c:\\my-dir\\${new Date().getTime()}";
+String xmiPath = "test/xmi/";//"c:\\my-dir\\${new Date().getTime()}";
 
 File xmiPathFile = new File(xmiPath);
 if (!xmiPathFile.exists())
     xmiPathFile.mkdirs();
 
-Boolean openViewer = false;
+Boolean openViewer = true;
 
-listener = new SimpleXmiListener(xmiPathFile, openViewer);
+listener = new SimpleXmiListener(xmiPathFile)
+listener.setLaunchAnnotationViewer(openViewer);
+listener.setTypeSystemDescriptor(new File ("config/TypeSystem.xml"));
 
 String[] annotationsToOutput = [] as String[];
 

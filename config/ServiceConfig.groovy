@@ -13,6 +13,7 @@ instanceNumber = 10
 isAsync = false
 
 generateTypes=false
+
 registerWithJam=false
 jamQueryIntervalInSeconds = 600
 jamResetStatisticsAfterQuery = false

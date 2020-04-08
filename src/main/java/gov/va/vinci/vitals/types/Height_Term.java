@@ -1,6 +1,6 @@
 
 
-/* First created by JCasGen Wed Dec 07 13:28:00 CST 2016 */
+/* First created by JCasGen Tue Apr 07 22:29:27 MDT 2020 */
 package gov.va.vinci.vitals.types;
 
 import org.apache.uima.jcas.JCas; 
@@ -10,8 +10,8 @@ import org.apache.uima.jcas.cas.TOP_Type;
 
 
 /** 
- * Updated by JCasGen Wed Dec 07 13:28:00 CST 2016
- * XML source: C:/Users/VHASLC~1/AppData/Local/Temp/2/leoTypeDescription_a7e39e42-6fbf-4217-9d38-e8c5b6b2154f4103637063506643695.xml
+ * Updated by JCasGen Tue Apr 07 22:29:27 MDT 2020
+ * XML source: /var/folders/8t/nmg009gn1y12522l1gmzl14w0000gp/T/leoTypeDescription_e7dfae13-055a-44e2-a500-2d29f49aec42925118909459013116.xml
  * @generated */
 public class Height_Term extends Term {
   /** @generated
