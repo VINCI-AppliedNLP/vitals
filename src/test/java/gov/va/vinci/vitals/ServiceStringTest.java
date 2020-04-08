@@ -37,8 +37,7 @@ public class ServiceStringTest {
 
 	@Before
 	public void setup() throws Exception {
-		Service ds = new Service();
-		// aggregate = ds.createPipeline(false);
+		gov.va.vinci.leo.Service ds = new gov.va.vinci.leo.Service();
 		VitalsPipeline pipeline = new VitalsPipeline();
 		LeoTypeSystemDescription types = pipeline.getLeoTypeSystemDescription();
 		aggregate = pipeline.getPipeline();

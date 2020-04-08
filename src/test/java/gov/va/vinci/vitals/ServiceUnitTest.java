@@ -32,8 +32,7 @@ public class ServiceUnitTest {
 
 	protected LeoAEDescriptor aggregate = null;
 	protected LeoTypeSystemDescription types = null;
-	protected String outputDir = "output/xmi";
-	// "src/test/resources/output/xmi";
+	protected String outputDir =  "src/test/resources/output/xmi";
 
 	protected String inputDir = "testCases/input/";
 	//"src/test/resources/input/";
@@ -44,7 +43,6 @@ public class ServiceUnitTest {
 	@Before
 	public void setup() throws Exception {
 		Service ds = new Service();
-		// aggregate = ds.createPipeline(false);
 		VitalsPipeline pipeline = new VitalsPipeline();
 		LeoTypeSystemDescription types = pipeline.getLeoTypeSystemDescription();
 		aggregate = pipeline.getPipeline();

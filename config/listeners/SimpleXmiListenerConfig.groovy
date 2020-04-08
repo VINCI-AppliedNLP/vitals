@@ -14,6 +14,6 @@ listener.setTypeSystemDescriptor(new File ("config/TypeSystem.xml"));
 
 String[] annotationsToOutput = [] as String[];
 
-if (annotationsToOutput) {
+if (annotationsToOutput.size() > 0) {
     listener.setAnnotationTypeFilter(annotationsToOutput);
 }

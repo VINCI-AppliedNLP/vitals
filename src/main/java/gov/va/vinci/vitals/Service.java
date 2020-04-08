@@ -48,7 +48,7 @@ public class Service {
 			service = new gov.va.vinci.leo.Service();
 			
 			setServerProperties(service);
-			
+
 			//deleteFilesFromDescriptorDirectory(service);
 			LeoAEDescriptor aggregate = null;
 			log.info("Using Vitals Pipe");
