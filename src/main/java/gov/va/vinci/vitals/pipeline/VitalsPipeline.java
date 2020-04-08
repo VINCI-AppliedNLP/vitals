@@ -183,7 +183,7 @@ public class VitalsPipeline implements PipelineInterface, Serializable, HashCode
 
     public static class PipelineVariables {
 
-        static String RESOURCE_PATH = "resources/";
+        static String RESOURCE_PATH = "src/main/resources/";
         static String PatternType = "gov.va.vinci.vitals.types.Pattern";
         static String RegexType = "gov.va.vinci.leo.regex.types.RegularExpressionType";
 
