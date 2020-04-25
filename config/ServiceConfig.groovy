@@ -9,7 +9,7 @@ endpoint   	  = "VitalsForSepsis"
 /**
  * UIMA-AS service Variables
  */
-instanceNumber = 10
+instanceNumber = 1
 isAsync = false
 
 generateTypes=false

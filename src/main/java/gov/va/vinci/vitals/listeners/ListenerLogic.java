@@ -1,7 +1,6 @@
 package gov.va.vinci.vitals.listeners;
 
 import gov.va.vinci.kttr.types.*;
-import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.vitals.types.*;
 
 import java.util.ArrayList;
@@ -99,17 +98,17 @@ public class ListenerLogic {
 		///////////////////////////////////////////////////////////
 		// Output all refst annotations
 		String[] types = new String[] {
-		    BPValue.class.getCanonicalName(),
-		    TValue.class.getCanonicalName()
-		    , HRValue.class.getCanonicalName()
-		    , BMIValue.class.getCanonicalName()
-		    , HeightValue.class.getCanonicalName()
-		    , WeightValue.class.getCanonicalName()
-		    , PainValue.class.getCanonicalName()
-		    , RespValue.class.getCanonicalName()
-		    , OxygenValue.class.getCanonicalName()
-		    , BPDiasValue.class.getCanonicalName()
-		    , BPSysValue.class.getCanonicalName()
+				"gov.va.vinci.kttr.types.BPValue",
+				"gov.va.vinci.kttr.types.TValue",
+				"gov.va.vinci.kttr.types.HRValue",
+				"gov.va.vinci.kttr.types.BMIValue",
+				"gov.va.vinci.kttr.types.HeightValue",
+				"gov.va.vinci.kttr.types.WeightValue",
+				"gov.va.vinci.kttr.types.PainValue",
+				"gov.va.vinci.kttr.types.RespValue",
+				"gov.va.vinci.kttr.types.OxygenValue",
+				"gov.va.vinci.kttr.types.BPDiasValue",
+				"gov.va.vinci.kttr.types.BPSysValue"
 		};
 		for (String singleType : types) {
 			Type type = aCas.getTypeSystem().getType(singleType);

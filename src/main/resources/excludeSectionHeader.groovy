@@ -1,8 +1,8 @@
 
 name = "TermExcludePatternAnnotator"
 configuration {
-	global_settings {
-		performance_monitoring = true
+	 global_settings {
+		performance_monitoring = false
 	}
 
 	/* All configuration for this annotator. */
@@ -26,7 +26,18 @@ configuration {
 				"Electrolytes",
 				"\\bi/o\\b",
 				"Orthostats",
-				"\\nABG"
+				"\\nABG",
+				"Active Inpatient Medications \\(excluding Supplies\\):"
+				, "Clinical Reminder Activity"
+				,"\\R+ *IMPORTANT:"
+				, "ALLERGIES:"
+				,"NUTRITIONAL STATUS:"
+				,"Non-VA Meds Last Documented On:"
+				,"NOT INCLUDED IN THIS LIST:"
+				,"if needed"
+				,"by mouth"
+				,"medication"
+
 			]
 	}
 

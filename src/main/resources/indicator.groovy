@@ -15,7 +15,7 @@ configuration {
 	/* An arbitrary name for this set of patterns/config. */
 	"Indicators" {
 		expressions = [
-				"vital signs",
+				//"vital signs",
 				"\\bvitals",
 				"\\bvs\\b",
 				"\\bv/s\\b",
@@ -28,7 +28,7 @@ configuration {
 				"\\bobjective",
 				"\n *\\bv/s\\b",
 				"\\bexam\\b",
-				"\\bvital\\b",
+				"\\bvital\\b(?! capacity)",
 				"\\bmost recent vitals",
 				"\\bvitals signs",
 				"\\bpost-blood pressure and pulse",

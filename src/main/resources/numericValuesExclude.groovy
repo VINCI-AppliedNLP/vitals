@@ -33,9 +33,6 @@ configuration {
 				"\\w+ *'\\d\\d\\b",
 				"\\n *\\d+\\. ",
 				"\\n *\\d+\\)",
-
-
-
 				"\\b\\d/\\d+\\b",
 				// The idea was to disregard dates and socials. but this is too common of a pattern for vital signs
 				//\\d\\d\\d+-\\d\\d+-\\d\\d\\d+

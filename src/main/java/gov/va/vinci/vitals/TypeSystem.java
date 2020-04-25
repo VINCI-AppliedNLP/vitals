@@ -1,5 +1,6 @@
 package gov.va.vinci.vitals;
 
+import gov.va.vinci.kttr.types.HRValue;
 import gov.va.vinci.leo.annotationpattern.ae.AnnotationPatternAnnotator;
 import gov.va.vinci.leo.context.ae.ContextAnnotator;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
@@ -49,7 +50,7 @@ public class TypeSystem {
             "gov.va.vinci.vitals.types.Age_Term",
             "gov.va.vinci.vitals.types.NotIt_Term"
             , "gov.va.vinci.vitals.types.SectionHeader"
-           ,  "gov.va.vinci.vitals.types.Hr_value",
+            ,  "gov.va.vinci.vitals.types.Hr_value",
             //   TYPE_Bp_value,
             "gov.va.vinci.vitals.types.T_value",
             "gov.va.vinci.vitals.types.Weight_value",
@@ -141,6 +142,31 @@ public class TypeSystem {
         }
         return description;
     }
+
+    public static LeoTypeSystemDescription getLeoTypeSystemDescription_KttrTypes() {
+        String ktt_type = "gov.va.vinci.leo.types.ValidationAnnotation";
+        LeoTypeSystemDescription description = new LeoTypeSystemDescription();
+        description.addType(TypeLibrarian.getValidationAnnotationTypeSystemDescription());
+        try {
+            description.addType("gov.va.vinci.kttr.types.BPValue", "", ktt_type);
+            description.addType("gov.va.vinci.kttr.types.TValue", "", ktt_type);
+            description.addType("gov.va.vinci.kttr.types.HRValue", "", ktt_type);
+            description.addType("gov.va.vinci.kttr.types.BMIValue", "", ktt_type);
+            description.addType("gov.va.vinci.kttr.types.HeightValue", "", ktt_type);
+            description.addType("gov.va.vinci.kttr.types.WeightValue", "", ktt_type);
+            description.addType("gov.va.vinci.kttr.types.PainValue", "", ktt_type);
+            description.addType("gov.va.vinci.kttr.types.RespValue", "", ktt_type);
+            description.addType("gov.va.vinci.kttr.types.OxygenValue", "", ktt_type);
+            description.addType("gov.va.vinci.kttr.types.BPDiasValue", "", ktt_type);
+            description.addType("gov.va.vinci.kttr.types.BPSysValue", "", ktt_type);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return description;
+    }
+
+
+
 
 
     public static LeoTypeSystemDescription getLeoTypeSystemDescription_MethodTemplate() {

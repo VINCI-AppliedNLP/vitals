@@ -1,8 +1,9 @@
 import gov.va.vinci.leo.listener.SimpleXmiListener
 
-String xmiPath = "test/xmi/";//"c:\\my-dir\\${new Date().getTime()}";
+//String xmiPath = "test/xmi/";//"c:\\my-dir\\${new Date().getTime()}";
+String xmiPath ="T:\\VINCI_COVIDNLP\\test\\output\\edge_case\\xml"
 
-File xmiPathFile = new File(xmiPath);
+        File xmiPathFile = new File(xmiPath);
 if (!xmiPathFile.exists())
     xmiPathFile.mkdirs();
 
