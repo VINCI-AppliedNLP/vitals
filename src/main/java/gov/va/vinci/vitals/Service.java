@@ -23,7 +23,6 @@ public class Service {
 	File[] serviceConfigFile;
 	int numberOfInstances = 1;
 	boolean isAsync = false;
-	boolean createTypes = false;
 	
 	/**
 	 * @param args
@@ -54,15 +53,6 @@ public class Service {
 			log.info("Using Vitals Pipe");
 			PipelineInterface pipe = new VitalsPipeline();
 			aggregate = pipe.getPipeline();
-			
-			/**
-			 * If the type system does not exist in your code, or has been changed, run JCasGen to re-generate the
-			 * type classes. This can safely be run anytime, though adds a bit of overhead to startup time of the service.
-			 */
-			if (createTypes) {
-				pipe.getLeoTypeSystemDescription().jCasGen("src/main/java/", "target/classes");
-				pipe.getLeoTypeSystemDescription().toXML("config/TypeSystem.xml");
-			}
 			aggregate.setIsAsync(isAsync);
 			aggregate.setNumberOfInstances(numberOfInstances);
 			
@@ -133,10 +123,7 @@ public class Service {
 		if (o.keySet().contains("isAsync"))
 			isAsync = Boolean.parseBoolean(o.get("isAsync").toString());
 		
-		
-		if (o.keySet().contains("generateTypes"))
-			createTypes = Boolean.parseBoolean(o.get("generateTypes").toString());
-		
+
 		return leoServer;
 	}
 }

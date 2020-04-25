@@ -43,92 +43,92 @@ public class VitalsPipeline implements PipelineInterface, Serializable, HashCode
     }
 
     @Override
-    public LeoTypeSystemDescription getLeoTypeSystemDescription() throws Exception {
+    public LeoTypeSystemDescription getLeoTypeSystemDescription()   {
         LeoTypeSystemDescription types = new LeoTypeSystemDescription();
         types.addType(TypeLibrarian.getCSITypeSystemDescription());
-
-        // Adding all knowtator annotations to the type list
-        boolean addExtra = true;
-        TypeDescription kttrType;
-        String kttrStrType = "gov.va.vinci.kttr.types.RefValue";
-        kttrType = new TypeDescription_impl(kttrStrType, "", "uima.tcas.Annotation");
-        types.addType(kttrType);
-        for (String type : KnowtatorVariables.uimaTypeFeatureMap.keySet()) {
-            TypeDescription newType;
-            newType = new TypeDescription_impl(type, "", kttrStrType);
-            for (String feature : KnowtatorVariables.uimaTypeFeatureMap.get(type)) {
-                newType.addFeature(feature, "", "uima.cas.String");
+        try {
+            // Adding all knowtator annotations to the type list
+            boolean addExtra = true;
+            TypeDescription kttrType;
+            String kttrStrType = "gov.va.vinci.kttr.types.RefValue";
+            kttrType = new TypeDescription_impl(kttrStrType, "", "uima.tcas.Annotation");
+            types.addType(kttrType);
+            for (String type : KnowtatorVariables.uimaTypeFeatureMap.keySet()) {
+                TypeDescription newType;
+                newType = new TypeDescription_impl(type, "", kttrStrType);
+                for (String feature : KnowtatorVariables.uimaTypeFeatureMap.get(type)) {
+                    newType.addFeature(feature, "", "uima.cas.String");
+                }
+                addExtra = false;
+                types.addType(newType);
             }
-            addExtra = false;
+            if (addExtra)
+                types.addType("gov.va.vinci.kttr.types.HRValue", "", kttrStrType);
+
+
+            // Regex default type
+            types.addTypeSystemDescription(new RegexAnnotator().getLeoTypeSystemDescription());
+
+            TypeDescription numType = new TypeDescription_impl(PipelineVariables.TYPE_NUMERIC, "",
+                    PipelineVariables.RegexType);
+            numType.addFeature("comment", "", "uima.cas.String");
+            numType.addFeature("value", "", "uima.cas.Double");
+            numType.addFeature("decimal", "", "uima.cas.Boolean");
+            numType.addFeature("integer", "", "uima.cas.Boolean");
+            numType.addFeature("zero_decimal", "", "uima.cas.Boolean");
+            numType.addFeature("unit", "", "uima.tcas.Annotation");
+            numType.addFeature("source", "", "uima.cas.String");
+            numType.addFeature("timestamp", "", "uima.tcas.Annotation");
+            types.addType(numType);
+
+            for (String a : PipelineVariables.TYPES_NUMERIC) {
+                types.addType(a, "", PipelineVariables.TYPE_NUMERIC);
+            }
+
+            //////////////////
+            types.addType(PipelineVariables.TYPE_UNIT, "", PipelineVariables.RegexType);
+            types.addType(PipelineVariables.TYPE_TERM, "", PipelineVariables.RegexType);
+            for (String a : PipelineVariables.TYPES_TERM) {
+                types.addType(a, "", PipelineVariables.TYPE_TERM);
+            }
+            types.addType(PipelineVariables.TYPE_TIMESTAMP, "", PipelineVariables.RegexType);
+
+            // APA default type
+            TypeDescription newType = new TypeDescription_impl(PipelineVariables.PatternType, "",
+                    "uima.tcas.Annotation");
+            newType.addFeature("pattern", "", "uima.cas.String");
+            newType.addFeature("anchor", "", "uima.tcas.Annotation");
+            newType.addFeature("target", "", "uima.tcas.Annotation");
+            newType.addFeature("anchorPattern", "", "uima.cas.String");
+            newType.addFeature("targetPattern", "", "uima.cas.String");
             types.addType(newType);
-        }
-        if (addExtra)
-            types.addType("gov.va.vinci.kttr.types.HRValue", "", kttrStrType);
 
+            types.addType(PipelineVariables.TYPE_INDICATOR, "", PipelineVariables.PatternType);
+            types.addType(PipelineVariables.TYPE_TERMEXCLUDE, "", PipelineVariables.PatternType);
+            types.addType(PipelineVariables.TYPE_NUMEXCLUDE, "", PipelineVariables.PatternType);
 
-        // Regex default type
-        types.addTypeSystemDescription(new RegexAnnotator().getLeoTypeSystemDescription());
+            types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_RANGE, "", PipelineVariables.PatternType)
+                    .addFeature("value1", "", "uima.tcas.Annotation")
+                    .addFeature("value2", "", "uima.tcas.Annotation")
+                    .getTypeDescription());
 
-        TypeDescription numType = new TypeDescription_impl(PipelineVariables.TYPE_NUMERIC, "",
-                PipelineVariables.RegexType);
-        numType.addFeature("comment", "", "uima.cas.String");
-        numType.addFeature("value", "", "uima.cas.Double");
-        numType.addFeature("decimal", "", "uima.cas.Boolean");
-        numType.addFeature("integer", "", "uima.cas.Boolean");
-        numType.addFeature("zero_decimal", "", "uima.cas.Boolean");
-        numType.addFeature("unit", "", "uima.tcas.Annotation");
-        numType.addFeature("source", "", "uima.cas.String");
-        numType.addFeature("timestamp", "", "uima.tcas.Annotation");
-        types.addType(numType);
+            types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_POTENTIAL_BP, "", PipelineVariables.PatternType)
+                    .addFeature("value1", "", "uima.tcas.Annotation")
+                    .addFeature("value2", "", "uima.tcas.Annotation")
+                    .getTypeDescription());
+            types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_EX_POTENTIAL_BP, "", PipelineVariables.PatternType)
+                    .getTypeDescription());
 
-        for (String a : PipelineVariables.TYPES_NUMERIC) {
-            types.addType(a, "", PipelineVariables.TYPE_NUMERIC);
-        }
+            types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_POTENTIAL_HEIGHT, "", PipelineVariables.PatternType)
+                    .addFeature("value1", "", "uima.tcas.Annotation")
+                    .addFeature("value2", "", "uima.tcas.Annotation")
+                    .getTypeDescription());
 
-        //////////////////
-        types.addType(PipelineVariables.TYPE_UNIT, "", PipelineVariables.RegexType);
-        types.addType(PipelineVariables.TYPE_TERM, "", PipelineVariables.RegexType);
-        for (String a : PipelineVariables.TYPES_TERM) {
-            types.addType(a, "", PipelineVariables.TYPE_TERM);
-        }
-        types.addType(PipelineVariables.TYPE_TIMESTAMP, "", PipelineVariables.RegexType);
+            types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_EX_POTENTIAL_HEIGHT, "", "uima.tcas.Annotation")
+                    .getTypeDescription());
 
-        // APA default type
-        TypeDescription newType = new TypeDescription_impl(PipelineVariables.PatternType, "",
-                "uima.tcas.Annotation");
-        newType.addFeature("pattern", "", "uima.cas.String");
-        newType.addFeature("anchor", "", "uima.tcas.Annotation");
-        newType.addFeature("target", "", "uima.tcas.Annotation");
-        newType.addFeature("anchorPattern", "", "uima.cas.String");
-        newType.addFeature("targetPattern", "", "uima.cas.String");
-        types.addType(newType);
-
-        types.addType(PipelineVariables.TYPE_INDICATOR, "", PipelineVariables.PatternType);
-        types.addType(PipelineVariables.TYPE_TERMEXCLUDE, "", PipelineVariables.PatternType);
-        types.addType(PipelineVariables.TYPE_NUMEXCLUDE, "", PipelineVariables.PatternType);
-
-        types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_RANGE, "", PipelineVariables.PatternType)
-                .addFeature("value1", "", "uima.tcas.Annotation")
-                .addFeature("value2", "", "uima.tcas.Annotation")
-                .getTypeDescription());
-
-        types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_POTENTIAL_BP, "", PipelineVariables.PatternType)
-                .addFeature("value1", "", "uima.tcas.Annotation")
-                .addFeature("value2", "", "uima.tcas.Annotation")
-                .getTypeDescription());
-        types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_EX_POTENTIAL_BP, "", PipelineVariables.PatternType)
-                .getTypeDescription());
-
-        types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_POTENTIAL_HEIGHT, "", PipelineVariables.PatternType)
-                .addFeature("value1", "", "uima.tcas.Annotation")
-                .addFeature("value2", "", "uima.tcas.Annotation")
-                .getTypeDescription());
-
-        types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_EX_POTENTIAL_HEIGHT, "", "uima.tcas.Annotation")
-                .getTypeDescription());
-
-        types.addType(PipelineVariables.TYPE_RELATION, "", PipelineVariables.PatternType);
-        types.addType(PipelineVariables.TYPE_RELATION_TIMESTAMP, "", PipelineVariables.PatternType);
+            types.addType(PipelineVariables.TYPE_RELATION, "", PipelineVariables.PatternType);
+            types.addType(PipelineVariables.TYPE_RELATION_TIMESTAMP, "", PipelineVariables.PatternType);
 
         types.addType(TypeDescriptionBuilder.create(LearningVariables.TYPE_FeatureVector,
                 "Type used to store the fearures and values", "uima.tcas.Annotation")
@@ -143,7 +143,7 @@ public class VitalsPipeline implements PipelineInterface, Serializable, HashCode
                 .addFeature("prediction", "", "uima.cas.String")
                 .getTypeDescription());
 
-		/* Additional annotations for specific values */
+        /* Additional annotations for specific values */
 
         TypeDescription outType = new TypeDescription_impl(PipelineVariables.TYPE_OUTPUT, "",
                 "uima.tcas.Annotation");
@@ -173,7 +173,13 @@ public class VitalsPipeline implements PipelineInterface, Serializable, HashCode
         types.addType(new TypeDescription_impl("gov.va.vinci.vitals.types.Month", "", PipelineVariables.RegexType));
 
         types.addType(new TypeDescription_impl("gov.va.vinci.vitals.types.ExcludePrefix", "", PipelineVariables.RegexType));
+        } catch(Exception e) {
+            System.out.print("Opps");
+        }
         return types;
+
+
+
     }
 
     @Override
@@ -443,7 +449,7 @@ public class VitalsPipeline implements PipelineInterface, Serializable, HashCode
     protected LeoAEDescriptor createPatternsPipeline(LeoTypeSystemDescription types) throws Exception {
         LeoAEDescriptor aggregate = new LeoAEDescriptor();
         ///////////// INFO: Creating patterns
-		/**/
+        /**/
         aggregate.addDelegate(new AnnotationPatternAnnotator()
                 .setIncludeChildAnnotations(true)
                 .setResource(PipelineVariables.RESOURCE_PATH + PipelineVariables.resourceRange)
@@ -451,7 +457,7 @@ public class VitalsPipeline implements PipelineInterface, Serializable, HashCode
                 .getLeoAEDescriptor()
                 .setName("RangePattern")
                 .addTypeSystemDescription(types));
-		/**/
+        /**/
 
         aggregate.addDelegate(new AdjustRangeAnnotator().getLeoAEDescriptor().setName("AdjustRangeAnnotator")
                 .addTypeSystemDescription(types));
@@ -487,7 +493,7 @@ public class VitalsPipeline implements PipelineInterface, Serializable, HashCode
                 .getLeoAEDescriptor()
                 .setName("AdjustPotentialBpAE")
                 .addTypeSystemDescription(types));
-		/**/
+        /**/
         aggregate.addDelegate(new AnnotationPatternAnnotator()
                 .setIncludeChildAnnotations(true)
                 .setResource(PipelineVariables.RESOURCE_PATH + PipelineVariables.RESOURCE_RELATION)

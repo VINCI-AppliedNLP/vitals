@@ -71,7 +71,26 @@
 			<artifactId>leo-knowtator</artifactId>
 			<version>2018.02.0</version>
 		</dependency>
-
+		<dependency>
+			<groupId>gov.va.vinci</groupId>
+			<artifactId>leo-whitespace-tokenizer</artifactId>
+			<version>2018.02.0</version>
+		</dependency>
+		<dependency>
+			<groupId>gov.va.vinci</groupId>
+			<artifactId>leo-sentence</artifactId>
+			<version>2018.02.0</version>
+		</dependency>
+		<dependency>
+			<groupId>gov.va.vinci</groupId>
+			<artifactId>leo-context</artifactId>
+			<version>2018.02.0</version>
+		</dependency>
+		<dependency>
+			<groupId>gov.va.vinci</groupId>
+			<artifactId>leo-annotation-filter</artifactId>
+			<version>2018.02.0</version>
+		</dependency>
 		<dependency>
 			<groupId>gov.va.vinci</groupId>
 			<artifactId>leo-annotation-pattern</artifactId>
