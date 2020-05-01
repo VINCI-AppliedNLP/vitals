@@ -2,7 +2,7 @@
 name = "IndicatorRegexAnnotator"
 configuration {
 	global_settings {
-		performance_monitoring = true
+		performance_monitoring = false
 	}
 
 	/* All configuration for this annotator. */

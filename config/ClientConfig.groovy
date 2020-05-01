@@ -1,3 +1,3 @@
 brokerURL	  = "tcp://localhost:61616";
 endpoint   	  = "VitalsForSepsis"
-casPoolSize   = 10
+casPoolSize   = 300

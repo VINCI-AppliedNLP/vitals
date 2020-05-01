@@ -5,8 +5,7 @@ import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.leo.types.CSI;
 import gov.va.vinci.vitals.listeners.ListenerLogic;
-import gov.va.vinci.vitals.pipeline.VitalsPipeline;
-import gov.va.vinci.vitals.types.*;
+
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,6 +15,7 @@ import java.util.prefs.Preferences;
 
 import javax.validation.constraints.AssertTrue;
 
+import gov.va.vinci.vitals.types.*;
 import org.apache.uima.UIMAFramework;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -105,9 +105,9 @@ public class BasicServiceTest {
 
 		justPrint(jcas, filename);
 	}
-
+/**
 	private void assertNumerics(JCas jcas) {
-		Assert.assertEquals(31, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, Numeric.type, false)).size());
+		Assert.assertEquals(31, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, "gov.va.vinci.vitals.types.Numeric", false)).size());
 		Assert.assertEquals(27, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, IntegerNumber.type, false)).size());
 		Assert.assertEquals(4, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, DoubleNumber.type, false)).size());
 	}
@@ -125,7 +125,7 @@ public class BasicServiceTest {
 		Assert.assertEquals(2, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, T_Term.type, false)).size());
 		Assert.assertEquals(2, ((ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas, So2_Term.type, false)).size());
 	}
-
+**/
 	public void outputXmi(String filename, JCas jcas) {
 		try {
 
@@ -142,7 +142,7 @@ public class BasicServiceTest {
 
 		System.out.println(ListenerLogic.getRows(jcas.getCas()));
 		ArrayList<Annotation> list = (ArrayList<Annotation>) AnnotationLibrarian.getAllAnnotationsOfType(jcas,
-		    Bp_value.type, false);
+				gov.va.vinci.vitals.types.Bp_value.type, false);
 
 		System.out.println("BP count : " + list.size());
 		for (Annotation a : list) {

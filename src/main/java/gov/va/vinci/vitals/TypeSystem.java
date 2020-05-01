@@ -1,6 +1,5 @@
 package gov.va.vinci.vitals;
 
-import gov.va.vinci.kttr.types.HRValue;
 import gov.va.vinci.leo.annotationpattern.ae.AnnotationPatternAnnotator;
 import gov.va.vinci.leo.context.ae.ContextAnnotator;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
@@ -10,9 +9,12 @@ import gov.va.vinci.leo.sentence.ae.AnchoredSentenceAnnotator;
 import gov.va.vinci.leo.sentence.ae.SentenceAnnotator;
 import gov.va.vinci.leo.types.TypeLibrarian;
 import gov.va.vinci.leo.window.ae.WindowAnnotator;
-import gov.va.vinci.vitals.pipeline.VitalsPipeline;
+import org.apache.uima.resource.metadata.TypeDescription;
+import org.apache.uima.resource.metadata.impl.TypeDescription_impl;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TypeSystem {
     public enum PARENT_CLASS {
@@ -25,7 +27,7 @@ public class TypeSystem {
 
         public String type;
 
-        private PARENT_CLASS(String type) {
+        PARENT_CLASS(String type) {
             this.type = type;
         }
 
@@ -35,50 +37,107 @@ public class TypeSystem {
 
     }
 
-    public static final String[] regex_types = new String[]{
-            "gov.va.vinci.vitals.types.Bp_Term",
-            "gov.va.vinci.vitals.types.Bp_Systolic_Term",
-            "gov.va.vinci.vitals.types.Bp_Diastolic_Term",
-            "gov.va.vinci.vitals.types.Resp_Term",
-            "gov.va.vinci.vitals.types.Hr_Term",
-            "gov.va.vinci.vitals.types.Pain_Term",
-            "gov.va.vinci.vitals.types.T_Term",
-            "gov.va.vinci.vitals.types.Weight_Term",
-            "gov.va.vinci.vitals.types.Height_Term",
-            "gov.va.vinci.vitals.types.So2_Term",
-            "gov.va.vinci.vitals.types.Bmi_Term",
-            "gov.va.vinci.vitals.types.Age_Term",
-            "gov.va.vinci.vitals.types.NotIt_Term"
-            , "gov.va.vinci.vitals.types.SectionHeader"
-            ,  "gov.va.vinci.vitals.types.Hr_value",
-            //   TYPE_Bp_value,
-            "gov.va.vinci.vitals.types.T_value",
-            "gov.va.vinci.vitals.types.Weight_value",
-            "gov.va.vinci.vitals.types.Height_value",
-            "gov.va.vinci.vitals.types.So2_value",
-            "gov.va.vinci.vitals.types.Resp_value",
-            "gov.va.vinci.vitals.types.Pain_value",
-            "gov.va.vinci.vitals.types.BMI_value"
-    };
-    public static final String[] pattern_types = new String[]{
-            "gov.va.vinci.vitals.types.TermPattern"};
+    public static class LearningVariables {
+        static String TYPE_FeatureVector = "gov.va.vinci.vitals.types.Hr_Vector";
+        static String TYPE_Prediction = "gov.va.vinci.vitals.types.Hr_Prediction";
+    }
 
-    public static final String[] windowsTypes = new String[]{
-            "gov.va.vinci.vitals.types.HiPrecisionWindow",
-            "gov.va.vinci.vitals.types.LowerPrecisionWindow",
-            "gov.va.vinci.vitals.types.FVWindow",
-            "gov.va.vinci.vitals.types.ExcludeAllWindow"
+    public static class PipelineVariables {
+        static String PatternType = "gov.va.vinci.vitals.types.Pattern";
+        static String RegexType = "gov.va.vinci.leo.regex.types.RegularExpressionType";
+
+        static String TYPE_NUMERIC = "gov.va.vinci.vitals.types.Numeric";
+        static String[] TYPES_NUMERIC = new String[] {
+                "gov.va.vinci.vitals.types.IntegerNumber",
+                "gov.va.vinci.vitals.types.DoubleNumber"
+        };
+        static String TYPE_UNIT = "gov.va.vinci.vitals.types.Unit";
+
+        static String TYPE_TERM = "gov.va.vinci.vitals.types.Term";
+        static String[] TYPES_TERM = new String[] {
+                "gov.va.vinci.vitals.types.Bp_Term",
+                "gov.va.vinci.vitals.types.Bp_Systolic_Term",
+                "gov.va.vinci.vitals.types.Bp_Diastolic_Term",
+                "gov.va.vinci.vitals.types.Resp_Term",
+                "gov.va.vinci.vitals.types.Hr_Term",
+                "gov.va.vinci.vitals.types.Pain_Term",
+                "gov.va.vinci.vitals.types.T_Term",
+                "gov.va.vinci.vitals.types.Weight_Term",
+                "gov.va.vinci.vitals.types.Height_Term",
+                "gov.va.vinci.vitals.types.So2_Term",
+                "gov.va.vinci.vitals.types.Bmi_Term",
+                "gov.va.vinci.vitals.types.Age_Term",
+                "gov.va.vinci.vitals.types.NotIt_Term"
+        };
+
+        static String TYPE_INDICATOR = "gov.va.vinci.vitals.types.Indicator";
+
+        static String TYPE_TIMESTAMP = "gov.va.vinci.vitals.types.Timestamp";
+
+        static String TYPE_NUMEXCLUDE = "gov.va.vinci.vitals.types.NumericExclude";
+
+        static String TYPE_RANGE = "gov.va.vinci.vitals.types.Range";
+
+        static String TYPE_POTENTIAL_BP = "gov.va.vinci.vitals.types.PotentialBp";
+        static String TYPE_EX_POTENTIAL_BP = "gov.va.vinci.vitals.types.ExcludePotentialBp";
+
+        static String TYPE_POTENTIAL_HEIGHT = "gov.va.vinci.vitals.types.PotentialHeight";
+        static String TYPE_EX_POTENTIAL_HEIGHT = "gov.va.vinci.vitals.types.ExcludePotentialHeight";
+
+        static String TYPE_TERMEXCLUDE = "gov.va.vinci.vitals.types.TermExclude";
+
+        static String TYPE_RELATION = "gov.va.vinci.vitals.types.Relation";
+
+        static String TYPE_RELATION_TIMESTAMP = "gov.va.vinci.vitals.types.Relation_Time";
+
+        static String TYPE_OUTPUT = "gov.va.vinci.vitals.types.Output_Value";
+        static String TYPE_Bp_value = "gov.va.vinci.vitals.types.Bp_value";
+        static String[] valueTypes = new String[] {
+                "gov.va.vinci.vitals.types.Hr_value",
+                //   TYPE_Bp_value,
+                "gov.va.vinci.vitals.types.T_value",
+                "gov.va.vinci.vitals.types.Weight_value",
+                "gov.va.vinci.vitals.types.Height_value",
+                "gov.va.vinci.vitals.types.So2_value",
+                "gov.va.vinci.vitals.types.Resp_value",
+                "gov.va.vinci.vitals.types.Pain_value",
+                "gov.va.vinci.vitals.types.BMI_value"
+        };
+        static String[] valueBPTypes = new String[] {
+                "gov.va.vinci.vitals.types.Bp_Systolic_value",
+                "gov.va.vinci.vitals.types.Bp_Diastolic_value" };
+
+        static String TYPE_WINDOW = "gov.va.vinci.leo.window.types.Window";
+        static String[] TYPES_WINDOW = new String[] {
+                "gov.va.vinci.vitals.types.HiPrecisionWindow",
+                "gov.va.vinci.vitals.types.LowerPrecisionWindow",
+                "gov.va.vinci.vitals.types.FVWindow",
+                "gov.va.vinci.vitals.types.ExcludeAllWindow"
+        };
+    }
+
+    public static final String[] regex_types = new String[]{
+             "gov.va.vinci.vitals.types.SectionHeader"
+
     };
-    public static final String[] contextTypes = new String[]{
-            "gov.va.vinci.vitals.types.TermContext"
+
+    public static final String[] pattern_types = new String[]{
+        };
+    public static final String[] windowsTypes = new String[]{
+
     };
     public static final String[] sentenceTypes = new String[]{
     };
     public static final String[] anchoredTypes = new String[]{
     };
+    public static final String[] contextTypes = new String[]{
+    };
     private static String TYPE_SECTION = "gov.va.vinci.vitals.types.Section";
 
+    public static class KnowtatorVariables {
+        public static HashMap<String, ArrayList<String>> uimaTypeFeatureMap = new HashMap<String, ArrayList<String>>();
 
+    }
     public static LeoTypeSystemDescription getLeoTypeSystemDescription_DuplicateTypes() {
         LeoTypeSystemDescription types = new LeoTypeSystemDescription();
         types.addType(TypeDescriptionBuilder.create("gov.va.vinci.leo.types.DuplicateType", "", "uima.tcas.Annotation")
@@ -91,7 +150,6 @@ public class TypeSystem {
 
     public static LeoTypeSystemDescription getLeoTypeSystemDescription() {
         LeoTypeSystemDescription types = new LeoTypeSystemDescription();
-        /** Leo Bones **/
 
         types.addType(TypeLibrarian.getCSITypeSystemDescription());
         types.addTypeSystemDescription(new WindowAnnotator().getLeoTypeSystemDescription());
@@ -100,13 +158,15 @@ public class TypeSystem {
         types.addTypeSystemDescription(new SentenceAnnotator().getLeoTypeSystemDescription());
         types.addTypeSystemDescription(new AnchoredSentenceAnnotator().getLeoTypeSystemDescription());
         types.addTypeSystemDescription(new ContextAnnotator().getLeoTypeSystemDescription());
-        types.addTypeSystemDescription(new VitalsPipeline().getLeoTypeSystemDescription());
-        //#types.addTypeSystemDescription(getLeoTypeSystemDescription_PipelineTypes());
-        /**/
-        return types;
+
+      types.addTypeSystemDescription(getLeoTypeSystemDescription_BasePipelineTypes());
+        types.addTypeSystemDescription(getLeoTypeSystemDescription_PipelineTypes());
+     types.addTypeSystemDescription(  getLeoTypeSystemDescription_KttrTypes());
+         return types;
     }
 
-    public static LeoTypeSystemDescription getLeoTypeSystemDescription_PipelineTypes() {
+
+    public static LeoTypeSystemDescription getLeoTypeSystemDescription_BasePipelineTypes() {
         LeoTypeSystemDescription description = new LeoTypeSystemDescription();
         try {
 
@@ -142,6 +202,141 @@ public class TypeSystem {
         }
         return description;
     }
+
+    public static LeoTypeSystemDescription getLeoTypeSystemDescription_PipelineTypes()   {
+        LeoTypeSystemDescription types = new LeoTypeSystemDescription();
+
+        try {
+            // Adding all knowtator annotations to the type list
+            boolean addExtra = true;
+            TypeDescription kttrType;
+            String kttrStrType = "gov.va.vinci.kttr.types.RefValue";
+            kttrType = new TypeDescription_impl(kttrStrType, "", "uima.tcas.Annotation");
+            types.addType(kttrType);
+            for (String type :  KnowtatorVariables.uimaTypeFeatureMap.keySet()) {
+                TypeDescription newType;
+                newType = new TypeDescription_impl(type, "", kttrStrType);
+                for (String feature : KnowtatorVariables.uimaTypeFeatureMap.get(type)) {
+                    newType.addFeature(feature, "", "uima.cas.String");
+                }
+                addExtra = false;
+                types.addType(newType);
+            }
+            if (addExtra)
+                types.addType("gov.va.vinci.kttr.types.HRValue", "", kttrStrType);
+
+
+            TypeDescription numType = new TypeDescription_impl( PipelineVariables.TYPE_NUMERIC, "",
+                    PARENT_CLASS.REGEX.type);
+            numType.addFeature("comment", "", "uima.cas.String");
+            numType.addFeature("value", "", "uima.cas.Double");
+            numType.addFeature("decimal", "", "uima.cas.Boolean");
+            numType.addFeature("integer", "", "uima.cas.Boolean");
+            numType.addFeature("zero_decimal", "", "uima.cas.Boolean");
+            numType.addFeature("unit", "", "uima.tcas.Annotation");
+            numType.addFeature("source", "", "uima.cas.String");
+            numType.addFeature("timestamp", "", "uima.tcas.Annotation");
+            types.addType(numType);
+
+            for (String a : PipelineVariables.TYPES_NUMERIC) {
+                types.addType(a, "", PipelineVariables.TYPE_NUMERIC);
+            }
+
+            //////////////////
+            types.addType(PipelineVariables.TYPE_UNIT, "", PipelineVariables.RegexType);
+            types.addType( PipelineVariables.TYPE_TERM, "",  PipelineVariables.RegexType);
+            for (String a :  PipelineVariables.TYPES_TERM) {
+                types.addType(a, "",  PipelineVariables.TYPE_TERM);
+            }
+            types.addType( PipelineVariables.TYPE_TIMESTAMP, "", PipelineVariables.RegexType);
+
+            // APA default type
+            TypeDescription newType = new TypeDescription_impl(PipelineVariables.PatternType, "",
+                    "uima.tcas.Annotation");
+            newType.addFeature("pattern", "", "uima.cas.String");
+            newType.addFeature("anchor", "", "uima.tcas.Annotation");
+            newType.addFeature("target", "", "uima.tcas.Annotation");
+            newType.addFeature("anchorPattern", "", "uima.cas.String");
+            newType.addFeature("targetPattern", "", "uima.cas.String");
+            types.addType(newType);
+
+            types.addType(PipelineVariables.TYPE_INDICATOR, "", PipelineVariables.PatternType);
+            types.addType(PipelineVariables.TYPE_TERMEXCLUDE, "", PipelineVariables.PatternType);
+            types.addType(PipelineVariables.TYPE_NUMEXCLUDE, "", PipelineVariables.PatternType);
+
+            types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_RANGE, "", PipelineVariables.PatternType)
+                    .addFeature("value1", "", "uima.tcas.Annotation")
+                    .addFeature("value2", "", "uima.tcas.Annotation")
+                    .getTypeDescription());
+
+            types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_POTENTIAL_BP, "", PipelineVariables.PatternType)
+                    .addFeature("value1", "", "uima.tcas.Annotation")
+                    .addFeature("value2", "", "uima.tcas.Annotation")
+                    .getTypeDescription());
+            types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_EX_POTENTIAL_BP, "", PipelineVariables.PatternType)
+                    .getTypeDescription());
+
+            types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_POTENTIAL_HEIGHT, "", PipelineVariables.PatternType)
+                    .addFeature("value1", "", "uima.tcas.Annotation")
+                    .addFeature("value2", "", "uima.tcas.Annotation")
+                    .getTypeDescription());
+
+            types.addType(TypeDescriptionBuilder.create(PipelineVariables.TYPE_EX_POTENTIAL_HEIGHT, "", "uima.tcas.Annotation")
+                    .getTypeDescription());
+
+            types.addType(PipelineVariables.TYPE_RELATION, "", PipelineVariables.PatternType);
+            types.addType(PipelineVariables.TYPE_RELATION_TIMESTAMP, "", PipelineVariables.PatternType);
+
+            types.addType(TypeDescriptionBuilder.create(LearningVariables.TYPE_FeatureVector,
+                    "Type used to store the fearures and values", "uima.tcas.Annotation")
+                    .addFeature("keys", "", "uima.cas.StringArray")
+                    .addFeature("values", "", "uima.cas.StringArray")
+                    .addFeature("context", "", "uima.tcas.Annotation")
+                    .getTypeDescription());
+
+            types.addType(TypeDescriptionBuilder
+                    .create(LearningVariables.TYPE_Prediction, "Type used to output predictions", "uima.tcas.Annotation")
+                    .addFeature("srcFVFeature", "Feature vector annotation", "uima.tcas.Annotation")
+                    .addFeature("prediction", "", "uima.cas.String")
+                    .getTypeDescription());
+
+            // Additional annotations for specific values
+
+            TypeDescription outType = new TypeDescription_impl(PipelineVariables.TYPE_OUTPUT, "",                    "uima.tcas.Annotation");
+            outType.addFeature("value", "", "uima.cas.String");
+            outType.addFeature("valueAnnotation", "", "uima.tcas.Annotation");
+            outType.addFeature("concept", "", "uima.cas.String");
+            outType.addFeature("unit", "", "uima.tcas.Annotation");
+            outType.addFeature("source", "", "uima.cas.String");
+            outType.addFeature("timestamp", "", "uima.tcas.Annotation");
+            types.addType(outType);
+
+            for (String a : PipelineVariables.valueTypes) {
+                types.addType(new TypeDescription_impl(a, "", PipelineVariables.TYPE_OUTPUT));
+            }
+            types.addType(new TypeDescription_impl(PipelineVariables.TYPE_Bp_value, "", PipelineVariables.TYPE_OUTPUT));
+
+            for (String a : PipelineVariables.valueBPTypes) {
+                types.addType(new TypeDescription_impl(a, "", PipelineVariables.TYPE_Bp_value));
+            }
+
+            types.addTypeSystemDescription(new WindowAnnotator().getLeoTypeSystemDescription());
+            for (String a : PipelineVariables.TYPES_WINDOW) {
+                types.addType(new TypeDescription_impl(a, "", PipelineVariables.TYPE_WINDOW));
+            }
+
+            types.addType(new TypeDescription_impl("gov.va.vinci.vitals.types.Month", "", PipelineVariables.RegexType));
+
+            types.addType(new TypeDescription_impl("gov.va.vinci.vitals.types.ExcludePrefix", "", PipelineVariables.RegexType));
+        } catch(Exception e) {
+            System.out.print("Opps");
+        }
+        return types;
+
+
+
+    }
+
 
     public static LeoTypeSystemDescription getLeoTypeSystemDescription_KttrTypes() {
         String ktt_type = "gov.va.vinci.leo.types.ValidationAnnotation";
@@ -187,7 +382,7 @@ public class TypeSystem {
     public static void main(String[] args) {
         try {
             LeoTypeSystemDescription types = new LeoTypeSystemDescription();
-            types.addTypeSystemDescription(getLeoTypeSystemDescription());
+           types.addTypeSystemDescription(getLeoTypeSystemDescription());
 
             File srcDir = new File("generated-types/src");
             srcDir.mkdirs();

@@ -1,5 +1,5 @@
-db_engine = "vhacdwrb03"
-db_name = "VINCI_Phenotypes"
+db_engine = "vhacdwrb02"
+db_name = "VINCI_COVIDNLP"
 
 query = ''' SELECT a.[TIUDocumentSID], ReportText 
             FROM [nlp].[comparison_cohort_112_FullCorpus_20200407] a 

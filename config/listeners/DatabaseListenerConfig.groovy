@@ -1,11 +1,13 @@
-db_engine = "vhacdwrb03"
-db_name = "VINCI_Phenotypes"
+db_engine = "vhacdwrb02"
+db_name = "VINCI_COVIDNLP"
+
+String timeStamp = gov.va.vinci.leo.tools.LeoUtils.getTimestampDateUnderscoreTime()
+String tableName = "[nlp_temp].[vitals_"+ timeStamp+"]"
 
 int batchSize = 2000
 boolean dropExisting = false;
 boolean createTable = true
-String timeStamp = gov.va.vinci.leo.tools.LeoUtils.getTimestampDateUnderscoreTime()
-String tableName = "[nlp_temp].[vitals_"+ timeStamp+"]"
+
 fieldList = [
         ["VitalSignID", "-1", "int"],
         ["DocID", "0", "varchar(50)"],

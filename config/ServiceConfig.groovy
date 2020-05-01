@@ -9,7 +9,8 @@ endpoint   	  = "VitalsForSepsis"
 /**
  * UIMA-AS service Variables
  */
-instanceNumber = 1
+instanceNumber = 10
+casPoolSize=4
 isAsync = false
 
 generateTypes=false

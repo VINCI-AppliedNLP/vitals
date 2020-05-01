@@ -1,6 +1,5 @@
 package gov.va.vinci.vitals.pipeline;
 
-import gov.va.vinci.kttr.types.HRValue;
 import gov.va.vinci.leo.annotationpattern.ae.AnnotationPatternAnnotator;
 import gov.va.vinci.leo.automatonRegex.ae.AutomatonRegexAnnotator;
 import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
@@ -13,7 +12,6 @@ import gov.va.vinci.leo.types.TypeLibrarian;
 import gov.va.vinci.leo.window.ae.WindowAnnotator;
 import gov.va.vinci.svmlib.ml.SvmVectorTranslator;
 import gov.va.vinci.vitals.ae.*;
-import gov.va.vinci.vitals.types.Hr_value;
 import org.apache.uima.resource.metadata.TypeDescription;
 import org.apache.uima.resource.metadata.impl.TypeDescription_impl;
 import org.jvnet.jaxb2_commons.lang.HashCode;
@@ -554,7 +552,7 @@ public class VitalsPipeline implements PipelineInterface, Serializable, HashCode
                     .setKeysFeature("keys")
                     .setValuesFeature("values")
                     .setOutputType(LearningVariables.TYPE_FeatureVector)
-                    .setInputTypes( new String[] { Hr_value.class.getCanonicalName(), HRValue.class.getCanonicalName() })
+                    .setInputTypes( new String[] { "gov.va.vinci.kttr.type.Hr_value", "gov.va.vinci.vitals.type.HRValue" })
                     .getLeoAEDescriptor().setName("HrVectorAnnotator")
                     .addTypeSystemDescription(types));
 
