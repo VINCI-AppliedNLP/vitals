@@ -7,11 +7,10 @@ String url = "jdbc:sqlserver://"+db_engine+":1433;databasename="+db_name+";integ
 String dbUser = ""
 String dbPwd = ""
 
-String query = ''' SELECT t.[TIUDocumentSID], [ReportText]  FROM  [nlp].[NLPTIULogs] l with(nolock)
-  JOIN [CDWWork].[STIUNotes].[TIUDocument_8925] t on l.TIUDocumentSID=t.TIUDocumentSID where [id] between {min} and {max}  '''
+String query = ''' SELECT t.[TIUDocumentSID], [ReportText]  FROM  [nlp].[NLPTIULogs] l with(nolock) JOIN CDWWork.TIU.TIUDocument_8925_02 t on l.TIUDocumentSID=t.TIUDocumentSID where [vitals] = 0 and [id] between {min} and {max}  '''
 
-row_index = [2000000,4000000]
-int batchSize  = 30000;
+row_index = [0,6500000] //6,436,979
+int batchSize  = 1000000;
 
 reader = new GCBatchDatabaseCollectionReader(
         driver,
