@@ -7,7 +7,7 @@ String xmiPath ="T:\\VINCI_COVIDNLP\\test\\output\\edge_case\\xml"
 if (!xmiPathFile.exists())
     xmiPathFile.mkdirs();
 
-Boolean openViewer = true;
+Boolean openViewer = false;
 
 listener = new SimpleXmiListener(xmiPathFile)
 listener.setLaunchAnnotationViewer(openViewer);

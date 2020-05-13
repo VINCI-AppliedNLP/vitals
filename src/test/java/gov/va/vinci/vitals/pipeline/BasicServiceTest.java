@@ -4,6 +4,7 @@ import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.leo.types.CSI;
+import gov.va.vinci.vitals.TypeSystem;
 import gov.va.vinci.vitals.listeners.ListenerLogic;
 
 
@@ -46,10 +47,10 @@ public class BasicServiceTest {
 		VitalsPipeline pipeline = new VitalsPipeline();
 		LeoTypeSystemDescription types = pipeline.getLeoTypeSystemDescription();
 
-		aggregate = pipeline.createNumericPipeline(types);
-		aggregate.addDelegate(pipeline.createTermAndIndicatorPipeline(types));
-		aggregate.addDelegate(pipeline.createPatternsPipeline(types));
-		aggregate.addDelegate(pipeline.createVitalRulesPipeline(types));
+		aggregate = pipeline.createNumericPipeline();
+		aggregate.addDelegate(pipeline.createTermAndIndicatorPipeline( ));
+		aggregate.addDelegate(pipeline.createPatternsPipeline( ));
+		aggregate.addDelegate(pipeline.createVitalRulesPipeline( ));
 
 		File o = new File(outputDir);
 		if (!o.exists()) {

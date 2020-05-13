@@ -1,12 +1,11 @@
-/* An arbitrary name for this annotator. Used in the pipeline for the name of this annotation. */
 // Blood_Pressure, Heart_Rate, Temperature, Height, Weight, SO2, BMI, Pain;
 name = "UnitOfMeasureAnnotation"
 configuration {
 	/* All configuration for this annotator. */
 	global_settings {
-		performance_monitoring = true
+		performance_monitoring = false
 	}
-	
+
 	defaults {
 		/* Global for all configrations below if a property specified here is not overridden in a section below. */
 		outputType = "gov.va.vinci.vitals.types.Unit"
@@ -16,18 +15,18 @@ configuration {
 		case_sensitive = false
 	}
 
-
 	/* An arbitrary name for this set of patterns/config. */
 	"Temperature" {
 		expressions = [
-			'\\bc\\b',
-			'\\bf\\b',
-			'(?<=\\d)f\\b',
-			'(?<=\\d)c\\b',
-			'degrees Fahr\\w+',
-			'centegrade',
-			'centigrade',
-			'celcius'
+				'\\bc\\b',
+				'\\bf\\b',
+				'(?<=\\d)f\\b',
+				'(?<=\\d)c\\b',
+				'degrees F\\w*',
+				'DEGREES C\\w*',
+				'centegrade',
+				'centigrade',
+				'celcius'
 		]
 		concept_feature_value = "Temperature"
 	}
@@ -43,14 +42,14 @@ configuration {
 	}
 	"Height" {
 		expressions = [
-			'\\bin\\b',
-			'\\"',
-			'\\bm\\b',
-			'\\bcm\\b',
-			'\\binch\\b',
-			'\\binches',
-			'\\bft\\b',
-			'\\bfeet\\b'
+				'\\bin\\b',
+				'\\"',
+				'\\bm\\b',
+				'\\bcm\\b',
+				'\\binch\\b',
+				'\\binches',
+				'\\bft\\b',
+				'\\bfeet\\b'
 		]
 		concept_feature_value = "Height"
 	}

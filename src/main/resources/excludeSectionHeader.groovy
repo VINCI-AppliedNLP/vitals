@@ -22,11 +22,12 @@ configuration {
 				"HEMODYNAMICS",
 				"ANGIOGRAPHY",
 				"goal",
+				"panel",
 				"Glucose",
 				"Electrolytes",
 				"\\bi/o\\b",
 				"Orthostats",
-				"\\nABG",
+				"\\bABG",
 				"Active Inpatient Medications \\(excluding Supplies\\):"
 				, "Clinical Reminder Activity"
 				,"\\R+ *IMPORTANT:"
@@ -36,7 +37,7 @@ configuration {
 				,"NOT INCLUDED IN THIS LIST:"
 				,"if needed"
 				,"by mouth"
-				,"medication"
+				,"medications?"
 
 			]
 	}

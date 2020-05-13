@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
-    <name>leoTypeDescription_b0f5a0e4-ea4d-422e-8a5c-1b541e291436</name>
+    <name>leoTypeDescription_5a608553-5077-4cbc-ac7f-2ec2c9991b3f</name>
     <types>
         <typeDescription>
             <name>gov.va.vinci.leo.types.CSI</name>
@@ -35,14 +35,16 @@
             </features>
         </typeDescription>
         <typeDescription>
-            <name>gov.va.vinci.kttr.types.RefValue</name>
-            <description/>
+            <name>gov.va.vinci.leo.window.types.Window</name>
+            <description>Window Type</description>
             <supertypeName>uima.tcas.Annotation</supertypeName>
-        </typeDescription>
-        <typeDescription>
-            <name>gov.va.vinci.kttr.types.HRValue</name>
-            <description/>
-            <supertypeName>gov.va.vinci.kttr.types.RefValue</supertypeName>
+            <features>
+                <featureDescription>
+                    <name>Anchor</name>
+                    <description>Anchor annotation around which the window was created</description>
+                    <rangeTypeName>uima.tcas.Annotation</rangeTypeName>
+                </featureDescription>
+            </features>
         </typeDescription>
         <typeDescription>
             <name>gov.va.vinci.leo.regex.types.RegularExpressionType</name>
@@ -65,6 +67,196 @@
                     <rangeTypeName>uima.cas.StringArray</rangeTypeName>
                     <elementType>uima.cas.String</elementType>
                     <multipleReferencesAllowed>false</multipleReferencesAllowed>
+                </featureDescription>
+            </features>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.leo.annotationpattern.types.AnnotationPatternType</name>
+            <description/>
+            <supertypeName>uima.tcas.Annotation</supertypeName>
+            <features>
+                <featureDescription>
+                    <name>anchor</name>
+                    <description/>
+                    <rangeTypeName>uima.tcas.Annotation</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>anchorPattern</name>
+                    <description/>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>pattern</name>
+                    <description/>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>target</name>
+                    <description/>
+                    <rangeTypeName>uima.tcas.Annotation</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>targetPattern</name>
+                    <description/>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+            </features>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.leo.sentence.types.Sentence</name>
+            <description>Sentence Type</description>
+            <supertypeName>uima.tcas.Annotation</supertypeName>
+            <features>
+                <featureDescription>
+                    <name>Anchor</name>
+                    <description>Anchor Annotation around which the sentence was created</description>
+                    <rangeTypeName>uima.tcas.Annotation</rangeTypeName>
+                </featureDescription>
+            </features>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.leo.sentence.types.AnchoredSentence</name>
+            <description>Sentence Type</description>
+            <supertypeName>uima.tcas.Annotation</supertypeName>
+            <features>
+                <featureDescription>
+                    <name>Anchor</name>
+                    <description>Anchor Annotation around which the sentence was created</description>
+                    <rangeTypeName>uima.tcas.Annotation</rangeTypeName>
+                </featureDescription>
+            </features>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.leo.context.types.Context</name>
+            <description/>
+            <supertypeName>uima.tcas.Annotation</supertypeName>
+            <features>
+                <featureDescription>
+                    <name>Experiencer</name>
+                    <description/>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>ExperiencerPattern</name>
+                    <description/>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>Negation</name>
+                    <description/>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>NegationPattern</name>
+                    <description/>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>Temporality</name>
+                    <description/>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>TemporalityPattern</name>
+                    <description/>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>Window</name>
+                    <description/>
+                    <rangeTypeName>uima.tcas.Annotation</rangeTypeName>
+                </featureDescription>
+            </features>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.vitals.types.SectionHeader</name>
+            <description>RegEx type</description>
+            <supertypeName>gov.va.vinci.leo.regex.types.RegularExpressionType</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.vitals.types.Month</name>
+            <description>RegEx type</description>
+            <supertypeName>gov.va.vinci.leo.regex.types.RegularExpressionType</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.vitals.types.ExcludePrefix</name>
+            <description>RegEx type</description>
+            <supertypeName>gov.va.vinci.leo.regex.types.RegularExpressionType</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.vitals.types.Timestamp</name>
+            <description>RegEx type</description>
+            <supertypeName>gov.va.vinci.leo.regex.types.RegularExpressionType</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.vitals.types.Indicator</name>
+            <description>Annotation Pattern Annotator type</description>
+            <supertypeName>gov.va.vinci.leo.annotationpattern.types.AnnotationPatternType</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.vitals.types.TermExclude</name>
+            <description>Annotation Pattern Annotator type</description>
+            <supertypeName>gov.va.vinci.leo.annotationpattern.types.AnnotationPatternType</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.vitals.types.NumericExclude</name>
+            <description>Annotation Pattern Annotator type</description>
+            <supertypeName>gov.va.vinci.leo.annotationpattern.types.AnnotationPatternType</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.vitals.types.Relation</name>
+            <description>Annotation Pattern Annotator type</description>
+            <supertypeName>gov.va.vinci.leo.annotationpattern.types.AnnotationPatternType</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.vitals.types.Relation_Time</name>
+            <description>Annotation Pattern Annotator type</description>
+            <supertypeName>gov.va.vinci.leo.annotationpattern.types.AnnotationPatternType</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.vitals.types.HiPrecisionWindow</name>
+            <description>Window type</description>
+            <supertypeName>gov.va.vinci.leo.window.types.Window</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.vitals.types.LowerPrecisionWindow</name>
+            <description>Window type</description>
+            <supertypeName>gov.va.vinci.leo.window.types.Window</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.vitals.types.FVWindow</name>
+            <description>Window type</description>
+            <supertypeName>gov.va.vinci.leo.window.types.Window</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.vitals.types.ExcludeAllWindow</name>
+            <description>Window type</description>
+            <supertypeName>gov.va.vinci.leo.window.types.Window</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.vitals.types.Section</name>
+            <description>Section Type</description>
+            <supertypeName>uima.tcas.Annotation</supertypeName>
+            <features>
+                <featureDescription>
+                    <name>SectionHeader</name>
+                    <description>Anchor annotation around which the section was created</description>
+                    <rangeTypeName>uima.tcas.Annotation</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>SectionHeaderText</name>
+                    <description>text of the header</description>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>Term</name>
+                    <description>text of the header</description>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>Snippet</name>
+                    <description>text</description>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
                 </featureDescription>
             </features>
         </typeDescription>
@@ -124,11 +316,6 @@
             <name>gov.va.vinci.vitals.types.DoubleNumber</name>
             <description/>
             <supertypeName>gov.va.vinci.vitals.types.Numeric</supertypeName>
-        </typeDescription>
-        <typeDescription>
-            <name>gov.va.vinci.vitals.types.Unit</name>
-            <description/>
-            <supertypeName>gov.va.vinci.leo.regex.types.RegularExpressionType</supertypeName>
         </typeDescription>
         <typeDescription>
             <name>gov.va.vinci.vitals.types.Term</name>
@@ -201,61 +388,14 @@
             <supertypeName>gov.va.vinci.vitals.types.Term</supertypeName>
         </typeDescription>
         <typeDescription>
-            <name>gov.va.vinci.vitals.types.Timestamp</name>
+            <name>gov.va.vinci.vitals.types.Unit</name>
             <description/>
             <supertypeName>gov.va.vinci.leo.regex.types.RegularExpressionType</supertypeName>
         </typeDescription>
         <typeDescription>
-            <name>gov.va.vinci.vitals.types.Pattern</name>
-            <description/>
-            <supertypeName>uima.tcas.Annotation</supertypeName>
-            <features>
-                <featureDescription>
-                    <name>pattern</name>
-                    <description/>
-                    <rangeTypeName>uima.cas.String</rangeTypeName>
-                </featureDescription>
-                <featureDescription>
-                    <name>anchor</name>
-                    <description/>
-                    <rangeTypeName>uima.tcas.Annotation</rangeTypeName>
-                </featureDescription>
-                <featureDescription>
-                    <name>target</name>
-                    <description/>
-                    <rangeTypeName>uima.tcas.Annotation</rangeTypeName>
-                </featureDescription>
-                <featureDescription>
-                    <name>anchorPattern</name>
-                    <description/>
-                    <rangeTypeName>uima.cas.String</rangeTypeName>
-                </featureDescription>
-                <featureDescription>
-                    <name>targetPattern</name>
-                    <description/>
-                    <rangeTypeName>uima.cas.String</rangeTypeName>
-                </featureDescription>
-            </features>
-        </typeDescription>
-        <typeDescription>
-            <name>gov.va.vinci.vitals.types.Indicator</name>
-            <description/>
-            <supertypeName>gov.va.vinci.vitals.types.Pattern</supertypeName>
-        </typeDescription>
-        <typeDescription>
-            <name>gov.va.vinci.vitals.types.TermExclude</name>
-            <description/>
-            <supertypeName>gov.va.vinci.vitals.types.Pattern</supertypeName>
-        </typeDescription>
-        <typeDescription>
-            <name>gov.va.vinci.vitals.types.NumericExclude</name>
-            <description/>
-            <supertypeName>gov.va.vinci.vitals.types.Pattern</supertypeName>
-        </typeDescription>
-        <typeDescription>
             <name>gov.va.vinci.vitals.types.Range</name>
             <description/>
-            <supertypeName>gov.va.vinci.vitals.types.Pattern</supertypeName>
+            <supertypeName>gov.va.vinci.leo.annotationpattern.types.AnnotationPatternType</supertypeName>
             <features>
                 <featureDescription>
                     <name>value1</name>
@@ -272,7 +412,7 @@
         <typeDescription>
             <name>gov.va.vinci.vitals.types.PotentialBp</name>
             <description/>
-            <supertypeName>gov.va.vinci.vitals.types.Pattern</supertypeName>
+            <supertypeName>gov.va.vinci.leo.annotationpattern.types.AnnotationPatternType</supertypeName>
             <features>
                 <featureDescription>
                     <name>value1</name>
@@ -289,12 +429,12 @@
         <typeDescription>
             <name>gov.va.vinci.vitals.types.ExcludePotentialBp</name>
             <description/>
-            <supertypeName>gov.va.vinci.vitals.types.Pattern</supertypeName>
+            <supertypeName>gov.va.vinci.leo.annotationpattern.types.AnnotationPatternType</supertypeName>
         </typeDescription>
         <typeDescription>
             <name>gov.va.vinci.vitals.types.PotentialHeight</name>
             <description/>
-            <supertypeName>gov.va.vinci.vitals.types.Pattern</supertypeName>
+            <supertypeName>gov.va.vinci.leo.annotationpattern.types.AnnotationPatternType</supertypeName>
             <features>
                 <featureDescription>
                     <name>value1</name>
@@ -311,17 +451,7 @@
         <typeDescription>
             <name>gov.va.vinci.vitals.types.ExcludePotentialHeight</name>
             <description/>
-            <supertypeName>uima.tcas.Annotation</supertypeName>
-        </typeDescription>
-        <typeDescription>
-            <name>gov.va.vinci.vitals.types.Relation</name>
-            <description/>
-            <supertypeName>gov.va.vinci.vitals.types.Pattern</supertypeName>
-        </typeDescription>
-        <typeDescription>
-            <name>gov.va.vinci.vitals.types.Relation_Time</name>
-            <description/>
-            <supertypeName>gov.va.vinci.vitals.types.Pattern</supertypeName>
+            <supertypeName>gov.va.vinci.leo.regex.types.RegularExpressionType</supertypeName>
         </typeDescription>
         <typeDescription>
             <name>gov.va.vinci.vitals.types.Hr_Vector</name>
@@ -455,46 +585,91 @@
             <supertypeName>gov.va.vinci.vitals.types.Bp_value</supertypeName>
         </typeDescription>
         <typeDescription>
-            <name>gov.va.vinci.leo.window.types.Window</name>
-            <description>Window Type</description>
+            <name>gov.va.vinci.leo.types.ValidationAnnotation</name>
+            <description>Validation Annotations</description>
             <supertypeName>uima.tcas.Annotation</supertypeName>
             <features>
                 <featureDescription>
-                    <name>Anchor</name>
-                    <description>Anchor annotation around which the window was created</description>
-                    <rangeTypeName>uima.tcas.Annotation</rangeTypeName>
+                    <name>ReferenceAnnotationGuid</name>
+                    <description>The GUID of the annotation this validation annotation references.</description>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>ValidationValue</name>
+                    <description>The validation value for this annotation.</description>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>ValidationComment</name>
+                    <description>The validation comment (if any) for this annotation.</description>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>CreatedBy</name>
+                    <description>The userId that created this annotation.</description>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
                 </featureDescription>
             </features>
         </typeDescription>
         <typeDescription>
-            <name>gov.va.vinci.vitals.types.HiPrecisionWindow</name>
+            <name>gov.va.vinci.kttr.types.RefValue</name>
             <description/>
-            <supertypeName>gov.va.vinci.leo.window.types.Window</supertypeName>
+            <supertypeName>uima.tcas.Annotation</supertypeName>
         </typeDescription>
         <typeDescription>
-            <name>gov.va.vinci.vitals.types.LowerPrecisionWindow</name>
+            <name>gov.va.vinci.kttr.types.HRValue</name>
             <description/>
-            <supertypeName>gov.va.vinci.leo.window.types.Window</supertypeName>
+            <supertypeName>gov.va.vinci.kttr.types.RefValue</supertypeName>
         </typeDescription>
         <typeDescription>
-            <name>gov.va.vinci.vitals.types.FVWindow</name>
+            <name>gov.va.vinci.kttr.types.BPValue</name>
             <description/>
-            <supertypeName>gov.va.vinci.leo.window.types.Window</supertypeName>
+            <supertypeName>gov.va.vinci.leo.types.ValidationAnnotation</supertypeName>
         </typeDescription>
         <typeDescription>
-            <name>gov.va.vinci.vitals.types.ExcludeAllWindow</name>
+            <name>gov.va.vinci.kttr.types.TValue</name>
             <description/>
-            <supertypeName>gov.va.vinci.leo.window.types.Window</supertypeName>
+            <supertypeName>gov.va.vinci.leo.types.ValidationAnnotation</supertypeName>
         </typeDescription>
         <typeDescription>
-            <name>gov.va.vinci.vitals.types.Month</name>
+            <name>gov.va.vinci.kttr.types.BMIValue</name>
             <description/>
-            <supertypeName>gov.va.vinci.leo.regex.types.RegularExpressionType</supertypeName>
+            <supertypeName>gov.va.vinci.leo.types.ValidationAnnotation</supertypeName>
         </typeDescription>
         <typeDescription>
-            <name>gov.va.vinci.vitals.types.ExcludePrefix</name>
+            <name>gov.va.vinci.kttr.types.HeightValue</name>
             <description/>
-            <supertypeName>gov.va.vinci.leo.regex.types.RegularExpressionType</supertypeName>
+            <supertypeName>gov.va.vinci.leo.types.ValidationAnnotation</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.kttr.types.WeightValue</name>
+            <description/>
+            <supertypeName>gov.va.vinci.leo.types.ValidationAnnotation</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.kttr.types.PainValue</name>
+            <description/>
+            <supertypeName>gov.va.vinci.leo.types.ValidationAnnotation</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.kttr.types.RespValue</name>
+            <description/>
+            <supertypeName>gov.va.vinci.leo.types.ValidationAnnotation</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.kttr.types.OxygenValue</name>
+            <description/>
+            <supertypeName>gov.va.vinci.leo.types.ValidationAnnotation</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.kttr.types.BPDiasValue</name>
+            <description/>
+            <supertypeName>gov.va.vinci.leo.types.ValidationAnnotation</supertypeName>
+        </typeDescription>
+        <typeDescription>
+            <name>gov.va.vinci.kttr.types.BPSysValue</name>
+            <description/>
+            <supertypeName>gov.va.vinci.leo.types.ValidationAnnotation</supertypeName>
         </typeDescription>
     </types>
 </typeSystemDescription>

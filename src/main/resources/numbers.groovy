@@ -1,16 +1,19 @@
-
 name = "NumbersAnnotation"
 configuration {
 	/* All configuration for this annotator. */
 
 	global_settings {
-		performance_monitoring = true
+		performance_monitoring = false
 	}
 
 	defaults {
 		/* Global for all configurations below if a property specified here is not overridden in a section below. */
 		outputType = "gov.va.vinci.vitals.types.Numeric"
-		case_sensitive = false }
+		case_sensitive = false
+		matchedPatternFeatureName = "pattern"
+		concept_feature_name = "concept"
+		groupFeatureName = "group"
+	}
 
 
 	/* An arbitrary name for this set of patterns/config. */
@@ -48,14 +51,14 @@ configuration {
 	}
 
 
-	/** A prefix to numbers we annotate for exclusion in the numericValuesExclude.pattern file.
+	/** A prefix to numbers we annotate for exclusion in the numericValuesExclude.pattern file. **/
 	"ExcludePrefix" {
 		matchedPatternFeatureName = "pattern"
 		expressions = [
-		        "(reading|#|CVP|MAP|\\bi.o)\\s*"
+		        "(reading|#|CVP|MAP|\\bi.o)"
 		]
 		outputType = "gov.va.vinci.vitals.types.ExcludePrefix"
 	}
-**/
+
 
 }
