@@ -17,7 +17,7 @@ public class ExtractSo2AE extends BaseVitalExtractorAE {
 	public static String currentType = "SO2";
 	public static String outputValue = So2_value.class.getCanonicalName();
 
-	public static double[][] typeRanges = { { 50, 100 } };
+	public static double[][] typeRanges = { { 20, 100 } };
 
 	@Override
 	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
@@ -57,13 +57,17 @@ public class ExtractSo2AE extends BaseVitalExtractorAE {
 						} else {
 							continue;
 						}
-					} else if (curUnit != null) {
+					} //TODO: commented out so2 without term
+					 else if (curUnit != null) {
 						if ((curUnit.getConcept().equalsIgnoreCase(currentType))) {
-							processValue(value, currentType, curUnit, true, typeRanges);
+							// TODO: check if it is in the precision window
+							if(AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, "gov.va.vinci.vitals.types.HiPrecisionWindow",false).size()>0) {
+								processValue(value, currentType, curUnit, true, typeRanges);
+							}
 						} else {
 							continue;
 						}
-					}
+					}/**/
 				}
 			}
 		} catch (CASException ex) {

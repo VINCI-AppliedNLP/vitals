@@ -4,17 +4,19 @@
  */
 
 brokerURL	  = "tcp://localhost:61616";
-endpoint   	  = "VitalsForSepsis"
+endpoint   	  = "VitalsForCOVID"
 
 /**
  * UIMA-AS service Variables
  */
 instanceNumber = 10
+casPoolSize=4
 isAsync = false
 
 generateTypes=false
-
+/*
 registerWithJam=false
 jamQueryIntervalInSeconds = 600
 jamResetStatisticsAfterQuery = false
 //jamServerBaseUrl=http://localhost/jam
+**/

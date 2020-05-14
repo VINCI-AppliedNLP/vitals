@@ -1,7 +1,6 @@
 package gov.va.vinci.vitals.listeners;
 
 import gov.va.vinci.kttr.types.*;
-import gov.va.vinci.vitals.ae.AnalyzeNumbersAE;
 import gov.va.vinci.vitals.types.*;
 
 import java.util.ArrayList;
@@ -61,29 +60,33 @@ public class ListenerLogic {
 					lineRow.put("Diastolic", ((Output_Value) a).getValue());
 				}
 
+				lineRow.put("Term", ((Output_Value) a).getValueAnnotation().getCoveredText());
 				lineRow.put("Result", ((Output_Value) a).getValue());
-				lineRow.put("VitalType", singleType);
+				lineRow.put("VitalType", singleType.replaceAll("gov.va.vinci.vitals.types.", "").replaceAll("_value", ""));
 				lineRow.put("ValueString", a.getCoveredText().replaceAll("\\s+", " ").trim());
 				lineRow.put("SpanStart", "" + a.getBegin());
 				lineRow.put("SpanEnd", "" + a.getEnd());
 				lineRow.put("VitalSignID", "" + recordID);
-
-				int windowSize = 30;
-				int start = a.getBegin() - windowSize;
-				int end = a.getEnd() + windowSize;
-				if (start < 0) {
-					start = 0;
-				}
-				if (end > aCas.getDocumentText().length() - 1) {
-					end = aCas.getDocumentText().length() - 1;
-				}
-				lineRow.put("Snippets", aCas.getDocumentText().substring(start, end).replaceAll("\\s+", " ").trim());
+				lineRow.put("Snippets",  getSnippet(a, 30).replaceAll("\\s+", " ").trim());
 				allRows.add(lineRow);
 			}
 		}
 
 		///////////////////////////////////////////////////////////
 		return allRows;
+	}
+	public static String getSnippet(Annotation annotation, int windowSize) {
+		int startIndex = 0;
+		int endIndex = annotation.getEnd() + windowSize;
+
+		if (annotation.getBegin() > windowSize) {
+			startIndex = annotation.getBegin() - windowSize;
+		}
+
+		if (endIndex > annotation.getCAS().getDocumentText().length()) {
+			endIndex = annotation.getCAS().getDocumentText().length();
+		}
+		return annotation.getCAS().getDocumentText().substring(startIndex, endIndex);
 	}
 
 	// Using HashMap instead of String[] to allow arbitrary ordering of columns
@@ -95,17 +98,17 @@ public class ListenerLogic {
 		///////////////////////////////////////////////////////////
 		// Output all refst annotations
 		String[] types = new String[] {
-		    BPValue.class.getCanonicalName(),
-		    TValue.class.getCanonicalName()
-		    , HRValue.class.getCanonicalName()
-		    , BMIValue.class.getCanonicalName()
-		    , HeightValue.class.getCanonicalName()
-		    , WeightValue.class.getCanonicalName()
-		    , PainValue.class.getCanonicalName()
-		    , RespValue.class.getCanonicalName()
-		    , OxygenValue.class.getCanonicalName()
-		    , BPDiasValue.class.getCanonicalName()
-		    , BPSysValue.class.getCanonicalName()
+				"gov.va.vinci.kttr.types.BPValue",
+				"gov.va.vinci.kttr.types.TValue",
+				"gov.va.vinci.kttr.types.HRValue",
+				"gov.va.vinci.kttr.types.BMIValue",
+				"gov.va.vinci.kttr.types.HeightValue",
+				"gov.va.vinci.kttr.types.WeightValue",
+				"gov.va.vinci.kttr.types.PainValue",
+				"gov.va.vinci.kttr.types.RespValue",
+				"gov.va.vinci.kttr.types.OxygenValue",
+				"gov.va.vinci.kttr.types.BPDiasValue",
+				"gov.va.vinci.kttr.types.BPSysValue"
 		};
 		for (String singleType : types) {
 			Type type = aCas.getTypeSystem().getType(singleType);

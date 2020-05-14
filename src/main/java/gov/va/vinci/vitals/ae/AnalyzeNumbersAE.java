@@ -12,6 +12,10 @@ import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.leo.tools.LeoUtils;
 import gov.va.vinci.vitals.types.*;
 
+/**
+ * This annotator labels numeric annotations as either integer or double number
+ * and sets the value attribute with the number of the covered text
+ */
 public class AnalyzeNumbersAE extends LeoBaseAnnotator {
 	private static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
 

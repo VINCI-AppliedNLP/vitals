@@ -49,10 +49,13 @@ public class ExtractTemperatureAE extends BaseVitalExtractorAE {
 				Annotation value = currRelation.getTarget();
 
 				Unit curUnit = null;
-
-				if (AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type, false).size() > 0) {
-					curUnit = (Unit) ((ArrayList<Annotation>) AnnotationLibrarian
-					    .getAllOverlappingAnnotationsOfType(currRelation, Unit.type, false)).get(0); // get the first unit in the pattern
+				ArrayList<Annotation> units = ((ArrayList<Annotation>) AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type, false));
+				if (units.size() > 0) {
+					if(AnnotationLibrarian.getNextClosestAnnotations(value, units).size()>0) {
+						curUnit = (Unit)((ArrayList<Annotation>)(AnnotationLibrarian.getNextClosestAnnotations(value, units))).get(0); // get the first unit in the pattern
+					}else{
+						curUnit = (Unit)((ArrayList<Annotation>)(AnnotationLibrarian.getPreviousClosestAnnotations(value, units))).get(0);
+					}
 				}
 
 				// Has term?
