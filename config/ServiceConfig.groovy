@@ -4,7 +4,7 @@
  */
 
 brokerURL	  = "tcp://localhost:61616";
-endpoint   	  = "VitalsForSepsis"
+endpoint   	  = "VitalsForCOVID"
 
 /**
  * UIMA-AS service Variables

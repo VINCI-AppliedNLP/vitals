@@ -1,12 +1,12 @@
 import gov.va.vinci.vitals.listeners.LogDatabaseListener
 
-db_engine = "vhacdwrb02"
+db_engine = "vhacdwrb03"
 db_name = "VINCI_COVIDNLP"
 
 int batchSize = 2000
 boolean dropExisting = false;
 boolean createTable = true
-String timeStamp = gov.va.vinci.leo.tools.LeoUtils.getTimestampDateUnderscoreTime()
+String timeStamp = gov.va.vinci.leo.tools.LeoUtils.getTimestampDateUnderscoreTime().substring(0,8)
 String tableName = "[nlp_temp].[vitals_log_"+ timeStamp+"]"
 
 String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"

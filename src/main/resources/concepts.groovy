@@ -135,7 +135,7 @@ configuration {
 		outputType = "gov.va.vinci.vitals.types.Height_Term" }
 
 	"Pain" {
-		expressions = ['Pain', 'pain score', 'PAIN INTENSITY', 'LEVEL OF PAIN', 'severity']
+		expressions = ['Pain', 'pain score', 'PAIN INTENSITY', 'LEVEL OF PAIN', 'severity', 'pain scale']
 		concept_feature_value = "Pain"
 		outputType = "gov.va.vinci.vitals.types.Pain_Term" }
 
@@ -162,7 +162,7 @@ configuration {
 			'\\bsats?\\b',
 			'\\bpo2',
 			'SAO2',
-			'saturations?',
+			'(oxygen *)?saturations?',
 			'saturation\\s*O2',
 			'saturation\\s*o2\\s*stats',
 			'O2 *SATS',

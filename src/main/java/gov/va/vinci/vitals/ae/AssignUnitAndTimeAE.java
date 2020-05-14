@@ -42,8 +42,20 @@ public class AssignUnitAndTimeAE extends LeoBaseAnnotator {
 						if (AnnotationLibrarian.getAllContainingAnnotationsOfType(currNum, Relation_Time.type, false).size() > 0) {
 							Relation_Time currRelation = (Relation_Time) ((ArrayList) AnnotationLibrarian.getAllContainingAnnotationsOfType(currNum, Relation_Time.type, false)).get(0);
 							if (AnnotationLibrarian.getAllCoveredAnnotationsOfType(currRelation, Unit.type, false).size() > 0) {
-								Unit units = (Unit) ((ArrayList) AnnotationLibrarian.getAllCoveredAnnotationsOfType(currRelation, Unit.type, false)).get(0);
-								currNum.setUnit(units);
+								//Unit units = (Unit) ((ArrayList) AnnotationLibrarian.getAllCoveredAnnotationsOfType(currRelation, Unit.type, false)).get(0);
+
+
+								Unit curUnit = null;
+								ArrayList<Annotation> units = ((ArrayList<Annotation>) AnnotationLibrarian.getAllOverlappingAnnotationsOfType(currRelation, Unit.type, false));
+								if (units.size() > 0) {
+									if(AnnotationLibrarian.getNextClosestAnnotations(currNum, units).size()>0) {
+										curUnit = (Unit)((ArrayList<Annotation>)(AnnotationLibrarian.getNextClosestAnnotations(currNum, units))).get(0); // get the first unit in the pattern
+									}else{
+										curUnit = (Unit)((ArrayList<Annotation>)(AnnotationLibrarian.getPreviousClosestAnnotations(currNum, units))).get(0);
+									}
+								}
+
+								 currNum.setUnit(curUnit);
 							}
 						}
 					}
