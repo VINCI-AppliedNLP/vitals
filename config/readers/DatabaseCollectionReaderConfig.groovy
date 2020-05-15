@@ -1,16 +1,14 @@
-db_engine = "vhacdwrb02"
+db_engine = "vhacdwrb03"
 db_name = "VINCI_COVIDNLP"
-
-query = ''' SELECT a.[TIUDocumentSID], ReportText 
-            FROM [nlp].[comparison_cohort_112_FullCorpus_20200407] a 
-			join [CDWWork].[TIU].[TIUDocument_8925] b on a.TIUDocumentSID=b.TIUDocumentSID  
-			where ReportText is not null and RecordID > {min} and RecordID <= {max}
-'''
 
 batches = [0, 100]
 batchSize = 20000;
 idColumn = "TIUDocumentSID"
 noteColumn = "ReportText"
+
+query =" SELECT distinct [TIUDocumentSID], ReportText, '' PatientSID FROM [validation].[vitalsCovid_200TIUs_20200514]   "
+
+
 
 /************************************************************/
 /***** You should not need to change the code below *********/

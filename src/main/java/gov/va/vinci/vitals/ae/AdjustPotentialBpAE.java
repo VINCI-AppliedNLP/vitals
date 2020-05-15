@@ -9,7 +9,6 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 import gov.va.vinci.leo.AnnotationLibrarian;
 import gov.va.vinci.leo.ae.LeoBaseAnnotator;
-import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.leo.tools.LeoUtils;
 import gov.va.vinci.vitals.types.*;
 
@@ -19,7 +18,7 @@ public class AdjustPotentialBpAE extends LeoBaseAnnotator {
 	private static final Logger log = Logger.getLogger(LeoUtils.getRuntimeClass().toString());
 
 	@Override
-	public void annotate(JCas aJCas) throws AnalysisEngineProcessException {
+	public void annotate(JCas aJCas)   {
 		try {
 
 			AnnotationLibrarian.removeCoveredAnnotations(aJCas, PotentialBp.class.getCanonicalName(), false, null);

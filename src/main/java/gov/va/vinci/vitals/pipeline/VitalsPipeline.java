@@ -34,6 +34,8 @@ public class VitalsPipeline extends BasePipeline {
             pipeline.addDelegate(createWindowsPipeline());
             pipeline.addDelegate(createPatternsPipeline());
             pipeline.addDelegate(createVitalRulesPipeline());
+            pipeline.addDelegate(new UpdateOutputAE().getLeoAEDescriptor()
+                    .addTypeSystemDescription(getLeoTypeSystemDescription()));
         } catch (Exception e) {
             e.printStackTrace();
         }

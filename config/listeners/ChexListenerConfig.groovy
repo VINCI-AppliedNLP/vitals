@@ -1,30 +1,35 @@
-import gov.va.vinci.leo.model.ChexSimanDataSourceConfiguration
-import gov.va.vinci.leo.model.DatabaseConnectionInformation
-import gov.va.vinci.vitals.listeners.ChexListener
+db_engine = "vhacdwrb03"
+db_name = "VINCI_COVIDNLP"
 
-
-String url = "jdbc:sqlserver://vhacdwrb02:1433;databasename=ORD_Iwashyna_201108021D;integratedSecurity=true";
 String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-String username = "";
-String password = "";
+String url = "jdbc:sqlserver://"+db_engine+":1433;databasename="+db_name+";integratedSecurity=true"
 
-String[] typeArray = [
-        "gov.va.vinci.vitals.types.Bp_value",
+def chexTypes = [
+        "gov.va.vinci.vitals.types.Bp_Systolic_value",
+        "gov.va.vinci.vitals.types.Bp_Diastolic_value",
         "gov.va.vinci.vitals.types.Hr_value",
-        "gov.va.vinci.vitals.types.T_value" ] as String[];
+        "gov.va.vinci.vitals.types.T_value"
+        ,"gov.va.vinci.vitals.types.So2_value"
+        ,"gov.va.vinci.vitals.types.Resp_value" ] ;
 
 String documentTextSelectQuery = ""; // Not needed in this instance.
-String schema = "validation";
-String tableSuffix = "_xxx"; // Change the suffix for each run, otherwise the data WILL BE OVERWRITTEN!
+String schema = "chex";
+String tableSuffix = "_200TIUs_20200514"; // Change the suffix for each run, otherwise the data WILL BE OVERWRITTEN!
 String columnPrefix = "[";
 String columnSuffix = "]";
 int chexBatchSize = 1000;
 
 boolean deleteIfExists = true;
 
-ChexSimanDataSourceConfiguration simanDataSourceConfiguration = new ChexSimanDataSourceConfiguration(
-        new DatabaseConnectionInformation(driver, url, username, password),
-        documentTextSelectQuery,
-        schema, tableSuffix, columnPrefix, columnSuffix);
 
-listener = new ChexListener(simanDataSourceConfiguration, typeArray, chexBatchSize, deleteIfExists);
+listener = gov.va.vinci.vitals.listeners.ChexListener.newChexListener(
+        driver,
+        url,
+        documentTextSelectQuery,
+        schema,
+        tableSuffix,
+        columnPrefix,
+        columnSuffix,
+        chexTypes,
+        chexBatchSize,
+        deleteIfExists)

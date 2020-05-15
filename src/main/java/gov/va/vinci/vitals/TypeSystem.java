@@ -466,8 +466,10 @@ public class TypeSystem {
                     .addFeature("valueAnnotation", "", "uima.tcas.Annotation")
                     .addFeature("concept", "", "uima.cas.String")
                     .addFeature("unit", "", "uima.tcas.Annotation")
+                    .addFeature("unitString", "", "uima.cas.String")
                     .addFeature("source", "", "uima.cas.String")
                     .addFeature("timestamp", "", "uima.tcas.Annotation")
+                    .addFeature("timestampString", "", "uima.cas.String")
                     .getTypeDescription());
 
             for (String a : PipelineVariables.TYPES_VALUES) {

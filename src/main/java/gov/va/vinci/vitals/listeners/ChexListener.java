@@ -2,6 +2,7 @@ package gov.va.vinci.vitals.listeners;
 
 import gov.va.vinci.leo.listener.ChexSimanDatabaseListener;
 import gov.va.vinci.leo.model.ChexSimanDataSourceConfiguration;
+import gov.va.vinci.leo.model.DatabaseConnectionInformation;
 import gov.va.vinci.leo.model.NameValue;
 import gov.va.vinci.leo.tools.ChexSimanUtils;
 import gov.va.vinci.leo.tools.LeoUtils;
@@ -11,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
@@ -23,7 +25,7 @@ public class ChexListener extends ChexSimanDatabaseListener {
 	public ChexListener(ChexSimanDataSourceConfiguration simanDataSourceConfiguration) throws SQLException {
 		super(simanDataSourceConfiguration);
 		LOG.info(" Initializing " + this.getClass().getCanonicalName() + "\r\n"
-		    + simanDataSourceConfiguration.getDocumentSelectAllSql());
+				+ simanDataSourceConfiguration.getDocumentSelectAllSql());
 		try {
 			validateSchemaAndCreateIfNeeded(false);
 		} catch (Exception e) {
@@ -31,8 +33,30 @@ public class ChexListener extends ChexSimanDatabaseListener {
 		}
 	}
 
+	public static ChexListener newChexListener(String driver, String url,
+											   String chexDocumentTextSelectQuery,
+											   String chexSchema,
+											   String chexSuffix,
+											   String chexColumnPrefix,
+											   String chexColumnSuffix,
+											   ArrayList<String> inputTypes,
+											   int batchSize, boolean chexOverwrite
+	) throws SQLException {
+
+		String[] typeList = (String[]) inputTypes.toArray(new String[inputTypes.size()]);
+
+		DatabaseConnectionInformation dci = new DatabaseConnectionInformation(driver, url, "", "");
+		ChexSimanDataSourceConfiguration csdsc = new ChexSimanDataSourceConfiguration(dci,
+				chexDocumentTextSelectQuery,
+				chexSchema,
+				chexSuffix,
+				chexColumnPrefix,
+				chexColumnSuffix);
+		return new ChexListener(csdsc, typeList, batchSize, chexOverwrite);
+	}
+
 	public ChexListener(ChexSimanDataSourceConfiguration simanDataSourceConfiguration,
-	    String[] inputType, int batchSize, boolean deleteIfExists) throws SQLException {
+						String[] inputType, int batchSize, boolean deleteIfExists) throws SQLException {
 		super(simanDataSourceConfiguration, inputType, batchSize);
 
 		try {
@@ -46,10 +70,10 @@ public class ChexListener extends ChexSimanDatabaseListener {
 	protected void createConnection() throws SQLException {
 		super.createConnection();
 		preparedDocumentXrefStatement = conn.prepareStatement("INSERT INTO " +
-		    oldManSimanDataSourceConfiguration.schema + ".document_xref_example"
-		    + oldManSimanDataSourceConfiguration.tableSuffix +
-		    " ( guid, version, patient_sid, tiu_document_sid ) VALUES " +
-		    " ( ?, ?, ? ,?)");
+				oldManSimanDataSourceConfiguration.schema + ".document_xref_example"
+				+ oldManSimanDataSourceConfiguration.tableSuffix +
+				" ( guid, version, patient_sid, tiu_document_sid ) VALUES " +
+				" ( ?, ?, ? ,?)");
 	}
 
 	protected void validateSchemaAndCreateIfNeeded(boolean deleteIfExists) throws SQLException, IOException {
@@ -69,32 +93,32 @@ public class ChexListener extends ChexSimanDatabaseListener {
 
 	protected void createSchema() throws SQLException, IOException {
 		String dbsSimanCreate = ChexSimanUtils.getCreateTablesSQL(
-		    oldManSimanDataSourceConfiguration.schema,
-		    oldManSimanDataSourceConfiguration.tableSuffix,
-		    ChexSimanUtils.SchemaType.SQL_SERVER);
+				oldManSimanDataSourceConfiguration.schema,
+				oldManSimanDataSourceConfiguration.tableSuffix,
+				ChexSimanUtils.SchemaType.SQL_SERVER);
 
 		log.info("\r\n" + dbsSimanCreate);
 		oldManSimanDataSourceConfiguration.getDataSource()
-		    .getConnection()
-		    .prepareStatement(dbsSimanCreate).execute();
+				.getConnection()
+				.prepareStatement(dbsSimanCreate).execute();
 		/* */
 		log.info("Creating Siman database schema in "
-		    + oldManSimanDataSourceConfiguration.schema + ".tables"
-		    + oldManSimanDataSourceConfiguration.tableSuffix);
+				+ oldManSimanDataSourceConfiguration.schema + ".tables"
+				+ oldManSimanDataSourceConfiguration.tableSuffix);
 	}
 
 	@Override
 	protected NameValue insertDocumentXref(CAS arg0) throws SQLException {
 		String tiuDocumentSID = (this.docInfo == null) ? "" : this.docInfo.getID();
 		String patientSID = (this.docInfo == null || this.docInfo.getRowData() == null) ? "" : this.docInfo
-		    .getRowData(2);
+				.getRowData(2);
 		String recordUUID = UUID.randomUUID().toString();
 		PreparedStatement ps = conn
-		    .prepareStatement("INSERT INTO [" +
-		        oldManSimanDataSourceConfiguration.schema + "].[document_xref_example"
-		        + oldManSimanDataSourceConfiguration.tableSuffix + "] " +
-		        " ( [guid],[version],patient_sid, [tiu_document_sid] ) VALUES " +
-		        " ( ?, ?, ?,? )");
+				.prepareStatement("INSERT INTO [" +
+						oldManSimanDataSourceConfiguration.schema + "].[document_xref_example"
+						+ oldManSimanDataSourceConfiguration.tableSuffix + "] " +
+						" ( [guid],[version], patient_sid, [tiu_document_sid] ) VALUES " +
+						" ( ?, ?, ?,? )");
 
 		ps.setString(1, recordUUID);
 		ps.setTimestamp(2, new Timestamp(new java.util.Date().getTime()));
@@ -103,7 +127,7 @@ public class ChexListener extends ChexSimanDatabaseListener {
 		ps.execute();
 
 		return new NameValue("[" + oldManSimanDataSourceConfiguration.schema + "].[document_xref_example"
-		    + oldManSimanDataSourceConfiguration.tableSuffix + "]", recordUUID);
+				+ oldManSimanDataSourceConfiguration.tableSuffix + "]", recordUUID);
 	}
 
 }
