@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
-    <name>leoTypeDescription_5a608553-5077-4cbc-ac7f-2ec2c9991b3f</name>
+    <name>leoTypeDescription_5434523a-6562-47f9-be5a-33b7acdac810</name>
     <types>
         <typeDescription>
             <name>gov.va.vinci.leo.types.CSI</name>
@@ -518,6 +518,11 @@
                     <rangeTypeName>uima.tcas.Annotation</rangeTypeName>
                 </featureDescription>
                 <featureDescription>
+                    <name>unitString</name>
+                    <description/>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
                     <name>source</name>
                     <description/>
                     <rangeTypeName>uima.cas.String</rangeTypeName>
@@ -526,6 +531,21 @@
                     <name>timestamp</name>
                     <description/>
                     <rangeTypeName>uima.tcas.Annotation</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>timestampString</name>
+                    <description/>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>section</name>
+                    <description/>
+                    <rangeTypeName>uima.tcas.Annotation</rangeTypeName>
+                </featureDescription>
+                <featureDescription>
+                    <name>sectionType</name>
+                    <description/>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
                 </featureDescription>
             </features>
         </typeDescription>

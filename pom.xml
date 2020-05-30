@@ -65,7 +65,11 @@
 			<artifactId>decodeSVMLIB</artifactId>
 			<version>2017.05.0</version>
 		</dependency>
-
+		<dependency>
+			<groupId>gov.va.vinci</groupId>
+			<artifactId>leo-merge-annotator</artifactId>
+			<version>2018.02.0</version>
+		</dependency>
 		<dependency>
 			<groupId>gov.va.vinci</groupId>
 			<artifactId>leo-knowtator</artifactId>

@@ -27,8 +27,7 @@ configuration {
 				"Electrolytes",
 				"\\bi/o\\b",
 				"Orthostats",
-				"\\bABG",
-				"Active Inpatient Medications \\(excluding Supplies\\):"
+				"\\bABG"
 				, "Clinical Reminder Activity"
 				,"\\R+ *IMPORTANT:"
 				, "ALLERGIES:"

@@ -2,7 +2,7 @@ db_engine = "vhacdwrb03"
 db_name = "VINCI_COVIDNLP"
 
 String timeStamp = gov.va.vinci.leo.tools.LeoUtils.getTimestampDateUnderscoreTime()
-String tableName = "[nlp_temp].[vitals_"+ timeStamp+"]"
+String tableName = "[nlp_temp].[vitalsCovid_"+ timeStamp+"]"
 
 int batchSize = 2000
 boolean dropExisting = false;
@@ -20,6 +20,7 @@ fieldList = [
      //   ["Assessment", "-1", "varchar(1000)"],
         ["Unit", "-1", "varchar(1000)"],
         ["Timestamp", "-1", "varchar(1000)"],
+        ["sectionType", "-1", "varchar(200)"],
         ["Snippets", "-1", "varchar(2000)"],
         ["SpanStart", "-1", "int"],
         ["SpanEnd", "-1", "int"]

@@ -4,6 +4,7 @@ import gov.va.vinci.leo.annotationpattern.ae.AnnotationPatternAnnotator;
 import gov.va.vinci.leo.descriptors.LeoAEDescriptor;
 import gov.va.vinci.leo.descriptors.LeoTypeSystemDescription;
 import gov.va.vinci.leo.filter.ae.FilterAnnotator;
+import gov.va.vinci.leo.merger.ae.MergeAnnotator;
 import gov.va.vinci.leo.regex.ae.RegexAnnotator;
 import gov.va.vinci.leo.sherlock.ae.LearningAnnotator;
 import gov.va.vinci.leo.tools.LeoUtils;
@@ -274,6 +275,27 @@ public class VitalsPipeline extends BasePipeline {
 
     protected LeoAEDescriptor createVitalRulesPipeline() throws Exception {
         LeoAEDescriptor aggregate = new LeoAEDescriptor();
+        //2. Section Regex annotation
+        aggregate.addDelegate(new RegexAnnotator()
+                .setGroovyConfigFile(RESOURCE_PATH + "sectionHeaders.groovy")
+                .setName("SectionHeader Regex")
+                .getLeoAEDescriptor().setTypeSystemDescription(getLeoTypeSystemDescription()));
+        aggregate.addDelegate(new MergeAnnotator()
+                .setTypesToMerge(new String[]{"gov.va.vinci.vitals.types.SectionHeader"})
+                .setFeaturesToMatch(new String[]{"concept"})
+                .getLeoAEDescriptor().setTypeSystemDescription(getLeoTypeSystemDescription()));
+        aggregate.addDelegate(new FilterAnnotator()
+                .setTypesToKeep(new String[]{"gov.va.vinci.vitals.types.SectionHeader"})
+                .setName("HeaderFilter")
+                .getLeoAEDescriptor().setTypeSystemDescription(getLeoTypeSystemDescription()));
+        aggregate.addDelegate(new RegexBasedSectionizer()
+                .setName("SectionAnnotator")
+                .getLeoAEDescriptor().setTypeSystemDescription(getLeoTypeSystemDescription()));
+        aggregate.addDelegate(new MergeAnnotator()
+                .setTypesToMerge(new String[]{"gov.va.vinci.vitals.types.Section"})
+                .setFeaturesToMatch(new String[]{"SectionHeaderText"})
+                .getLeoAEDescriptor().setTypeSystemDescription(getLeoTypeSystemDescription()));
+
         aggregate.addDelegate(new AssignUnitAndTimeAE().getLeoAEDescriptor().addTypeSystemDescription(getLeoTypeSystemDescription()));
         aggregate.addDelegate(new MarkNotItAE().getLeoAEDescriptor().addTypeSystemDescription(getLeoTypeSystemDescription()));
         aggregate.addDelegate(new ExtractTemperatureAE().getLeoAEDescriptor().addTypeSystemDescription(getLeoTypeSystemDescription()));

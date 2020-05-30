@@ -6,18 +6,18 @@ String url = "jdbc:sqlserver://"+db_engine+":1433;databasename="+db_name+";integ
 String dbUser = ""
 String dbPwd = ""
 
-String query =  ''' SELECT t.[TIUDocumentSID], [ReportText]  FROM  [nlp].[NLPTIULogs] l with(nolock) JOIN CDWWork.TIU.TIUDocument_8925_02 t on l.TIUDocumentSID=t.TIUDocumentSID where [vitals] = 0  order by [id]  '''
+String query =  ''' SELECT  t.[TIUDocumentSID], [ReportText]  FROM   [nlp].[NLPTIULogs] l with(nolock)  JOIN CDW_TIU_Notes.TIU.TIUDocument_8925_02 t on l.TIUDocumentSID=t.TIUDocumentSID where [vitals] = 0   order by [id]   '''
 idColumn = "TIUDocumentSID"
 noteColumn = "ReportText"
 
-//Integer[] offset = [0,  280000]  //
+Integer[] offset = [0,  1000]  //
 batchsize = 30000
 reader = new gov.va.vinci.leo.cr.SQLServerPagedDatabaseCollectionReader(
         driver,
         url,
-        "", "",
+        dbUser, dbPwd,
         query,
         idColumn.toLowerCase(),
         noteColumn.toLowerCase(),
-        batchsize)
-//, offset[0], offset[1])
+        batchsize);
+// , offset[0], offset[1])

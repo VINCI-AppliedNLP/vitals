@@ -54,6 +54,9 @@ public class ListenerLogic {
 					lineRow
 					    .put("Timestamp", ((Output_Value) a).getTimestamp().getCoveredText().replaceAll("\\s+", " ").trim());
 				}
+				if (((Output_Value) a).getSectionType() != null) {
+					lineRow.put("sectionType", ((Output_Value) a).getSectionType().replaceAll("\\s+", " ").trim());
+				}
 				if (a instanceof Bp_Systolic_value) {
 					lineRow.put("Systolic", ((Output_Value) a).getValue());
 				} else if (a instanceof Bp_Diastolic_value) {
@@ -67,7 +70,7 @@ public class ListenerLogic {
 				lineRow.put("SpanStart", "" + a.getBegin());
 				lineRow.put("SpanEnd", "" + a.getEnd());
 				lineRow.put("VitalSignID", "" + recordID);
-				lineRow.put("Snippets",  getSnippet(a, 30).replaceAll("\\s+", " ").trim());
+				lineRow.put("Snippets",  getSnippet(a, 50).replaceAll("\\s+", " ").trim());
 				allRows.add(lineRow);
 			}
 		}

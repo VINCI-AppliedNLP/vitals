@@ -135,7 +135,7 @@ configuration {
 		outputType = "gov.va.vinci.vitals.types.Height_Term" }
 
 	"Pain" {
-		expressions = ['Pain', 'pain score', 'PAIN INTENSITY', 'LEVEL OF PAIN', 'severity', 'pain scale']
+		expressions = ['Pain', 'pain score', 'PAIN INTENSITY', 'LEVEL OF PAIN', 'severity', 'pain scale', 'pain level']
 		concept_feature_value = "Pain"
 		outputType = "gov.va.vinci.vitals.types.Pain_Term" }
 
