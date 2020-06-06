@@ -31,8 +31,9 @@
                     , '\\R{1,2} *vital *signs?.{0,5}:'
                     , 'Vitals:'
                     , 'Anthropometrics:'
-                    ,"Today's Vital Signs"
-                    ,"Vital Signs"
+                    , "Today's Vital Signs"
+                    , "Vital Signs"
+                    , 'ANTHROPOMETRIC MEASUREMENTS'
             ]
             concept_feature_value = "Vitals"
 

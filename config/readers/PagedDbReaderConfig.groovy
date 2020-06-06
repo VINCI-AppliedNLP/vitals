@@ -6,7 +6,7 @@ String url = "jdbc:sqlserver://"+db_engine+":1433;databasename="+db_name+";integ
 String dbUser = ""
 String dbPwd = ""
 
-String query =  ''' SELECT  t.[TIUDocumentSID], [ReportText]  FROM   [nlp].[NLPTIULogs] l with(nolock)  JOIN CDW_TIU_Notes.TIU.TIUDocument_8925_02 t on l.TIUDocumentSID=t.TIUDocumentSID where [vitals] = 0   order by [id]   '''
+String query =  ''' SELECT  t.[TIUDocumentSID], [ReportText]  FROM   [nlp].[NLPTIULogs] l with(nolock)  JOIN CDWWork.STIUNotes.TIUDocument_8925_02 t with(nolock)  on l.TIUDocumentSID=t.TIUDocumentSID where [vitals] = 0   order by [id]   '''
 idColumn = "TIUDocumentSID"
 noteColumn = "ReportText"
 
