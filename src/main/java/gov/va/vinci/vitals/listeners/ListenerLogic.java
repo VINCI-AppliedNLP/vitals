@@ -24,7 +24,7 @@ public class ListenerLogic {
 		///////////////////////////////////////////////////////////
 		// Output all refst annotations
 		String[] types = new String[] {
-		    Bp_value.class.getCanonicalName(),
+		   // Bp_value.class.getCanonicalName(),
 		    T_value.class.getCanonicalName()
 		    , Hr_value.class.getCanonicalName()
 		    , BMI_value.class.getCanonicalName()

@@ -24,12 +24,14 @@
 		</license>
 	</licenses>
 
-	<!--repositories>
-    <repository>
-        <id>decipher</id>
-        <url>http://decipher.chpc.utah.edu/nexus/content/groups/public</url>
-    </repository>
-</repositories-->
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>local</name>
+			<url>D:/.m2/repository</url>
+			<!--url>http://decipher.chpc.utah.edu/nexus/content/groups/public</url-->
+		</repository>
+	</repositories>
 
 	<!-- Dependencies -->
 	<dependencies>
@@ -177,7 +179,7 @@
 						</goals>
 						<configuration>
 							<sources>
-								<!--source>${project.build.directory}/generated-sources</source-->
+								<!--source>generated-types/src</source-->
 								<source>${project.build.directory}/generated-sources/src</source>
 							</sources>
 						</configuration>
@@ -281,12 +283,13 @@
 									<root>src/main/resources</root>
 									<root>src/test/java</root>
 									<root>src/test/resources</root>
+
 								</roots>
 							</configuration>
 						</execution>
 					</executions>
 				</plugin>
-				<!--plugin>
+				<plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>appassembler-maven-plugin</artifactId>
                     <version>1.10</version>
@@ -302,7 +305,7 @@
                             </program>
                         </programs>
                     </configuration>
-                </plugin-->
+                </plugin>
 
 			</plugins>
 		</pluginManagement>

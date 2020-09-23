@@ -588,6 +588,7 @@
         /**/
         "warnings" {
             expressions = [
+                    'Modified Early Warning System\\(MEWS\\) Daily Entry:',
                     'mrn\\s*adl\\/hygiene\\s*view(:|-)',
                     'negative responses(:|-)',
                     'the most common effects of(:|-)',

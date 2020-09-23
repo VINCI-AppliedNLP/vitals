@@ -1,0 +1,123 @@
+
+
+/* First created by JCasGen Sat May 30 13:54:40 CDT 2020 */
+package gov.va.vinci.vitals.types;
+
+import org.apache.uima.jcas.JCas; 
+import org.apache.uima.jcas.JCasRegistry;
+import org.apache.uima.jcas.cas.TOP_Type;
+
+import org.apache.uima.jcas.tcas.Annotation;
+
+
+/** Type used to output predictions
+ * Updated by JCasGen Sat May 30 13:54:40 CDT 2020
+ * XML source: C:/Users/VHE850~1/AppData/Local/Temp/3/leoTypeDescription_a77d34c5-1212-4303-982b-d7a6472e86994599447137304841678.xml
+ * @generated */
+public class Hr_Prediction extends Annotation {
+  /** @generated
+   * @ordered 
+   */
+  @SuppressWarnings ("hiding")
+  public final static int typeIndexID = JCasRegistry.register(Hr_Prediction.class);
+  /** @generated
+   * @ordered 
+   */
+  @SuppressWarnings ("hiding")
+  public final static int type = typeIndexID;
+  /** @generated
+   * @return index of the type  
+   */
+  @Override
+  public              int getTypeIndexID() {return typeIndexID;}
+ 
+  /** Never called.  Disable default constructor
+   * @generated */
+  protected Hr_Prediction() {/* intentionally empty block */}
+    
+  /** Internal - constructor used by generator 
+   * @generated
+   * @param addr low level Feature Structure reference
+   * @param type the type of this Feature Structure 
+   */
+  public Hr_Prediction(int addr, TOP_Type type) {
+    super(addr, type);
+    readObject();
+  }
+  
+  /** @generated
+   * @param jcas JCas to which this Feature Structure belongs 
+   */
+  public Hr_Prediction(JCas jcas) {
+    super(jcas);
+    readObject();   
+  } 
+
+  /** @generated
+   * @param jcas JCas to which this Feature Structure belongs
+   * @param begin offset to the begin spot in the SofA
+   * @param end offset to the end spot in the SofA 
+  */  
+  public Hr_Prediction(JCas jcas, int begin, int end) {
+    super(jcas);
+    setBegin(begin);
+    setEnd(end);
+    readObject();
+  }   
+
+  /** 
+   * <!-- begin-user-doc -->
+   * Write your own initialization here
+   * <!-- end-user-doc -->
+   *
+   * @generated modifiable 
+   */
+  private void readObject() {/*default - does nothing empty block */}
+     
+ 
+    
+  //*--------------*
+  //* Feature: srcFVFeature
+
+  /** getter for srcFVFeature - gets Feature vector annotation
+   * @generated
+   * @return value of the feature 
+   */
+  public Annotation getSrcFVFeature() {
+    if (Hr_Prediction_Type.featOkTst && ((Hr_Prediction_Type)jcasType).casFeat_srcFVFeature == null)
+      jcasType.jcas.throwFeatMissing("srcFVFeature", "gov.va.vinci.vitals.types.Hr_Prediction");
+    return (Annotation)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Hr_Prediction_Type)jcasType).casFeatCode_srcFVFeature)));}
+    
+  /** setter for srcFVFeature - sets Feature vector annotation 
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setSrcFVFeature(Annotation v) {
+    if (Hr_Prediction_Type.featOkTst && ((Hr_Prediction_Type)jcasType).casFeat_srcFVFeature == null)
+      jcasType.jcas.throwFeatMissing("srcFVFeature", "gov.va.vinci.vitals.types.Hr_Prediction");
+    jcasType.ll_cas.ll_setRefValue(addr, ((Hr_Prediction_Type)jcasType).casFeatCode_srcFVFeature, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
+  //*--------------*
+  //* Feature: prediction
+
+  /** getter for prediction - gets 
+   * @generated
+   * @return value of the feature 
+   */
+  public String getPrediction() {
+    if (Hr_Prediction_Type.featOkTst && ((Hr_Prediction_Type)jcasType).casFeat_prediction == null)
+      jcasType.jcas.throwFeatMissing("prediction", "gov.va.vinci.vitals.types.Hr_Prediction");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Hr_Prediction_Type)jcasType).casFeatCode_prediction);}
+    
+  /** setter for prediction - sets  
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setPrediction(String v) {
+    if (Hr_Prediction_Type.featOkTst && ((Hr_Prediction_Type)jcasType).casFeat_prediction == null)
+      jcasType.jcas.throwFeatMissing("prediction", "gov.va.vinci.vitals.types.Hr_Prediction");
+    jcasType.ll_cas.ll_setStringValue(addr, ((Hr_Prediction_Type)jcasType).casFeatCode_prediction, v);}    
+  }
+
+    

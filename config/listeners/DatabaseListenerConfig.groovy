@@ -9,7 +9,7 @@ boolean dropExisting = false;
 boolean createTable = true
 
 fieldList = [
-        ["VitalSignID", "-1", "int"],
+       // ["VitalSignID", "-1", "int"],
         ["DocID", "0", "varchar(50)"],
       //  ["Term", "-1", "varchar(1000)"],
         ["VitalType", "-1", "varchar(1000)"],
