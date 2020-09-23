@@ -9,4 +9,4 @@
 .idea
 *.iml
 ProcessingLog.log
-/generated-types/
+/generated-sources/
