@@ -1,4 +1,4 @@
-REMARK: No sensitive information found, original pakcage
+REMARK: No sensitive information found, ExampleLog.log over 50 M is removed by BFG
 
 Pipeline
 --------------
